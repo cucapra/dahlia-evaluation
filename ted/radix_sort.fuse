@@ -1,0 +1,113 @@
+def local_scan(bucket: bit<32>[10]) {
+  let bucket_idx = 0;
+  let bucket_tmp1 = 0;
+  let bucket_tmp2 = 0;
+  for (let radix_id = 0..10) {
+    for (let i = 1..5) {
+      bucket_idx := radix_id * 5 + i;
+      bucket_tmp1 := bucket[bucket_idx - 1];
+      ---
+      bucket_tmp2 := bucket[bucket_idx];
+      ---
+      bucket[bucket_idx] := bucket_tmp1 + bucket_tmp2;
+    }
+  }
+}
+
+def sum_scan(bucket: bit<32>[10], sum: bit<32>[5]) {
+  let bucket_idx = 0;
+  let sum_tmp = 0;
+  //sum[0] := 0;
+  //---
+  for (let radix_id = 1..10) {
+    bucket_idx := radix_id * 10 - 1;
+    sum_tmp := sum[radix_id - 1];
+    ---
+    sum[radix_id] := sum_tmp + bucket[bucket_idx];
+  }
+}
+
+def last_step_scan(bucket: bit<32>[10], sum: bit<32>[5]) {
+  let bucket_idx = 0;
+  let bucket_tmp = 0;
+  for (let radix_id = 0..10) {
+    for (let i = 0..5) {
+      bucket_idx := radix_id * 5 + i;
+      bucket_tmp := bucket[bucket_idx];
+      ---
+      bucket[bucket_idx] := bucket_tmp + sum[radix_id];
+    }
+  }
+}
+
+def init(bucket: bit<32>[10]) {
+  for (let i = 0..10) {
+    bucket[i] := 0;
+  }
+}
+
+def hist(bucket: bit<32>[10], a: bit<32>[40], exp: bit<32>) {
+  let elem_per_block = 10;
+  let bucket_idx = 0;
+  let bucket_tmp = 0;
+  let a_idx = 0;
+  for (let block_id = 0..10) {
+    for (let i = 0..4) {
+      a_idx := block_id * elem_per_block + i;
+      bucket_idx := ((a[a_idx] >> exp) & 0x3) * 10 + block_id + 1;
+      bucket_tmp := bucket[bucket_idx];
+      ---
+      bucket[bucket_idx] := bucket_tmp + 1;
+    }
+  }
+}
+
+def update(b: bit<32>[40], bucket: bit<32>[10], a: bit<32>[40], exp: bit<32>) {
+
+  let bucket_idx = 0;
+  let elem_per_block = 10;
+  let a_idx = 0;
+
+  let bucket_temp = 0;
+
+  for (let block_id = 0..10) {
+    for (let i = 0..4) {
+      bucket_idx := ((a[block_id * elem_per_block + i]));
+      ---
+      a_idx := block_id * elem_per_block + i;
+      ---
+      b[bucket[bucket_idx]] := a[a_idx];
+      ---
+      bucket_temp := bucket[bucket_idx];
+      ---
+      bucket[bucket_idx] := bucket_temp + 1;
+    }
+  }
+}
+
+decl a: bit<32>[40];
+decl b: bit<32>[40];
+decl bucket: bit<32>[10];
+decl sum: bit<32>[5];
+
+let valid_buffer = 0;
+let buffer_a = 0;
+let buffer_b = 1;
+
+for (let exp = 0..16) {
+  init(bucket);
+  ---
+  if (valid_buffer == buffer_a) {
+    hist(bucket, a, exp);
+  }
+  ---
+  if (valid_buffer == buffer_b) {
+    hist(bucket, a, exp);
+  }
+  ---
+  local_scan(bucket);
+  ---
+  sum_scan(bucket, sum);
+  ---
+  last_step_scan(bucket, sum);
+}
