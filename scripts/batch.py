@@ -37,7 +37,7 @@ def batch_and_upload(benchmark_paths):
                               BUILDBOT_JOBS_URL]
 
                 # Upload the zip file to buildbot
-                subprocess.run(upload_cmd, capture_output=True, check=True)
+                upload = subprocess.run(upload_cmd, capture_output=True, check=True)
 
                 # Record the job id.
                 job_ids.append(upload.stdout.decode('utf-8'))
