@@ -31,9 +31,10 @@ def batch_and_upload(benchmark_paths):
                     capture_output=True,
                     check=True)
 
-                upload_cmd = ['curl', '-sS', '-F',
-                              'file=@{}'.format(archive_name),
+                upload_cmd = ['curl', '-sS',
+                              '-F', 'file=@{}'.format(archive_name),
                               '-F', 'skipseashell=1',
+                              '-F', 'make=1',
                               BUILDBOT_JOBS_URL]
 
                 # Upload the zip file to buildbot
