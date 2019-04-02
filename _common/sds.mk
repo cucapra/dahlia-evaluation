@@ -11,6 +11,11 @@ SDSFLAGS := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
 CXX := g++
 CXXFLAGS := -Wall -O3
 
+# SDSoC estimation mode.
+ifdef ESTIMATE
+SDSFLAGS += -perf-est-hw-only
+endif
+
 $(KERNEL): $(OBJECTS)
 	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
