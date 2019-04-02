@@ -24,7 +24,7 @@ $(KERNEL): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL)
+	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) _sds
 
 # Use the compiler's -MM flag to generate header dependencies. (sds++ seems to
 # not work correctly for this.)
