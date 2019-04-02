@@ -1,7 +1,3 @@
-KERNEL:=stencil_3d
-HW_SRCS:=$(KERNEL).cpp
-HOST_SRCS:=main.cpp local_support.cpp common/support.cpp
-
 # A common Makefile for building FPGA+host code with SDSoC. Specify $(KERNEL),
 # $(HW_SRCS), and $(HOST_SRCS), and then `include` this file.
 
