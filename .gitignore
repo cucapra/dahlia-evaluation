@@ -35,3 +35,8 @@ failure*
 jobs.txt
 
 __pycache__
+
+.Xil
+_sds
+*.swp
+.bit
