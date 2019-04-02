@@ -17,6 +17,8 @@ Use the top-level Makefile to run all the benchmarks.
 
 ## Benchmarking Scripts
 
+The infrastructure for running benchmarks is under the `_scripts` directory.
+
 ### `batch.py`
 
 This script creates zip files for each benchmark path provided and uploads them
