@@ -38,18 +38,19 @@ Usage:
 
 ## Directory Structure
 
-We have ported several benchmark suites to run with Fuse. For each benchmark,
-there is folder of the form `<suite-name>-<bench-name>`. For every folder
-we have the following subfolders:
+For each benchmark, there is directory named `<suite-name>-<bench-name>`.
+Each has these subdirectories:
 
 - **original**: This contains the original unedited code from the benchmark
-  suite. This is useful comparison and diffing. If we exclude any unneccesary
+  suite. This is useful comparison and diffing. If we exclude any unnecessary
   data files, we note them in a README file under this directory.
-- **baseline**: This a C++ version of the benchmark with the minimal edits required
-  for us to run it on our infrastructure.
+- **baseline**: This a C++ version of the benchmark with the minimal edits
+  required for us to run it on our infrastructure.
 - **simple-rewrite**: This contains "direct rewrite" of the benchmark in Fuse.
   For the most part, we don't optimize this code at all unless it is trivial to
   make it work with our type system. We use `unroll` when we can.
 - **full-rewrite**: This is a full rewrite of the benchmark in Fuse. A full
   rewrite uses features like `views` and `combine` blocks. The code runs the
   same algorithm but looks substantially different from the original.
+
+The `_common` directory contains useful stuff for all benchmarks. The `sds.mk` Makefile snippet therein can be included to make it simple to compile applications with the Xilinx SDSoC toolchain.
