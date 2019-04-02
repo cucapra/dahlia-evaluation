@@ -2,9 +2,10 @@
 
 Benchmarks for the [Fuse programming language](https://github.com/cucapra/seashell).
 
-## Getting started
 
-Use the make file to run all the benchmarks.
+## Getting Started
+
+Use the top-level Makefile to run all the benchmarks.
 
 - `make all` generates all the C++ files for benchmarks and uploads them to
   [buildbot](http://gorgonzola.cs.cornell.edu:8000/).
@@ -12,6 +13,7 @@ Use the make file to run all the benchmarks.
   and log any failures in failure-extract.txt.
 - `make resume-batch` and `make resume-extract` will re-run
   re-runs the respective scripts with failure logs.
+
 
 ## Benchmarking Scripts
 
@@ -21,9 +23,8 @@ This script creates zip files for each benchmark path provided and uploads them
 to buildbot and prints out the resulting job ids to STDOUT.
 
 Usage:
-```
-./batch.py <path-to-bench1> <path-to-bench2> ...
-```
+
+    ./batch.py <path-to-bench1> <path-to-bench2> ...
 
 ### `extract.py`
 
@@ -31,9 +32,9 @@ Downloads results from buildbot given a file with job ids. The job ids file
 must contain one job id at each line.
 
 Usage:
-```
-./extract.py <jobs.txt>
-```
+
+    ./extract.py <jobs.txt>
+
 
 ## Directory Structure
 
@@ -41,8 +42,8 @@ We have ported several benchmark suites to run with Fuse. For each benchmark,
 there is folder of the form `<suite-name>-<bench-name>`. For every folder
 we have the following subfolders:
 
-- **original**: This contains the original un-edited code from the benchmark
-  suite. This is useful comparison and diffing. If we exclude any uneccesary
+- **original**: This contains the original unedited code from the benchmark
+  suite. This is useful comparison and diffing. If we exclude any unneccesary
   data files, we note them in a README file under this directory.
 - **baseline**: This a C++ version of the benchmark with the minimal edits required
   for us to run it on our infrastructure.
@@ -51,4 +52,4 @@ we have the following subfolders:
   make it work with our type system. We use `unroll` when we can.
 - **full-rewrite**: This is a full rewrite of the benchmark in Fuse. A full
   rewrite uses features like `views` and `combine` blocks. The code runs the
-  same algorithm but looks substantailly different from the original.
+  same algorithm but looks substantially different from the original.
