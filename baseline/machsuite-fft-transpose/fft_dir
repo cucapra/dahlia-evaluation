@@ -1,0 +1,44 @@
+#set_directive_allocation -limit 8 -type operation fft Mul
+#set_directive_allocation -limit 64 -type operation fft Add
+
+set_directive_resource -core RAM_1P_BRAM "fft" work_x
+set_directive_resource -core RAM_1P_BRAM "fft" work_y
+set_directive_resource -core RAM_1P_BRAM "fft" DATA_x
+set_directive_resource -core RAM_1P_BRAM "fft" DATA_y
+set_directive_resource -core RAM_1P_BRAM "fft" smem
+
+#set_directive_resource -core RAM_1P_BRAM "twiddles8" cos_512
+#set_directive_resource -core RAM_1P_BRAM "twiddles8" sin_512
+
+#set_directive_array_partition fft data_x
+#set_directive_array_partition fft data_y
+#set_directive_array_partition storex8 reversed
+#set_directive_array_partition storey8 reversed
+#set_directive_array_partition fft reversed
+
+#set_directive_array_partition "twiddles8" cos_555
+#set_directive_array_partition "twiddles8" sin_555
+
+#set_directive_pipeline fft/loop1
+#set_directive_pipeline fft/loop2
+#set_directive_pipeline fft/loop3
+#set_directive_pipeline fft/loop4
+#set_directive_pipeline fft/loop5
+#set_directive_pipeline fft/loop6
+#set_directive_pipeline fft/loop7
+#set_directive_pipeline fft/loop8
+#set_directive_pipeline fft/loop9
+#set_directive_pipeline fft/loop10
+#set_directive_pipeline fft/loop11
+
+#set_directive_unroll -factor 2 fft/loop1
+#set_directive_unroll -factor 2 fft/loop2
+#set_directive_unroll -factor 2 fft/loop3
+#set_directive_unroll -factor 2 fft/loop4
+#set_directive_unroll -factor 2 fft/loop5
+#set_directive_unroll -factor 2 fft/loop6
+#set_directive_unroll -factor 2 fft/loop7
+#set_directive_unroll -factor 2 fft/loop8
+#set_directive_unroll -factor 2 fft/loop9
+#set_directive_unroll -factor 2 fft/loop10
+#set_directive_unroll -factor 2 fft/loop11

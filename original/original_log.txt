@@ -1,0 +1,90 @@
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/aes/aes'
+cc -O3 -Wall -Wno-unused-label -I../../common -o aes aes.c local_support.c ../../common/support.c ../../common/harness.c
+./aes input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/aes/aes'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/bfs/bulk'
+cc -O3 -Wall -Wno-unused-label -I../../common -o bfs bfs.c local_support.c ../../common/support.c ../../common/harness.c
+./bfs input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/bfs/bulk'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/bfs/queue'
+cc -O3 -Wall -Wno-unused-label -I../../common -o bfs bfs.c local_support.c ../../common/support.c ../../common/harness.c
+./bfs input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/bfs/queue'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/fft/strided'
+cc -O3 -Wall -Wno-unused-label -I../../common -o fft fft.c local_support.c ../../common/support.c ../../common/harness.c -lm
+./fft input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/fft/strided'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/fft/transpose'
+cc -O3 -Wall -Wno-unused-label -I../../common -o fft fft.c local_support.c ../../common/support.c ../../common/harness.c -lm
+./fft input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/fft/transpose'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/gemm/ncubed'
+cc -O3 -Wall -Wno-unused-label -I../../common -o gemm gemm.c local_support.c ../../common/support.c ../../common/harness.c
+./gemm input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/gemm/ncubed'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/gemm/blocked'
+cc -O3 -Wall -Wno-unused-label -I../../common -o gemm gemm.c local_support.c ../../common/support.c ../../common/harness.c
+./gemm input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/gemm/blocked'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/kmp/kmp'
+cc -O3 -Wall -Wno-unused-label -I../../common -o kmp kmp.c local_support.c ../../common/support.c ../../common/harness.c
+./kmp input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/kmp/kmp'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/md/knn'
+cc -O3 -Wall -Wno-unused-label -I../../common -o md md.c local_support.c ../../common/support.c ../../common/harness.c
+./md input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/md/knn'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/md/grid'
+cc -O3 -Wall -Wno-unused-label -I../../common -o md md.c local_support.c ../../common/support.c ../../common/harness.c
+./md input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/md/grid'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/nw/nw'
+cc -O3 -Wall -Wno-unused-label -I../../common -o nw nw.c local_support.c ../../common/support.c ../../common/harness.c
+./nw input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/nw/nw'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/sort/merge'
+cc -O3 -Wall -Wno-unused-label -I../../common -o sort sort.c local_support.c ../../common/support.c ../../common/harness.c
+./sort input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/sort/merge'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/sort/radix'
+cc -O3 -Wall -Wno-unused-label -I../../common -o sort sort.c local_support.c ../../common/support.c ../../common/harness.c
+./sort input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/sort/radix'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/spmv/crs'
+cc -O3 -Wall -Wno-unused-label -I../../common -o spmv spmv.c local_support.c ../../common/support.c ../../common/harness.c
+./spmv input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/spmv/crs'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/spmv/ellpack'
+cc -O3 -Wall -Wno-unused-label -I../../common -o spmv spmv.c local_support.c ../../common/support.c ../../common/harness.c
+./spmv input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/spmv/ellpack'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/stencil/stencil2d'
+cc -O3 -Wall -Wno-unused-label -I../../common -o stencil stencil.c local_support.c ../../common/support.c ../../common/harness.c
+./stencil input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/stencil/stencil2d'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/stencil/stencil3d'
+cc -O3 -Wall -Wno-unused-label -I../../common -o stencil stencil.c local_support.c ../../common/support.c ../../common/harness.c
+./stencil input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/stencil/stencil3d'
+make[1]: Entering directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/viterbi/viterbi'
+cc -O3 -Wall -Wno-unused-label -I../../common -o viterbi viterbi.c local_support.c ../../common/support.c ../../common/harness.c
+./viterbi input.data check.data
+Success.
+make[1]: Leaving directory `/home/sa2257/workspace/seashell/fuse-benchmarks/original/viterbi/viterbi'

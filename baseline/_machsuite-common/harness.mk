@@ -13,23 +13,28 @@ HWLIST   += -hls-tcl $(HWDIR)
 endif
 
 SDSXX    := sds++ -sds-hw $(HWLIST) -sds-end
-SDSFLAGS := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
+SDXFLAGS := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
 CXX      := g++
 CXXFLAGS := -Wall -O3
 
 # SDSoC estimation mode.
 ifdef ESTIMATE
-SDSFLAGS += -perf-est-hw-only
+SDXFLAGS += -perf-est-hw-only
+PERFLAGS := -F estimate=1
 endif
 
 $(KERNEL): $(OBJECTS)
-	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $^ -o $@
+	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) $^ -o $@
 #	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 %.o: %.cpp
-	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
+.PHONY: submit clean
+
+submit:
+	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 http://gorgonzola.cs.cornell.edu:8000/jobs
+
 clean:
 	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) _sds
 
