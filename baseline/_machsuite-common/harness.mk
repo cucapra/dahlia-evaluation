@@ -40,8 +40,8 @@ clean:
 
 # Use the compiler's -MM flag to generate header dependencies. (sds++ seems to
 # not work correctly for this.)
-#%.d: %.cpp
-#	$(CXX) $(CXXFLAGS) -MM $^ > $@
+%.d: %.cpp
+	$(CXX) $(CXXFLAGS) -MM $^ > $@
 
 # Include the generated dependencies.
-#include $(DEPENDS)
+include $(DEPENDS)
