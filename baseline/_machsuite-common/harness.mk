@@ -24,8 +24,7 @@ PERFLAGS := -F estimate=1
 endif
 
 $(KERNEL): $(OBJECTS)
-	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) $^ -o $@
-#	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 %.o: %.cpp
 	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) -c $< -o $@
@@ -36,7 +35,7 @@ submit:
 	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 http://gorgonzola.cs.cornell.edu:8000/jobs
 
 clean:
-	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) _sds
+	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) _sds .Xil
 
 # Use the compiler's -MM flag to generate header dependencies. (sds++ seems to
 # not work correctly for this.)
