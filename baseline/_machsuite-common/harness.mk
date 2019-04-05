@@ -24,7 +24,7 @@ PERFLAGS := -F estimate=1
 endif
 
 $(KERNEL): $(OBJECTS)
-	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 %.o: %.cpp
 	$(SDSXX) $(SDXFLAGS) $(CXXFLAGS) -c $< -o $@

@@ -1,6 +1,9 @@
 .PHONY: resume all extract clean
 
-BENCHMARKS := ./machsuite-gemm-ncubed
+BENCHMARKS := baseline/machsuite-gemm-ncubed \
+	baseline/machsuite-gemm-blocked \
+	baseline/machsuite-stencil-stencil2d \
+	baseline/machsuite-stencil-stencil3d
 JOBS := jobs.txt
 FAILED_BATCH := failure.txt
 FAILED_EX := failed-extract.txt
