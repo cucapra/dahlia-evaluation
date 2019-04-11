@@ -34,7 +34,7 @@ int main(int argc, char **argv)
   // Load input data
   int in_fd;
   char *data;
-  data = static_cast<char*>(sds_alloc(INPUT_SIZE));
+  data = static_cast<char*>(malloc(INPUT_SIZE));
   assert( data!=NULL && "Out of memory" );
   in_fd = open( in_file, O_RDONLY );
   assert( in_fd>0 && "Couldn't open input data file");
@@ -43,13 +43,10 @@ int main(int argc, char **argv)
   struct perf_counter_t sw_ctr;
   perf_reset(&sw_ctr);
   perf_start(&sw_ctr);
-  int i;
-  for(i = 0; i < 50; i ++){
-    run_benchmark( data );
-  }
+  run_benchmark( data );
   perf_stop(&sw_ctr);
   uint64_t sw_cycles = perf_avg_cpu_cycles(&sw_ctr); // need https://stackoverflow.com/questions/9225567/how-to-print-a-int64-t-type-in-c
-  printf("Average number of CPU cycles running in software baseline for benchmark: %" PRIu64 "\n", sw_cycles );
+  printf("Average number of CPU cycles running baseline for benchmark: %" PRIu64 "\n", sw_cycles );
 
   #ifdef WRITE_OUTPUT
   int out_fd;
@@ -77,7 +74,7 @@ int main(int argc, char **argv)
     return -1;
   }
   #endif
-  sds_free(data);
+  free(data);
   free(ref);
 
   printf("Success.\n");

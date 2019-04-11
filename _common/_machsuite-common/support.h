@@ -1,6 +1,10 @@
 #include <stdlib.h>
 #include <inttypes.h>
-#include <sds_lib.h>
+#ifdef __SDSCC__
+#include "sds_lib.h"
+#define malloc(x) (sds_alloc(x))
+#define free(x) (sds_free(x))
+#endif
 
 ///// File and section functions
 char *readfile(int fd);
