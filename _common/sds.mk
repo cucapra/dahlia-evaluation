@@ -1,42 +1,67 @@
 # A common Makefile for building FPGA+host code with SDSoC. Specify $(KERNEL),
 # $(HW_SRCS), and $(HOST_SRCS), and then `include` this file.
 
-SOURCES  := $(HW_SRCS) $(HOST_SRCS)
+SOURCES   := $(HW_SRCS) $(HOST_SRCS)
 
-OBJECTS  := $(SOURCES:%.cpp=%.o)
-DEPENDS  := $(SOURCES:%.cpp=%.d)
+# Software mode.
+ifdef SOFTWARE
+OBJECTS   := $(SOURCES:%.c=%.o)
+DEPENDS   := $(SOURCES:%.c=%.d)
 
-HWLIST   := $(KERNEL) $(HW_SRCS)
+CXX       := $(CC)
+CXXFLAGS  := -Wall -O3 -Wno-unused-label
+GENERATED := output.data
+COMPILER  := $(CXX)
+EXT       := c
+else
+OBJECTS   := $(SOURCES:%.cpp=%.o)
+DEPENDS   := $(SOURCES:%.cpp=%.d)
+
+HWLIST    := $(KERNEL) $(HW_SRCS)
 # HLS Directives
 ifdef DIRECTIVE
-HWLIST   += -hls-tcl $(HWDIR)
+HWLIST    += -hls-tcl $(HWDIR)
 endif
 
-SDSXX    := sds++ -sds-hw $(HWLIST) -sds-end
-SDSFLAGS := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
-CXX      := g++
-CXXFLAGS := -Wall -O3
+SDSXX     := sds++ -sds-hw $(HWLIST) -sds-end
+SDSFLAGS  := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
+CXX       := g++
+CXXFLAGS  := -Wall -O3
 
 # SDSoC estimation mode.
 ifdef ESTIMATE
-SDSFLAGS += -perf-est-hw-only
+SDSFLAGS  += -perf-est-hw-only
+PERFLAGS  := -F estimate=1
+endif
+
+GENERATED := _sds .Xil sd_card $(KERNEL).bit
+COMPILER  := $(SDSXX) $(SDSFLAGS)
+EXT       := cpp
 endif
 
 $(KERNEL): $(OBJECTS)
-	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $^ -o $@
-#	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
+	$(COMPILER) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
-%.o: %.cpp
-	$(SDSXX) $(SDSFLAGS) $(CXXFLAGS) -c $< -o $@
+%.o: %.$(EXT)
+	$(COMPILER) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean
+.PHONY: submit run clean
+
+# Hardware only command at present, to submit job to Buildbot
+submit:
+	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 http://gorgonzola.cs.cornell.edu:8000/jobs
+
+# Software only command to run executable
+run: $(KERNEL) input.data check.data
+	./$(KERNEL) input.data check.data
+
 clean:
-	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) _sds
+	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) $(GENERATED)
 
 # Use the compiler's -MM flag to generate header dependencies. (sds++ seems to
 # not work correctly for this.)
-#%.d: %.cpp
-#	$(CXX) $(CXXFLAGS) -MM $^ > $@
+%.d: %.$(EXT)
+	$(CXX) $(CXXFLAGS) -MM $^ > $@
 
 # Include the generated dependencies.
-#include $(DEPENDS)
+include $(DEPENDS)
