@@ -6,6 +6,10 @@ SOURCES   := $(HW_SRCS) $(HOST_SRCS)
 OBJECTS   := $(SOURCES:%.cpp=%.o)
 DEPENDS   := $(SOURCES:%.cpp=%.d)
 
+# SDSoC compilation options.
+PLATFORM  := zed
+CLOCK_ID  := 3
+
 # Build the list of hardware kernels to compile, for SDSoC. When DIRECTIVE is
 # supplied, include the path to search for TCL directive files.
 HWLIST    := $(KERNEL) $(HW_SRCS)
@@ -19,8 +23,8 @@ CXXFLAGS  := -Wall -O3
 
 # The SDSoC compiler.
 SDSXX     := sds++
-SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf zed -clkid 3 -poll-mode 1 \
-	-verbose
+SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf $(PLATFORM) \
+	-clkid $(CLOCK_ID) -poll-mode 1 -verbose
 
 # In estimation mode, SDSoC only emits resource metrics and does not actually
 # produce a bitstream.
