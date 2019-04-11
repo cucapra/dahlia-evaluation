@@ -34,7 +34,7 @@ SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf $(PLATFORM) \
 # produce a bitstream.
 ifeq ($(ESTIMATE),1)
 SDSFLAGS  += -perf-est-hw-only
-PERFLAGS  := -F estimate=1
+CURLFLAGS := -F estimate=1
 endif
 
 # Set COMPILER (and a few other things) according to whether we're doing a
@@ -76,7 +76,7 @@ include $(DEPENDS)
 BUILDBOT := http://gorgonzola.cs.cornell.edu:8000
 
 submit:
-	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 \
+	zip -r - . | curl -F file='@-;filename=code.zip' $(CURLFLAGS) -F make=1 \
 		$(BUILDBOT)/jobs
 
 run: $(TARGET) input.data check.data
