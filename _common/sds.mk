@@ -10,6 +10,10 @@ DEPENDS   := $(SOURCES:%.cpp=%.d)
 PLATFORM  := zed
 CLOCK_ID  := 3
 
+# The final executable name. We use the kernel name by default, but this can
+# be overridden.
+TARGET    ?= $(KERNEL)
+
 # The ordinary (software) C++ compiler.
 CXX       := g++
 CXXFLAGS  := -Wall -O3
@@ -41,11 +45,11 @@ CXXFLAGS  += -Wno-unused-label
 GENERATED := output.data
 else
 COMPILER  := $(SDSXX) $(SDSFLAGS)
-GENERATED := _sds .Xil sd_card $(KERNEL).bit
+GENERATED := _sds .Xil sd_card $(TARGET).bit
 endif
 
 # Link the program.
-$(KERNEL): $(OBJECTS)
+$(TARGET): $(OBJECTS)
 	$(COMPILER) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
 # Compile source files.
@@ -54,7 +58,7 @@ $(KERNEL): $(OBJECTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) $(GENERATED)
+	rm -rf $(OBJECTS) $(DEPENDS) $(TARGET) $(GENERATED)
 
 # Use the compiler's -MM flag to generate header dependencies. (sds++ seems to
 # not work correctly for this.)
@@ -75,5 +79,5 @@ submit:
 	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 \
 		$(BUILDBOT)/jobs
 
-run: $(KERNEL) input.data check.data
-	./$(KERNEL) input.data check.data
+run: $(TARGET) input.data check.data
+	./$(TARGET) input.data check.data
