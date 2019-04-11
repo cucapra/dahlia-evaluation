@@ -1,4 +1,4 @@
-# A common Makefile for running on host with g++ and building 
+# A common Makefile for running on host with g++ and building
 # FPGA+host code with SDSoC. Specify $(KERNEL),
 # $(HW_SRCS), and $(HOST_SRCS), and then `include` this file.
 
@@ -6,50 +6,49 @@ SOURCES   := $(HW_SRCS) $(HOST_SRCS)
 OBJECTS   := $(SOURCES:%.cpp=%.o)
 DEPENDS   := $(SOURCES:%.cpp=%.d)
 
+# Build the list of hardware kernels to compile, for SDSoC. When DIRECTIVE is
+# supplied, include the path to search for TCL directive files.
 HWLIST    := $(KERNEL) $(HW_SRCS)
-# HLS Directives(hardware only option)
 ifeq ($(DIRECTIVE),1)
 HWLIST    += -hls-tcl $(HWDIR)
 endif
 
-SDSXX     := sds++ -sds-hw $(HWLIST) -sds-end
-SDSFLAGS  := -sds-pf zed -clkid 3 -poll-mode 1 -verbose
+# The ordinary (software) C++ compiler.
 CXX       := g++
 CXXFLAGS  := -Wall -O3
 
-# SDSoC estimation mode(hardware only option)
+# The SDSoC compiler.
+SDSXX     := sds++
+SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf zed -clkid 3 -poll-mode 1 \
+	-verbose
+
+# In estimation mode, SDSoC only emits resource metrics and does not actually
+# produce a bitstream.
 ifeq ($(ESTIMATE),1)
 SDSFLAGS  += -perf-est-hw-only
 PERFLAGS  := -F estimate=1
 endif
 
-GENERATED := _sds .Xil sd_card $(KERNEL).bit
-COMPILER  := $(SDSXX) $(SDSFLAGS)
-
-# Software mode
+# Set COMPILER (and a few other things) according to whether we're doing a
+# software or hardware run.
 ifeq ($(SOFTWARE),1)
-CXXFLAGS  := -Wall -O3 -Wno-unused-label
-GENERATED := output.data
 COMPILER  := $(CXX)
+CXXFLAGS  += -Wno-unused-label
+GENERATED := output.data
+else
+COMPILER  := $(SDSXX) $(SDSFLAGS)
+GENERATED := _sds .Xil sd_card $(KERNEL).bit
 endif
 
+# Link the program.
 $(KERNEL): $(OBJECTS)
 	$(COMPILER) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
 
+# Compile source files.
 %.o: %.cpp
 	$(COMPILER) $(CXXFLAGS) -c $< -o $@
 
-.PHONY: submit run clean
-
-# Hardware only command at present to submit job to Buildbot
-submit:
-	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 http://gorgonzola.cs.cornell.edu:8000/jobs
-
-
-# Software only command to run executable
-run: $(KERNEL) input.data check.data
-	./$(KERNEL) input.data check.data
-
+.PHONY: clean
 clean:
 	rm -rf $(OBJECTS) $(DEPENDS) $(KERNEL) $(GENERATED)
 
@@ -60,3 +59,17 @@ clean:
 
 # Include the generated dependencies.
 include $(DEPENDS)
+
+
+# Debugging targets: submit code to Buildbot as a new job, and execute
+# the compiled (software) executable.
+
+.PHONY: submit run
+BUILDBOT := http://gorgonzola.cs.cornell.edu:8000
+
+submit:
+	zip -r - . | curl -F file='@-;filename=code.zip' $(PERFLAGS) -F make=1 \
+		$(BUILDBOT)/jobs
+
+run: $(KERNEL) input.data check.data
+	./$(KERNEL) input.data check.data
