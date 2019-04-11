@@ -10,16 +10,16 @@ DEPENDS   := $(SOURCES:%.cpp=%.d)
 PLATFORM  := zed
 CLOCK_ID  := 3
 
+# The ordinary (software) C++ compiler.
+CXX       := g++
+CXXFLAGS  := -Wall -O3
+
 # Build the list of hardware kernels to compile, for SDSoC. When DIRECTIVE is
 # supplied, include the path to search for TCL directive files.
 HWLIST    := $(KERNEL) $(HW_SRCS)
 ifeq ($(DIRECTIVE),1)
 HWLIST    += -hls-tcl $(HWDIR)
 endif
-
-# The ordinary (software) C++ compiler.
-CXX       := g++
-CXXFLAGS  := -Wall -O3
 
 # The SDSoC compiler.
 SDSXX     := sds++
