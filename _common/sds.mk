@@ -48,6 +48,12 @@ COMPILER  := $(SDSXX) $(SDSFLAGS)
 GENERATED := _sds .Xil sd_card $(TARGET).bit
 endif
 
+# Copy data files to executable directory for hardware
+ifeq ($(or $(ESTIMATE),$(SOFTWARE)),0)
+sd_card: $(TARGET)
+	for d in $(DATA); do cp $$d sd_card/; done
+endif
+
 # Link the program.
 $(TARGET): $(OBJECTS)
 	$(COMPILER) $(CXXFLAGS) $(LDFLAGS) $^ -o $@
@@ -79,5 +85,6 @@ submit:
 	zip -r - . | curl -F file='@-;filename=code.zip' $(CURLFLAGS) -F make=1 \
 		$(BUILDBOT)/jobs
 
-run: $(TARGET) input.data check.data
-	./$(TARGET) input.data check.data
+run: $(TARGET)
+	./$(TARGET) 
+
