@@ -1,6 +1,24 @@
-# A common Makefile for running on host with g++ and building
-# FPGA+host code with SDSoC. Specify $(KERNEL),
-# $(HW_SRCS), and $(HOST_SRCS), and then `include` this file.
+# A common Makefile for building benchmarks with either SDSoC or a standard
+# software C++ compiler for debugging. Benchmarks should `include` this file
+# after defining at least these variables:
+#
+# - KERNEL: The name of the hardware function. (This is also used as the name
+#   of the generated executable.)
+# - HW_SRCS: The C++ source files containing the hardware function.
+# - HOST_SRCS: The C++ source files containing software code (and a call to
+#   the hardware function).
+# - DATA: Input files that the executable will need for execution.
+#
+# These variables may also be useful:
+#
+# - SOFTWARE: Build using a standard software C++ compiler $(CXX) instead of
+#   using SDSoC.
+# - ESTIMATE: Use SDSoC, but do not generate an executable: instead, use
+#   estimation mode to get hardware resource metrics.
+#
+# In the standard hardware (non-software, non-estimate) mode, SDSoC generates
+# a directory called `sd_card` containing the executable and bitstream. This
+# Makefile also copies the $(DATA) files there.
 
 SOURCES   := $(HW_SRCS) $(HOST_SRCS)
 OBJECTS   := $(SOURCES:%.cpp=%.o)
