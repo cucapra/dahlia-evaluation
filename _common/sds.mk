@@ -48,7 +48,9 @@ COMPILER  := $(SDSXX) $(SDSFLAGS)
 GENERATED := _sds .Xil sd_card $(TARGET).bit
 endif
 
-# Copy data files to executable directory for hardware
+# In hardware mode, copy data files to a final output directory (alongside the
+# executable and bitstream). SDSoC uses a directory called `sd_card` for these
+# final build products.
 ifeq ($(or $(ESTIMATE),$(SOFTWARE)),0)
 sd_card: $(TARGET)
 	for d in $(DATA); do cp $$d sd_card/; done
