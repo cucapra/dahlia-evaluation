@@ -8,6 +8,7 @@ All `.c` files changed to `.cpp`.
 Function name changed from `ellpack` to `spmv` in all three source files.
 
 # BASELINE
+No change made
 
 # REWRITE
 No change made

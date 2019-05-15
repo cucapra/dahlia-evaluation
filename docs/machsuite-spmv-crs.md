@@ -7,6 +7,8 @@ Resides in original/spmv/crs
 All `.c` files changed to `.cpp`.
 
 # BASELINE
+Add tripcount to `spmv_2` for estimation.
+BRAM resource directives commented out as they break the flow. #35
 
 # REWRITE
 No change made

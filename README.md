@@ -66,3 +66,4 @@ Additionally, there is a **docs** directory to maintain all the changes done for
 Under these directories, there is subdirectory for each benchmark named `<benchmark suite-name>-<benchmark-name>`. Subdirectory `_<benchmark suite name>-templates` contains basic templates used across all the benchmarks. `Makefile` can be used to run all benchmarks locally or in Buildbot without support for failure detection or data extraction.
 
 The `_common` directory contains useful stuff for all designs. The `sds.mk` Makefile snippet therein can be included to make it simple to compile applications with the Xilinx SDSoC toolchain. Subdirectory `_<benchmark suite-name>-common` contains useful stuff for all benchmark versions in that suite. 
+

@@ -27,7 +27,7 @@ typedef uint64_t node_index_t;
 typedef struct edge_t_struct {
   // These fields are common in practice, but we elect not to use them.
   //weight_t weight;
-  //node_index_t src;
+  node_index_t src;
   node_index_t dst;
 } edge_t;
 
@@ -50,4 +50,5 @@ struct bench_args_t {
   edge_index_t level_counts[N_LEVELS];
 };
 
+#pragma SDS data zero_copy(level[0:N_NODES], level_counts[0:N_LEVELS])
 void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES], node_index_t starting_node, level_t level[N_NODES], edge_index_t level_counts[N_LEVELS]);

@@ -2,8 +2,8 @@
 set_directive_resource -core Mul "stencil" mul
 
 #select memory resources
-set_directive_resource -core RAM_1P_BRAM "stencil" orig
-set_directive_resource -core RAM_1P_BRAM "stencil" sol
+#set_directive_resource -core RAM_1P_BRAM "stencil" orig
+#set_directive_resource -core RAM_1P_BRAM "stencil" sol
 
 #loop pipelining factors
 #set_directive_pipeline stencil/stencil_label1

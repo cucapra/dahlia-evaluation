@@ -27,6 +27,7 @@ typedef struct {
   int32_t x, y, z;
 } ivector_t;
 
+//#pragma SDS data zero_copy(force[0:640])
 void md( int32_t n_points[blockSide][blockSide][blockSide],
          dvector_t force[blockSide][blockSide][blockSide][densityFactor],
          dvector_t position[blockSide][blockSide][blockSide][densityFactor]

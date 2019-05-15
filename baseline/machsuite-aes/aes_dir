@@ -2,25 +2,25 @@
 #no mults... feel free to sweep other things!
 
 #select memory resources
-set_directive_resource -core RAM_1P_BRAM "aes" ctx
-set_directive_resource -core RAM_1P_BRAM "aes" k
-set_directive_resource -core RAM_1P_BRAM "aes" buf
+#set_directive_resource -core RAM_1P_BRAM "aes" ctx
+#set_directive_resource -core RAM_1P_BRAM "aes" k
+#set_directive_resource -core RAM_1P_BRAM "aes" buf
 
-set_directive_resource -core RAM_1P_BRAM "aes_expandEncKey" k
-set_directive_resource -core RAM_1P_BRAM "aes_expandEncKey" rc
+#set_directive_resource -core RAM_1P_BRAM "aes_expandEncKey" k
+#set_directive_resource -core RAM_1P_BRAM "aes_expandEncKey" rc
 
-set_directive_resource -core RAM_1P_BRAM "aes_mixColumns" buf
+#set_directive_resource -core RAM_1P_BRAM "aes_mixColumns" buf
 
-set_directive_resource -core RAM_1P_BRAM "aes_shiftRows" buf
+#set_directive_resource -core RAM_1P_BRAM "aes_shiftRows" buf
 
-set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" buf
-set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" key
-set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" cpk
+#set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" buf
+#set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" key
+#set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey_cpy" cpk
 
-set_directive_resource -core RAM_1P_BRAM "add_addRoundKey" buf
-set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey" key
+#set_directive_resource -core RAM_1P_BRAM "add_addRoundKey" buf
+#set_directive_resource -core RAM_1P_BRAM "aes_addRoundKey" key
 
-set_directive_resource -core RAM_1P_BRAM "aes_subBytes" buf
+#set_directive_resource -core RAM_1P_BRAM "aes_subBytes" buf
 
 
 #loop unrolling

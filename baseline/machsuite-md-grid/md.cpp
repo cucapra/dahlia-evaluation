@@ -12,6 +12,18 @@ void md( int n_points[blockSide][blockSide][blockSide],
   int32_t p_idx, q_idx;
   TYPE dx, dy, dz, r2inv, r6inv, potential, f;
 
+  dvector_t force_local[blockSide][blockSide][blockSide][densityFactor];
+
+  loop_init_x: for( b0.x=0; b0.x<blockSide; b0.x++ ) {
+  loop_init_y: for( b0.y=0; b0.y<blockSide; b0.y++ ) {
+  loop_init_z: for( b0.z=0; b0.z<blockSide; b0.z++ ) {
+    loop_init_p: for( p_idx=0; p_idx<densityFactor; p_idx++ ) {
+      force_local[b0.x][b0.y][b0.z][p_idx].x = 0;
+      force_local[b0.x][b0.y][b0.z][p_idx].y = 0;
+      force_local[b0.x][b0.y][b0.z][p_idx].z = 0;
+    }
+  }}}
+
   // Iterate over the grid, block by block
   loop_grid0_x: for( b0.x=0; b0.x<blockSide; b0.x++ ) {
   loop_grid0_y: for( b0.y=0; b0.y<blockSide; b0.y++ ) {
@@ -25,9 +37,9 @@ void md( int n_points[blockSide][blockSide][blockSide],
     int q_idx_range = n_points[b1.x][b1.y][b1.z];
     loop_p: for( p_idx=0; p_idx<n_points[b0.x][b0.y][b0.z]; p_idx++ ) {
       p = position[b0.x][b0.y][b0.z][p_idx];
-      TYPE sum_x = force[b0.x][b0.y][b0.z][p_idx].x;
-      TYPE sum_y = force[b0.x][b0.y][b0.z][p_idx].y;
-      TYPE sum_z = force[b0.x][b0.y][b0.z][p_idx].z;
+      TYPE sum_x = force_local[b0.x][b0.y][b0.z][p_idx].x;
+      TYPE sum_y = force_local[b0.x][b0.y][b0.z][p_idx].y;
+      TYPE sum_z = force_local[b0.x][b0.y][b0.z][p_idx].z;
       // For all points in b1
       loop_q: for( q_idx=0; q_idx< q_idx_range ; q_idx++ ) {
         q = *(base_q + q_idx);
@@ -48,10 +60,21 @@ void md( int n_points[blockSide][blockSide][blockSide],
           sum_z += f*dz;
         }
       } // loop_q
-      force[b0.x][b0.y][b0.z][p_idx].x = sum_x ;
-      force[b0.x][b0.y][b0.z][p_idx].y = sum_y ;
-      force[b0.x][b0.y][b0.z][p_idx].z = sum_z ;
+      force_local[b0.x][b0.y][b0.z][p_idx].x = sum_x ;
+      force_local[b0.x][b0.y][b0.z][p_idx].y = sum_y ;
+      force_local[b0.x][b0.y][b0.z][p_idx].z = sum_z ;
     } // loop_p
   }}} // loop_grid1_*
   }}} // loop_grid0_*
+
+
+  loop_copy_x: for( b0.x=0; b0.x<blockSide; b0.x++ ) {
+  loop_copy_y: for( b0.y=0; b0.y<blockSide; b0.y++ ) {
+  loop_copy_z: for( b0.z=0; b0.z<blockSide; b0.z++ ) {
+    loop_copy_p: for( p_idx=0; p_idx<densityFactor; p_idx++ ) {
+      force[b0.x][b0.y][b0.z][p_idx].x = force_local[b0.x][b0.y][b0.z][p_idx].x ;
+      force[b0.x][b0.y][b0.z][p_idx].y = force_local[b0.x][b0.y][b0.z][p_idx].y ;
+      force[b0.x][b0.y][b0.z][p_idx].z = force_local[b0.x][b0.y][b0.z][p_idx].z ;
+    }
+  }}}
 }

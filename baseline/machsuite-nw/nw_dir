@@ -4,10 +4,10 @@ set_directive_resource -core Mul "nw" row_up
 set_directive_resource -core Mul "nw" r
 
 #select memory resources
-set_directive_resource -core RAM_1P_BRAM "nw" SEQA
-set_directive_resource -core RAM_1P_BRAM "nw" SEQB
-set_directive_resource -core RAM_1P_BRAM "nw" allignedA
-set_directive_resource -core RAM_1P_BRAM "nw" allignedB
+#set_directive_resource -core RAM_1P_BRAM "nw" SEQA
+#set_directive_resource -core RAM_1P_BRAM "nw" SEQB
+#set_directive_resource -core RAM_1P_BRAM "nw" allignedA
+#set_directive_resource -core RAM_1P_BRAM "nw" allignedB
 
 #loop pipelining factors
 #set_directive_pipeline nw/init_row
@@ -33,3 +33,13 @@ set_directive_resource -core RAM_1P_BRAM "nw" allignedB
 #set_directive_array_partition -factor 2 -type cyclic nw SEQB
 #set_directive_array_partition -factor 2 -type cyclic nw alignedA
 #set_directive_array_partition -factor 2 -type cyclic nw alignedB
+
+#estimations
+set_directive_loop_tripcount -max 100 -min 0 nw/init
+set_directive_loop_tripcount -max 100 -min 0 nw/init_row
+set_directive_loop_tripcount -max 100 -min 0 nw/init_col
+set_directive_loop_tripcount -max 100 -min 0 nw/fill_out
+set_directive_loop_tripcount -max 100 -min 0 nw/fill_in
+set_directive_loop_tripcount -max 100 -min 0 nw/trace
+set_directive_loop_tripcount -max 100 -min 0 nw/pad_a
+set_directive_loop_tripcount -max 100 -min 0 nw/pad_b

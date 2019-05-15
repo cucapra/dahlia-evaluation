@@ -7,6 +7,7 @@ Resides in original/stencil/stencil2d
 All `.c` files changed to `.cpp`.
 
 # BASELINE
+No change made
 
 # REWRITE
 No change made
