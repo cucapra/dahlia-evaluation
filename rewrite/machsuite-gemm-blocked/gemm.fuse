@@ -1,0 +1,32 @@
+decl m1: float[4096];
+decl m2: float[4096];
+decl prod: float[4096];
+
+let temp_x:float = 0.0;
+let mul:float = 0.0;
+
+let i_row:bit<32> = 0;
+let k_row:bit<32> = 0;
+
+let jj:bit<32> = 0;
+while (jj < 64) {
+	let kk:bit<32> = 0;
+	while (kk < 64) {
+		for (let i = 0..64) {
+		  for (let k = 0..8) {
+			  i_row := i * 64;
+			  k_row := (k + kk) * 64;
+			  temp_x := m1[i_row + k + kk];
+				for (let j = 0..8) {
+				  mul := temp_x * m2[k_row + j + jj];
+					let temp = prod[i_row + j + jj];
+					---
+          prod[i_row + j + jj] := temp + mul;
+				}
+			}
+		}
+	  kk := kk + 8;
+	}
+  jj := jj + 8;
+}
+

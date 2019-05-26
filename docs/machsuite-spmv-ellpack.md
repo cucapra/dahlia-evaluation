@@ -11,7 +11,7 @@ Function name changed from `ellpack` to `spmv` in all three source files.
 No change made
 
 # REWRITE
-No change made
+All `bit<32>`s are manually changed to `int`s.
 
 # OPTIMIZED BASELINE
 No change made

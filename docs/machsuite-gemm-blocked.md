@@ -11,7 +11,7 @@ Function name changed from `bbgemm` to `gemm` in all three source files.
 No change made
 
 # REWRITE
-No change made
+`bit<32>`s are replaced with `int`s.
 
 # OPTIMIZED BASELINE
 No change made

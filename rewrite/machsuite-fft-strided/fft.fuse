@@ -1,0 +1,57 @@
+decl real: float[1024];
+decl img: float[1024];
+decl real_twid: float[512];
+decl img_twid: float[512];
+
+let even:bit<32> = 0;
+let span:bit<32> = 1024 >> 1;
+let log:bit<32> = 0;
+let rootindex:bit<32> = 0;
+
+let temp:float = 0.0;
+
+// Temporary variables for serial reading/writing
+let real_odd:float = 0.0;
+let real_even:float = 0.0;
+let img_even:float = 0.0;
+let img_odd:float = 0.0;
+
+let odd:bit<32> = 0;
+
+while (span != 0) {
+	odd := span;
+  while (odd < 1024) {
+		odd := odd | span;
+		even := odd ^ span;
+		real_even := real[even];
+		---
+		real_odd  := real[odd];
+		temp := real_even + real_odd
+		---
+		real[odd] := real_even - real_odd;
+		---
+		real[even] := temp;
+		---
+		img_even := img[even];
+		---
+		img_odd := img[odd];
+		temp := img_even + img_odd;
+		---
+		img[odd] := img_even - img_odd;
+		---
+		img[even] := temp;
+		rootindex := (even << log) & (1024 - 1);
+		---
+		if (rootindex != 0) {
+			temp := real_twid[rootindex] * real[odd] - img_twid[rootindex] * img[odd];
+			img_odd := img[odd];
+			---
+			img[odd] := real_twid[rootindex] * img_odd + img_twid[rootindex] * real[odd];
+			---
+			real[odd] := temp;
+		}
+	  odd := odd + 1;
+  }
+  span := span >> 1;
+  log := log + 1;
+}

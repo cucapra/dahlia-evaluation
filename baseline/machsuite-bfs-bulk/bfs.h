@@ -25,14 +25,14 @@ Hong, Oguntebi, Olukotun. "Efficient Parallel Graph Exploration on Multi-Core CP
 typedef uint64_t edge_index_t;
 typedef uint64_t node_index_t;
 
-typedef struct edge_t_struct {
+typedef struct {
   // These fields are common in practice, but we elect not to use them.
   //weight_t weight;
   node_index_t src;
   node_index_t dst;
 } edge_t;
 
-typedef struct node_t_struct {
+typedef struct {
   edge_index_t edge_begin;
   edge_index_t edge_end;
 } node_t;

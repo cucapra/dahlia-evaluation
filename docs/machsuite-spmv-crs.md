@@ -11,7 +11,7 @@ Add tripcount to `spmv_2` for estimation.
 BRAM resource directives commented out as they break the flow. #35
 
 # REWRITE
-No change made
+All `bit<32>`s are manually changed to `int`s.
 
 # OPTIMIZED BASELINE
 No change made

@@ -11,7 +11,7 @@ Function name changed from `md_kernel` to `md` in all three source files.
 No change made
 
 # REWRITE
-No change made
+`bit<32>`s are manually changed to `int`s.
 
 # OPTIMIZED BASELINE
 No change made

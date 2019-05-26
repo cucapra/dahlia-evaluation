@@ -11,7 +11,7 @@ Data zero copy pragma used for both arguments.
 Add tripcount to inner loop for estimation.
 
 # REWRITE
-No change made
+`bit<32>`s are replaced with `int`s.
 
 # OPTIMIZED BASELINE
 No change made

@@ -1,0 +1,23 @@
+// WIP
+decl c: bit<32>[2];
+decl orig: bit<32>[16384];
+decl sol: bit<32>[16384];
+
+let sum0:bit<32> = 0;
+let sum1:bit<32> = 0;
+let mul0:bit<32> = 0;
+let mul1:bit<32> = 0;
+
+for (let j = 0..32) {
+  for (let k = 0..16) {
+	  sol[k+row_size*(j+col_size*0)] := orig[k+row_size*(j+col_size*0)];
+		---
+	  sol[k+row_size*(j+col_size*(height_size-1))] := orig[k+row_size*(j+col_size*(height_size-1))];
+	}
+}
+
+for (let i = 1..31) {
+  for (let k = 0..16) {
+	  sol[k+row_size*(0+row_size)]
+	}
+}

@@ -1,23 +1,4 @@
-BENCHMARKS=\
-	machsuite-aes \
-	machsuite-backprop \
-	machsuite-bfs-bulk \
-	machsuite-bfs-queue \
-	machsuite-fft-strided \
-	machsuite-fft-transpose \
-	machsuite-gemm-ncubed \
-	machsuite-gemm-blocked \
-	machsuite-kmp \
-	machsuite-md-knn \
-	machsuite-md-grid \
-	machsuite-nw \
-	machsuite-sort-merge \
-	machsuite-sort-radix \
-	machsuite-spmv-crs \
-	machsuite-spmv-ellpack \
-	machsuite-stencil-stencil2d \
-	machsuite-stencil-stencil3d \
-	machsuite-viterbi
+include config.mk
 
 CMD =
 ifdef SOFTWARE
@@ -45,7 +26,7 @@ run:
 
 # for buildbot only
 submit:
-	@( for b in $(BENCHMARKS); do $(MAKE) -C $$b submit; done )
+	@( for b in $(BENCHMARKS); do $(MAKE) -C $$b submit $(CMD); done )
 
 clean:
 	@( for b in $(BENCHMARKS); do $(MAKE) -C $$b clean || exit ; done )

@@ -10,7 +10,7 @@ All `.c` files changed to `.cpp`.
 No change made
 
 # REWRITE
-No change made
+All `bit<32>`s are changed to `int`s.
 
 # OPTIMIZED BASELINE
 No change made

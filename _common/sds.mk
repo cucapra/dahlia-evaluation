@@ -94,7 +94,6 @@ clean:
 # Include the generated dependencies.
 include $(DEPENDS)
 
-
 # Debugging targets: submit code to Buildbot as a new job, and execute
 # the compiled (software) executable.
 
