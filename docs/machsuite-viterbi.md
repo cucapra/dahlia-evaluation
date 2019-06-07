@@ -8,6 +8,7 @@ All `.c` files changed to `.cpp`.
 
 # BASELINE
 Data zero copy pragma used for path argument.
+Data copy pragma used for `obs` to avoid #34.
 
 # REWRITE
 No change made

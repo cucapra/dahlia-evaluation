@@ -7,7 +7,7 @@ Resides in original/gemm/ncubed
 All `.c` files changed to `.cpp`.
 
 # BASELINE
-No change made
+Data copy pragma used for `m1` to avoid #34.
 
 # REWRITE
 `bit<32>`s are replaced with `int`s.

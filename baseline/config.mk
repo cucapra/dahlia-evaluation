@@ -5,11 +5,11 @@ BENCHMARKS=\
 	machsuite-bfs-queue \
 	machsuite-fft-strided \
 	machsuite-fft-transpose \
-	machsuite-gemm-ncubed \
 	machsuite-gemm-blocked \
+	machsuite-gemm-ncubed \
 	machsuite-kmp \
-	machsuite-md-knn \
 	machsuite-md-grid \
+	machsuite-md-knn \
 	machsuite-nw \
 	machsuite-sort-merge \
 	machsuite-sort-radix \

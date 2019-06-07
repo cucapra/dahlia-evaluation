@@ -8,7 +8,7 @@ All `.c` files changed to `.cpp`.
 Function name changed from `bbgemm` to `gemm` in all three source files.
 
 # BASELINE
-No change made
+Data copy pragma used for `m1` to avoid #34.
 
 # REWRITE
 `bit<32>`s are replaced with `int`s.

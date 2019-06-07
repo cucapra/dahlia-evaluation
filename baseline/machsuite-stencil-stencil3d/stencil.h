@@ -21,6 +21,7 @@ SC 2008
 #define SIZE (row_size * col_size * height_size)
 #define INDX(_row_size,_col_size,_i,_j,_k) ((_i)+_row_size*((_j)+_col_size*(_k)))
 
+#pragma SDS data copy(C[0:2])
 void stencil( TYPE C[2], TYPE orig[SIZE], TYPE sol[SIZE] );
 
 ////////////////////////////////////////////////////////////////////////////////

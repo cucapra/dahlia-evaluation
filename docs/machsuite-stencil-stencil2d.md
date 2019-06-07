@@ -7,7 +7,7 @@ Resides in original/stencil/stencil2d
 All `.c` files changed to `.cpp`.
 
 # BASELINE
-No change made
+Data copy pragma used for `orig` to avoid #34.
 
 # REWRITE
 All `bit<32>`s are changed to `int`s.

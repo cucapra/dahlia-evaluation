@@ -9,6 +9,7 @@ All `.c` files changed to `.cpp`.
 # BASELINE
 Add tripcount to `spmv_2` for estimation.
 BRAM resource directives commented out as they break the flow. #35
+Data copy pragma used for `val` to avoid #34.
 
 # REWRITE
 All `bit<32>`s are manually changed to `int`s.

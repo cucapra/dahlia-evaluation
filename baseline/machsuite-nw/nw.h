@@ -5,6 +5,7 @@
 #define ALEN 128
 #define BLEN 128
 
+#pragma SDS data copy(SEQA[0:ALEN])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])  
 void nw(char SEQA[ALEN], char SEQB[BLEN],
              char alignedA[ALEN+BLEN], char alignedB[ALEN+BLEN],

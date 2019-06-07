@@ -22,6 +22,7 @@ void input_to_data(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
   char *p, *s;
   uint64_t *nodes;
+  uint64_t *edges;
   int64_t i;
 
   // Zero-out everything.
@@ -47,12 +48,20 @@ void input_to_data(int fd, void *vdata) {
   free(nodes);
   // Section 3: edge structures
   s = find_section_start(p,3);
-  parse_uint64_t_array(s, (uint64_t *)(data->edges), N_EDGES);
+  edges = (uint64_t *)malloc(N_EDGES*1*sizeof(uint64_t));
+  parse_uint64_t_array(s, edges, N_EDGES*1);
+  for(i=0; i<N_EDGES; i++) {
+    data->edges[i].src = 0;
+    data->edges[i].dst = edges[i];
+  }
+  free(edges);
+  //parse_uint64_t_array(s, (uint64_t *)(data->edges), N_EDGES);
   free(p);
 }
 
 void data_to_input(int fd, void *vdata) {
   uint64_t *nodes;
+  uint64_t *edges;
   int64_t i;
 
   struct bench_args_t *data = (struct bench_args_t *)vdata;
@@ -70,7 +79,13 @@ void data_to_input(int fd, void *vdata) {
   free(nodes);
   // Section 3: edge structures
   write_section_header(fd);
-  write_uint64_t_array(fd, (uint64_t *)(&data->edges), N_EDGES);
+  edges = (uint64_t *)malloc(N_EDGES*1*sizeof(uint64_t));
+  for(i=0; i<N_EDGES; i++) {
+    edges[i]  = data->edges[i].dst;
+  }
+  write_uint64_t_array(fd, edges, N_NODES*1);
+  free(edges);
+  //write_uint64_t_array(fd, (uint64_t *)(&data->edges), N_EDGES);
 }
 
 /* Output format:

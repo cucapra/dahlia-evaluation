@@ -11,6 +11,7 @@ Function name changed from `needwun` to `nw` in all three source files.
 Data zero copy pragma used for `M, ptr` arguments.
 Add tripcount to all 8 loops naively for estimation (only adding for `trace` didn't work).
 BRAM resource directives commented out as they break the flow. #35
+Data copy pragma used for `SEQA` to avoid #34.
 
 # REWRITE
 No change made
