@@ -179,7 +179,7 @@ void aes(uint8_t key[32], uint8_t enckey[32], uint8_t deckey[32], uint8_t k[32],
     uint8_t rcon = 1;
     uint8_t i;
 
-    ecb1 : for (i = 0; i < sizeof(key); i++){
+    ecb1 : for (i = 0; i < 32; i++){
         enckey[i] = deckey[i] = k[i];
     }
     ecb2 : for (i = 8;--i;){
