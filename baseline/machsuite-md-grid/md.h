@@ -27,16 +27,24 @@ typedef struct {
   int32_t x, y, z;
 } ivector_t;
 
-//#pragma SDS data zero_copy(force[0:640])
+#pragma SDS data copy(n_points[0:nBlocks])
 void md( int32_t n_points[blockSide][blockSide][blockSide],
-         dvector_t force[blockSide][blockSide][blockSide][densityFactor],
-         dvector_t position[blockSide][blockSide][blockSide][densityFactor]
+         TYPE force_x[blockSide][blockSide][blockSide][densityFactor],
+         TYPE force_y[blockSide][blockSide][blockSide][densityFactor],
+         TYPE force_z[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_x[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_z[blockSide][blockSide][blockSide][densityFactor]
        );
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 
 struct bench_args_t {
   int32_t n_points[blockSide][blockSide][blockSide];
-  dvector_t force[blockSide][blockSide][blockSide][densityFactor];
-  dvector_t position[blockSide][blockSide][blockSide][densityFactor];
+  TYPE force_x[blockSide][blockSide][blockSide][densityFactor];
+  TYPE force_y[blockSide][blockSide][blockSide][densityFactor];
+  TYPE force_z[blockSide][blockSide][blockSide][densityFactor];
+  TYPE position_x[blockSide][blockSide][blockSide][densityFactor];
+  TYPE position_y[blockSide][blockSide][blockSide][densityFactor];
+  TYPE position_z[blockSide][blockSide][blockSide][densityFactor];
 };

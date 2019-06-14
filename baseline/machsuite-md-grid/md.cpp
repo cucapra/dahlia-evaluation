@@ -3,9 +3,13 @@
 #define MIN(x,y) ( (x)<(y) ? (x) : (y) )
 #define MAX(x,y) ( (x)>(y) ? (x) : (y) )
 
-void md( int n_points[blockSide][blockSide][blockSide],
-         dvector_t force[blockSide][blockSide][blockSide][densityFactor],
-         dvector_t position[blockSide][blockSide][blockSide][densityFactor] )
+void md( int32_t n_points[blockSide][blockSide][blockSide],
+         TYPE force_x[blockSide][blockSide][blockSide][densityFactor],
+         TYPE force_y[blockSide][blockSide][blockSide][densityFactor],
+         TYPE force_z[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_x[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
+         TYPE position_z[blockSide][blockSide][blockSide][densityFactor] )
 {
   ivector_t b0, b1; // b0 is the current block, b1 is b0 or a neighboring block
   dvector_t p, q; // p is a point in b0, q is a point in either b0 or b1
@@ -33,16 +37,22 @@ void md( int n_points[blockSide][blockSide][blockSide],
   loop_grid1_y: for( b1.y=MAX(0,b0.y-1); b1.y<MIN(blockSide,b0.y+2); b1.y++ ) {
   loop_grid1_z: for( b1.z=MAX(0,b0.z-1); b1.z<MIN(blockSide,b0.z+2); b1.z++ ) {
     // For all points in b0
-    dvector_t *base_q = position[b1.x][b1.y][b1.z];
+    TYPE *base_q_x = position_x[b1.x][b1.y][b1.z];
+    TYPE *base_q_y = position_y[b1.x][b1.y][b1.z];
+    TYPE *base_q_z = position_z[b1.x][b1.y][b1.z];
     int q_idx_range = n_points[b1.x][b1.y][b1.z];
     loop_p: for( p_idx=0; p_idx<n_points[b0.x][b0.y][b0.z]; p_idx++ ) {
-      p = position[b0.x][b0.y][b0.z][p_idx];
+      p.x = position_x[b0.x][b0.y][b0.z][p_idx];
+      p.y = position_y[b0.x][b0.y][b0.z][p_idx];
+      p.z = position_z[b0.x][b0.y][b0.z][p_idx];
       TYPE sum_x = force_local[b0.x][b0.y][b0.z][p_idx].x;
       TYPE sum_y = force_local[b0.x][b0.y][b0.z][p_idx].y;
       TYPE sum_z = force_local[b0.x][b0.y][b0.z][p_idx].z;
       // For all points in b1
       loop_q: for( q_idx=0; q_idx< q_idx_range ; q_idx++ ) {
-        q = *(base_q + q_idx);
+        q.x = *(base_q_x + q_idx);
+        q.y = *(base_q_y + q_idx);
+        q.z = *(base_q_z + q_idx);
 
         // Don't compute our own
         if( q.x!=p.x || q.y!=p.y || q.z!=p.z ) {
@@ -72,9 +82,9 @@ void md( int n_points[blockSide][blockSide][blockSide],
   loop_copy_y: for( b0.y=0; b0.y<blockSide; b0.y++ ) {
   loop_copy_z: for( b0.z=0; b0.z<blockSide; b0.z++ ) {
     loop_copy_p: for( p_idx=0; p_idx<densityFactor; p_idx++ ) {
-      force[b0.x][b0.y][b0.z][p_idx].x = force_local[b0.x][b0.y][b0.z][p_idx].x ;
-      force[b0.x][b0.y][b0.z][p_idx].y = force_local[b0.x][b0.y][b0.z][p_idx].y ;
-      force[b0.x][b0.y][b0.z][p_idx].z = force_local[b0.x][b0.y][b0.z][p_idx].z ;
+      force_x[b0.x][b0.y][b0.z][p_idx] = force_local[b0.x][b0.y][b0.z][p_idx].x ;
+      force_y[b0.x][b0.y][b0.z][p_idx] = force_local[b0.x][b0.y][b0.z][p_idx].y ;
+      force_z[b0.x][b0.y][b0.z][p_idx] = force_local[b0.x][b0.y][b0.z][p_idx].z ;
     }
   }}}
 }

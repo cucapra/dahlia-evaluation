@@ -7,7 +7,7 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 void run_benchmark( void *vargs ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
-  md( args->n_points, args->force, args->position );
+  md( args->n_points, args->force_x, args->force_y, args->force_z, args->position_x, args->position_y, args->position_z );
 }
 
 /* Input format:
@@ -20,6 +20,8 @@ TYPE[blockSide^3*densityFactor]: positions
 void input_to_data(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
   char *p, *s;
+  dvector_t *position;
+
   // Zero-out everything.
   memset(vdata,0,sizeof(struct bench_args_t));
   // Load input string
@@ -29,18 +31,43 @@ void input_to_data(int fd, void *vdata) {
   parse_int32_t_array(s, (int32_t *)(data->n_points), blockSide*blockSide*blockSide);
 
   s = find_section_start(p,2);
-  STAC(parse_,TYPE,_array)(s, (double *)(data->position), 3*blockSide*blockSide*blockSide*densityFactor);
+  position = (dvector_t *)malloc(nBlocks*densityFactor*sizeof(dvector_t));
+  STAC(parse_,TYPE,_array)(s, (double *)(position), 3*blockSide*blockSide*blockSide*densityFactor);
+  for(int i = 0; i < blockSide; i++) {
+  for(int j = 0; j < blockSide; j++) {
+  for(int k = 0; k < blockSide; k++) {
+    for(int l = 0; l < densityFactor; l++) {
+        data->position_x[i][j][k][l] = position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].x;
+        data->position_y[i][j][k][l] = position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].y;
+        data->position_z[i][j][k][l] = position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].z;
+    }
+  }}}
+  free(position);
+  //STAC(parse_,TYPE,_array)(s, (double *)(data->position), 3*blockSide*blockSide*blockSide*densityFactor);
   free(p);
 }
 
 void data_to_input(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
+  dvector_t *position;
 
   write_section_header(fd);
   write_int32_t_array(fd, (int32_t *)(data->n_points), blockSide*blockSide*blockSide);
 
   write_section_header(fd);
-  STAC(write_,TYPE,_array)(fd, (double *)(data->position), 3*blockSide*blockSide*blockSide*densityFactor);
+  position = (dvector_t *)malloc(nBlocks*densityFactor*sizeof(dvector_t));
+  for(int i = 0; i < blockSide; i++) {
+  for(int j = 0; j < blockSide; j++) {
+  for(int k = 0; k < blockSide; k++) {
+    for(int l = 0; l < densityFactor; l++) {
+        position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].x = data->position_x[i][j][k][l];
+        position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].y = data->position_y[i][j][k][l];
+        position[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].z = data->position_z[i][j][k][l];
+    }
+  }}}
+  STAC(write_,TYPE,_array)(fd, (double *)(position), 3*blockSide*blockSide*blockSide*densityFactor);
+//  STAC(write_,TYPE,_array)(fd, (double *)(data->position), 3*blockSide*blockSide*blockSide*densityFactor);
+  free(position);
 
 }
 
@@ -52,21 +79,48 @@ TYPE[blockSide^3*densityFactor]: force
 void output_to_data(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
   char *p, *s;
+  dvector_t *force;
+
   // Zero-out everything.
   memset(vdata,0,sizeof(struct bench_args_t));
   // Load input string
   p = readfile(fd);
 
   s = find_section_start(p,1);
-  STAC(parse_,TYPE,_array)(s, (double *)data->force, 3*blockSide*blockSide*blockSide*densityFactor);
+  force = (dvector_t *)malloc(nBlocks*densityFactor*sizeof(dvector_t));
+  STAC(parse_,TYPE,_array)(s, (double *)force, 3*blockSide*blockSide*blockSide*densityFactor);
+//  STAC(parse_,TYPE,_array)(s, (double *)data->force, 3*blockSide*blockSide*blockSide*densityFactor);
+  for(int i = 0; i < blockSide; i++) {
+  for(int j = 0; j < blockSide; j++) {
+  for(int k = 0; k < blockSide; k++) {
+    for(int l = 0; l < densityFactor; l++) {
+        data->force_x[i][j][k][l] = force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].x; 
+        data->force_y[i][j][k][l] = force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].y; 
+        data->force_z[i][j][k][l] = force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].z; 
+    }
+  }}}
+  free(force);
   free(p);
 }
 
 void data_to_output(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
+  dvector_t *force;
 
   write_section_header(fd);
-  STAC(write_,TYPE,_array)(fd, (double *)data->force, 3*blockSide*blockSide*blockSide*densityFactor);
+  force = (dvector_t *)malloc(nBlocks*densityFactor*sizeof(dvector_t));
+  for(int i = 0; i < blockSide; i++) {
+  for(int j = 0; j < blockSide; j++) {
+  for(int k = 0; k < blockSide; k++) {
+    for(int l = 0; l < densityFactor; l++) {
+        force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].x = data->force_x[i][j][k][l]; 
+        force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].y = data->force_y[i][j][k][l]; 
+        force[(i*blockSide*blockSide+j*blockSide+k)*densityFactor+l].z = data->force_z[i][j][k][l]; 
+    }
+  }}}
+  STAC(write_,TYPE,_array)(fd, (double *)force, 3*blockSide*blockSide*blockSide*densityFactor);
+  free(force);
+  //STAC(write_,TYPE,_array)(fd, (double *)data->force, 3*blockSide*blockSide*blockSide*densityFactor);
 }
 
 int check_data( void *vdata, void *vref ) {
@@ -80,9 +134,9 @@ int check_data( void *vdata, void *vref ) {
     for(j=0; j<blockSide; j++) {
       for(k=0; k<blockSide; k++) {
         for(d=0; d<densityFactor; d++) {
-          diff_x = data->force[i][j][k][d].x - ref->force[i][j][k][d].x;
-          diff_y = data->force[i][j][k][d].y - ref->force[i][j][k][d].y;
-          diff_z = data->force[i][j][k][d].z - ref->force[i][j][k][d].z;
+          diff_x = data->force_x[i][j][k][d] - ref->force_x[i][j][k][d];
+          diff_y = data->force_y[i][j][k][d] - ref->force_y[i][j][k][d];
+          diff_z = data->force_z[i][j][k][d] - ref->force_z[i][j][k][d];
           has_errors |= (diff_x<-EPSILON) || (EPSILON<diff_x);
           has_errors |= (diff_y<-EPSILON) || (EPSILON<diff_y);
           has_errors |= (diff_z<-EPSILON) || (EPSILON<diff_z);
