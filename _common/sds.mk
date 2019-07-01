@@ -31,6 +31,8 @@ CLOCK_ID  := 3
 # The final executable name. We use the kernel name by default, but this can
 # be overridden.
 TARGET    ?= $(KERNEL)
+# The name assigned to the job is sent in this curl command flag.
+CURLFLAGS := -F hwname=$(KERNEL)
 
 # The ordinary (software) C++ compiler.
 CXX       := g++
@@ -39,9 +41,8 @@ CXXFLAGS  := -Wall -O3
 # Build the list of hardware kernels to compile, for SDSoC. When DIRECTIVE is
 # supplied, include the path to search for TCL directive files.
 HWLIST    := $(KERNEL) $(HW_SRCS)
-ifeq ($(DIRECTIVE),1)
-HWLIST    += -hls-tcl $(HWDIR)
-endif
+HWLIST    += -hls-tcl $(DIRECTIVES)
+CURLFLAGS += -F directives=$(DIRECTIVES)
 
 # The SDSoC compiler.
 SDSXX     := sds++
@@ -52,7 +53,7 @@ SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf $(PLATFORM) \
 # produce a bitstream.
 ifeq ($(ESTIMATE),1)
 SDSFLAGS  += -perf-est-hw-only
-CURLFLAGS := -F estimate=1
+CURLFLAGS += -F estimate=1
 endif
 
 # Set COMPILER (and a few other things) according to whether we're doing a
