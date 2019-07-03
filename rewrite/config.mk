@@ -6,6 +6,7 @@ BENCHMARKS=\
 	machsuite-kmp \
 	machsuite-md-knn \
 	machsuite-nw \
+	machsuite-sort-merge \
 	machsuite-sort-radix \
 	machsuite-spmv-crs \
 	machsuite-spmv-ellpack \
@@ -16,6 +17,5 @@ BENCHMARKS=\
 	machsuite-bfs-queue \
 	machsuite-fft-transpose \
 	machsuite-md-grid \
-	machsuite-sort-merge \
 	machsuite-stencil-stencil3d \
 

@@ -13,7 +13,14 @@ Add tripcount to all 5 loops naively for estimation (only adding for `merge` or 
 BRAM resource directives commented out as they break the flow. #35
 
 # REWRITE
-No change made
+After compiling the `.fuse` file
+```
+template <int N>
+using ap_int = int;
+```
+has to be added to the top of the generated cpp file for `ap_int` to be recognized.
+
+Using existing header file to use the baseline directives for estimate. Loop labels are also added for the same reason.
 
 # OPTIMIZED BASELINE
 No change made
