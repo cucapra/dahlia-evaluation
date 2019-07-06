@@ -10,7 +10,7 @@ import common
 BUILDBOT_JOBS_URL='http://gorgonzola.cs.cornell.edu:8000/jobs'
 
 # Written to when at least one benchmark upload fails.
-FAILED_JOBS="failure.txt"
+FAILED_JOBS="failure_batch.txt"
 
 # Run make command to submit jobs in Buildbot
 def batch_and_upload(benchmark_paths):
@@ -33,6 +33,8 @@ def batch_and_upload(benchmark_paths):
 
                 upload_cmd = ['curl', '-sS',
                               '-F', 'file=@{}'.format(archive_name),
+                              '-F', 'hwname={}'.format(bench),
+                              '-F', 'estimate=1',
                               '-F', 'skipseashell=1',
                               '-F', 'make=1',
                               BUILDBOT_JOBS_URL]
