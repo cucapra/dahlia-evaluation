@@ -1,6 +1,11 @@
+#ifdef __SDSCC__
+#include "ap_int.h"
+#else
 template < int N >
 using ap_int = int;
+#endif
 
+#pragma SDS data copy(val[0:NNZ])
 void spmv(double val[1666], ap_int<32> cols[1666], ap_int<32> row_delimiters[495], double vec[494], double out[494]) {
 
   double sum = 0.0;
@@ -17,6 +22,7 @@ void spmv(double val[1666], ap_int<32> cols[1666], ap_int<32> row_delimiters[495
     tmp_end = row_delimiters[(i + 1)];
     j = tmp_begin;
     while((j < tmp_end)) {
+#pragma HLS loop_tripcount max=494 min=0
       si = (val[j] * vec[cols[j]]);
       sum = (sum + si);
       j = (j + 1);

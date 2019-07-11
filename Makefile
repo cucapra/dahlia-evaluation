@@ -25,7 +25,6 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-gemm-blocked \
 	rewrite/machsuite-kmp \
 	rewrite/machsuite-md-knn \
-	rewrite/machsuite-nw \
 	rewrite/machsuite-sort-merge \
 	rewrite/machsuite-sort-radix \
 	rewrite/machsuite-spmv-crs \

@@ -1,6 +1,12 @@
+#ifdef __SDSCC__
+#include "ap_int.h"
+#else
 template < int N >
 using ap_int = int;
+#endif
 
+#pragma SDS data copy(m1[0:row_size][0:col_size])
+#pragma SDS data zero_copy(prod[0:row_size][0:col_size])
 void gemm(double m1[4096], double m2[4096], double prod[4096]) {
 
   double temp_x = 0.0;

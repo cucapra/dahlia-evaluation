@@ -4,8 +4,12 @@
 // N_EDGES: 4096
 // N_LEVELS: 10
 // MAX_LEVEL: INT8_MAX
+#ifdef __SDSCC__
+#include "ap_int.h"
+#else
 template < int N >
 using ap_int = int;
+#endif
 
 typedef struct {
   uint64_t dst;
@@ -15,6 +19,8 @@ typedef struct {
   uint64_t edge_end;
 } node_t;
 
+#pragma SDS data copy(nodes[0:N_NODES])
+#pragma SDS data zero_copy(level[0:N_NODES]) 
 void bfs(node_t nodes[256], edge_t edges[4096], uint64_t starting_node, signed char level[256], uint64_t level_counts[10]) {
 
   ap_int<1> cnt = 0;
@@ -38,6 +44,7 @@ void bfs(node_t nodes[256], edge_t edges[4096], uint64_t starting_node, signed c
         //---
         uint64_t e = tmp_begin;
         while((e < tmp_end)) {
+#pragma HLS loop_tripcount avg=12
           tmp_dst = edges[e].dst;
           tmp_level = level[tmp_dst];
           //---

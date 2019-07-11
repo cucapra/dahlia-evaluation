@@ -1,18 +1,18 @@
 BENCHMARKS=\
 	machsuite-bfs-bulk \
 	machsuite-fft-strided \
-	machsuite-gemm-ncubed \
 	machsuite-gemm-blocked \
+	machsuite-gemm-ncubed \
 	machsuite-kmp \
 	machsuite-md-knn \
-	machsuite-nw \
 	machsuite-sort-merge \
 	machsuite-sort-radix \
 	machsuite-spmv-crs \
 	machsuite-spmv-ellpack \
 	machsuite-stencil-stencil2d \
-	machsuite-viterbi
 	#machsuite-aes \
+	machsuite-nw \
+	machsuite-viterbi \
 	machsuite-backprop \
 	machsuite-bfs-queue \
 	machsuite-fft-transpose \

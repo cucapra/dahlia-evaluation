@@ -1,6 +1,11 @@
-template< int N >
+#ifdef __SDSCC__
+#include "ap_int.h"
+#else
+template < int N >
 using ap_int = int;
+#endif
 
+#pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])
 void fft(double real[1024], double img[1024], double real_twid[512], double img_twid[512]) {
 
   ap_int<32> even = 0;
@@ -16,6 +21,7 @@ void fft(double real[1024], double img[1024], double real_twid[512], double img_
   while((span != 0)) {
     odd = span;
     while((odd < 1024)) {
+#pragma HLS loop_tripcount max=1024 min=512
       odd = (odd | span);
       even = (odd ^ span);
       real_even = real[even];

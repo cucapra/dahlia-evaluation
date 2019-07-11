@@ -8,8 +8,7 @@ decl transition: bit<8>[25]; // Make this float
 decl emission: bit<8>[45]; // Make this float
 decl path: bit<8>[32];
 
-decl llike: bit<8>[32][5];
-
+let llike: bit<8>[32][5];
 let min_p: bit<8> = 0;
 let p: bit<8> = 0;
 let min_s: bit<8> = 0;

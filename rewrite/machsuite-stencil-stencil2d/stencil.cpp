@@ -1,5 +1,9 @@
+#ifdef __SDSCC__
+#include "ap_int.h"
+#else
 template < int N >
 using ap_int = int;
+#endif
 
 void stencil(ap_int<32> orig[8192], ap_int<32> sol[8192], ap_int<32> filter[9]) {
 
