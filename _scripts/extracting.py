@@ -7,17 +7,17 @@ import xml.etree.ElementTree as ET
 
 from rpt import RPTParser
 
-def performance_report(filepath):
+def performance_estimates(filepath):
     """
     perf.est files are xml files. We parse the file as XML data and extract
-    the hwLatency field and some resource fields
+    the hwLatency field and resource fields
     """
     resources = ['dsp', 'bram', 'lut', 'ff']
     resource_stats = ['used', 'total']
-    headers = ['hw_latency']
+    hdr = ['hw_latency']
     for resource in resources:
         for stat in resource_stats:
-            headers.append("{}_{}".format(resource, stat))
+            hdr.append("{}_{}".format(resource, stat))
 
     data = []
 
@@ -44,7 +44,7 @@ def performance_report(filepath):
                 data.append(resource_val)
 
         return {
-            "hdr": headers,
+            "hdr": hdr,
             "data": data
         }
 

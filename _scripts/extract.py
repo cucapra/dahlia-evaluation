@@ -11,25 +11,23 @@ import csv
 import shutil
 
 import common
-import reporting
+import extracting
 
 BUILDBOT_URL = 'http://gorgonzola.cs.cornell.edu:8000'
-METADATA_FIELDS = ['state', 'hw_basename']
-
-STATS_COLLECTION = [
-    { 'file': '_sds/est/perf.est', 'collect': reporting.performance_report }
+DATA_COLLECTION = [
+    { 'file': '_sds/est/perf.est', 'collect': extracting.performance_estimates },
 ]
 
 # Written to when at least one job fails to extract
 FAILURE = "failure_extract.txt"
 
-# Store the timing results
-TIMING = "timing.csv"
+# Store performance estimates
+REPORT = "batch_data.csv"
 
 def flatten(llst):
     return [val for lst in llst for val in lst]
 
-def get_metadata(job_id, metadata_fields):
+def get_metadata(job_id):
     """
     Downloads the configuration json located at BUILDBOT_URL/jobs/ and
     extracts metadata from it. Returns None if the download fails.
@@ -41,7 +39,7 @@ def get_metadata(job_id, metadata_fields):
 
     if res.returncode == 0:
         json_rep = json.loads(res.stdout)
-        return {field: json_rep[field] for field in metadata_fields}
+        return { 'state': json_rep['state'], 'hwname': json_rep['config']['hwname'] }
     else:
         return None
 
@@ -58,14 +56,13 @@ def download_files(base_dir, job_id, file_config):
 
     # Create the job download directory
     job_path = os.path.join(base_dir, job_id)
-    os.mkdir(job_path)
+    os.makedirs(job_path, exist_ok=True)
 
     logging.info("Extracting files for {} in {}".format(job_id, job_path))
 
     for conf in file_config:
         url = '{}/jobs/{}/files/code/{}'.format(BUILDBOT_URL, job_id, conf['file'])
-        local_file = re.sub('/', '-', conf['file'])
-        local_name = os.path.join(job_path, local_file)
+        local_name = os.path.join(job_path, os.path.basename(conf['file']))
         cmd = ['curl', '-sSf', '-o', local_name, url]
         res = subprocess.run(cmd, capture_output=True)
 
@@ -87,18 +84,19 @@ def extract_data(job_file):
     if not os.path.isfile(job_file):
         raise Exception("{} is not a file".format(job_file))
 
-    # Create a temporary directory to store downloaded files
-    tmp_dir = tempfile.mkdtemp()
-    logging.info("Create tmpdir {}".format(tmp_dir))
-
     csv_hdrs = None
     csv_data = []
 
     with open(job_file, "r+") as jobs:
         job_ids = jobs.read().split('\n')[:-1]
 
+    # Create a temporary directory to store downloaded files
+    batch_dir = os.path.join(os.getcwd(), 'extracted_data_' + job_ids[0])
+    os.makedirs(batch_dir, exist_ok=True)
+    logging.info("Create batchdir {}".format(batch_dir))
+
     for job_id in job_ids:
-        meta = get_metadata(job_id, METADATA_FIELDS)
+        meta = get_metadata(job_id)
         if not meta:
             logging.error(
                 'Could not get information for {}. Skipping file download.'.format(job_id))
@@ -108,12 +106,13 @@ def extract_data(job_file):
                 'Job {} in state {}. Skipping file download.'.format(job_id, meta['state']))
             failed_jobs.add(job_id)
         else:
-            hw_basename = meta['hw_basename']
-            sds_report = '_sds/reports/sds_{}.rpt'.format(hw_basename)
-            all_stats = STATS_COLLECTION + [
-                {'file': sds_report, 'collect': reporting.synthesis_report }
+            hwname = meta['hwname']
+            rptname = os.path.basename(hwname).split("-")[1]
+            sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
+            rpt_list = DATA_COLLECTION + [
+                    { 'file': sds_report, 'collect': extracting.synthesis_report }
             ]
-            res = download_files(tmp_dir, job_id, all_stats)
+            res = download_files(batch_dir, job_id, rpt_list)
             if not res['success']:
                 failed_jobs.add(job_id)
             else:
@@ -122,7 +121,7 @@ def extract_data(job_file):
                 if not csv_hdrs:
                     csv_hdrs = ['bench', 'job_id'] + hdrs
 
-                csv_data.append([hw_basename, job_id] + data)
+                csv_data.append([hwname, job_id] + data)
 
     # Log failed jobs to Faliure
     if failed_jobs:
@@ -130,14 +129,12 @@ def extract_data(job_file):
         with open(FAILURE, 'w') as failed:
             for job_id in failed_jobs:
                 print(job_id, file=failed)
-    # If everything went fine, delete the tmp directory
-    else:
-        shutil.rmtree(tmp_dir)
 
     # Write timing data to csv
-    with open(TIMING, 'w') as timing:
-        logging.info("Writing timing data to {}".format(TIMING))
-        writer = csv.writer(timing)
+    report_path = os.path.join(batch_dir, REPORT)
+    with open(report_path, 'w') as report:
+        logging.info("Writing estimate data to {}".format(REPORT))
+        writer = csv.writer(report)
         writer.writerow(csv_hdrs)
         writer.writerows(csv_data)
 
