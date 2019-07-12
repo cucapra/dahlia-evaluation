@@ -1,4 +1,4 @@
-.PHONY: resume all extract clean
+.PHONY: resume all extract clean fuse
 
 BENCHMARKS := baseline/machsuite-aes \
 	baseline/machsuite-backprop \
@@ -48,3 +48,11 @@ resume-extract:
 
 clean:
 	rm -rf $(JOBS)
+
+# Build Fuse source for each benchmark that has it.
+fuse:
+	@for bench in $(BENCHMARKS) ; do \
+		if [ -f $$bench/*.fuse ] ; then \
+			make -C $$bench fuse ; \
+		fi ; \
+	done
