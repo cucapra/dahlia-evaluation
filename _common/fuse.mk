@@ -9,4 +9,4 @@ FUSE := ../../../seashell/target/scala-2.12/fuse.jar
 # to be an exclusively manual process.
 .PHONY: fuse
 fuse:
-	$(FUSE) $(HW_SRCS:%.cpp=%.fuse) -o $(HW_SRCS)
+	$(FUSE) -n $(KERNEL) $(HW_SRCS:%.cpp=%.fuse) -o $(HW_SRCS)
