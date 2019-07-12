@@ -14,6 +14,8 @@ Use the top-level Makefile to run all the benchmarks.
 - `make resume-batch` and `make resume-extract` will re-run
   re-runs the respective scripts with failure logs.
 
+There is also a `make fuse` target to recompile all the source code to HLS C++.
+
 
 ## Benchmarking Scripts
 

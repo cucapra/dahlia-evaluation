@@ -5,4 +5,4 @@ DIRECTIVES       = $(KERNEL)_dir
 DATA             = input.data check.data
 
 include sds.mk
-
+-include fuse.mk
