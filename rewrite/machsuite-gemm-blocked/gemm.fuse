@@ -1,12 +1,12 @@
 decor "#pragma SDS data copy(m1[0:row_size][0:col_size])"
 decor "#pragma SDS data zero_copy(prod[0:row_size][0:col_size])"
 
-decl m1: float[4096];
-decl m2: float[4096];
-decl prod: float[4096];
+decl m1: double[4096];
+decl m2: double[4096];
+decl prod: double[4096];
 
-let temp_x:float = 0.0;
-let mul:float = 0.0;
+let temp_x:double = 0.0;
+let mul:double = 0.0;
 
 let i_row:bit<32> = 0;
 let k_row:bit<32> = 0;
