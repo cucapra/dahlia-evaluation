@@ -3,32 +3,32 @@ def soft_max(net_outputs: float[3], activations: float[3]) {
     for(let i=0..3) {
         sum := sum - activations[i];
     }
-		---
+    ---
     for(let i=0..3) {
         net_outputs[i] := ((0.0-1.0) * activations[i]) / sum;
     }
 }
 
 def RELU(activations: float[64], dactivations: float[64], size: bit<32>) {
-		let i = 0;
-		while (i < size) {
-				let temp = activations[i];
-				---
+    let i = 0;
+    while (i < size) {
+        let temp = activations[i];
+        ---
         dactivations[i] := temp * (1.0-temp);
         activations[i] := 1.0 / (1.0-temp);
-				i := i + 1;
+        i := i + 1;
     }
 }
 
 def add_bias_to_activations(biases: float[64],
                                activations: float[64],
                                size: bit<32>) {
-		let i = 0;
-		while (i < size) {
-				let temp = activations[i];
-				---
+    let i = 0;
+    while (i < size) {
+        let temp = activations[i];
+        ---
         activations[i] := temp + biases[i];
-				i := i + 1;
+        i := i + 1;
     }
 }
 
@@ -38,14 +38,14 @@ def matrix_vector_product_with_bias_input_layer(biases: float[64],
                                                  input_sample: float[13]){
     for(let j = 0..64) {
         activations[j] := 0.0;
-				---
+        ---
         for (let i = 0..13) {
-						let temp = activations[j];
-						---
+            let temp = activations[j];
+            ---
             activations[j] := temp + weights[j*13 + i] * input_sample[i];
         }
     }
-		---
+    ---
     add_bias_to_activations(biases, activations, 64);
 }
 
@@ -55,14 +55,14 @@ def matrix_vector_product_with_bias_second_layer(biases: float[64],
                                                  input_activations: float[64]){
     for (let i = 0..64) {
         activations[i] := 0.0;
-				---
+        ---
         for(let j = 0..64) {
-				    let temp = activations[i];
-						---
+            let temp = activations[i];
+            ---
             activations[i] := temp + weights[i*64 + j] * input_activations[j];
         }
     }
-		---
+    ---
     add_bias_to_activations(biases, activations, 64);
 }
 
@@ -72,14 +72,14 @@ def matrix_vector_product_with_bias_output_layer(biases: float[3],
                                                  input_activations: float[64]){
     for(let j = 0..3) {
         activations[j] := 0.0;
-				---
+        ---
         for (let i = 0..64) {
-				    let temp = activations[j];
-						---
+            let temp = activations[j];
+            ---
             activations[j] := temp + weights[j*64 + i] * input_activations[i];
         }
     }
-		---
+    ---
     add_bias_to_activations(biases, activations, 3);
 }
 
@@ -108,15 +108,15 @@ def get_oracle_activations2(weights3: float[192],
                              dactivations: float[64]) {
     for(let i = 0..64) {
         oracle_activations[i] := 0.0;
-				---
+        ---
         for(let j = 0..3) {
-				    let temp = oracle_activations[i];
-						---
+            let temp = oracle_activations[i];
+            ---
             oracle_activations[i] := temp + output_differences[j] * weights3[i*3 + j];
         }
-				---
-				let temp = oracle_activations[i];
-				---
+        ---
+        let temp = oracle_activations[i];
+        ---
         oracle_activations[i] := temp * dactivations[i];
     }
 }
@@ -137,15 +137,15 @@ def get_oracle_activations1(weights2: float[4096],
                              dactivations: float[64]) {
     for(let i = 0..64) {
         oracle_activations[i] := 0.0;
-				---
+        ---
         for(let j = 0..64) {
-				    let temp = oracle_activations[i];
-						---
+            let temp = oracle_activations[i];
+            ---
             oracle_activations[i] := temp + output_differences[j] * weights2[i*64 + j];
         }
-				---
-				let temp = oracle_activations[i];
-				---
+        ---
+        let temp = oracle_activations[i];
+        ---
         oracle_activations[i] := temp * dactivations[i];
     }
 }
@@ -172,41 +172,41 @@ def update_weights(weights1: float[832],
                     d_biases1: float[64],
                     d_biases2: float[64],
                     d_biases3: float[3]) {
-		let norm: float = 0.0;
-		let bias_norm: float = 0.0;
+    let norm: float = 0.0;
+    let bias_norm: float = 0.0;
 
     for(let i=0..13) {
         for(let j = 0..64) {
-						let temp = weights1[i*64 + j];
-						---
+            let temp = weights1[i*64 + j];
+            ---
             weights1[i*64 + j] := temp - (d_weights1[i*64 + j] * 0.01);
-						---
-						let temp2 = weights1[i*64 + j];
-						---
+            ---
+            let temp2 = weights1[i*64 + j];
+            ---
             norm := norm + weights1[i*64 + j]*temp2;
         }
     }
     for(let i=0..64) {
-				let temp = biases1[i];
-				---
+        let temp = biases1[i];
+        ---
         biases1[i] := temp - (d_biases1[i]*0.01);
-				---
+        ---
         bias_norm := bias_norm + biases1[i]*biases1[i];
     }
 
     //norm := sqrt(norm);
     //bias_norm := sqrt(bias_norm);
-		---
+    ---
     for(let i=0..13) {
         for(let j = 0..64) {
-						let temp = weights1[i*64 + j];
-						---
+            let temp = weights1[i*64 + j];
+            ---
             weights1[i*64 + j] := (temp/norm);
         }
     }
     for(let i=0..64) {
-				let temp = biases1[i];
-				---
+        let temp = biases1[i];
+        ---
         biases1[i] := (temp/bias_norm);
     }
 
@@ -215,34 +215,34 @@ def update_weights(weights1: float[832],
 
     for(let i=0..64) {
         for(let j = 0..64) {
-						let temp = weights2[i*64 + j];
-						---
+            let temp = weights2[i*64 + j];
+            ---
             weights2[i*64 + j] := temp - (d_weights2[i*64 + j] * 0.01);
-						---
+            ---
             norm := norm + weights2[i*64 + j]*weights2[i*64 + j];
         }
     }
     for(let i=0..64) {
-				let temp = biases2[i];
-				---
+        let temp = biases2[i];
+        ---
         biases2[i] := temp - (d_biases2[i]*0.01);
-				---
+        ---
         bias_norm := bias_norm + biases2[i]*biases2[i];
     }
 
     //norm := sqrt(norm);
     //bias_norm := sqrt(bias_norm);
-		---
+    ---
     for(let i=0..64) {
         for(let j = 0..64) {
-						let temp = weights2[i*64 + j];
-						---
+            let temp = weights2[i*64 + j];
+            ---
             weights2[i*64 + j] := (temp/norm);
         }
     }
     for(let i=0..64) {
-				let temp = biases2[i];
-				---
+        let temp = biases2[i];
+        ---
         biases2[i] := (temp/bias_norm);
     }
 
@@ -251,34 +251,34 @@ def update_weights(weights1: float[832],
 
     for(let i=0..64) {
         for(let j = 0..3) {
-						let temp = weights3[i*3 + j];
-						---
+            let temp = weights3[i*3 + j];
+            ---
             weights3[i*3 + j] := temp - (d_weights3[i*3 + j] * 0.01);
-						---
+            ---
             norm := norm + weights3[i*3 + j]*weights3[i*3 + j];
         }
     }
     for(let i=0..3) {
-				let temp = biases3[i];
-				---
+        let temp = biases3[i];
+        ---
         biases3[i] := temp - d_biases3[i]*0.01;
-				---
+        ---
         bias_norm := bias_norm + biases3[i]*biases3[i];
     }
 
     //norm := sqrt(norm);
     //bias_norm := sqrt(bias_norm);
-		---
+    ---
     for(let i=0..64) {
         for(let j = 0..3) {
-						let temp = weights3[i*3 + j];
-						---
+            let temp = weights3[i*3 + j];
+            ---
             weights3[i*3 + j] := (temp/norm);
         }
     }
     for(let i=0..3) {
-				let temp = biases3[i];
-				---
+        let temp = biases3[i];
+        ---
         biases3[i] := (temp/bias_norm);
     }
 }
@@ -312,43 +312,43 @@ decl oracle_activations2: float[64];
 for (let i = 0..163) {
     for (let j = 0..3) {
         activations1[j] := 0.0;
-				---
+        ---
         activations2[j] := 0.0;
-				---
+        ---
         if (j < 3) {
-						let temp_idx = j;
+            let temp_idx = j;
             activations3[temp_idx] := 0.0;
         }
-		}
+    }
     for (let j = 4..64) {
         activations1[j] := 0.0;
-				---
+        ---
         activations2[j] := 0.0;
     }
     //matrix_vector_product_with_bias_input_layer(biases1, weights1, activations1, training_data[i*13]);
-		---
+    ---
     RELU(activations1, dactivations1, 64);
-		---
+    ---
     matrix_vector_product_with_bias_second_layer(biases2, weights2, activations2, activations1);
-		---
+    ---
     RELU(activations2, dactivations2, 64);
-		---
+    ---
     matrix_vector_product_with_bias_output_layer(biases3, weights3, activations3, activations2);
-		---
+    ---
     RELU(activations3, dactivations3, 3);
-		---
+    ---
     soft_max(net_outputs, activations3);
-		---
+    ---
     //take_difference(net_outputs, training_targets[i*3], output_difference, dactivations3);
     get_delta_matrix_weights3(delta_weights3, output_difference, activations2);
-		---
+    ---
     get_oracle_activations2(weights3, output_difference, oracle_activations2, dactivations2);
-		---
+    ---
     get_delta_matrix_weights2(delta_weights2, oracle_activations2, activations1);
-		---
+    ---
     get_oracle_activations1(weights2, oracle_activations2, oracle_activations1, dactivations1);
     //get_delta_matrix_weights1(delta_weights1, oracle_activations1, training_data[i*13]);
-		---
+    ---
     update_weights(weights1, weights2, weights3, delta_weights1, delta_weights2, delta_weights3,
-		               biases1, biases2, biases3, oracle_activations1, oracle_activations2, output_difference);
+                   biases1, biases2, biases3, oracle_activations1, oracle_activations2, output_difference);
 }

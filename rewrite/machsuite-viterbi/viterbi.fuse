@@ -20,18 +20,18 @@ for (let s = 1..5) {
 for (let t = 1..32) {
   for (let curr = 0..5) {
     for (let prev = 0..5) {
-		  if (prev == 0) {
+      if (prev == 0) {
         min_p := llike[t-1][prev] + transition[prev*5+curr] + emission[curr*9+obs[t]];
-			}
-			---
-			if (prev != 0) {
+      }
+      ---
+      if (prev != 0) {
         p := llike[t-1][prev] + transition[prev*5+curr] + emission[curr*9+obs[t]];
         if (p < min_p) {
            min_p := p;
         }
-			}
+      }
     }
-		---
+    ---
     llike[t][curr] := min_p;
   }
 }
@@ -51,7 +51,7 @@ let t = 30;
 while (t >= 0) {
   min_s := 0;
   min_p := llike[t][min_s] + transition[min_s*5+path[t+1]];
-	---
+  ---
   for (let s = 0..5) {
     p := llike[t][s] + transition[s*5+path[t+1]];
     if (p < min_p) {
@@ -59,6 +59,6 @@ while (t >= 0) {
       min_s := s;
     }
   }
-	---
+  ---
   path[t] := min_s;
 }

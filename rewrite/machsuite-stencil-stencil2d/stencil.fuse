@@ -7,13 +7,13 @@ let mul:bit<32> = 0;
 
 for (let r = 0..126) {
   for (let c = 0..62) {
-	  temp := 0;
-		for (let k1 = 0..3) {
-		  for (let k2 = 0..3) {
-			  mul := filter[k1*3 + k2] * orig[(r+k1) * 64 + c+k2];
-				temp := temp + mul;
-			}
-		}
-		sol[(r*64) + c] := temp;
-	}
+    temp := 0;
+    for (let k1 = 0..3) {
+      for (let k2 = 0..3) {
+        mul := filter[k1*3 + k2] * orig[(r+k1) * 64 + c+k2];
+        temp := temp + mul;
+      }
+    }
+    sol[(r*64) + c] := temp;
+  }
 }

@@ -42,8 +42,8 @@ for (let horizon = 0..50) {
           ---
           if (tmp_level == MAX_LEVEL) {
             level[tmp_dst] := horizon + 1;
-	          ---
-	          cnt := cnt + 1;
+            ---
+            cnt := cnt + 1;
           }
         }
       }

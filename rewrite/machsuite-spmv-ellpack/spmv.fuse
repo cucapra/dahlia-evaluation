@@ -7,10 +7,10 @@ let si:double = 0.0;
 
 for (let i = 0..494) {
   let sum:double = out[i];
-	for (let j = 0..10) {
-	  si := nzval[j + i*10] * vec[cols[j + i*10]];
-		sum := sum + si;
-	}
-	---
-	out[i] := sum;
+  for (let j = 0..10) {
+    si := nzval[j + i*10] * vec[cols[j + i*10]];
+    sum := sum + si;
+  }
+  ---
+  out[i] := sum;
 }

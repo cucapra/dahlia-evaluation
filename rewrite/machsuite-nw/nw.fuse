@@ -45,11 +45,11 @@ for (let b_idx = 0..129) {
 ---
 
 for (let b_idx = 1..129) {
-	for (let a_idx = 1..11) {
-		if (SEQA[a_idx-1] == SEQB[b_idx-1]) {
+  for (let a_idx = 1..11) {
+    if (SEQA[a_idx-1] == SEQB[b_idx-1]) {
       score := MATCH_SCORE;
-		}
-		---
+    }
+    ---
     if (SEQA[a_idx-1] != SEQB[b_idx-1]) {
     score := MISMATCH_SCORE;
     }
@@ -58,9 +58,9 @@ for (let b_idx = 1..129) {
     row    := (b_idx) * 11; // ALEN
 
     up_left := M[row_up + a_idx-1] + score;
-		---
+    ---
     up      := M[row_up + a_idx  ] + GAP_SCORE;
-		---
+    ---
     left    := M[row    + a_idx-1] + GAP_SCORE;
 
     max := left;
@@ -82,7 +82,7 @@ for (let b_idx = 1..129) {
     if (max != left && max != up) {
       ptr[row + a_idx] := ALIGN;
     }
-	}
+  }
 }
 ---
 let a_idx = 10; // ALEN
@@ -91,37 +91,37 @@ let b_idx = 128; // BLEN
 while (a_idx>0 || b_idx>0) {
   r := b_idx * 11;
 
-	a_str_idx := a_str_idx + 1;
-	b_str_idx := b_str_idx + 1;
+  a_str_idx := a_str_idx + 1;
+  b_str_idx := b_str_idx + 1;
 
-	if (ptr[r + a_idx] == ALIGN) {
+  if (ptr[r + a_idx] == ALIGN) {
     alignedA[a_str_idx] := SEQA[a_idx-1];
     alignedB[b_str_idx] := SEQB[b_idx-1];
-		a_idx := a_idx - 1;
-		b_idx := b_idx - 1;
-	}
+    a_idx := a_idx - 1;
+    b_idx := b_idx - 1;
+  }
   ---
-	if (ptr[r + a_idx] == SKIPB) {
+  if (ptr[r + a_idx] == SKIPB) {
     alignedA[a_str_idx] := SEQA[a_idx-1];
     alignedB[b_str_idx] := DASH;
-		a_idx := a_idx - 1;
-	}
+    a_idx := a_idx - 1;
+  }
   ---
-	if (ptr[r + a_idx] == SKIPA) {
-	  alignedA[a_str_idx] := DASH;
-	  alignedB[b_str_idx] := SEQB[b_idx-1];
-		b_idx := b_idx - 1;
-	}
+  if (ptr[r + a_idx] == SKIPA) {
+    alignedA[a_str_idx] := DASH;
+    alignedB[b_str_idx] := SEQB[b_idx-1];
+    b_idx := b_idx - 1;
+  }
   ---
-	while (a_str_idx < 138) {
+  while (a_str_idx < 138) {
     alignedA[a_str_idx] := UNDERSCORE;
     a_str_idx := a_str_idx + 1;
-	}
+  }
 
-	while (a_str_idx < 138) {
+  while (a_str_idx < 138) {
     alignedB[b_str_idx] := UNDERSCORE;
     b_str_idx := b_str_idx + 1;
-	}
+  }
 
 }
 

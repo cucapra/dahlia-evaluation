@@ -9,13 +9,13 @@ let mult: float = 0.0;
 
 for (let i = 0..64) {
   for (let j = 0..64) {
-	  i_col := i * 64;
-		let sum: float = 0.0;
-		for (let k = 0..64) {
-		  k_col := k * 64;
-			mult := m1[i_col + k] * m2[k_col + j];
-			sum := sum + mult;
-		}
+    i_col := i * 64;
+    let sum: float = 0.0;
+    for (let k = 0..64) {
+      k_col := k * 64;
+      mult := m1[i_col + k] * m2[k_col + j];
+      sum := sum + mult;
+    }
     prod[i_col + j] := sum;
-	}
+  }
 }
