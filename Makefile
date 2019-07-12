@@ -53,6 +53,7 @@ clean:
 fuse:
 	@for bench in $(BENCHMARKS) ; do \
 		if [ -f $$bench/*.fuse ] ; then \
+			echo $$bench ; \
 			make -C $$bench fuse ; \
 		fi ; \
 	done
