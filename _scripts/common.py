@@ -5,7 +5,7 @@ import os
 from contextlib import contextmanager
 
 OUT_DIR = 'results'
-JOBS_FILE = 'jobs.txt'
+JOBS_FILE = 'jobs.txt'  # The list of job IDs for a batch.
 
 
 def buildbot_url():

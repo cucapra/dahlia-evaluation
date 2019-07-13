@@ -18,11 +18,9 @@ DATA_COLLECTION = [
     },
 ]
 
-# Written to when at least one job fails to extract
-FAILURE = "failure_extract.txt"
-
-# Store performance estimates
-REPORT = "batch_data.csv"
+REPORT_FILE = "batch_data.csv"  # Final, aggregated results for the batch.
+DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
+FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
 
 def flatten(llst):
@@ -75,7 +73,7 @@ def download_files(base_dir, job_id, file_config):
         cmd = ['curl', '-sSf', '-o', local_name, url]
         res = subprocess.run(cmd, capture_output=True)
 
-        if res.returncode != 0:
+        if res.returncode:
             ret_obj['success'] = False
 
             logging.error(
@@ -87,35 +85,26 @@ def download_files(base_dir, job_id, file_config):
     return ret_obj
 
 
-def extract_data(job_file):
-    job_ids = []
-    failed_jobs = set()
-
+def extract_data(batch_dir):
+    # Load the list of job IDs for this batch.
+    job_file = os.path.join(batch_dir, common.JOBS_FILE)
     if not os.path.isfile(job_file):
         raise Exception("{} is not a file".format(job_file))
+    with open(job_file, "r") as jobs:
+        job_ids = jobs.read().strip().split('\n')
 
+    failed_jobs = set()
     csv_hdrs = None
     csv_data = []
 
-    with open(job_file, "r+") as jobs:
-        job_ids = jobs.read().split('\n')[:-1]
-
-    # Create a temporary directory to store downloaded files
-    batch_dir = os.path.join(os.getcwd(), 'extracted_data_' + job_ids[0])
-    os.makedirs(batch_dir, exist_ok=True)
-    logging.info("Create batchdir {}".format(batch_dir))
-
     for job_id in job_ids:
+        logging.info('Extracting %s', job_id)
         meta = get_metadata(job_id)
         if not meta:
-            logging.error(
-                'Could not get information for {}. '
-                'Skipping file download.'.format(job_id))
+            logging.error('Could not get information for %s.', job_id)
             failed_jobs.add(job_id)
         elif meta['state'] != 'done':
-            logging.error(
-                'Job {} in state {}. '
-                'Skipping file download.'.format(job_id, meta['state']))
+            logging.error('Job %s in state `%s`.', job_id, meta['state'])
             failed_jobs.add(job_id)
         else:
             hwname = meta['hwname']
@@ -125,7 +114,10 @@ def extract_data(job_file):
                 'file': sds_report,
                 'collect': extracting.synthesis_report,
             }]
-            res = download_files(batch_dir, job_id, rpt_list)
+            res = download_files(
+                os.path.join(batch_dir, DOWNLOAD_DIR),
+                job_id, rpt_list,
+            )
             if not res['success']:
                 failed_jobs.add(job_id)
             else:
@@ -136,19 +128,17 @@ def extract_data(job_file):
 
                 csv_data.append([hwname, job_id] + data)
 
-    # Log failed jobs to Faliure
+    # Log failed jobs to failure.
     if failed_jobs:
-        logging.warning(
-            'Some jobs failed. Writing job names to {}.'.format(FAILURE)
-        )
-        with open(FAILURE, 'w') as failed:
+        logging.warning('Failed jobs: %s', ', '.join(failed_jobs))
+        with open(os.path.join(batch_dir, FAILURE_FILE), 'w') as failed:
             for job_id in failed_jobs:
                 print(job_id, file=failed)
 
-    # Write timing data to csv
-    report_path = os.path.join(batch_dir, REPORT)
+    # Write out results.
+    report_path = os.path.join(batch_dir, REPORT_FILE)
     with open(report_path, 'w') as report:
-        logging.info("Writing estimate data to {}".format(REPORT))
+        logging.info("Writing data to {}".format(REPORT_FILE))
         writer = csv.writer(report)
         writer.writerow(csv_hdrs)
         writer.writerows(csv_data)
@@ -156,8 +146,8 @@ def extract_data(job_file):
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print('Script requires path to file containing jobs ids.\n'
-              'Usage: ./extract.py <jobs.txt>')
+        print('Script requires a path to a directory for the batch.\n'
+              'Usage: ./extract.py <batch-dir>')
         sys.exit(1)
 
     common.logging_setup()

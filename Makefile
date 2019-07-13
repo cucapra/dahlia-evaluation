@@ -42,7 +42,7 @@ resume-batch:
 	cat $(FAILED_BATCH) | xargs ./_scripts/batch.py
 
 extract:
-	./_scripts/extract.py $(JOBS) > $(FAILED_EX)
+	./_scripts/extract.py results/$(shell cat $(LAST_BATCH))
 
 resume-extract:
 	cat $(FAILED_EX) | xargs ./_scripts/extract.py
