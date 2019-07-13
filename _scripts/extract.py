@@ -83,15 +83,16 @@ def download_files(base_dir, job_id, file_config):
 
 def extract_job(batch_dir, job_id):
     """Extract information about a single job. Return a dict of
-    information to include about it or None if extraction fails.
+    information to include about it. The dict *at least* has an 'ok'
+    attribute, indicating whether the job is completely ready.
     """
     meta = get_metadata(job_id)
     if not meta:
         logging.error('Could not get information for %s.', job_id)
-        return None
+        return {'ok': False, 'error': 'job lookup failed'}
     elif meta['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, meta['state'])
-        return None
+        return {'ok': False, 'error': 'job in state {}'.format(meta['state'])}
 
     hwname = meta['hwname']
     rptname = os.path.basename(hwname).split("-")[1]
@@ -106,11 +107,11 @@ def extract_job(batch_dir, job_id):
     )
 
     if not success:
-        return None
+        return {'ok': False, 'error': 'data extraction failed'}
 
     data = {
+        'ok': True,
         'bench': hwname,
-        'job_id': job_id,
     }
 
     # Include the output data from each extractor.
@@ -129,14 +130,13 @@ def extract_batch(batch_dir):
         job_ids = jobs.read().strip().split('\n')
 
     failed_jobs = set()
-    json_data = []
+    json_data = {}
 
     for job_id in job_ids:
         logging.info('Extracting %s', job_id)
         data = extract_job(batch_dir, job_id)
-        if data:
-            json_data.append(data)
-        else:
+        json_data[job_id] = data
+        if not data['ok']:
             failed_jobs.add(job_id)
 
     # Log failed jobs to failure.
