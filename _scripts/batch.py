@@ -7,13 +7,15 @@ import logging
 
 import common
 
-BUILDBOT_JOBS_URL='http://gorgonzola.cs.cornell.edu:8000/jobs'
+BUILDBOT_JOBS_URL = 'http://gorgonzola.cs.cornell.edu:8000/jobs'
 
 # Written to when at least one benchmark upload fails.
-FAILED_JOBS="failure_batch.txt"
+FAILED_JOBS = "failure_batch.txt"
 
-# Run make command to submit jobs in Buildbot
+
 def batch_and_upload(benchmark_paths):
+    """Submit a batch of jobs to the Buildbot.
+    """
     cur_path = os.getcwd()
     job_ids = []
     failed_paths = []
@@ -26,7 +28,7 @@ def batch_and_upload(benchmark_paths):
             # Create zip with all the code.
             archive_name = os.path.basename(os.getcwd()) + ".zip"
             try:
-                create_arch = subprocess.run(
+                subprocess.run(
                     ['zip', '-r', archive_name, '.'],
                     capture_output=True,
                     check=True)
@@ -40,7 +42,8 @@ def batch_and_upload(benchmark_paths):
                               BUILDBOT_JOBS_URL]
 
                 # Upload the zip file to buildbot
-                upload = subprocess.run(upload_cmd, capture_output=True, check=True)
+                upload = subprocess.run(upload_cmd, capture_output=True,
+                                        check=True)
 
                 # Record the job id.
                 job_ids.append(upload.stdout.decode('utf-8'))
@@ -61,15 +64,18 @@ def batch_and_upload(benchmark_paths):
 
     if failed_paths:
         logging.warning(
-            "Some benchmarks failed. Creating {} with failed paths".format(FAILED_JOBS))
+            "Some benchmarks failed. Creating {} with "
+            "failed paths".format(FAILED_JOBS)
+        )
         with open(FAILED_JOBS, 'w') as failed:
             for path in failed_paths:
                 print(path, file=failed)
 
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("No benchmark paths provided." +
-              "\nUsage: ./batch.py <path-to-bench1> <path-to-bench2> ...")
+        print("No benchmark paths provided.\n"
+              "Usage: ./batch.py <path-to-bench1> <path-to-bench2> ...")
         sys.exit(1)
 
     common.logging_setup()
