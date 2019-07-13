@@ -1,3 +1,5 @@
+decor "#pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])"
+
 decl real: float[1024];
 decl img: float[1024];
 decl real_twid: float[512];
@@ -21,6 +23,7 @@ let odd:bit<32> = 0;
 while (span != 0) {
   odd := span;
   while (odd < 1024) {
+    decor "#pragma HLS loop_tripcount max=1024 min=512"
     odd := odd | span;
     even := odd ^ span;
     real_even := real[even];

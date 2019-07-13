@@ -1,3 +1,6 @@
+decor "#pragma SDS data copy(nzval[0:N*L])"
+decor "#pragma SDS data zero_copy(out[0:N])"
+
 decl nzval: double[4940];
 decl cols: bit<32>[4940];
 decl vec: double[494];

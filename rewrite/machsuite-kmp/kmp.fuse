@@ -3,11 +3,13 @@ def cpf(pattern: bit<8>[4], kmpNext: bit<32>[4]) {
   kmpNext[0] := 0;
   ---
   for (let q = 1..4) {
+    decor "#pragma HLS loop_tripcount max=4 min=0"
     let k_val = pattern[k];
     ---
     let q_val = pattern[q];
     ---
     while (k > 0 && k_val != q_val) {
+      decor "#pragma HLS loop_tripcount max=4 min=0"
       k := kmpNext[q];
       k_val := pattern[k];
       ---
@@ -21,6 +23,10 @@ def cpf(pattern: bit<8>[4], kmpNext: bit<32>[4]) {
   }
 }
 
+decor "#pragma SDS data copy(pattern[0:PATTERN_SIZE])"
+decor "#pragma SDS data zero_copy(kmpNext[0:PATTERN_SIZE], n_matches)"
+decor "#pragma SDS data zero_copy(input[0:STRING_SIZE])"
+
 decl pattern: bit<8>[4];
 decl input: bit<8>[32411];
 decl kmpNext: bit<32>[4];
@@ -31,7 +37,9 @@ cpf(pattern, kmpNext);
 ---
 let q:bit<32> = 0;
 for (let i = 0..32411) {
+  decor "#pragma HLS loop_tripcount max=32500 min=0"
   while (q > 0 && pattern[q] != input[i]) {
+    decor "#pragma HLS loop_tripcount max=32500 min=0"
     q := kmpNext[q];
   }
   ---

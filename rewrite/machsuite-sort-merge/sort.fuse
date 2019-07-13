@@ -1,20 +1,18 @@
-
-
-
-
-def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {   
-   let temp: bit<32>[2048]; 
+def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
+   let temp: bit<32>[2048];
     //let temp: float[2048];
    {
    let i: bit<16> = start;
    let j: bit<16> = m+1;
    ---
    while (i<=m){
+     decor "#pragma HLS loop_tripcount max=2048 min=0"
      temp[i] := a[i];
      i := i+1;
    }
    ---
    while (j<=stop){
+    decor "#pragma HLS loop_tripcount max=2048 min=0"
     temp[m+1+stop-j] := a[j];
     j := j+1;
    }
@@ -24,8 +22,9 @@ def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
    j := stop;
    ---
    while (k <= stop) {
+    decor "#pragma HLS loop_tripcount max=2048 min=0"
     let temp_j: bit<32>  = 0;
-    let temp_i: bit<32>  = 0; 
+    let temp_i: bit<32>  = 0;
     {
     temp_j := temp[j];
     ---
@@ -48,6 +47,8 @@ def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
 
 // sorting
 
+decor "#pragma SDS data zero_copy(a[0:SIZE])"
+
 decl a: bit<32>[2048];
 let start: bit<16> = 0;
 let stop: bit<16> = 2048;
@@ -57,11 +58,13 @@ let mid: bit<16> = 0;
 let to: bit<16> = 0;
 ---
 while (m < stop - start) {
+  decor "#pragma HLS loop_tripcount max=2048 min=0"
   let i = start;
   while (i < stop) {
+    decor "#pragma HLS loop_tripcount max=2048 min=0"
     from := i;
     mid := i+m-1;
-    to := i+m+m-1 
+    to := i+m+m-1
     ---
     if(to < stop){
      merge(a, from, mid, to);
