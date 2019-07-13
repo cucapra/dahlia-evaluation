@@ -95,31 +95,29 @@ def extract_job(batch_dir, job_id):
         }
 
     hwname = job['config']['hwname']
+
+    # Guess the location for the synthesis report.
     rptname = os.path.basename(hwname).split("-")[1]
     sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
     rpt_list = DATA_COLLECTION + [{
         'file': sds_report,
         'collect': extracting.synthesis_report,
     }]
+
+    # Download files and extract results.
     success, res_data = download_files(
         os.path.join(batch_dir, DOWNLOAD_DIR),
         job_id, rpt_list,
     )
-
     if not success:
-        return {
-            'ok': False,
-            'error': 'data extraction failed',
-            'job': job,
-        }
+        return {'ok': False, 'error': 'data extraction failed', 'job': job}
 
+    # Include the output data from each extractor.
     data = {
         'ok': True,
         'bench': hwname,
         'job': job,
     }
-
-    # Include the output data from each extractor.
     for part in res_data:
         data.update(part)
 
