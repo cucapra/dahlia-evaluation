@@ -31,11 +31,12 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-spmv-ellpack \
 	rewrite/machsuite-stencil-stencil2d
 JOBS := jobs.txt
+LAST_BATCH := last_batch.txt
 FAILED_BATCH := failure.txt
 FAILED_EX := failed-extract.txt
 
 all:
-	./_scripts/batch.py $(BENCHMARKS) > $(JOBS)
+	./_scripts/batch.py $(BENCHMARKS) > $(LAST_BATCH)
 
 resume-batch:
 	cat $(FAILED_BATCH) | xargs ./_scripts/batch.py
@@ -47,7 +48,7 @@ resume-extract:
 	cat $(FAILED_EX) | xargs ./_scripts/extract.py
 
 clean:
-	rm -rf $(JOBS)
+	rm -rf $(LAST_BATCH)
 
 # Build Fuse source for each benchmark that has it.
 fuse:

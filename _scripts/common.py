@@ -4,6 +4,9 @@ import os
 
 from contextlib import contextmanager
 
+OUT_DIR = 'results'
+JOBS_FILE = 'jobs.txt'
+
 
 def buildbot_url():
     """Get the base URL for the Buildbot. We have a default, and it can

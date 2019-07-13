@@ -4,6 +4,7 @@ import subprocess
 import os
 import sys
 import logging
+import datetime
 
 import common
 
@@ -64,6 +65,7 @@ def batch_and_upload(benchmark_paths):
     job_ids = []
     failed_paths = []
 
+    # Submit all the benchmarks in this batch.
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
         job_id = submit(bench)
@@ -73,18 +75,25 @@ def batch_and_upload(benchmark_paths):
         else:
             failed_paths.append(bench)
 
-    # Print all resulting job ids on stdout.
-    for job_id in job_ids:
-        print(job_id)
+    # Create a directory for the batch.
+    batch_name = datetime.datetime.now().strftime('2019-07-13-17-13-09')
+    batch_dir = os.path.join(common.OUT_DIR, batch_name)
+    os.makedirs(batch_dir, exist_ok=True)
 
+    # The only thing we print to stdout is the name of the batch.
+    print(batch_name)
+
+    # Record the job IDs.
+    with open(os.path.join(batch_dir, common.JOBS_FILE), 'w') as f:
+        for job_id in job_ids:
+            print(job_id, file=f)
+
+    # Record any failures.
     if failed_paths:
-        logging.warning(
-            "Some benchmarks failed. Creating {} with "
-            "failed paths".format(FAILED_JOBS)
-        )
-        with open(FAILED_JOBS, 'w') as failed:
+        logging.warning('Submission failed for: %s', ', '.join(failed_paths))
+        with open(os.path.join(batch_dir, FAILED_JOBS), 'w') as f:
             for path in failed_paths:
-                print(path, file=failed)
+                print(path, file=f)
 
 
 if __name__ == '__main__':
