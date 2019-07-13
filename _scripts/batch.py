@@ -7,7 +7,7 @@ import logging
 
 import common
 
-BUILDBOT_JOBS_URL = 'http://gorgonzola.cs.cornell.edu:8000/jobs'
+BUILDBOT_JOBS_URL = common.buildbot_url() + '/jobs'
 
 # Written to when at least one benchmark upload fails.
 FAILED_JOBS = "failure_batch.txt"
