@@ -4,6 +4,7 @@ import os
 
 from contextlib import contextmanager
 
+
 @contextmanager
 def chdir(path):
     """Temporarily change the working directory (then change back).
@@ -12,6 +13,7 @@ def chdir(path):
     os.chdir(path)
     yield
     os.chdir(old_dir)
+
 
 def logging_setup():
     # Color for warning and error mesages
