@@ -16,23 +16,22 @@ FAILED_JOBS = "failure_batch.txt"
 def batch_and_upload(benchmark_paths):
     """Submit a batch of jobs to the Buildbot.
     """
-    cur_path = os.getcwd()
     job_ids = []
     failed_paths = []
 
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
-        filepath = os.path.join(cur_path, bench)
 
-        # Switch to benchmark directory and create a zip file
-        with common.chdir(filepath):
+        # Switch to benchmark directory to do the submission.
+        with common.chdir(bench):
             try:
                 # Create zip with all the code.
                 archive_name = os.path.basename(os.getcwd()) + ".zip"
                 subprocess.run(
                     ['zip', '-r', archive_name, '.'],
                     capture_output=True,
-                    check=True)
+                    check=True,
+                )
 
                 # Upload the zip file to Buildbot.
                 upload_cmd = ['curl', '-sS',
@@ -42,9 +41,22 @@ def batch_and_upload(benchmark_paths):
                               '-F', 'skipseashell=1',
                               '-F', 'make=1',
                               BUILDBOT_JOBS_URL]
-                upload = subprocess.run(upload_cmd, capture_output=True,
-                                        check=True)
+                upload = subprocess.run(
+                    upload_cmd,
+                    capture_output=True,
+                    check=True,
+                )
 
+            except subprocess.CalledProcessError as err:
+                failed_paths.append(bench)
+                logging.error(
+                    'Submission for %s failed: `%s` produced:\n%s',
+                    bench,
+                    ' '.join(err.cmd),
+                    err.stderr.decode('utf-8'),
+                )
+
+            else:
                 # Record the job id.
                 job_id = upload.stdout.decode('utf-8').strip()
                 job_ids.append(job_id)
@@ -52,14 +64,6 @@ def batch_and_upload(benchmark_paths):
                 # Clean up the zip file.
                 os.unlink(archive_name)
 
-            except subprocess.CalledProcessError as err:
-                failed_paths.append(bench)
-                logging.error(
-                    'Command `' + ' '.join(err.cmd) + '` failed with:\n' +
-                    err.stderr.decode('utf-8'))
-                logging.warning('Ignoring benchmark ' + filepath)
-
-            else:
                 logging.info('Submitted %s', job_id)
 
     # Print all resulting job ids on stdout.
