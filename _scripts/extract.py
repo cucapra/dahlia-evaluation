@@ -30,12 +30,12 @@ def flatten(llst):
 
 
 def get_metadata(job_id):
-    """Download the configuration JSON located at BUILDBOT_URL/jobs/ and
+    """Download the configuration JSON located at $BUILDBOT/jobs/ and
     extracts metadata from it. Return None if the download fails.
     """
     # Download the json information form job page. Capture the Json
     res = subprocess.run(
-        ['curl', '-sSf', '{}/jobs/{}'.format(BUILDBOT_URL, job_id)],
+        ['curl', '-sSf', '{}/jobs/{}'.format(common.buildbot_url(), job_id)],
         capture_output=True)
 
     if res.returncode == 0:
@@ -50,7 +50,7 @@ def get_metadata(job_id):
 
 def download_files(base_dir, job_id, file_config):
     """Download specified files for the job from
-    BUILDBOT_URL/jobs/<job_id>/files/code/<files>.
+    $BUILDBOT/jobs/<job_id>/files/code/<files>.
     to base_dir/job_id and runs the 'collect' method for each file.
 
     Return an object with the field 'success' and 'data'.
@@ -67,7 +67,7 @@ def download_files(base_dir, job_id, file_config):
 
     for conf in file_config:
         url = '{}/jobs/{}/files/code/{}'.format(
-            BUILDBOT_URL,
+            common.buildbot_url(),
             job_id,
             conf['file'],
         )
