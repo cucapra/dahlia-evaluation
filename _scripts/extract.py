@@ -5,7 +5,6 @@ import os
 import sys
 import logging
 import json
-import csv
 
 import common
 import extracting
@@ -18,13 +17,9 @@ DATA_COLLECTION = [
     },
 ]
 
-REPORT_FILE = "batch_data.csv"  # Final, aggregated results for the batch.
+RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
-
-
-def flatten(llst):
-    return [val for lst in llst for val in lst]
 
 
 def get_metadata(job_id):
@@ -94,8 +89,7 @@ def extract_data(batch_dir):
         job_ids = jobs.read().strip().split('\n')
 
     failed_jobs = set()
-    csv_hdrs = None
-    csv_data = []
+    json_data = []
 
     for job_id in job_ids:
         logging.info('Extracting %s', job_id)
@@ -121,12 +115,16 @@ def extract_data(batch_dir):
             if not res['success']:
                 failed_jobs.add(job_id)
             else:
-                data = flatten(d['data'] for d in res['data'])
-                hdrs = flatten(d['hdr'] for d in res['data'])
-                if not csv_hdrs:
-                    csv_hdrs = ['bench', 'job_id'] + hdrs
+                data = {
+                    'bench': hwname,
+                    'job_id': job_id,
+                }
 
-                csv_data.append([hwname, job_id] + data)
+                # Include the output data from each extractor.
+                for part in res['data']:
+                    data.update(part)
+
+                json_data.append(data)
 
     # Log failed jobs to failure.
     if failed_jobs:
@@ -136,12 +134,10 @@ def extract_data(batch_dir):
                 print(job_id, file=failed)
 
     # Write out results.
-    report_path = os.path.join(batch_dir, REPORT_FILE)
+    report_path = os.path.join(batch_dir, RESULTS_FILE)
     with open(report_path, 'w') as report:
-        logging.info("Writing data to {}".format(REPORT_FILE))
-        writer = csv.writer(report)
-        writer.writerow(csv_hdrs)
-        writer.writerows(csv_data)
+        logging.info("Writing data to {}".format(RESULTS_FILE))
+        json.dump(json_data, report, sort_keys=True, indent=2)
 
 
 if __name__ == '__main__':

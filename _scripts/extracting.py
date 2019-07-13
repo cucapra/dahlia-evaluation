@@ -11,41 +11,32 @@ def performance_estimates(filepath):
     """
     resources = ['dsp', 'bram', 'lut', 'ff']
     resource_stats = ['used', 'total']
-    hdr = ['hw_latency']
-    for resource in resources:
-        for stat in resource_stats:
-            hdr.append("{}_{}".format(resource, stat))
-
-    data = []
 
     with open(filepath) as file:
         src = file.read()
+    root = ET.fromstring(src)
 
-        root = ET.fromstring(src)
+    out = {}
 
-        # Extract hw_latency
-        hw = ''
-        graph = root.find('graph')
-        if graph:
-            hw = graph.attrib['hwLatency']
+    # Extract hardware latency.
+    hw = ''
+    graph = root.find('graph')
+    if graph:
+        hw = graph.attrib['hwLatency']
+    out['hw_latency'] = hw
 
-        data.append(hw)
+    # Extract all the resources.
+    for resource in resources:
+        res = root.find("./resources/resource[@name='{}']".format(
+            resource
+        ))
+        for resource_stat in resource_stats:
+            resource_val = ""
+            if res:
+                resource_val = res.attrib[resource_stat]
+            out["{}_{}".format(resource, resource_stat)] = resource_val
 
-        # Extract all the resources
-        for resource in resources:
-            res = root.find("./resources/resource[@name='{}']".format(
-                resource
-            ))
-            for resource_stat in resource_stats:
-                resource_val = ""
-                if res:
-                    resource_val = res.attrib[resource_stat]
-                data.append(resource_val)
-
-        return {
-            "hdr": hdr,
-            "data": data
-        }
+    return out
 
 
 def synthesis_report(filepath):
@@ -58,32 +49,15 @@ def synthesis_report(filepath):
     utilization_table = parser.get_table(
         re.compile(r'== Utilization Estimates'), 2)
 
-    # Extract relevant data
-    hdr = [
-        'target_clock',
-        'estimated_clock',
-        'min_latency',
-        'max_latency',
-        'pipelining',
-        'bram_used',
-        'dsp48_used',
-        'ff_used',
-        'lut_used'
-    ]
-
-    data = [
-        timing_table[-1][1],
-        timing_table[-1][2],
-        latency_table[-1][0],
-        latency_table[-1][1],
-        latency_table[-1][4],
-        utilization_table[-3][1],
-        utilization_table[-3][2],
-        utilization_table[-3][3],
-        utilization_table[-3][4]
-    ]
-
+    # Extract relevant data.
     return {
-        "hdr": hdr,
-        "data": data
+        'target_clock':    timing_table[-1][1],
+        'estimated_clock': timing_table[-1][2],
+        'min_latency':     latency_table[-1][0],
+        'max_latency':     latency_table[-1][1],
+        'pipelining':      latency_table[-1][4],
+        'bram_used':       utilization_table[-3][1],
+        'dsp48_used':      utilization_table[-3][2],
+        'ff_used':         utilization_table[-3][3],
+        'lut_used':        utilization_table[-3][4]
     }
