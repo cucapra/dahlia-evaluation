@@ -1,22 +1,22 @@
 decor "#pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])"
 
-decl real: float[1024];
-decl img: float[1024];
-decl real_twid: float[512];
-decl img_twid: float[512];
+decl real: double[1024];
+decl img: double[1024];
+decl real_twid: double[512];
+decl img_twid: double[512];
 
 let even:bit<32> = 0;
 let span:bit<32> = 1024 >> 1;
 let log:bit<32> = 0;
 let rootindex:bit<32> = 0;
 
-let temp:float = 0.0;
+let temp:double = 0.0;
 
 // Temporary variables for serial reading/writing
-let real_odd:float = 0.0;
-let real_even:float = 0.0;
-let img_even:float = 0.0;
-let img_odd:float = 0.0;
+let real_odd:double = 0.0;
+let real_even:double = 0.0;
+let img_even:double = 0.0;
+let img_odd:double = 0.0;
 
 let odd:bit<32> = 0;
 
