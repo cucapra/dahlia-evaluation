@@ -80,7 +80,46 @@ def download_files(base_dir, job_id, file_config):
     return ret_obj
 
 
-def extract_data(batch_dir):
+def extract_job(batch_dir, job_id):
+    """Extract information about a single job. Return a dict of
+    information to include about it or None if extraction fails.
+    """
+    meta = get_metadata(job_id)
+    if not meta:
+        logging.error('Could not get information for %s.', job_id)
+        return None
+    elif meta['state'] != 'done':
+        logging.error('Job %s in state `%s`.', job_id, meta['state'])
+        return None
+
+    hwname = meta['hwname']
+    rptname = os.path.basename(hwname).split("-")[1]
+    sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
+    rpt_list = DATA_COLLECTION + [{
+        'file': sds_report,
+        'collect': extracting.synthesis_report,
+    }]
+    res = download_files(
+        os.path.join(batch_dir, DOWNLOAD_DIR),
+        job_id, rpt_list,
+    )
+
+    if not res['success']:
+        return None
+
+    data = {
+        'bench': hwname,
+        'job_id': job_id,
+    }
+
+    # Include the output data from each extractor.
+    for part in res['data']:
+        data.update(part)
+
+    return data
+
+
+def extract_batch(batch_dir):
     # Load the list of job IDs for this batch.
     job_file = os.path.join(batch_dir, common.JOBS_FILE)
     if not os.path.isfile(job_file):
@@ -93,38 +132,11 @@ def extract_data(batch_dir):
 
     for job_id in job_ids:
         logging.info('Extracting %s', job_id)
-        meta = get_metadata(job_id)
-        if not meta:
-            logging.error('Could not get information for %s.', job_id)
-            failed_jobs.add(job_id)
-        elif meta['state'] != 'done':
-            logging.error('Job %s in state `%s`.', job_id, meta['state'])
-            failed_jobs.add(job_id)
+        data = extract_job(batch_dir, job_id)
+        if data:
+            json_data.append(data)
         else:
-            hwname = meta['hwname']
-            rptname = os.path.basename(hwname).split("-")[1]
-            sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
-            rpt_list = DATA_COLLECTION + [{
-                'file': sds_report,
-                'collect': extracting.synthesis_report,
-            }]
-            res = download_files(
-                os.path.join(batch_dir, DOWNLOAD_DIR),
-                job_id, rpt_list,
-            )
-            if not res['success']:
-                failed_jobs.add(job_id)
-            else:
-                data = {
-                    'bench': hwname,
-                    'job_id': job_id,
-                }
-
-                # Include the output data from each extractor.
-                for part in res['data']:
-                    data.update(part)
-
-                json_data.append(data)
+            failed_jobs.add(job_id)
 
     # Log failed jobs to failure.
     if failed_jobs:
@@ -147,4 +159,4 @@ if __name__ == '__main__':
         sys.exit(1)
 
     common.logging_setup()
-    extract_data(sys.argv[1])
+    extract_batch(sys.argv[1])
