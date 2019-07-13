@@ -2,6 +2,9 @@
 // N_STATES: 5
 // N_TOKENS 9
 
+decor "#pragma SDS data copy(obs[0:N_OBS])"
+decor "#pragma SDS data zero_copy(path[0:N_OBS])"
+
 decl obs: bit<8>[32];
 decl init: bit<8>[5]; // Make this float
 decl transition: bit<8>[25]; // Make this float
@@ -18,8 +21,11 @@ for (let s = 1..5) {
 }
 ---
 for (let t = 1..32) {
+  decor "#pragma HLS loop_tripcount avg=31"
   for (let curr = 0..5) {
+    decor "#pragma HLS loop_tripcount avg=5"
     for (let prev = 0..5) {
+      decor "#pragma HLS loop_tripcount avg=5"
       if (prev == 0) {
         min_p := llike[t-1][prev] + transition[prev*5+curr] + emission[curr*9+obs[t]];
       }
@@ -39,6 +45,7 @@ for (let t = 1..32) {
 min_p := llike[31][min_s];
 ---
 for (let s = 1..5) {
+  decor "#pragma HLS loop_tripcount avg=4"
   p := llike[31][s];
   if (p < min_p) {
     min_p := p;
@@ -49,10 +56,12 @@ path[31] := min_s;
 ---
 let t = 30;
 while (t >= 0) {
+  decor "#pragma HLS loop_tripcount avg=30"
   min_s := 0;
   min_p := llike[t][min_s] + transition[min_s*5+path[t+1]];
   ---
   for (let s = 0..5) {
+    decor "#pragma HLS loop_tripcount avg=5"
     p := llike[t][s] + transition[s*5+path[t+1]];
     if (p < min_p) {
       min_p := p;

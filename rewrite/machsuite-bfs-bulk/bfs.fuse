@@ -7,6 +7,9 @@ record node_t {
   edge_end: bit<32>
 }
 
+decor "#pragma SDS data copy(nodes[0:N_NODES])"
+decor "#pragma SDS data zero_copy(level[0:N_NODES])"
+
 decl nodes: node_t[50];
 decl edges: edge_t[50];
 decl starting_node: bit<32>;
@@ -36,6 +39,7 @@ for (let horizon = 0..50) {
       tmp_end := nodes[n].edge_end;
       ---
       for (let e = 0..50) { // FIXME: find upper bound
+        decor "#pragma HLS loop_tripcount avg=12"
         if (e >= tmp_begin && e <= tmp_end) {
           tmp_dst := edges[e].dst;
           tmp_level := level[tmp_dst];

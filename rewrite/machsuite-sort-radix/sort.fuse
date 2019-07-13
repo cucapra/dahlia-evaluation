@@ -85,6 +85,8 @@ def update(b: bit<32>[2048], bucket: bit<32>[2048], a: bit<32>[2048], exp: bit<3
   }
 }
 
+decor "#pragma SDS data zero_copy(a[0:SIZE], b[0:SIZE], bucket[0:BUCKETSIZE], sum[0:SCAN_RADIX])"
+
 decl a: bit<32>[2048];
 decl b: bit<32>[2048];
 decl bucket: bit<32>[2048];

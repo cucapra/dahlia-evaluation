@@ -1,3 +1,6 @@
+decor "#pragma SDS data copy(m1[0:row_size][0:col_size])"
+decor "#pragma SDS data zero_copy(prod[0:row_size][0:col_size])"
+
 decl m1: float[4096];
 decl m2: float[4096];
 decl prod: float[4096];
