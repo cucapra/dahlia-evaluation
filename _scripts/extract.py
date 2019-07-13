@@ -88,7 +88,11 @@ def extract_job(batch_dir, job_id):
         return {'ok': False, 'error': 'job lookup failed'}
     elif job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
-        return {'ok': False, 'error': 'job in state {}'.format(job['state'])}
+        return {
+            'ok': False,
+            'error': 'job in state {}'.format(job['state']),
+            'job': job,
+        }
 
     hwname = job['config']['hwname']
     rptname = os.path.basename(hwname).split("-")[1]
@@ -103,11 +107,16 @@ def extract_job(batch_dir, job_id):
     )
 
     if not success:
-        return {'ok': False, 'error': 'data extraction failed'}
+        return {
+            'ok': False,
+            'error': 'data extraction failed',
+            'job': job,
+        }
 
     data = {
         'ok': True,
         'bench': hwname,
+        'job': job,
     }
 
     # Include the output data from each extractor.
