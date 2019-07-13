@@ -46,11 +46,12 @@ def download_files(base_dir, job_id, file_config):
     $BUILDBOT/jobs/<job_id>/files/code/<files>.
     to base_dir/job_id and runs the 'collect' method for each file.
 
-    Return an object with the field 'success' and 'data'.
-    'success' is False is there was at least one failure. 'data' contains the
-    result of calling 'collect' on the filepath.
+    Return a Boolean success flag (which is false if there was at least
+    one failure) and a list of outputs (the result of calling `collect` on
+    each file path).
     """
-    ret_obj = {"success": True, "data": []}
+    success = True
+    out_data = []
 
     # Create the job download directory
     job_path = os.path.join(base_dir, job_id)
@@ -69,15 +70,15 @@ def download_files(base_dir, job_id, file_config):
         res = subprocess.run(cmd, capture_output=True)
 
         if res.returncode:
-            ret_obj['success'] = False
+            success = False
 
             logging.error(
                 'Failed to download {} for job {} with error {}'.format(
                     conf['file'], job_id, res.stderr.decode('utf-8')))
         else:
-            ret_obj['data'].append(conf['collect'](local_name))
+            out_data.append(conf['collect'](local_name))
 
-    return ret_obj
+    return success, out_data
 
 
 def extract_job(batch_dir, job_id):
@@ -99,12 +100,12 @@ def extract_job(batch_dir, job_id):
         'file': sds_report,
         'collect': extracting.synthesis_report,
     }]
-    res = download_files(
+    success, res_data = download_files(
         os.path.join(batch_dir, DOWNLOAD_DIR),
         job_id, rpt_list,
     )
 
-    if not res['success']:
+    if not success:
         return None
 
     data = {
@@ -113,7 +114,7 @@ def extract_job(batch_dir, job_id):
     }
 
     # Include the output data from each extractor.
-    for part in res['data']:
+    for part in res_data:
         data.update(part)
 
     return data
