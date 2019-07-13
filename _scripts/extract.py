@@ -23,22 +23,18 @@ FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
 
 def get_metadata(job_id):
-    """Download the configuration JSON located at $BUILDBOT/jobs/ and
-    extracts metadata from it. Return None if the download fails.
+    """Download the configuration JSON located at $BUILDBOT/jobs/.
+    Return None if the download fails.
     """
     # Download the json information form job page. Capture the Json
     res = subprocess.run(
         ['curl', '-sSf', '{}/jobs/{}'.format(common.buildbot_url(), job_id)],
         capture_output=True)
 
-    if res.returncode == 0:
-        json_rep = json.loads(res.stdout)
-        return {
-            'state': json_rep['state'],
-            'hwname': json_rep['config']['hwname'],
-        }
-    else:
+    if res.returncode:
         return None
+    else:
+        return json.loads(res.stdout)
 
 
 def download_files(base_dir, job_id, file_config):
@@ -86,15 +82,15 @@ def extract_job(batch_dir, job_id):
     information to include about it. The dict *at least* has an 'ok'
     attribute, indicating whether the job is completely ready.
     """
-    meta = get_metadata(job_id)
-    if not meta:
+    job = get_metadata(job_id)
+    if not job:
         logging.error('Could not get information for %s.', job_id)
         return {'ok': False, 'error': 'job lookup failed'}
-    elif meta['state'] != 'done':
-        logging.error('Job %s in state `%s`.', job_id, meta['state'])
-        return {'ok': False, 'error': 'job in state {}'.format(meta['state'])}
+    elif job['state'] != 'done':
+        logging.error('Job %s in state `%s`.', job_id, job['state'])
+        return {'ok': False, 'error': 'job in state {}'.format(job['state'])}
 
-    hwname = meta['hwname']
+    hwname = job['config']['hwname']
     rptname = os.path.basename(hwname).split("-")[1]
     sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
     rpt_list = DATA_COLLECTION + [{
