@@ -121,8 +121,8 @@ def extract_data(batch_dir):
             if not res['success']:
                 failed_jobs.add(job_id)
             else:
-                data = flatten(map(lambda d: d['data'], res['data']))
-                hdrs = flatten(map(lambda d: d['hdr'], res['data']))
+                data = flatten(d['data'] for d in res['data'])
+                hdrs = flatten(d['hdr'] for d in res['data'])
                 if not csv_hdrs:
                     csv_hdrs = ['bench', 'job_id'] + hdrs
 
