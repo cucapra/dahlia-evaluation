@@ -30,22 +30,21 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-spmv-crs \
 	rewrite/machsuite-spmv-ellpack \
 	rewrite/machsuite-stencil-stencil2d
-JOBS := jobs.txt
+
 LAST_BATCH := last_batch.txt
-FAILED_BATCH := failure.txt
-FAILED_EX := failed-extract.txt
 
 all:
 	./_scripts/batch.py $(BENCHMARKS) > $(LAST_BATCH)
 
 resume-batch:
-	cat $(FAILED_BATCH) | xargs ./_scripts/batch.py
+	cat $(FAILED_BATCH) | xargs
+	./_scripts/batch.py results/$(shell cat $(LAST_BATCH))/failure_batch.txt
 
 extract:
 	./_scripts/extract.py results/$(shell cat $(LAST_BATCH))
 
 resume-extract:
-	cat $(FAILED_EX) | xargs ./_scripts/extract.py
+	./_scripts/extract.py results/$(shell cat $(LAST_BATCH))/failure_extract.txt
 
 clean:
 	rm -rf $(LAST_BATCH)
