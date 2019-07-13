@@ -9,7 +9,10 @@ import json
 import common
 import extracting
 
-BUILDBOT_URL = 'http://gorgonzola.cs.cornell.edu:8000'
+# Data files to collect and extract. In each, `file` is the path to a
+# file to download and analyze. `collect` is a function to call on the
+# downloaded file, which should return a dict of information to include
+# in the results.
 DATA_COLLECTION = [
     {
         'file': '_sds/est/perf.est',
