@@ -1,11 +1,8 @@
 import re
-import os
-import sys
-import csv
-import logging
 import xml.etree.ElementTree as ET
 
 from rpt import RPTParser
+
 
 def performance_estimates(filepath):
     """
@@ -36,10 +33,12 @@ def performance_estimates(filepath):
 
         # Extract all the resources
         for resource in resources:
-            res = root.find("./resources/resource[@name='{}']".format(resource))
+            res = root.find("./resources/resource[@name='{}']".format(
+                resource
+            ))
             for resource_stat in resource_stats:
                 resource_val = ""
-                if res != None:
+                if res:
                     resource_val = res.attrib[resource_stat]
                 data.append(resource_val)
 
@@ -48,8 +47,8 @@ def performance_estimates(filepath):
             "data": data
         }
 
-def synthesis_report(filepath):
 
+def synthesis_report(filepath):
     parser = RPTParser(filepath)
 
     timing_table = parser.get_table(
