@@ -4,13 +4,15 @@ import xml.etree.ElementTree as ET
 from rpt import RPTParser
 
 
+PERF_RESOURCES = ['dsp', 'bram', 'lut', 'ff']
+PERF_STATS = ['used', 'total']
+
+
 def performance_estimates(filepath):
     """
     perf.est files are xml files. We parse the file as XML data and extract
     the hwLatency field and resource fields
     """
-    resources = ['dsp', 'bram', 'lut', 'ff']
-    resource_stats = ['used', 'total']
 
     with open(filepath) as file:
         src = file.read()
@@ -26,15 +28,11 @@ def performance_estimates(filepath):
     out['hw_latency'] = hw
 
     # Extract all the resources.
-    for resource in resources:
-        res = root.find("./resources/resource[@name='{}']".format(
-            resource
-        ))
-        for resource_stat in resource_stats:
-            resource_val = ""
-            if res:
-                resource_val = res.attrib[resource_stat]
-            out["{}_{}".format(resource, resource_stat)] = resource_val
+    for resource in PERF_RESOURCES:
+        el = root.find("./resources/resource[@name='{}']".format(resource))
+        for stat in PERF_STATS:
+            value = el.attrib[stat] if el is not None else ''
+            out["{}_{}".format(resource, stat)] = value
 
     return out
 
