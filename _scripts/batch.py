@@ -76,7 +76,7 @@ def batch_and_upload(benchmark_paths):
             failed_paths.append(bench)
 
     # Create a directory for the batch.
-    batch_name = datetime.datetime.now().strftime('2019-07-13-17-13-09')
+    batch_name = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     batch_dir = os.path.join(common.OUT_DIR, batch_name)
     os.makedirs(batch_dir, exist_ok=True)
 
