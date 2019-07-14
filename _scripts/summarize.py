@@ -24,10 +24,14 @@ FIELDS = [
     'perf_ff',
     'synth_ff',
 ]
+BENCH_PREFIXES = ['machsuite-']  # Remove these prefixes for display.
 
 
 def summarize_one(job_results):
     bench_version, bench_name = job_results['bench'].split('/')
+    for prefix in BENCH_PREFIXES:
+        if bench_name.startswith(prefix):
+            bench_name = bench_name[len(prefix):]
 
     return {
         # Identify the job.
