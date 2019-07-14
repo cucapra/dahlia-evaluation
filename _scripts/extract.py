@@ -11,10 +11,11 @@ import extracting
 
 # Data files to collect and extract. In each, `file` is the path to a
 # file to download and analyze. `collect` is a function to call on the
-# downloaded file, which should return a dict of information to include
-# in the results.
+# downloaded file, which should return JSON-serializable information to
+# include in the results. `key` is the key to use in the result data.
 DATA_COLLECTION = [
     {
+        'key': 'perf',
         'file': '_sds/est/perf.est',
         'collect': extracting.performance_estimates,
     },
@@ -46,11 +47,11 @@ def download_files(base_dir, job_id, file_config):
     to base_dir/job_id and runs the 'collect' method for each file.
 
     Return a Boolean success flag (which is false if there was at least
-    one failure) and a list of outputs (the result of calling `collect` on
+    one failure) and a dict of outputs (the result of calling `collect` on
     each file path).
     """
     success = True
-    out_data = []
+    out_data = {}
 
     # Create the job download directory
     job_path = os.path.join(base_dir, job_id)
@@ -75,7 +76,7 @@ def download_files(base_dir, job_id, file_config):
                 'Failed to download {} for job {} with error {}'.format(
                     conf['file'], job_id, res.stderr.decode('utf-8')))
         else:
-            out_data.append(conf['collect'](local_name))
+            out_data[conf['key']] = conf['collect'](local_name)
 
     return success, out_data
 
@@ -103,6 +104,7 @@ def extract_job(batch_dir, job_id):
     rptname = os.path.basename(hwname).split("-")[1]
     sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
     rpt_list = DATA_COLLECTION + [{
+        'key': 'synthesis',
         'file': sds_report,
         'collect': extracting.synthesis_report,
     }]
@@ -115,16 +117,12 @@ def extract_job(batch_dir, job_id):
     if not success:
         return {'ok': False, 'error': 'data extraction failed', 'job': job}
 
-    # Include the output data from each extractor.
-    data = {
+    return {
         'ok': True,
         'bench': hwname,
         'job': job,
+        'results': res_data,
     }
-    for part in res_data:
-        data.update(part)
-
-    return data
 
 
 def extract_batch(batch_dir):
