@@ -38,13 +38,13 @@ all:
 
 resume-batch:
 	cat $(FAILED_BATCH) | xargs
-	./_scripts/batch.py results/$(shell cat $(LAST_BATCH))/failure_batch.txt
+	./_scripts/batch.py _results/$(shell cat $(LAST_BATCH))/failure_batch.txt
 
 extract:
-	./_scripts/extract.py results/$(shell cat $(LAST_BATCH))
+	./_scripts/extract.py _results/$(shell cat $(LAST_BATCH))
 
 resume-extract:
-	./_scripts/extract.py results/$(shell cat $(LAST_BATCH))/failure_extract.txt
+	./_scripts/extract.py _results/$(shell cat $(LAST_BATCH))/failure_extract.txt
 
 clean:
 	rm -rf $(LAST_BATCH)

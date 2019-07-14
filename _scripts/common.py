@@ -4,7 +4,7 @@ import os
 
 from contextlib import contextmanager
 
-OUT_DIR = 'results'
+OUT_DIR = '_results'
 JOBS_FILE = 'jobs.txt'  # The list of job IDs for a batch.
 
 

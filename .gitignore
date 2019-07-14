@@ -32,8 +32,8 @@
 *.app
 
 # Results.
-results/*/raw
-results/*/failure*
+_results/*/raw
+_results/*/failure*
 last_batch.txt
 
 __pycache__

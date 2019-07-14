@@ -31,7 +31,7 @@ Use it like this:
 
     ./_scripts/batch.py <benchpath1> <benchpath2> ...
 
-The script creates a new directory for the batch under `results/` named with a timestamp.
+The script creates a new directory for the batch under `_results/` named with a timestamp.
 It puts a list of job IDs in a file called `jobs.txt` there.
 It prints the name of the batch directory (i.e., the timestamp) to stdout.
 
@@ -42,7 +42,7 @@ Download results for a previously-submitted batch of benchmark jobs.
 On the command line, give the path to the batch directory.
 Like this:
 
-    ./_scripts/extract.py results/2019-07-13-17-13-09
+    ./_scripts/extract.py _results/2019-07-13-17-13-09
 
 The script downloads information about jobs from `jobs.txt` in that directory.
 It saves lots of extracted result values for the batch in a file called `results.json` there.
