@@ -1,58 +1,57 @@
 #!/usr/bin/env python3.7
 
 import subprocess
-import re
 import os
 import sys
-import tempfile
 import logging
 import json
-import csv
-import shutil
 
 import common
 import extracting
 
-BUILDBOT_URL = 'http://gorgonzola.cs.cornell.edu:8000'
+# Data files to collect and extract. In each, `file` is the path to a
+# file to download and analyze. `collect` is a function to call on the
+# downloaded file, which should return JSON-serializable information to
+# include in the results. `key` is the key to use in the result data.
 DATA_COLLECTION = [
-    { 'file': '_sds/est/perf.est', 'collect': extracting.performance_estimates },
+    {
+        'key': 'perf',
+        'file': '_sds/est/perf.est',
+        'collect': extracting.performance_estimates,
+    },
 ]
 
-# Written to when at least one job fails to extract
-FAILURE = "failure_extract.txt"
+RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
+DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
+FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
-# Store performance estimates
-REPORT = "batch_data.csv"
-
-def flatten(llst):
-    return [val for lst in llst for val in lst]
 
 def get_metadata(job_id):
-    """
-    Downloads the configuration json located at BUILDBOT_URL/jobs/ and
-    extracts metadata from it. Returns None if the download fails.
+    """Download the configuration JSON located at $BUILDBOT/jobs/.
+    Return None if the download fails.
     """
     # Download the json information form job page. Capture the Json
     res = subprocess.run(
-        ['curl', '-sSf', '{}/jobs/{}'.format(BUILDBOT_URL, job_id)],
+        ['curl', '-sSf', '{}/jobs/{}'.format(common.buildbot_url(), job_id)],
         capture_output=True)
 
-    if res.returncode == 0:
-        json_rep = json.loads(res.stdout)
-        return { 'state': json_rep['state'], 'hwname': json_rep['config']['hwname'] }
-    else:
+    if res.returncode:
         return None
+    else:
+        return json.loads(res.stdout)
+
 
 def download_files(base_dir, job_id, file_config):
-    """
-    Downloads specified files for the job from BUILDBOT_URL/jobs/<job_id>/files/code/<files>.
+    """Download specified files for the job from
+    $BUILDBOT/jobs/<job_id>/files/code/<files>.
     to base_dir/job_id and runs the 'collect' method for each file.
 
-    Returns an object with the field 'success' and 'data'.
-    'success' is False is there was at least one failure. 'data' contains the
-    result of calling 'collect' on the filepath.
+    Return a Boolean success flag (which is false if there was at least
+    one failure) and a dict of outputs (the result of calling `collect` on
+    each file path).
     """
-    ret_obj = { "success": True, "data": [] }
+    success = True
+    out_data = {}
 
     # Create the job download directory
     job_path = os.path.join(base_dir, job_id)
@@ -61,87 +60,108 @@ def download_files(base_dir, job_id, file_config):
     logging.info("Extracting files for {} in {}".format(job_id, job_path))
 
     for conf in file_config:
-        url = '{}/jobs/{}/files/code/{}'.format(BUILDBOT_URL, job_id, conf['file'])
+        url = '{}/jobs/{}/files/code/{}'.format(
+            common.buildbot_url(),
+            job_id,
+            conf['file'],
+        )
         local_name = os.path.join(job_path, os.path.basename(conf['file']))
         cmd = ['curl', '-sSf', '-o', local_name, url]
         res = subprocess.run(cmd, capture_output=True)
 
-        if res.returncode != 0:
-            ret_obj['success'] = False
+        if res.returncode:
+            success = False
 
             logging.error(
                 'Failed to download {} for job {} with error {}'.format(
                     conf['file'], job_id, res.stderr.decode('utf-8')))
         else:
-            ret_obj['data'].append(conf['collect'](local_name))
+            out_data[conf['key']] = conf['collect'](local_name)
 
-    return ret_obj
+    return success, out_data
 
-def extract_data(job_file):
-    job_ids = []
-    failed_jobs = set()
 
+def extract_job(batch_dir, job_id):
+    """Extract information about a single job. Return a dict of
+    information to include about it. The dict *at least* has an 'ok'
+    attribute, indicating whether the job is completely ready.
+    """
+    job = get_metadata(job_id)
+    if not job:
+        logging.error('Could not get information for %s.', job_id)
+        return {'ok': False, 'error': 'job lookup failed'}
+    elif job['state'] != 'done':
+        logging.error('Job %s in state `%s`.', job_id, job['state'])
+        return {
+            'ok': False,
+            'error': 'job in state {}'.format(job['state']),
+            'job': job,
+        }
+
+    hwname = job['config']['hwname']
+
+    # Guess the location for the synthesis report.
+    rptname = os.path.basename(hwname).split("-")[1]
+    sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
+    rpt_list = DATA_COLLECTION + [{
+        'key': 'synthesis',
+        'file': sds_report,
+        'collect': extracting.synthesis_report,
+    }]
+
+    # Download files and extract results.
+    success, res_data = download_files(
+        os.path.join(batch_dir, DOWNLOAD_DIR),
+        job_id, rpt_list,
+    )
+    if not success:
+        return {'ok': False, 'error': 'data extraction failed', 'job': job}
+
+    return {
+        'ok': True,
+        'bench': hwname,
+        'job': job,
+        'results': res_data,
+    }
+
+
+def extract_batch(batch_dir):
+    # Load the list of job IDs for this batch.
+    job_file = os.path.join(batch_dir, common.JOBS_FILE)
     if not os.path.isfile(job_file):
         raise Exception("{} is not a file".format(job_file))
+    with open(job_file, "r") as jobs:
+        job_ids = jobs.read().strip().split('\n')
 
-    csv_hdrs = None
-    csv_data = []
-
-    with open(job_file, "r+") as jobs:
-        job_ids = jobs.read().split('\n')[:-1]
-
-    # Create a temporary directory to store downloaded files
-    batch_dir = os.path.join(os.getcwd(), 'extracted_data_' + job_ids[0])
-    os.makedirs(batch_dir, exist_ok=True)
-    logging.info("Create batchdir {}".format(batch_dir))
+    failed_jobs = set()
+    json_data = {}
 
     for job_id in job_ids:
-        meta = get_metadata(job_id)
-        if not meta:
-            logging.error(
-                'Could not get information for {}. Skipping file download.'.format(job_id))
+        logging.info('Extracting %s', job_id)
+        data = extract_job(batch_dir, job_id)
+        json_data[job_id] = data
+        if not data['ok']:
             failed_jobs.add(job_id)
-        elif meta['state'] != 'done':
-            logging.error(
-                'Job {} in state {}. Skipping file download.'.format(job_id, meta['state']))
-            failed_jobs.add(job_id)
-        else:
-            hwname = meta['hwname']
-            rptname = os.path.basename(hwname).split("-")[1]
-            sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
-            rpt_list = DATA_COLLECTION + [
-                    { 'file': sds_report, 'collect': extracting.synthesis_report }
-            ]
-            res = download_files(batch_dir, job_id, rpt_list)
-            if not res['success']:
-                failed_jobs.add(job_id)
-            else:
-                data = flatten(map(lambda d: d['data'], res['data']))
-                hdrs = flatten(map(lambda d: d['hdr'], res['data']))
-                if not csv_hdrs:
-                    csv_hdrs = ['bench', 'job_id'] + hdrs
 
-                csv_data.append([hwname, job_id] + data)
-
-    # Log failed jobs to Faliure
+    # Log failed jobs to failure.
     if failed_jobs:
-        logging.warning('Some jobs failed. Writing job names to {}.'.format(FAILURE))
-        with open(FAILURE, 'w') as failed:
+        logging.warning('Failed jobs: %s', ', '.join(failed_jobs))
+        with open(os.path.join(batch_dir, FAILURE_FILE), 'w') as failed:
             for job_id in failed_jobs:
                 print(job_id, file=failed)
 
-    # Write timing data to csv
-    report_path = os.path.join(batch_dir, REPORT)
+    # Write out results.
+    report_path = os.path.join(batch_dir, RESULTS_FILE)
     with open(report_path, 'w') as report:
-        logging.info("Writing estimate data to {}".format(REPORT))
-        writer = csv.writer(report)
-        writer.writerow(csv_hdrs)
-        writer.writerows(csv_data)
+        logging.info("Writing data to {}".format(RESULTS_FILE))
+        json.dump(json_data, report, sort_keys=True, indent=2)
+
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:
-        print('Script requires path to file containing jobs ids.\nUsage ./extract.py <jobs.txt>')
+        print('Script requires a path to a directory for the batch.\n'
+              'Usage: ./extract.py <batch-dir>')
         sys.exit(1)
 
     common.logging_setup()
-    extract_data(sys.argv[1])
+    extract_batch(sys.argv[1])

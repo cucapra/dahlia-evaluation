@@ -20,26 +20,32 @@ There is also a `make fuse` target to recompile all the source code to HLS C++.
 ## Benchmarking Scripts
 
 The infrastructure for running benchmarks is under the `_scripts` directory.
+For these scripts, you can set a `BUILDBOT` environment variable to point to the URL of the running Buildbot instance.
 
 ### `batch.py`
 
-This script creates zip files for each benchmark path provided and uploads them
-to buildbot and prints out the resulting job ids to STDOUT. Each argument to the 
-script should be the path to a specific benchmark version in this repository, 
-for example- `baseline/machsuite-gemm-ncubed`.
+Submit a batch of benchmark jobs to the Buildbot.
 
-Usage:
+Each argument to the script should be the path to a specific benchmark version in this repository, like `baseline/machsuite-gemm-ncubed`.
+Use it like this:
 
-    ./batch.py <path-to-benchmark-version 1> <path-to-benchmark-version 2> ...
+    ./_scripts/batch.py <benchpath1> <benchpath2> ...
+
+The script creates a new directory for the batch under `results/` named with a timestamp.
+It puts a list of job IDs in a file called `jobs.txt` there.
+It prints the name of the batch directory (i.e., the timestamp) to stdout.
 
 ### `extract.py`
 
-Downloads results from buildbot given a file with job ids. The job ids file
-must contain one job id at each line.
+Download results for a previously-submitted batch of benchmark jobs.
 
-Usage:
+On the command line, give the path to the batch directory.
+Like this:
 
-    ./extract.py <jobs.txt>
+    ./_scripts/extract.py results/2019-07-13-17-13-09
+
+The script downloads information about jobs from `jobs.txt` in that directory.
+It saves lots of extracted result values for the batch in a file called `results.json` there.
 
 
 ## Directory Structure

@@ -4,6 +4,17 @@ import os
 
 from contextlib import contextmanager
 
+OUT_DIR = 'results'
+JOBS_FILE = 'jobs.txt'  # The list of job IDs for a batch.
+
+
+def buildbot_url():
+    """Get the base URL for the Buildbot. We have a default, and it can
+    be overridden with the `BUILDBOT` environment variable.
+    """
+    return os.environ.get('BUILDBOT', 'http://gorgonzola.cs.cornell.edu:8000')
+
+
 @contextmanager
 def chdir(path):
     """Temporarily change the working directory (then change back).
@@ -12,6 +23,7 @@ def chdir(path):
     os.chdir(path)
     yield
     os.chdir(old_dir)
+
 
 def logging_setup():
     # Color for warning and error mesages
