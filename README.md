@@ -47,6 +47,16 @@ Like this:
 The script downloads information about jobs from `jobs.txt` in that directory.
 It saves lots of extracted result values for the batch in a file called `results.json` there.
 
+### `summarize.py`
+
+Given some extracted data for a batch, summarize the results in a human-friendly CSV.
+
+Give the script the path to a `results.json`, like this:
+
+    ./_scripts/summarize.py _results/2019-07-13-17-13-09/results.json
+
+The script produces a file in the same directory called `summary.csv` with particularly relevant information pulled out.
+
 
 ## Directory Structure
 
