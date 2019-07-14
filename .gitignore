@@ -31,8 +31,10 @@
 *.out
 *.app
 
-failure*
-jobs.txt
+# Results.
+results/*/raw
+results/*/failure*
+last_batch.txt
 
 __pycache__
 
