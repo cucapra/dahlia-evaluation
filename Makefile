@@ -1,4 +1,4 @@
-.PHONY: resume all extract clean fuse
+.PHONY: resume all extract clean fuse summarize
 
 BENCHMARKS := baseline/machsuite-aes \
 	baseline/machsuite-backprop \
@@ -45,6 +45,9 @@ extract:
 
 resume-extract:
 	./_scripts/extract.py _results/$(shell cat $(LAST_BATCH))/failure_extract.txt
+
+summarize:
+	./_scripts/summarize.py _results/$(shell cat $(LAST_BATCH))/results.json
 
 clean:
 	rm -rf $(LAST_BATCH)
