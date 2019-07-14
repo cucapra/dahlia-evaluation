@@ -4,11 +4,13 @@ import json
 import csv
 import sys
 import os
+from collections import defaultdict
 
 OUT_CSV = 'summary.csv'
 FIELDS = [
     'bench',
     'version',
+    'status',
     'estimate',
     'perf_lut',
     'synth_lut',
@@ -31,25 +33,36 @@ def summarize_one(job_results):
         # Identify the job.
         'bench': bench_name,
         'version': bench_version,
+        'status': 'ok' if job_results['ok'] else 'error',
+
+        # Configuration for the job.
         'estimate': job_results['job']['config']['estimate'],
 
         # The results themselves.
         'perf_bram': job_results['results']['perf']['bram_used'],
-        'synth_bram': job_results['results']['synthesis']['bram_used'],
-
         'perf_dsp': job_results['results']['perf']['dsp_used'],
-        'synth_dsp': job_results['results']['synthesis']['dsp48_used'],
-
         'perf_ff': job_results['results']['perf']['ff_used'],
-        'synth_ff': job_results['results']['synthesis']['ff_used'],
-
         'perf_lut': job_results['results']['perf']['lut_used'],
-        'synth_lut': job_results['results']['synthesis']['lut_used'],
-
         'perf_lat': job_results['results']['perf']['hw_latency'],
+
+        'synth_bram': job_results['results']['synthesis']['bram_used'],
+        'synth_dsp': job_results['results']['synthesis']['dsp48_used'],
+        'synth_ff': job_results['results']['synthesis']['ff_used'],
+        'synth_lut': job_results['results']['synthesis']['lut_used'],
         'synth_lat_min': job_results['results']['synthesis']['min_latency'],
         'synth_lat_max': job_results['results']['synthesis']['max_latency'],
     }
+
+
+def find_missing(summaries, ref_version, seeking_version):
+    """Given a list of result summaries, find all the benchmarks that
+    have an entry for `ref_version` but *not* for `seeking_version`.
+    """
+    ref_benchmaks = {s['bench'] for s in summaries
+                     if s['version'] == ref_version}
+    seeking_benchmarks = {s['bench'] for s in summaries
+                          if s['version'] == seeking_version}
+    return ref_benchmaks - seeking_benchmarks
 
 
 def summarize(results_json):
@@ -59,6 +72,16 @@ def summarize(results_json):
 
     # Generate summaries.
     out = [summarize_one(j) for j in results_data.values()]
+
+    # Insert "blank" lines for missing benchmark versions.
+    for missing in find_missing(out, 'baseline', 'rewrite'):
+        out.append(defaultdict(str, {
+            'bench': missing,
+            'version': 'rewrite',
+            'status': 'missing',
+        }))
+
+    # Sort to group benchmarks together.
     out.sort(key=lambda r: (r['bench'], r['version']))
 
     # Dump CSV output.
