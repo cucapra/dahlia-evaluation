@@ -1,10 +1,10 @@
 record edge_t {
-  dst: bit<32>
+  dst: ubit<64>
 }
 
 record node_t {
-  edge_begin: bit<32>;
-  edge_end: bit<32>
+  edge_begin: ubit<64>;
+  edge_end: ubit<64>
 }
 
 decor "#pragma SDS data copy(nodes[0:N_NODES])"
@@ -12,17 +12,17 @@ decor "#pragma SDS data zero_copy(level[0:N_NODES])"
 
 decl nodes: node_t[50];
 decl edges: edge_t[50];
-decl starting_node: bit<32>;
-decl level: bit<32>[50];
-decl level_counts: bit<32>[50];
+decl starting_node: ubit<64>;
+decl level: bit<8>[50];
+decl level_counts: ubit<64>[50];
 
 let cnt = 0;
 
 // Temporary variables for serial updates
-let tmp_begin:bit<32> = 0;
-let tmp_end:bit<32>   = 0;
-let tmp_dst:bit<32>   = 0;
-let tmp_level:bit<32> = 0;
+let tmp_begin:ubit<64> = 0;
+let tmp_end:ubit<64>   = 0;
+let tmp_dst:ubit<64>   = 0;
+let tmp_level:bit<8> = 0;
 
 let MAX_LEVEL = 10;
 
