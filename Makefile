@@ -24,12 +24,15 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-gemm-ncubed \
 	rewrite/machsuite-gemm-blocked \
 	rewrite/machsuite-kmp \
+	rewrite/machsuite-md-grid \
 	rewrite/machsuite-md-knn \
+	rewrite/machsuite-nw \
 	rewrite/machsuite-sort-merge \
 	rewrite/machsuite-sort-radix \
 	rewrite/machsuite-spmv-crs \
 	rewrite/machsuite-spmv-ellpack \
-	rewrite/machsuite-stencil-stencil2d
+	rewrite/machsuite-stencil-stencil2d \
+	rewrite/machsuite-viterbi
 
 LAST_BATCH := last_batch.txt
 
