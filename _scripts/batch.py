@@ -13,8 +13,14 @@ BUILDBOT_JOBS_URL = common.buildbot_url() + '/jobs'
 # Written to when at least one benchmark upload fails.
 FAILED_JOBS = "failure_batch.txt"
 
+# POST fields to pass to the Buildbot during submission.
+OPTIONS = {
+    'skipseashell': '1',
+    'make': '1',
+}
 
-def submit(bench):
+
+def submit(bench, estimate):
     """Given a path to a benchmark, submit it and return either a job ID
     or None if submission failed.
     """
@@ -29,14 +35,21 @@ def submit(bench):
                 check=True,
             )
 
+            # Build up the job submission options.
+            options = dict(OPTIONS)
+            options.update({
+                'file': '@{}'.format(archive_name),
+                'hwname': bench,
+            })
+            if estimate:
+                options['estimate'] = '1'
+            else:
+                options['skipexec'] = '1'
+
             # Upload the zip file to Buildbot.
-            upload_cmd = ['curl', '-sS',
-                          '-F', 'file=@{}'.format(archive_name),
-                          '-F', 'hwname={}'.format(bench),
-                          '-F', 'estimate=1',
-                          '-F', 'skipseashell=1',
-                          '-F', 'make=1',
-                          BUILDBOT_JOBS_URL]
+            upload_cmd = ['curl', '-sS']
+            upload_cmd += ['-F{}={}'.format(k, v) for k, v in options.items()]
+            upload_cmd.append(BUILDBOT_JOBS_URL)
             upload = subprocess.run(
                 upload_cmd,
                 capture_output=True,
@@ -97,10 +110,21 @@ def batch_and_upload(benchmark_paths):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("No benchmark paths provided.\n"
-              "Usage: ./batch.py <path-to-bench1> <path-to-bench2> ...")
+    args = sys.argv[1:]
+
+    # Really bad option parsing.
+    if '-e' in args:
+        args.remove('-E')
+        estimate = False
+    else:
+        estimate = True
+
+    if not args:
+        print(
+            "No benchmark paths provided.\n"
+            "Usage: {} [-E] <bench1> <bench2> ...".format(sys.argv[0])
+        )
         sys.exit(1)
 
     common.logging_setup()
-    batch_and_upload(sys.argv[1:])
+    batch_and_upload(args, estimate)
