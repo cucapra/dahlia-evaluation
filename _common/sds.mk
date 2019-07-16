@@ -38,11 +38,16 @@ CURLFLAGS := -F hwname=$(KERNEL)
 CXX       := g++
 CXXFLAGS  := -Wall -O3
 
-# Build the list of hardware kernels to compile, for SDSoC. When DIRECTIVE is
-# supplied, include the path to search for TCL directive files.
+# Build the list of hardware kernels to compile, for SDSoC.
 HWLIST    := $(KERNEL) $(HW_SRCS)
+
+# When DIRECTIVES is supplied, include the filename of the standalone HLS
+# directives file.
+ifeq ($(DIRECTIVES),)
+else
 HWLIST    += -hls-tcl $(DIRECTIVES)
 CURLFLAGS += -F directives=$(DIRECTIVES)
+endif
 
 # The SDSoC compiler.
 SDSXX     := sds++
