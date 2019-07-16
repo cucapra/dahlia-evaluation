@@ -2,9 +2,9 @@
 
 import subprocess
 import os
-import sys
 import logging
 import datetime
+import argparse
 
 import common
 
@@ -72,7 +72,7 @@ def submit(bench, estimate):
             return upload.stdout.decode('utf-8').strip()
 
 
-def batch_and_upload(benchmark_paths):
+def batch_and_upload(benchmark_paths, estimate):
     """Submit a batch of jobs to the Buildbot.
     """
     job_ids = []
@@ -81,7 +81,7 @@ def batch_and_upload(benchmark_paths):
     # Submit all the benchmarks in this batch.
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
-        job_id = submit(bench)
+        job_id = submit(bench, estimate)
         if job_id:
             job_ids.append(job_id)
             logging.info('Submitted %s', job_id)
@@ -110,21 +110,11 @@ def batch_and_upload(benchmark_paths):
 
 
 if __name__ == '__main__':
-    args = sys.argv[1:]
-
-    # Really bad option parsing.
-    if '-e' in args:
-        args.remove('-E')
-        estimate = False
-    else:
-        estimate = True
-
-    if not args:
-        print(
-            "No benchmark paths provided.\n"
-            "Usage: {} [-E] <bench1> <bench2> ...".format(sys.argv[0])
-        )
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Submit Buildbot jobs.')
+    parser.add_argument('-E', help='full synthesis (not estimation)',
+                        action='store_false', dest='estimate')
+    parser.add_argument('bench', nargs='+')
+    opts = parser.parse_args()
 
     common.logging_setup()
-    batch_and_upload(args, estimate)
+    batch_and_upload(opts.bench, opts.estimate)
