@@ -20,7 +20,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "4",
         "dsp_total": "220",
@@ -31,7 +31,7 @@
         "lut_total": "53200",
         "lut_used": "7086"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "8",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -65,7 +65,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "49",
         "dsp_total": "220",
@@ -76,7 +76,7 @@
         "lut_total": "53200",
         "lut_used": "12650"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "66",
         "dsp48_used": "3",
         "estimated_clock": "6.26",
@@ -110,7 +110,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "5",
         "dsp_total": "220",
@@ -121,7 +121,7 @@
         "lut_total": "53200",
         "lut_used": "11952"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "10",
         "dsp48_used": "0",
         "estimated_clock": "12.68",
@@ -155,7 +155,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "17",
         "dsp_total": "220",
@@ -166,7 +166,7 @@
         "lut_total": "53200",
         "lut_used": "9833"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "2",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -200,7 +200,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "10",
         "dsp_total": "220",
@@ -211,7 +211,7 @@
         "lut_total": "53200",
         "lut_used": "7522"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "4",
         "dsp48_used": "3",
         "estimated_clock": "8.51",
@@ -245,7 +245,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "12",
         "dsp_total": "220",
@@ -256,7 +256,7 @@
         "lut_total": "53200",
         "lut_used": "13673"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "8",
         "dsp48_used": "56",
         "estimated_clock": "5.11",
@@ -290,7 +290,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "18",
         "dsp_total": "220",
@@ -301,7 +301,7 @@
         "lut_total": "53200",
         "lut_used": "11402"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "4",
         "dsp48_used": "14",
         "estimated_clock": "5.11",
@@ -335,7 +335,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "11",
         "dsp_total": "220",
@@ -346,7 +346,7 @@
         "lut_total": "53200",
         "lut_used": "7314"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "6",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -380,7 +380,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "44",
         "dsp_total": "220",
@@ -391,7 +391,7 @@
         "lut_total": "53200",
         "lut_used": "30770"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "24",
         "dsp48_used": "67",
         "estimated_clock": "6.84",
@@ -425,7 +425,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "16",
         "dsp_total": "220",
@@ -436,7 +436,7 @@
         "lut_total": "53200",
         "lut_used": "8868"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "3",
         "estimated_clock": "8.51",
@@ -470,7 +470,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "37",
         "dsp_total": "220",
@@ -481,7 +481,7 @@
         "lut_total": "53200",
         "lut_used": "66248"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "58",
         "dsp48_used": "198",
         "estimated_clock": "6.22",
@@ -515,7 +515,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "16",
         "dsp_total": "220",
@@ -526,7 +526,7 @@
         "lut_total": "53200",
         "lut_used": "10385"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "14",
         "estimated_clock": "5.07",
@@ -560,7 +560,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "8",
         "dsp_total": "220",
@@ -571,7 +571,7 @@
         "lut_total": "53200",
         "lut_used": "6201"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "14",
         "estimated_clock": "5.07",
@@ -605,7 +605,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "18",
         "dsp_total": "220",
@@ -616,7 +616,7 @@
         "lut_total": "53200",
         "lut_used": "11402"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "4",
         "dsp48_used": "14",
         "estimated_clock": "5.11",
@@ -650,7 +650,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "11",
         "dsp_total": "220",
@@ -661,7 +661,7 @@
         "lut_total": "53200",
         "lut_used": "7282"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "6",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -695,7 +695,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "21",
         "dsp_total": "220",
@@ -706,7 +706,7 @@
         "lut_total": "53200",
         "lut_used": "11309"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "10",
         "dsp48_used": "0",
         "estimated_clock": "12.14",
@@ -740,7 +740,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "4",
         "dsp_total": "220",
@@ -751,7 +751,7 @@
         "lut_total": "53200",
         "lut_used": "7075"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "8",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -785,7 +785,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "24",
         "dsp_total": "220",
@@ -796,7 +796,7 @@
         "lut_total": "53200",
         "lut_used": "22823"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "42",
         "estimated_clock": "6.22",
@@ -830,7 +830,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "17",
         "dsp_total": "220",
@@ -841,7 +841,7 @@
         "lut_total": "53200",
         "lut_used": "10076"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "2",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -875,7 +875,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "12",
         "dsp_total": "220",
@@ -886,7 +886,7 @@
         "lut_total": "53200",
         "lut_used": "13627"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "8",
         "dsp48_used": "56",
         "estimated_clock": "5.11",
@@ -920,7 +920,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "20",
         "dsp_total": "220",
@@ -931,7 +931,7 @@
         "lut_total": "53200",
         "lut_used": "58316"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "40",
         "dsp48_used": "336",
         "estimated_clock": "7.37",
@@ -965,7 +965,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "16",
         "dsp_total": "220",
@@ -976,7 +976,7 @@
         "lut_total": "53200",
         "lut_used": "145629"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "2940",
         "estimated_clock": "8.51",
@@ -1010,7 +1010,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "65",
         "dsp_total": "220",
@@ -1021,7 +1021,7 @@
         "lut_total": "53200",
         "lut_used": "13268"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "98",
         "dsp48_used": "14",
         "estimated_clock": "6.27",
@@ -1055,7 +1055,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "18",
         "dsp_total": "220",
@@ -1066,7 +1066,7 @@
         "lut_total": "53200",
         "lut_used": "11249"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "4",
         "dsp48_used": "14",
         "estimated_clock": "5.11",
@@ -1100,7 +1100,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "16",
         "dsp_total": "220",
@@ -1111,7 +1111,7 @@
         "lut_total": "53200",
         "lut_used": "10377"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "14",
         "estimated_clock": "5.07",
@@ -1145,7 +1145,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "16",
         "dsp_total": "220",
@@ -1156,7 +1156,7 @@
         "lut_total": "53200",
         "lut_used": "8721"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "4",
         "estimated_clock": "4.39",
@@ -1190,7 +1190,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "3",
         "dsp_total": "220",
@@ -1201,7 +1201,7 @@
         "lut_total": "53200",
         "lut_used": "1685"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "6",
         "dsp48_used": "0",
         "estimated_clock": "5.96",
@@ -1235,7 +1235,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "3",
         "dsp_total": "220",
@@ -1246,7 +1246,7 @@
         "lut_total": "53200",
         "lut_used": "1531"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "6",
         "dsp48_used": "0",
         "estimated_clock": "5.11",
@@ -1280,7 +1280,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "24",
         "dsp_total": "220",
@@ -1291,7 +1291,7 @@
         "lut_total": "53200",
         "lut_used": "22808"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "0",
         "dsp48_used": "42",
         "estimated_clock": "6.22",
@@ -1325,7 +1325,7 @@
     },
     "ok": true,
     "results": {
-      "perf": {
+      "est": {
         "bram_total": "140",
         "bram_used": "18",
         "dsp_total": "220",
@@ -1336,7 +1336,7 @@
         "lut_total": "53200",
         "lut_used": "11395"
       },
-      "synthesis": {
+      "hls": {
         "bram_used": "4",
         "dsp48_used": "14",
         "estimated_clock": "5.11",
