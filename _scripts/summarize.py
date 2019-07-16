@@ -12,17 +12,17 @@ FIELDS = [
     'version',
     'status',
     'estimate',
-    'perf_lut',
-    'synth_lut',
-    'perf_lat',
-    'synth_lat_min',
-    'synth_lat_max',
-    'perf_bram',
-    'synth_bram',
-    'perf_dsp',
-    'synth_dsp',
-    'perf_ff',
-    'synth_ff',
+    'hls_lut',
+    'est_lut',
+    'hls_lat_min',
+    'hls_lat_max',
+    'est_lat',
+    'hls_bram',
+    'est_bram',
+    'hls_dsp',
+    'est_dsp',
+    'hls_ff',
+    'est_ff',
 ]
 BENCH_PREFIXES = ['machsuite-']  # Remove these prefixes for display.
 
@@ -43,18 +43,18 @@ def summarize_one(job_results):
         'estimate': job_results['job']['config']['estimate'],
 
         # The results themselves.
-        'perf_bram': job_results['results']['perf']['bram_used'],
-        'perf_dsp': job_results['results']['perf']['dsp_used'],
-        'perf_ff': job_results['results']['perf']['ff_used'],
-        'perf_lut': job_results['results']['perf']['lut_used'],
-        'perf_lat': job_results['results']['perf']['hw_latency'],
+        'est_bram': job_results['results']['est']['bram_used'],
+        'est_dsp': job_results['results']['est']['dsp_used'],
+        'est_ff': job_results['results']['est']['ff_used'],
+        'est_lut': job_results['results']['est']['lut_used'],
+        'est_lat': job_results['results']['est']['hw_latency'],
 
-        'synth_bram': job_results['results']['synthesis']['bram_used'],
-        'synth_dsp': job_results['results']['synthesis']['dsp48_used'],
-        'synth_ff': job_results['results']['synthesis']['ff_used'],
-        'synth_lut': job_results['results']['synthesis']['lut_used'],
-        'synth_lat_min': job_results['results']['synthesis']['min_latency'],
-        'synth_lat_max': job_results['results']['synthesis']['max_latency'],
+        'hls_bram': job_results['results']['hls']['bram_used'],
+        'hls_dsp': job_results['results']['hls']['dsp48_used'],
+        'hls_ff': job_results['results']['hls']['ff_used'],
+        'hls_lut': job_results['results']['hls']['lut_used'],
+        'hls_lat_min': job_results['results']['hls']['min_latency'],
+        'hls_lat_max': job_results['results']['hls']['max_latency'],
     }
 
 

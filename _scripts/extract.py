@@ -15,7 +15,7 @@ import extracting
 # include in the results. `key` is the key to use in the result data.
 DATA_COLLECTION = [
     {
-        'key': 'perf',
+        'key': 'est',
         'file': '_sds/est/perf.est',
         'collect': extracting.performance_estimates,
     },
@@ -104,7 +104,7 @@ def extract_job(batch_dir, job_id):
     rptname = os.path.basename(hwname).split("-")[1]
     sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
     rpt_list = DATA_COLLECTION + [{
-        'key': 'synthesis',
+        'key': 'hls',
         'file': sds_report,
         'collect': extracting.synthesis_report,
     }]
