@@ -1,5 +1,5 @@
-KERNEL = manual
-HW_SRCS = $(KERNEL).cpp
+KERNEL = kernel
+HW_SRCS = manual.cpp
 HOST_SRCS = main.cpp
 
 include sds.mk
