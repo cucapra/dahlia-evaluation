@@ -37,7 +37,7 @@ def performance_estimates(filepath):
     return out
 
 
-def synthesis_report(filepath):
+def hls_report(filepath):
     parser = RPTParser(filepath)
 
     timing_table = parser.get_table(

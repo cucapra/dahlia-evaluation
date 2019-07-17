@@ -30,7 +30,7 @@ COLLECT_EST = {
 COLLECT_HLS = {
     'key': 'hls',
     'file': '_sds/reports/sds_{}.rpt',
-    'collect': extracting.synthesis_report,
+    'collect': extracting.hls_report,
 }
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
