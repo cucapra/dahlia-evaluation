@@ -118,7 +118,10 @@ def extract_job(batch_dir, job_id):
     collect_hls['file'] = collect_hls['file'].format(rptname)
 
     # The list of files to download and extract.
-    collections = [collect_hls, COLLECT_EST]
+    collections = [collect_hls]
+    estimate = bool(job['estimate'])
+    if estimate:
+        collections += [COLLECT_EST]
 
     # Download files and extract results.
     success, res_data = download_files(
