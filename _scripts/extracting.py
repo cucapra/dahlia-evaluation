@@ -59,3 +59,33 @@ def hls_report(filepath):
         'ff_used':         utilization_table[-3][3],
         'lut_used':        utilization_table[-3][4]
     }
+
+
+def sds_report(filepath):
+    parser = RPTParser(filepath)
+
+    logic_table = parser.get_table(
+        re.compile(r'1. Slice Logic'), 2)
+    mem_table = parser.get_table(
+        re.compile(r'3. Memory'), 2)
+
+    return {
+        'lut_used':        int(logic_table[1][1]),
+        'lut_avail':       int(logic_table[1][3]),
+        'lut_logic_used':  int(logic_table[2][1]),
+        'lut_logic_avail': int(logic_table[2][3]),
+        'lut_mem_used':    int(logic_table[3][1]),
+        'lut_mem_avail':   int(logic_table[3][3]),
+        'reg_used':        int(logic_table[6][1]),
+        'reg_avail':       int(logic_table[6][3]),
+        'reg_ff_used':     int(logic_table[7][1]),
+        'reg_ff_avail':    int(logic_table[7][3]),
+        'reg_latch_used':  int(logic_table[8][1]),
+        'reg_latch_avail': int(logic_table[8][3]),
+        'bram_tile_used':  float(mem_table[1][1]),
+        'bram_tile_avail': int(mem_table[1][3]),
+        'bram36_used':     int(mem_table[2][1]),
+        'bram36_avail':    int(mem_table[2][3]),
+        'bram18_used':     int(mem_table[4][1]),
+        'bram18_avail':    int(mem_table[4][3]),
+    }

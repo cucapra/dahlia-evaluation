@@ -33,6 +33,14 @@ COLLECT_HLS = {
     'collect': extracting.hls_report,
 }
 
+# The *overall* report from SDSoC synthesis. Only available on full runs (not
+# estimation).
+COLLECT_FULL = {
+    'key': 'full',
+    'file': '_sds/reports/sds.rpt',
+    'collect': extracting.sds_report,
+}
+
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
@@ -122,6 +130,8 @@ def extract_job(batch_dir, job_id):
     estimate = bool(job['estimate'])
     if estimate:
         collections += [COLLECT_EST]
+    else:
+        collections += [COLLECT_FULL]
 
     # Download files and extract results.
     success, res_data = download_files(
