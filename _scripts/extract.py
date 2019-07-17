@@ -9,17 +9,29 @@ import json
 import common
 import extracting
 
-# Data files to collect and extract. In each, `file` is the path to a
-# file to download and analyze. `collect` is a function to call on the
-# downloaded file, which should return JSON-serializable information to
-# include in the results. `key` is the key to use in the result data.
-DATA_COLLECTION = [
-    {
-        'key': 'est',
-        'file': '_sds/est/perf.est',
-        'collect': extracting.performance_estimates,
-    },
-]
+# Instructions for data collection and extraction. In each, `file` is
+# the path to a file to download and analyze. `collect` is a function to
+# call on the downloaded file, which should return JSON-serializable
+# information to include in the results. `key` is the key to use in the
+# result data.
+
+# This one is the output of *estimation*, which runs on the complete
+# design (not just a single kernel). It appears to happen *after* HLS.
+# It only happens on estimation runs; not on full synthesis runs.
+COLLECT_EST = {
+    'key': 'est',
+    'file': '_sds/est/perf.est',
+    'collect': extracting.performance_estimates,
+}
+
+# This one is the report from HLS-compiling the kernel source code to
+# RTL. It seems to exist regardless of whether we're doing estimation. The
+# filename here is template; it needs the kernel function name filled in.
+COLLECT_HLS = {
+    'key': 'hls',
+    'file': '_sds/reports/sds_{}.rpt',
+    'collect': extracting.synthesis_report,
+}
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
@@ -100,19 +112,19 @@ def extract_job(batch_dir, job_id):
 
     hwname = job['config']['hwname']
 
-    # Guess the location for the synthesis report.
+    # Guess the location for the HLS report.
     rptname = os.path.basename(hwname).split("-")[1]
-    sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
-    rpt_list = DATA_COLLECTION + [{
-        'key': 'hls',
-        'file': sds_report,
-        'collect': extracting.synthesis_report,
-    }]
+    collect_hls = dict(COLLECT_HLS)
+    collect_hls['file'] = collect_hls['file'].format(rptname)
+
+    # The list of files to download and extract.
+    collections = [collect_hls, COLLECT_EST]
 
     # Download files and extract results.
     success, res_data = download_files(
         os.path.join(batch_dir, DOWNLOAD_DIR),
-        job_id, rpt_list,
+        job_id,
+        collections,
     )
     if not success:
         return {'ok': False, 'error': 'data extraction failed', 'job': job}
