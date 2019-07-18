@@ -12,8 +12,8 @@ decl M: bit<32>[16641];
 decl ptr: bit<8>[16641];
 
 let MATCH_SCORE    = 1;
-let MISMATCH_SCORE = 0-1; // -1
-let GAP_SCORE      = 0-1; // -1
+let MISMATCH_SCORE:bit<32> = 0-1; // -1
+let GAP_SCORE:bit<32>      = 0-1; // -1
 let ALIGN      = 92; // ASCII for '\\'
 let SKIPA      = 94; // ASCII for '^'
 let SKIPB      = 60; // ASCII for '<'
