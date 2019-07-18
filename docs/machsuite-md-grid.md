@@ -19,19 +19,6 @@ Comments correspond to those in baseline for the sake of readability.
 Program uses a series of if statements instead of the `max` and `min` functions to better fit the style of fuse
 Vector b0 is instead three integers to allow for easier access and rewriting of the x, y, and z values, so `b0.x` in the original is `b0x` in the rewrite. 
 
-After compiling the `.fuse` file
-```
-#ifdef __SDSCC__
-#include "ap_int.h"
-#else
-template < int N >
-using ap_int = int;
-#endif
-```
-has to be added to the top of the generated cpp file for `ap_int` to be recognized.
-
-Add interface pragmas and loop count pragmas which are not supported by code generation.
-
 # OPTIMIZED BASELINE
 No change made
 

@@ -1,12 +1,22 @@
+// Avoid using `ap_int` in "software" compilation.
 #ifdef __SDSCC__
 #include "ap_int.h"
 #else
-template < int N >
-using ap_int = int;
+template <int N> using ap_int = int;
+template <int N> using ap_uint = unsigned int;
 #endif
 
-void md(double force_x[256], double force_y[256], double force_z[256], double position_x[256], double position_y[256], double position_z[256], ap_int<32> nl[4096]) {
 
+
+void md(
+double force_x[256], 
+double force_y[256], 
+double force_z[256], 
+double position_x[256], 
+double position_y[256], 
+double position_z[256], 
+ap_int<32> nl[4096]) {
+  
   double delx = 0.0;
   double dely = 0.0;
   double delz = 0.0;

@@ -1,4 +1,5 @@
 record edge_t {
+  src: ubit<64>;
   dst: ubit<64>
 }
 
@@ -7,50 +8,55 @@ record node_t {
   edge_end: ubit<64>
 }
 
-decor "#pragma SDS data copy(nodes[0:N_NODES])"
-decor "#pragma SDS data zero_copy(level[0:N_NODES])"
+decor "#pragma SDS data copy(nodes[0:256])"
+decor "#pragma SDS data zero_copy(level[0:256])"
 
-decl nodes: node_t[50];
-decl edges: edge_t[50];
+decl nodes: node_t[256];
+decl edges: edge_t[4096];
 decl starting_node: ubit<64>;
-decl level: bit<8>[50];
-decl level_counts: ubit<64>[50];
-
-let cnt = 0;
+decl level: bit<8>[256];
+decl level_counts: ubit<64>[10];
 
 // Temporary variables for serial updates
-let tmp_begin:ubit<64> = 0;
 let tmp_end:ubit<64>   = 0;
 let tmp_dst:ubit<64>   = 0;
 let tmp_level:bit<8> = 0;
-
-let MAX_LEVEL = 10;
-
+let cnt:ubit<64> = 0;
 let tmp_l:bit<32> = 0;
 
-for (let horizon = 0..50) {
+let MAX_LEVEL = 127;
+
+level[starting_node] := 0;
+level_counts[0] := 1;
+---
+
+for (let horizon = 0..10) {
+        decor "#pragma HLS loop_tripcount max=10 min=1"
   cnt := 0;
-  for (let n = 0..50) {
+  for (let n = 0..256) {
     tmp_l := level[n];
     ---
     if (tmp_l == horizon) {
-      tmp_begin := nodes[n].edge_begin;
+      let e = nodes[n].edge_begin;
       ---
       tmp_end := nodes[n].edge_end;
       ---
-      for (let e = 0..50) { // FIXME: find upper bound
+      while (e < tmp_end) {
         decor "#pragma HLS loop_tripcount avg=12"
-        if (e >= tmp_begin && e <= tmp_end) {
-          tmp_dst := edges[e].dst;
-          tmp_level := level[tmp_dst];
+        tmp_dst := edges[e].dst;
+        tmp_level := level[tmp_dst];
+        ---
+        if (tmp_level == MAX_LEVEL) {
+          level[tmp_dst] := horizon + 1;
           ---
-          if (tmp_level == MAX_LEVEL) {
-            level[tmp_dst] := horizon + 1;
-            ---
-            cnt := cnt + 1;
-          }
+          cnt := cnt + 1;
         }
+        e := e + 1;
       }
     }
+  }
+  level_counts[horizon + 1] := cnt;
+  if (cnt == 0) {
+    horizon := 10;
   }
 }

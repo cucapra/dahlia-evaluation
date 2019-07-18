@@ -1,11 +1,13 @@
+// Avoid using `ap_int` in "software" compilation.
 #ifdef __SDSCC__
 #include "ap_int.h"
 #else
-template < int N >
-using ap_int = int;
+template <int N> using ap_int = int;
+template <int N> using ap_uint = unsigned int;
 #endif
 
-void local_scan(ap_int<32> bucket[2048]) {
+void local_scan(
+ap_int<32> bucket[2048]) {
   
   ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp1 = 0;
@@ -21,7 +23,9 @@ void local_scan(ap_int<32> bucket[2048]) {
     }
   }
 }
-void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[2048]) {
+void sum_scan(
+ap_int<32> sum[128], 
+ap_int<32> bucket[2048]) {
   
   ap_int<32> bucket_idx = 0;
   ap_int<32> sum_tmp = 0;
@@ -34,7 +38,9 @@ void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[2048]) {
     sum[radix_id] = (sum_tmp + bucket[bucket_idx]);
   }
 }
-void last_step_scan(ap_int<32> bucket[2048], ap_int<32> sum[128]) {
+void last_step_scan(
+ap_int<32> bucket[2048], 
+ap_int<32> sum[128]) {
   
   ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp = 0;
@@ -47,13 +53,16 @@ void last_step_scan(ap_int<32> bucket[2048], ap_int<32> sum[128]) {
     }
   }
 }
-void init(ap_int<32> bucket[2048]) {
+void init(
+ap_int<32> bucket[2048]) {
   
   for(int i = 0; i < 2048; i++) {
     bucket[i] = 0;
   }
 }
-void hist(ap_int<32> bucket[2048], ap_int<32> a[2048], ap_int<32> exp) {
+void hist(
+ap_int<32> bucket[2048], 
+ap_int<32> a[2048], ap_int<32> exp) {
   
   ap_int<32> elem_per_block = 4;
   ap_int<32> bucket_idx = 0;
@@ -69,7 +78,10 @@ void hist(ap_int<32> bucket[2048], ap_int<32> a[2048], ap_int<32> exp) {
     }
   }
 }
-void update(ap_int<32> b[2048], ap_int<32> bucket[2048], ap_int<32> a[2048], ap_int<32> exp) {
+void update(
+ap_int<32> b[2048], 
+ap_int<32> bucket[2048], 
+ap_int<32> a[2048], ap_int<32> exp) {
   
   ap_int<32> bucket_idx = 0;
   ap_int<32> elem_per_block = 4;
@@ -90,7 +102,11 @@ void update(ap_int<32> b[2048], ap_int<32> bucket[2048], ap_int<32> a[2048], ap_
   }
 }
 #pragma SDS data zero_copy(a[0:SIZE], b[0:SIZE], bucket[0:BUCKETSIZE], sum[0:SCAN_RADIX])
-void sort(ap_int<32> a[2048], ap_int<32> b[2048], ap_int<32> bucket[2048], ap_int<32> sum[128]) {
+void sort(
+ap_int<32> a[2048], 
+ap_int<32> b[2048], 
+ap_int<32> bucket[2048], 
+ap_int<32> sum[128]) {
   
   ap_int<1> valid_buffer = 0;
   ap_int<1> buffer_a = 0;

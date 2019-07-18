@@ -1,13 +1,18 @@
 // Avoid using `ap_int` in "software" compilation.
-#ifdef __SDSVHLS__
+#ifdef __SDSCC__
 #include "ap_int.h"
 #else
 template <int N> using ap_int = int;
+template <int N> using ap_uint = unsigned int;
 #endif
 
 
 #pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])
-void fft(double real[1024], double img[1024], double real_twid[512], double img_twid[512]) {
+void fft(
+double real[1024], 
+double img[1024], 
+double real_twid[512], 
+double img_twid[512]) {
   
   ap_int<32> even = 0;
   ap_int<32> span = (1024 >> 1);

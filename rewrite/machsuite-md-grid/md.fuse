@@ -24,9 +24,9 @@ decl position_z: double[4][4][4][10];
 
 let p : dvector_t;
 let q : dvector_t;
-let dx : bit<32>;
-let dy : bit<32>;
-let dz : bit<32>;
+let dx : double;
+let dy : double;
+let dz : double;
 let r2inv : double;
 let r6inv : double;
 let potential : double;
@@ -38,8 +38,7 @@ let sum_z : double;
 let force_local: dvector_t[4][4][4][10];
 let empty: dvector_t = {x = 0.0; y = 0.0; z = 0.0};
 
-
----
+{
 for(let b0x = 0..4){
   for(let b0y = 0..4){
     for(let b0z = 0..4){
@@ -56,27 +55,27 @@ for(let b0z = 0..4){
   let b1min: ivector_t = {x = 0; y = 0; z = 0};
   let b1max: ivector_t = {x = 4; y = 4; z = 4};
   if((b0x - 1) > b1min.x){
-    let newbmin : ivector = {x = b0x - 1; y = b1min.y; z = b1min.z};
+    let newbmin : ivector_t = {x = b0x - 1; y = b1min.y; z = b1min.z};
     b1min := newbmin;
   }
   if((b0y - 1) > b1min.y){
-    let newbmin : ivector = {x = b1min.x; y = b0y - 1; z = b1min.z};
+    let newbmin : ivector_t = {x = b1min.x; y = b0y - 1; z = b1min.z};
     b1min := newbmin;
   }
   if((b0z - 1) > b1min.z){
-    let newbmin : ivector = {x = b1min.x; y = b1min.y; z = b0z -1};
+    let newbmin : ivector_t = {x = b1min.x; y = b1min.y; z = b0z -1};
     b1min := newbmin;
   }
   if((b0x + 2) < b1max.x){
-    let newbmax : ivector = {x = b0x + 2; y = b1max.y; z = b1max.z};
+    let newbmax : ivector_t = {x = b0x + 2; y = b1max.y; z = b1max.z};
     b1max := newbmax;
   }
   if((b0y + 2) < b1max.y){
-    let newbmax : ivector = {x = b1max.x; y = b0y + 2; z = b1max.z};
+    let newbmax : ivector_t = {x = b1max.x; y = b0y + 2; z = b1max.z};
     b1max := newbmax;
   }
   if((b0z + 2) < b1max.z){
-    let newbmax : ivector = {x = b1max.x; y = b1max.y; z = b0z + 2};
+    let newbmax : ivector_t = {x = b1max.x; y = b1max.y; z = b0z + 2};
     b1max := newbmax;
   }
   ---
@@ -96,7 +95,8 @@ for(let b0z = 0..4){
         let p_idx_upper = n_points[b0x][b0y][b0z];
         while(p_idx < p_idx_upper){
           decor "#pragma HLS loop_tripcount avg=10"
-          let p = position[b0x][b0y][b0z][p_idx];
+          let newp: dvector_t = {x = position_x[b0x][b0y][b0z][p_idx]; y = position_y[b0x][b0y][b0z][p_idx]; z = position_z[b0x][b0y][b0z][p_idx]};
+          p := newp;
           ---
           sum_x := force_local[b0x][b0y][b0z][p_idx].x;
           sum_y := force_local[b0x][b0y][b0z][p_idx].y;
@@ -104,15 +104,15 @@ for(let b0z = 0..4){
           let q_idx = 0;
           while(q_idx < q_idx_range){
             decor "#pragma HLS loop_tripcount avg=10"
-            let newq: dvector = {x = position_x[b0x][b0y][b0x][q_idx]; y = position_y[b0x][b0y][b0x][q_idx]; z = position_z[b0x][b0y][b0x][q_idx]};
+            let newq: dvector_t = {x = position_x[b1x][b1y][b1z][q_idx]; y = position_y[b1x][b1y][b1z][q_idx]; z = position_z[b1x][b1y][b1z][q_idx]};
             q := newq;
             ---
-            if ((q.x != p.x) || (q.y != p.y) || (q.z != p.y)){
+            if ((q.x != p.x) || (q.y != p.y) || (q.z != p.z)){
               // Compute the LJ-potential
               dx := p.x - q.x;
               dy := p.y - q.y;
               dz := p.z - q.z;
-              r2inv := 1.0 / ((dx*dx + dy*dy + dz*dz) as float);
+              r2inv := 1.0 / (dx*dx + dy*dy + dz*dz);
               r6inv := r2inv*r2inv*r2inv;
               potential := r6inv*(1.5*r6inv - 2.0);
               // Update forces
@@ -124,7 +124,7 @@ for(let b0z = 0..4){
           q_idx := q_idx + 1;
           } // loop_q
         ---
-        let newforcelocal : dvector = {x = sum_x; y = sum_y; z = sum_z};
+        let newforcelocal : dvector_t = {x = sum_x; y = sum_y; z = sum_z};
         force_local[b0x][b0y][b0z][p_idx] := newforcelocal;
         p_idx := p_idx + 1;
         } // loop_p
@@ -147,4 +147,4 @@ for(let b0x = 0..4){
     }
   }
 }
-
+}

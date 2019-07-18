@@ -1,12 +1,15 @@
-#ifdef __SDSCC__
+// Avoid using `ap_int` in "software" compilation.
+#ifdef __SDSVHLS__
 #include "ap_int.h"
 #else
-template < int N >
-using ap_int = int;
+template <int N> using ap_int = int;
+template <int N> using ap_uint = unsigned int;
 #endif
 
-void stencil(ap_int<32> orig[8192], ap_int<32> sol[8192], ap_int<32> filter[9]) {
 
+
+void stencil(ap_int<32> orig[8192], ap_int<32> sol[8192], ap_int<32> filter[9]) {
+  
   ap_int<32> temp = 0;
   ap_int<32> mul = 0;
   for(int r = 0; r < 126; r++) {
