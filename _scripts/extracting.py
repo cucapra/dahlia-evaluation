@@ -93,3 +93,21 @@ def sds_report(filepath):
         'dsp_used':        int(dsp_table[1][1]),
         'dsp_avail':       int(dsp_table[1][3]),
     }
+
+
+LOG_PATTERNS = {
+    'missing file': 'No rule to make target',
+    'compiler error': "Error when calling 'arm-linux-gnueabihf-g++",
+    'timing': 'Design failed to meet timing',
+    'resources': 'Place Check : This design requires more',
+}
+
+
+def log_messages(filepath):
+    out = {k: False for k in LOG_PATTERNS}
+    with open(filepath) as f:
+        for line in f:
+            for key, pat in LOG_PATTERNS.items():
+                if pat in line:
+                    out[key] = True
+    return out
