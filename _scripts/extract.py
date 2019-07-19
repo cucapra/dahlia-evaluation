@@ -110,15 +110,16 @@ def extract_job(batch_dir, job_id):
     if not job:
         logging.error('Could not get information for %s.', job_id)
         return {'ok': False, 'error': 'job lookup failed'}
-    elif job['state'] != 'done':
+
+    hwname = job['config']['hwname']
+    if job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
         return {
             'ok': False,
             'error': 'job in state {}'.format(job['state']),
             'job': job,
+            'bench': hwname,
         }
-
-    hwname = job['config']['hwname']
 
     # Guess the location for the HLS report.
     rptname = os.path.basename(hwname).split("-")[1]
@@ -140,7 +141,12 @@ def extract_job(batch_dir, job_id):
         collections,
     )
     if not success:
-        return {'ok': False, 'error': 'data extraction failed', 'job': job}
+        return {
+            'ok': False,
+            'error': 'data extraction failed',
+            'job': job,
+            'bench': hwname,
+        }
 
     return {
         'ok': True,
