@@ -9,17 +9,44 @@ import json
 import common
 import extracting
 
-# Data files to collect and extract. In each, `file` is the path to a
-# file to download and analyze. `collect` is a function to call on the
-# downloaded file, which should return JSON-serializable information to
-# include in the results. `key` is the key to use in the result data.
-DATA_COLLECTION = [
-    {
-        'key': 'est',
-        'file': '_sds/est/perf.est',
-        'collect': extracting.performance_estimates,
-    },
-]
+# Instructions for data collection and extraction. In each, `file` is
+# the path to a file to download and analyze. `collect` is a function to
+# call on the downloaded file, which should return JSON-serializable
+# information to include in the results. `key` is the key to use in the
+# result data.
+
+# This one is the output of *estimation*, which runs on the complete
+# design (not just a single kernel). It appears to happen *after* HLS.
+# It only happens on estimation runs; not on full synthesis runs.
+COLLECT_EST = {
+    'key': 'est',
+    'file': 'code/_sds/est/perf.est',
+    'collect': extracting.performance_estimates,
+}
+
+# This one is the report from HLS-compiling the kernel source code to
+# RTL. It seems to exist regardless of whether we're doing estimation. The
+# filename here is template; it needs the kernel function name filled in.
+COLLECT_HLS = {
+    'key': 'hls',
+    'file': 'code/_sds/reports/sds_{}.rpt',
+    'collect': extracting.hls_report,
+}
+
+# The *overall* report from SDSoC synthesis. Only available on full runs (not
+# estimation).
+COLLECT_FULL = {
+    'key': 'full',
+    'file': 'code/_sds/reports/sds.rpt',
+    'collect': extracting.sds_report,
+}
+
+# Just check for various messages in the job log.
+COLLECT_LOG = {
+    'key': 'log',
+    'file': 'log.txt',
+    'collect': extracting.log_messages,
+}
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
@@ -43,7 +70,7 @@ def get_metadata(job_id):
 
 def download_files(base_dir, job_id, file_config):
     """Download specified files for the job from
-    $BUILDBOT/jobs/<job_id>/files/code/<files>.
+    $BUILDBOT/jobs/<job_id>/files/<files>.
     to base_dir/job_id and runs the 'collect' method for each file.
 
     Return a Boolean success flag (which is false if there was at least
@@ -60,7 +87,7 @@ def download_files(base_dir, job_id, file_config):
     logging.info("Extracting files for {} in {}".format(job_id, job_path))
 
     for conf in file_config:
-        url = '{}/jobs/{}/files/code/{}'.format(
+        url = '{}/jobs/{}/files/{}'.format(
             common.buildbot_url(),
             job_id,
             conf['file'],
@@ -90,39 +117,49 @@ def extract_job(batch_dir, job_id):
     if not job:
         logging.error('Could not get information for %s.', job_id)
         return {'ok': False, 'error': 'job lookup failed'}
-    elif job['state'] != 'done':
-        logging.error('Job %s in state `%s`.', job_id, job['state'])
-        return {
-            'ok': False,
-            'error': 'job in state {}'.format(job['state']),
-            'job': job,
-        }
 
     hwname = job['config']['hwname']
+    out = {
+        'ok': True,
+        'job': job,
+        'bench': hwname,
+    }
 
-    # Guess the location for the synthesis report.
+    if job['state'] != 'done':
+        logging.error('Job %s in state `%s`.', job_id, job['state'])
+        out.update({
+            'ok': False,
+            'error': 'job in state {}'.format(job['state']),
+        })
+
+    # Guess the location for the HLS report.
     rptname = os.path.basename(hwname).split("-")[1]
-    sds_report = '_sds/reports/sds_{}.rpt'.format(rptname)
-    rpt_list = DATA_COLLECTION + [{
-        'key': 'hls',
-        'file': sds_report,
-        'collect': extracting.synthesis_report,
-    }]
+    collect_hls = dict(COLLECT_HLS)
+    collect_hls['file'] = collect_hls['file'].format(rptname)
+
+    # The list of files to download and extract.
+    collections = [COLLECT_LOG, collect_hls]
+    estimate = bool(job['estimate'])
+    if estimate:
+        collections += [COLLECT_EST]
+    else:
+        collections += [COLLECT_FULL]
 
     # Download files and extract results.
     success, res_data = download_files(
         os.path.join(batch_dir, DOWNLOAD_DIR),
-        job_id, rpt_list,
+        job_id,
+        collections,
     )
-    if not success:
-        return {'ok': False, 'error': 'data extraction failed', 'job': job}
+    out['results'] = res_data
+    if out['ok'] and not success:
+        logging.error('Some data extraction failed.')
+        out.update({
+            'ok': False,
+            'error': 'data extraction failed',
+        })
 
-    return {
-        'ok': True,
-        'bench': hwname,
-        'job': job,
-        'results': res_data,
-    }
+    return out
 
 
 def extract_batch(batch_dir):
