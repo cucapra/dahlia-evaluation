@@ -1,23 +1,54 @@
-// WIP
-decl c: bit<32>[2];
-decl orig: bit<32>[16384];
-decl sol: bit<32>[16384];
+decor "#pragma SDS data copy(C[0:2])"
 
-let sum0:bit<32> = 0;
-let sum1:bit<32> = 0;
-let mul0:bit<32> = 0;
-let mul1:bit<32> = 0;
+decl C: bit<32>[2];
+decl orig: bit<32>[32][32][16];
+decl sol: bit<32>[32][32][16];
 
+// Handle boundary conditions by filling with original values
 for (let j = 0..32) {
   for (let k = 0..16) {
-    sol[k+row_size*(j+col_size*0)] := orig[k+row_size*(j+col_size*0)];
+    sol[0][j][k] := orig[0][j][k];
     ---
-    sol[k+row_size*(j+col_size*(height_size-1))] := orig[k+row_size*(j+col_size*(height_size-1))];
+    sol[31][j][k] := orig[31][j][k];
   }
 }
+---
 
 for (let i = 1..31) {
   for (let k = 0..16) {
-    sol[k+row_size*(0+row_size)]
+    sol[i][0][k] := orig[i][0][k];
+    ---
+    sol[i][31][k] := orig[i][31][k];
+  }
+}
+---
+
+for (let i = 1..31) {
+  for (let j = 1..31) {
+    sol[i][j][0] := orig[i][j][0];
+    ---
+    sol[i][j][15] := orig[i][j][15];
+  }
+}
+---
+
+// Stencil computation
+for (let i = 1..31) {
+  for (let j = 1..31) {
+    for (let k = 1..15) {
+      let temp1 = orig[i][j][k] * C[0];
+      ---
+      let temp2 = orig[i + 1][j][k] * C[1] + temp1;
+      ---
+      let temp3 = orig[i - 1][j][k] * C[1] + temp2;
+      ---
+      let temp4 = orig[i][j + 1][k] * C[1] + temp3;
+      ---
+      let temp5 = orig[i][j - 1][k] * C[1] + temp4;
+      ---
+      let temp6 = orig[i][j][k + 1] * C[1] + temp5;
+      ---
+      sol[i][j][k] := orig[i][j][k - 1] * C[1] + temp6;
+    }
   }
 }

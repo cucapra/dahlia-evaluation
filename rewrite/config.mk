@@ -12,10 +12,10 @@ BENCHMARKS=\
 	machsuite-spmv-crs \
 	machsuite-spmv-ellpack \
 	machsuite-stencil-stencil2d \
+	machsuite-stencil-stencil3d \
 	machsuite-viterbi \
 	#machsuite-aes \
 	machsuite-backprop \
 	machsuite-bfs-queue \
 	machsuite-fft-transpose \
-	machsuite-stencil-stencil3d \
 

@@ -32,6 +32,7 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-spmv-crs \
 	rewrite/machsuite-spmv-ellpack \
 	rewrite/machsuite-stencil-stencil2d \
+	rewrite/machsuite-stencil-stencil3d \
 	rewrite/machsuite-viterbi
 
 LAST_BATCH := last_batch.txt

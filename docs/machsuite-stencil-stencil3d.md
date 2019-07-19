@@ -11,7 +11,7 @@ Function name changed from `stencil3d` to `stencil` in all three source files.
 Data copy pragma used for `C` to avoid #34.
 
 # REWRITE
-No change made
+3D arrays are used. Accumulation order is changed.
 
 # OPTIMIZED BASELINE
 No change made

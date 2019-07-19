@@ -5,11 +5,6 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 #define EPSILON (1.0e-6)
 
-void run_benchmark( void *vargs ) {
-  struct bench_args_t *args = (struct bench_args_t *)vargs;
-  stencil( args->C, args->orig, args->sol );
-}
-
 /* Input format:
 %% Section 1
 TYPE[2]: stencil coefficients (inner/outer)
