@@ -1,21 +1,17 @@
-decl m1: double[4096];
-decl m2: double[4096];
-decl prod: double[4096];
+decor "#pragma SDS data copy(m1[0:row_size][0:col_size])"
 
-let i_col: bit<32> = 0;
-let k_col: bit<32> = 0;
-
-let mult: double = 0.0;
+decl m1: double[64][64];
+decl m2: double[64][64];
+decl prod: double[64][64];
 
 for (let i = 0..64) {
   for (let j = 0..64) {
-    i_col := i * 64;
     let sum: double = 0.0;
     for (let k = 0..64) {
-      k_col := k * 64;
-      mult := m1[i_col + k] * m2[k_col + j];
-      sum := sum + mult;
+      let mult = m1[i][k] * m2[k][j];
+    } combine {
+      sum += mult;
     }
-    prod[i_col + j] := sum;
+    prod[i][j] := sum;
   }
 }
