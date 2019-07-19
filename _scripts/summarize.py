@@ -14,15 +14,19 @@ FIELDS = [
     'estimate',
     'hls_lut',
     'est_lut',
+    'full_lut',
     'hls_lat_min',
     'hls_lat_max',
     'est_lat',
     'hls_bram',
     'est_bram',
+    'full_bram18',
+    'full_bram36',
     'hls_dsp',
     'est_dsp',
     'hls_ff',
     'est_ff',
+    'full_ff',
 ]
 BENCH_PREFIXES = ['machsuite-']  # Remove these prefixes for display.
 
@@ -64,6 +68,16 @@ def summarize_one(job_results):
             'hls_lut': hls['lut_used'],
             'hls_lat_min': hls['min_latency'],
             'hls_lat_max': hls['max_latency'],
+        })
+
+    # Results from full synthesis.
+    if 'full' in job_results['results']:
+        full = job_results['results']['full']
+        out.update({
+            'full_bram18': full['bram18_used'],
+            'full_bram36': full['bram36_used'],
+            'full_lut': full['lut_used'],
+            'full_ff': full['reg_ff_used'],
         })
 
     return out
