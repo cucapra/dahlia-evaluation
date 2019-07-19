@@ -52,6 +52,14 @@ def summarize_one(job_results):
     if 'results' not in job_results:
         return out
 
+    # Try to provide a better status message.
+    if 'log' in job_results['results']:
+        log = job_results['results']['log']
+        for key, present in log.items():
+            if present:
+                out['status'] = key
+                break
+
     # Results from estimation.
     if 'est' in job_results['results']:
         est = job_results['results']['est']
