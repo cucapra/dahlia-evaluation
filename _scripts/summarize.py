@@ -33,7 +33,7 @@ def summarize_one(job_results):
         if bench_name.startswith(prefix):
             bench_name = bench_name[len(prefix):]
 
-    return {
+    out = {
         # Identify the job.
         'bench': bench_name,
         'version': bench_version,
@@ -41,21 +41,32 @@ def summarize_one(job_results):
 
         # Configuration for the job.
         'estimate': job_results['job']['config']['estimate'],
-
-        # The results themselves.
-        'est_bram': job_results['results']['est']['bram_used'],
-        'est_dsp': job_results['results']['est']['dsp_used'],
-        'est_ff': job_results['results']['est']['ff_used'],
-        'est_lut': job_results['results']['est']['lut_used'],
-        'est_lat': job_results['results']['est']['hw_latency'],
-
-        'hls_bram': job_results['results']['hls']['bram_used'],
-        'hls_dsp': job_results['results']['hls']['dsp48_used'],
-        'hls_ff': job_results['results']['hls']['ff_used'],
-        'hls_lut': job_results['results']['hls']['lut_used'],
-        'hls_lat_min': job_results['results']['hls']['min_latency'],
-        'hls_lat_max': job_results['results']['hls']['max_latency'],
     }
+
+    # Results from estimation.
+    if 'est' in job_results['results']:
+        est = job_results['results']['est']
+        out.update({
+            'est_bram': est['bram_used'],
+            'est_dsp': est['dsp_used'],
+            'est_ff': est['ff_used'],
+            'est_lut': est['lut_used'],
+            'est_lat': est['hw_latency'],
+        })
+
+    # Results from HLS compilation.
+    if 'hls' in job_results['results']:
+        hls = job_results['results']['hls']
+        out.update({
+            'hls_bram': hls['bram_used'],
+            'hls_dsp': hls['dsp48_used'],
+            'hls_ff': hls['ff_used'],
+            'hls_lut': hls['lut_used'],
+            'hls_lat_min': hls['min_latency'],
+            'hls_lat_max': hls['max_latency'],
+        })
+
+    return out
 
 
 def find_missing(summaries, ref_version, seeking_version):
@@ -79,22 +90,23 @@ def summarize(results_json):
 
     # Insert "blank" lines for missing benchmark versions.
     for missing in find_missing(out, 'baseline', 'rewrite'):
-        out.append(defaultdict(str, {
+        out.append({
             'bench': missing,
             'version': 'rewrite',
             'status': 'missing',
-        }))
+        })
 
     # Sort to group benchmarks together.
     out.sort(key=lambda r: (r['bench'], r['version']))
 
     # Dump CSV output.
+    headers = [f for f in FIELDS if any(f in d for d in out)]
     csv_filename = os.path.join(os.path.dirname(results_json), OUT_CSV)
     with open(csv_filename, 'w') as f:
-        writer = csv.DictWriter(f, FIELDS)
+        writer = csv.DictWriter(f, headers)
         writer.writeheader()
         for res in out:
-            writer.writerow(res)
+            writer.writerow(defaultdict(str, res))  # Silently allow blanks.
 
 
 if __name__ == '__main__':
