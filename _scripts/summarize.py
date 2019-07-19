@@ -47,6 +47,10 @@ def summarize_one(job_results):
         'estimate': job_results['job']['config']['estimate'],
     }
 
+    # Abort early if we don't have statistics.
+    if 'results' not in job_results:
+        return out
+
     # Results from estimation.
     if 'est' in job_results['results']:
         est = job_results['results']['est']
