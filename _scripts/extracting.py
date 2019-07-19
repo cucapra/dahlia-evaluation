@@ -68,6 +68,8 @@ def sds_report(filepath):
         re.compile(r'1. Slice Logic'), 2)
     mem_table = parser.get_table(
         re.compile(r'3. Memory'), 2)
+    dsp_table = parser.get_table(
+        re.compile(r'4. DSP'), 2)
 
     return {
         'lut_used':        int(logic_table[1][1]),
@@ -88,4 +90,6 @@ def sds_report(filepath):
         'bram36_avail':    int(mem_table[2][3]),
         'bram18_used':     int(mem_table[4][1]),
         'bram18_avail':    int(mem_table[4][3]),
+        'dsp_used':        int(dsp_table[1][1]),
+        'dsp_avail':       int(dsp_table[1][3]),
     }

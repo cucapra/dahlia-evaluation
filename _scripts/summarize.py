@@ -24,6 +24,7 @@ FIELDS = [
     'full_bram36',
     'hls_dsp',
     'est_dsp',
+    'full_dsp',
     'hls_ff',
     'est_ff',
     'full_ff',
@@ -82,6 +83,7 @@ def summarize_one(job_results):
             'full_bram36': full['bram36_used'],
             'full_lut': full['lut_used'],
             'full_ff': full['reg_ff_used'],
+            'full_dsp': full['dsp_used'],
         })
 
     return out
