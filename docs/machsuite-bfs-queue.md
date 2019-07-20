@@ -14,7 +14,9 @@ A larger struct `edge_t` with a redundant field is used to avoid HLS error durin
 Data copy pragma used for `nodes` to avoid #34.
 
 # REWRITE
-No change made
+Removed names from structs. Changed defines to inline. For loop changed to a while. Break statement changed to skip loop. 
+
+`ap_uint<64>` changed to `uint64_t` and `ap_int<8>` changed to `int8_t` for software.
 
 # OPTIMIZED BASELINE
 No change made
