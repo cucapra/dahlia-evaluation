@@ -5,11 +5,6 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 #define EPSILON ((TYPE)1.0e-6)
 
-void run_benchmark( void *vargs ) {
-  struct bench_args_t *args = (struct bench_args_t *)vargs;
-  gemm( args->m1, args->m2, args->prod );
-}
-
 /* Input format:
 %% Section 1
 TYPE[N]: matrix 1

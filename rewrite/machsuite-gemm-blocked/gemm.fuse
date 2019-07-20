@@ -1,35 +1,22 @@
 decor "#pragma SDS data copy(m1[0:row_size][0:col_size])"
 decor "#pragma SDS data zero_copy(prod[0:row_size][0:col_size])"
 
-decl m1: double[4096];
-decl m2: double[4096];
-decl prod: double[4096];
+decl m1: double[64][64];
+decl m2: double[64][64];
+decl prod: double[64][64];
 
-let temp_x:double = 0.0;
-let mul:double = 0.0;
-
-let i_row:bit<32> = 0;
-let k_row:bit<32> = 0;
-
-let jj:bit<32> = 0;
-while (jj < 64) {
-  let kk:bit<32> = 0;
-  while (kk < 64) {
+for (let jj = 0..8) {
+  for (let kk = 0..8) {
     for (let i = 0..64) {
-      for (let k = 0..8) {
-        i_row := i * 64;
-        k_row := (k + kk) * 64;
-        temp_x := m1[i_row + k + kk];
         for (let j = 0..8) {
-          mul := temp_x * m2[k_row + j + jj];
-          let temp = prod[i_row + j + jj];
-          ---
-          prod[i_row + j + jj] := temp + mul;
+      for (let k = 0..8) {
+        let temp_x = m1[i][kk * 8 + k];
+          let mul = temp_x * m2[kk * 8 + k][jj * 8 + j];
+        } combine {
+          prod[i][jj * 8 + j] += mul;
         }
       }
     }
-    kk := kk + 8;
   }
-  jj := jj + 8;
 }
 
