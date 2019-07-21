@@ -24,9 +24,6 @@ In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Pr
 #define SCAN_BLOCK 16
 #define SCAN_RADIX BUCKETSIZE/SCAN_BLOCK
 
-#pragma SDS data zero_copy(a[0:SIZE], b[0:SIZE], bucket[0:BUCKETSIZE], sum[0:SCAN_RADIX])
-void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]);
-
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 

@@ -21,7 +21,9 @@ Added
 #include <inttypes.h>
 ```
 
-- In `bfs.h`, for the BFS node/edge `struct`s, the "names" of the `struct`s are deleted. In other words, `typedef struct X { ... } X_t;` is changed to `typedef struct { ... } X_t;` This is so the Fuse Vivado backend can generate record types that match this; the Vivado backend won't generate C++ code that has "named" `struct`s." (Fuse record types are just compiled to definitions of the form `typedef struct { ... } X_t;`.)
+In `bfs.h`, for the BFS node/edge `struct`s, the "names" of the `struct`s are deleted. In other words, `typedef struct X { ... } X_t;` is changed to `typedef struct { ... } X_t;` This is so the Fuse Vivado backend can generate record types that match this; the Vivado backend won't generate C++ code that has "named" `struct`s." (Fuse record types are just compiled to definitions of the form `typedef struct { ... } X_t;`.)
+
+Internal `for` loop changed to `while` because starting point is dynamically determined.
 
 # OPTIMIZED BASELINE
 No change made

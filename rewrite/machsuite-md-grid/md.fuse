@@ -19,21 +19,6 @@ decl force_z: double[4][4][4][10];
 decl position_x: double[4][4][4][10];
 decl position_y: double[4][4][4][10];
 decl position_z: double[4][4][4][10];
-//use a decl because computer does not recognize force_local as in scope with a let binder
-
-
-let p : dvector_t;
-let q : dvector_t;
-let dx : double;
-let dy : double;
-let dz : double;
-let r2inv : double;
-let r6inv : double;
-let potential : double;
-let f : double;
-let sum_x : double;
-let sum_y : double;
-let sum_z : double;
 
 let force_local: dvector_t[4][4][4][10];
 let empty: dvector_t = {x = 0.0; y = 0.0; z = 0.0};
@@ -95,28 +80,25 @@ for(let b0z = 0..4){
         let p_idx_upper = n_points[b0x][b0y][b0z];
         while(p_idx < p_idx_upper){
           decor "#pragma HLS loop_tripcount avg=10"
-          let newp: dvector_t = {x = position_x[b0x][b0y][b0z][p_idx]; y = position_y[b0x][b0y][b0z][p_idx]; z = position_z[b0x][b0y][b0z][p_idx]};
-          p := newp;
+          let p: dvector_t = {x = position_x[b0x][b0y][b0z][p_idx]; y = position_y[b0x][b0y][b0z][p_idx]; z = position_z[b0x][b0y][b0z][p_idx]};
           ---
-          sum_x := force_local[b0x][b0y][b0z][p_idx].x;
-          sum_y := force_local[b0x][b0y][b0z][p_idx].y;
-          sum_z := force_local[b0x][b0y][b0z][p_idx].z;
+          let sum_x = force_local[b0x][b0y][b0z][p_idx].x;
+          let sum_y = force_local[b0x][b0y][b0z][p_idx].y;
+          let sum_z = force_local[b0x][b0y][b0z][p_idx].z;
           let q_idx = 0;
           while(q_idx < q_idx_range){
             decor "#pragma HLS loop_tripcount avg=10"
-            let newq: dvector_t = {x = position_x[b1x][b1y][b1z][q_idx]; y = position_y[b1x][b1y][b1z][q_idx]; z = position_z[b1x][b1y][b1z][q_idx]};
-            q := newq;
-            ---
+            let q: dvector_t = {x = position_x[b1x][b1y][b1z][q_idx]; y = position_y[b1x][b1y][b1z][q_idx]; z = position_z[b1x][b1y][b1z][q_idx]};
             if ((q.x != p.x) || (q.y != p.y) || (q.z != p.z)){
               // Compute the LJ-potential
-              dx := p.x - q.x;
-              dy := p.y - q.y;
-              dz := p.z - q.z;
-              r2inv := 1.0 / (dx*dx + dy*dy + dz*dz);
-              r6inv := r2inv*r2inv*r2inv;
-              potential := r6inv*(1.5*r6inv - 2.0);
+              let dx = p.x - q.x;
+              let dy = p.y - q.y;
+              let dz = p.z - q.z;
+              let r2inv = 1.0 / (dx*dx + dy*dy + dz*dz);
+              let r6inv = r2inv*r2inv*r2inv;
+              let potential = r6inv*(1.5*r6inv - 2.0);
               // Update forces
-              f := r2inv*potential;
+              let f = r2inv*potential;
               sum_x := sum_x + (f*dx);
               sum_y := sum_y + (f*dy);
               sum_z := sum_z + (f*dz);

@@ -13,7 +13,7 @@ Add tripcount to all 5 loops naively for estimation (only adding for `merge` or 
 BRAM resource directives commented out as they break the flow. #35
 
 # REWRITE
-No change made
+Uses while loops for `for` loops as the bounds are runtime determined. Loop iterators step by factors in baseline, this is done manually since no `for` loop support in our language.
 
 # OPTIMIZED BASELINE
 No change made

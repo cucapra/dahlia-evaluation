@@ -20,15 +20,6 @@ let SKIPB      = 60; // ASCII for '<'
 let DASH       = 45; // ASCII for '-'
 let UNDERSCORE = 95; // ASCII for '_'
 
-let score:bit<32>   = 0;
-let up_left:bit<32> = 0;
-let up:bit<32>      = 0;
-let left:bit<32>    = 0;
-let max:bit<32>     = 0;
-let row:bit<32>     = 0;
-let row_up:bit<32>  = 0;
-let r:bit<32>       = 0;
-
 for (let a_idx = 0..129) {
   decor "#pragma HLS loop_tripcount max=100 min=0"
   M[a_idx] := a_idx * GAP_SCORE;
@@ -47,21 +38,23 @@ for (let b_idx = 1..129) {
   decor "#pragma HLS loop_tripcount max=100 min=0"
   for (let a_idx = 1..129) {
     decor "#pragma HLS loop_tripcount max=100 min=0"
+    let score:bit<32>   = 0;
     if (SEQA[a_idx-1] == SEQB[b_idx-1]) {
       score := MATCH_SCORE;
     } else {
       score := MISMATCH_SCORE;
     }
 
-    row_up := (b_idx-1) * 129;
-    row    := (b_idx) * 129;
+    let row_up = (b_idx-1) * 129;
+    let row    = (b_idx) * 129;
 
-    up_left := M[row_up + a_idx-1] + score;
+    let up_left = M[row_up + a_idx-1] + score;
     ---
-    up      := M[row_up + a_idx  ] + GAP_SCORE;
+    let up      = M[row_up + a_idx  ] + GAP_SCORE;
     ---
-    left    := M[row    + a_idx-1] + GAP_SCORE;
+    let left    = M[row    + a_idx-1] + GAP_SCORE;
 
+    let max:bit<32>     = 0;
     if (up_left >= up && up_left >= left) {
       max := up_left;
     } else {
@@ -92,7 +85,7 @@ let b_str_idx:bit<32> = 0;
 
 while (a_idx>0 || b_idx>0) {
   decor "#pragma HLS loop_tripcount max=100 min=0"
-  r := b_idx * 129;
+  let r = b_idx * 129;
 
   if (ptr[r + a_idx] == ALIGN) {
     alignedA[a_str_idx] := SEQA[a_idx-1];

@@ -12,7 +12,7 @@ Data zero copy pragma used for `out`.
 Data copy pragma used for `nzval` to avoid #34.
 
 # REWRITE
-No change made
+2D arrays used for `nzval` and `cols`.
 
 # OPTIMIZED BASELINE
 No change made

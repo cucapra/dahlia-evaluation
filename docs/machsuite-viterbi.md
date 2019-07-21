@@ -11,7 +11,7 @@ Data zero copy pragma used for path argument.
 Data copy pragma used for `obs` to avoid #34.
 
 # REWRITE
-`ap_int<8>` manually changed to `char` for software execution.
+`ap_int<8>` manually changed to `uint8_t` for software execution, `char` didn't work after update. Using 2D arrays for transition and emission. While loop used for decrementing for loop. Return statement avoided.
 
 # OPTIMIZED BASELINE
 No change made

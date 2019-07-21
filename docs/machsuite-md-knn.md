@@ -11,7 +11,7 @@ Function name changed from `md_kernel` to `md` in all three source files.
 No change made
 
 # REWRITE
-No change made
+Use 2D array for NL. Use combine for inner loop.
 
 # OPTIMIZED BASELINE
 No change made

@@ -3,11 +3,6 @@
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
 
-void run_benchmark( void *vargs ) {
-  struct bench_args_t *args = (struct bench_args_t *)vargs;
-  viterbi( args->obs, args->init, args->transition, args->emission, args->path );
-}
-
 /* Input format:
 %% Section 1
 tok_t[N_OBS]: observation vector

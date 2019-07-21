@@ -7,105 +7,94 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 void local_scan(
-ap_int<32> bucket[2048]) {
+ap_int<32> bucket[128][16]) {
   
-  ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp1 = 0;
   ap_int<32> bucket_tmp2 = 0;
   for(int radix_id = 0; radix_id < 128; radix_id++) {
     for(int i = 1; i < 16; i++) {
-      bucket_idx = ((radix_id * 16) + i);
-      bucket_tmp1 = bucket[(bucket_idx - 1)];
+      bucket_tmp1 = bucket[radix_id][(i - 1)];
       //---
-      bucket_tmp2 = bucket[bucket_idx];
+      bucket_tmp2 = bucket[radix_id][i];
       //---
-      bucket[bucket_idx] = (bucket_tmp1 + bucket_tmp2);
+      bucket[radix_id][i] = (bucket_tmp1 + bucket_tmp2);
     }
   }
 }
 void sum_scan(
 ap_int<32> sum[128], 
-ap_int<32> bucket[2048]) {
+ap_int<32> bucket[128][16]) {
   
-  ap_int<32> bucket_idx = 0;
   ap_int<32> sum_tmp = 0;
   sum[0] = 0;
   //---
-  for(int radix_id = 1; radix_id < 128; radix_id++) {
-    bucket_idx = ((radix_id * 16) - 1);
-    sum_tmp = sum[(radix_id - 1)];
+  for(int radix_id = 0; radix_id < 127; radix_id++) {
+    sum_tmp = sum[radix_id];
     //---
-    sum[radix_id] = (sum_tmp + bucket[bucket_idx]);
+    sum[(radix_id + 1)] = (sum_tmp + bucket[radix_id][15]);
   }
 }
 void last_step_scan(
-ap_int<32> bucket[2048], 
+ap_int<32> bucket[128][16], 
 ap_int<32> sum[128]) {
   
-  ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp = 0;
   for(int radix_id = 0; radix_id < 128; radix_id++) {
     for(int i = 0; i < 16; i++) {
-      bucket_idx = ((radix_id * 16) + i);
-      bucket_tmp = bucket[bucket_idx];
+      bucket_tmp = bucket[radix_id][i];
       //---
-      bucket[bucket_idx] = (bucket_tmp + sum[radix_id]);
+      bucket[radix_id][i] = (bucket_tmp + sum[radix_id]);
     }
   }
 }
 void init(
-ap_int<32> bucket[2048]) {
+ap_int<32> bucket[128][16]) {
   
-  for(int i = 0; i < 2048; i++) {
-    bucket[i] = 0;
+  for(int i = 0; i < 128; i++) {
+    for(int j = 0; j < 16; j++) {
+      bucket[i][j] = 0;
+    }
   }
 }
 void hist(
-ap_int<32> bucket[2048], 
-ap_int<32> a[2048], ap_int<32> exp) {
+ap_int<32> bucket[128][16], 
+ap_int<32> a[512][4], ap_int<32> exp) {
   
-  ap_int<32> elem_per_block = 4;
   ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp = 0;
-  ap_int<32> a_idx = 0;
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
-      a_idx = ((block_id * elem_per_block) + i);
-      bucket_idx = ((((a[a_idx] >> exp) & 0x3) * 512) + (block_id + 1));
-      bucket_tmp = bucket[bucket_idx];
+      bucket_idx = ((((a[block_id][i] >> exp) & 0x3) * 512) + (block_id + 1));
+      bucket_tmp = bucket[(bucket_idx / 16)][(bucket_idx % 16)];
       //---
-      bucket[bucket_idx] = (bucket_tmp + 1);
+      bucket[(bucket_idx / 16)][(bucket_idx % 16)] = (bucket_tmp + 1);
     }
   }
 }
 void update(
-ap_int<32> b[2048], 
-ap_int<32> bucket[2048], 
-ap_int<32> a[2048], ap_int<32> exp) {
+ap_int<32> b[512][4], 
+ap_int<32> bucket[128][16], 
+ap_int<32> a[512][4], ap_int<32> exp) {
   
   ap_int<32> bucket_idx = 0;
   ap_int<32> elem_per_block = 4;
   ap_int<32> a_idx = 0;
-  ap_int<32> bucket_temp = 0;
+  ap_int<32> bucket_tmp = 0;
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
-      bucket_idx = ((((a[((block_id * elem_per_block) + i)] >> exp) & 0x3) * 512) + block_id);
+      bucket_idx = ((((a[block_id][i] >> exp) & 0x3) * 512) + block_id);
+      bucket_tmp = bucket[(bucket_idx / 16)][(bucket_idx % 16)];
       //---
-      a_idx = ((block_id * elem_per_block) + i);
-      //---
-      b[bucket[bucket_idx]] = a[a_idx];
-      //---
-      bucket_temp = bucket[bucket_idx];
-      //---
-      bucket[bucket_idx] = (bucket_temp + 1);
+      b[(bucket_tmp / 4)][(bucket_tmp % 4)] = a[block_id][i];
+      bucket[(bucket_idx / 16)][(bucket_idx % 16)] = (bucket_tmp + 1);
     }
   }
 }
-#pragma SDS data zero_copy(a[0:SIZE], b[0:SIZE], bucket[0:BUCKETSIZE], sum[0:SCAN_RADIX])
+#pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])
 void sort(
-ap_int<32> a[2048], 
-ap_int<32> b[2048], 
-ap_int<32> bucket[2048], 
+ap_int<32> a[512][4], 
+ap_int<32> b[512][4], 
+ap_int<32> bucket[128][16], 
 ap_int<32> sum[128]) {
   
   ap_int<1> valid_buffer = 0;

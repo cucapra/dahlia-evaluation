@@ -5,48 +5,32 @@ decl img: double[1024];
 decl real_twid: double[512];
 decl img_twid: double[512];
 
-let even:bit<32> = 0;
 let span:bit<32> = 1024 >> 1;
 let log:bit<32> = 0;
-let rootindex:bit<32> = 0;
-
-let temp:double = 0.0;
-
-// Temporary variables for serial reading/writing
-let real_odd:double = 0.0;
-let real_even:double = 0.0;
-let img_even:double = 0.0;
-let img_odd:double = 0.0;
-
-let odd:bit<32> = 0;
 
 while (span != 0) {
-  odd := span;
+  let odd = span;
   while (odd < 1024) {
     decor "#pragma HLS loop_tripcount max=1024 min=512"
     odd := odd | span;
-    even := odd ^ span;
-    real_even := real[even];
+    let even = odd ^ span;
+    let real_odd = real[odd];
+    let img_odd = img[odd];
     ---
-    real_odd  := real[odd];
-    temp := real_even + real_odd
+    let real_even = real[even];
+    let img_even = img[even];
+    let temp_r = real_even + real_odd;
+    let temp_i = img_even + img_odd;
     ---
     real[odd] := real_even - real_odd;
-    ---
-    real[even] := temp;
-    ---
-    img_even := img[even];
-    ---
-    img_odd := img[odd];
-    temp := img_even + img_odd;
-    ---
     img[odd] := img_even - img_odd;
     ---
-    img[even] := temp;
-    rootindex := (even << log) & (1024 - 1);
+    real[even] := temp_r;
+    img[even] := temp_i;
+    let rootindex = (even << log) & (1024 - 1);
     ---
     if (rootindex != 0) {
-      temp := real_twid[rootindex] * real[odd] - img_twid[rootindex] * img[odd];
+      let temp = real_twid[rootindex] * real[odd] - img_twid[rootindex] * img[odd];
       img_odd := img[odd];
       ---
       img[odd] := real_twid[rootindex] * img_odd + img_twid[rootindex] * real[odd];

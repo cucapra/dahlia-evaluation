@@ -11,7 +11,7 @@ Data zero copy pragma used for both arguments.
 Add tripcount to inner loop for estimation.
 
 # REWRITE
-No change made
+For loops turned to while loops, outer due to complex pattern, inner due to starting point determined dynamically. Operation order adjusted and temporary variables introduced to reduce dependency.
 
 # OPTIMIZED BASELINE
 No change made

@@ -10,7 +10,7 @@ All `.c` files changed to `.cpp`.
 Data copy pragma used for `orig` to avoid #34.
 
 # REWRITE
-No change made
+2D arrays are used. `temp` variable is converted to two `temp` variables for each loop over filter dimension.
 
 # OPTIMIZED BASELINE
 No change made

@@ -1,95 +1,84 @@
-def local_scan(bucket: bit<32>[2048]) {
-  let bucket_idx: bit<32> = 0;
+def local_scan(bucket: bit<32>[128][16]) {
   let bucket_tmp1: bit<32> = 0;
   let bucket_tmp2: bit<32> = 0;
   for (let radix_id = 0..128) {
     for (let i = 1..16) {
-      bucket_idx := radix_id * 16 + i;
-      bucket_tmp1 := bucket[bucket_idx - 1];
+      bucket_tmp1 := bucket[radix_id][i - 1];
       ---
-      bucket_tmp2 := bucket[bucket_idx];
+      bucket_tmp2 := bucket[radix_id][i];
       ---
-      bucket[bucket_idx] := bucket_tmp1 + bucket_tmp2;
+      bucket[radix_id][i] := bucket_tmp1 + bucket_tmp2;
     }
   }
 }
 
-def sum_scan(sum: bit<32>[128], bucket: bit<32>[2048]) {
-  let bucket_idx: bit<32> = 0;
+def sum_scan(sum: bit<32>[128], bucket: bit<32>[128][16]) {
   let sum_tmp: bit<32> = 0;
   sum[0] := 0;
   ---
-  for (let radix_id = 1..128) {
-    bucket_idx := radix_id * 16 - 1;
-    sum_tmp := sum[radix_id - 1];
+  for (let radix_id = 0..127) {
+    sum_tmp := sum[radix_id];
     ---
-    sum[radix_id] := sum_tmp + bucket[bucket_idx];
+    sum[radix_id + 1] := sum_tmp + bucket[radix_id][15];
   }
 }
 
-def last_step_scan(bucket: bit<32>[2048], sum: bit<32>[128]) {
-  let bucket_idx: bit<32> = 0;
+def last_step_scan(bucket: bit<32>[128][16], sum: bit<32>[128]) {
   let bucket_tmp: bit<32> = 0;
   for (let radix_id = 0..128) {
     for (let i = 0..16) {
-      bucket_idx := radix_id * 16 + i;
-      bucket_tmp := bucket[bucket_idx];
+      bucket_tmp := bucket[radix_id][i];
       ---
-      bucket[bucket_idx] := bucket_tmp + sum[radix_id];
+      bucket[radix_id][i] := bucket_tmp + sum[radix_id];
     }
   }
 }
 
-def init(bucket: bit<32>[2048]) {
-  for (let i = 0..2048) {
-    bucket[i] := 0;
+def init(bucket: bit<32>[128][16]) {
+  for (let i = 0..128) {
+    for (let j = 0..16) {
+      bucket[i][j] := 0;
+    }
   }
 }
 
-def hist(bucket: bit<32>[2048], a: bit<32>[2048], exp: bit<32>) {
-  let elem_per_block: bit<32> = 4;
+def hist(bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
   let bucket_idx: bit<32> = 0;
   let bucket_tmp: bit<32> = 0;
-  let a_idx: bit<32> = 0;
   for (let block_id = 0..512) {
     for (let i = 0..4) {
-      a_idx := block_id * elem_per_block + i;
-      bucket_idx := ((a[a_idx] >> exp) & 0x3) * 512 + block_id + 1;
-      bucket_tmp := bucket[bucket_idx];
+      bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id + 1;
+      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
       ---
-      bucket[bucket_idx] := bucket_tmp + 1;
+      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
 
-def update(b: bit<32>[2048], bucket: bit<32>[2048], a: bit<32>[2048], exp: bit<32>) {
+def update(b: bit<32>[512][4], bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
 
   let bucket_idx: bit<32> = 0;
   let elem_per_block: bit<32> = 4;
   let a_idx: bit<32> = 0;
 
-  let bucket_temp: bit<32> = 0;
+  let bucket_tmp: bit<32> = 0;
 
   for (let block_id = 0..512) {
     for (let i = 0..4) {
-      bucket_idx := ((a[block_id * elem_per_block + i] >> exp) & 0x3) * 512 + block_id;
+      bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id;
+      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
       ---
-      a_idx := block_id * elem_per_block + i;
-      ---
-      b[bucket[bucket_idx]] := a[a_idx];
-      ---
-      bucket_temp := bucket[bucket_idx];
-      ---
-      bucket[bucket_idx] := bucket_temp + 1;
+      b[bucket_tmp / 4][bucket_tmp % 4] := a[block_id][i];
+      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
 
-decor "#pragma SDS data zero_copy(a[0:SIZE], b[0:SIZE], bucket[0:BUCKETSIZE], sum[0:SCAN_RADIX])"
+decor "#pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])"
 
-decl a: bit<32>[2048];
-decl b: bit<32>[2048];
-decl bucket: bit<32>[2048];
+decl a: bit<32>[512][4];
+decl b: bit<32>[512][4];
+decl bucket: bit<32>[128][16];
 decl sum: bit<32>[128];
 
 let valid_buffer = 0;

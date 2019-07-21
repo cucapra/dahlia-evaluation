@@ -18,13 +18,6 @@ In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Pr
 #define lj1           1.5
 #define lj2           2.0
 
-void md(TYPE force_x[nAtoms],
-               TYPE force_y[nAtoms],
-               TYPE force_z[nAtoms],
-               TYPE position_x[nAtoms],
-               TYPE position_y[nAtoms],
-               TYPE position_z[nAtoms],
-               int32_t NL[nAtoms*maxNeighbors]);
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 

@@ -1,19 +1,15 @@
-decor "#pragma SDS data copy(nzval[0:N*L])"
-decor "#pragma SDS data zero_copy(out[0:N])"
+decor "#pragma SDS data copy(nzval[0:494][0:10])"
+decor "#pragma SDS data zero_copy(out[0:494])"
 
-decl nzval: double[4940];
-decl cols: bit<32>[4940];
+decl nzval: double[494][10];
+decl cols: bit<32>[494][10];
 decl vec: double[494];
 decl out: double[494];
 
-let si:double = 0.0;
-
 for (let i = 0..494) {
-  let sum:double = out[i];
   for (let j = 0..10) {
-    si := nzval[j + i*10] * vec[cols[j + i*10]];
-    sum := sum + si;
+    let si = nzval[i][j] * vec[cols[i][j]];
+  } combine {
+    out[i] += si;
   }
-  ---
-  out[i] := sum;
 }

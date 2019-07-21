@@ -26,18 +26,6 @@ double position_x[4][4][4][10],
 double position_y[4][4][4][10], 
 double position_z[4][4][4][10]) {
   
-  dvector_t p;
-  dvector_t q;
-  double dx;
-  double dy;
-  double dz;
-  double r2inv;
-  double r6inv;
-  double potential;
-  double f;
-  double sum_x;
-  double sum_y;
-  double sum_z;
   
   dvector_t force_local[4][4][4][10];
   dvector_t empty = {
@@ -126,30 +114,27 @@ double position_z[4][4][4][10]) {
               ap_int<32> p_idx_upper = n_points[b0x][b0y][b0z];
               while((p_idx < p_idx_upper)) {
                 #pragma HLS loop_tripcount avg=10
-                dvector_t newp = {
+                dvector_t p = {
                   .x = position_x[b0x][b0y][b0z][p_idx], .y = position_y[b0x][b0y][b0z][p_idx], .z = position_z[b0x][b0y][b0z][p_idx]
                 };
-                p = newp;
                 //---
-                sum_x = force_local[b0x][b0y][b0z][p_idx].x;
-                sum_y = force_local[b0x][b0y][b0z][p_idx].y;
-                sum_z = force_local[b0x][b0y][b0z][p_idx].z;
+                double sum_x = force_local[b0x][b0y][b0z][p_idx].x;
+                double sum_y = force_local[b0x][b0y][b0z][p_idx].y;
+                double sum_z = force_local[b0x][b0y][b0z][p_idx].z;
                 ap_int<1> q_idx = 0;
                 while((q_idx < q_idx_range)) {
                   #pragma HLS loop_tripcount avg=10
-                  dvector_t newq = {
+                  dvector_t q = {
                     .x = position_x[b1x][b1y][b1z][q_idx], .y = position_y[b1x][b1y][b1z][q_idx], .z = position_z[b1x][b1y][b1z][q_idx]
                   };
-                  q = newq;
-                  //---
                   if(((q.x != p.x) || ((q.y != p.y) || (q.z != p.z)))){
-                    dx = (p.x - q.x);
-                    dy = (p.y - q.y);
-                    dz = (p.z - q.z);
-                    r2inv = (1.0 / ((dx * dx) + ((dy * dy) + (dz * dz))));
-                    r6inv = (r2inv * (r2inv * r2inv));
-                    potential = (r6inv * ((1.5 * r6inv) - 2.0));
-                    f = (r2inv * potential);
+                    double dx = (p.x - q.x);
+                    double dy = (p.y - q.y);
+                    double dz = (p.z - q.z);
+                    double r2inv = (1.0 / ((dx * dx) + ((dy * dy) + (dz * dz))));
+                    double r6inv = (r2inv * (r2inv * r2inv));
+                    double potential = (r6inv * ((1.5 * r6inv) - 2.0));
+                    double f = (r2inv * potential);
                     sum_x = (sum_x + (f * dx));
                     sum_y = (sum_y + (f * dy));
                     sum_z = (sum_z + (f * dz));

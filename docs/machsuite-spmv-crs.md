@@ -12,7 +12,7 @@ BRAM resource directives commented out as they break the flow. #35
 Data copy pragma used for `val` to avoid #34.
 
 # REWRITE
-No change made
+For loop changed to a while loop as bounds are determined at runtime.
 
 # OPTIMIZED BASELINE
 No change made

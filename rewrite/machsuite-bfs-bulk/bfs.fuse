@@ -17,13 +17,6 @@ decl starting_node: ubit<64>;
 decl level: bit<8>[256];
 decl level_counts: ubit<64>[10];
 
-// Temporary variables for serial updates
-let tmp_end:ubit<64>   = 0;
-let tmp_dst:ubit<64>   = 0;
-let tmp_level:bit<8> = 0;
-let cnt:ubit<64> = 0;
-let tmp_l:bit<32> = 0;
-
 let MAX_LEVEL = 127;
 
 level[starting_node] := 0;
@@ -32,19 +25,19 @@ level_counts[0] := 1;
 
 for (let horizon = 0..10) {
         decor "#pragma HLS loop_tripcount max=10 min=1"
-  cnt := 0;
+  let cnt:ubit<64> = 0;
   for (let n = 0..256) {
-    tmp_l := level[n];
+    let tmp_l = level[n];
     ---
     if (tmp_l == horizon) {
       let e = nodes[n].edge_begin;
       ---
-      tmp_end := nodes[n].edge_end;
+      let tmp_end = nodes[n].edge_end;
       ---
       while (e < tmp_end) {
         decor "#pragma HLS loop_tripcount avg=12"
-        tmp_dst := edges[e].dst;
-        tmp_level := level[tmp_dst];
+        let tmp_dst = edges[e].dst;
+        let tmp_level = level[tmp_dst];
         ---
         if (tmp_level == MAX_LEVEL) {
           level[tmp_dst] := horizon + 1;

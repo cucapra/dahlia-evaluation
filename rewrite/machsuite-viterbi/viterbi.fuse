@@ -7,8 +7,8 @@ decor "#pragma SDS data zero_copy(path[0:N_OBS])"
 
 decl obs: bit<8>[140];
 decl init: double[64];
-decl transition: double[4096];
-decl emission: double[4096];
+decl transition: double[64][64];
+decl emission: double[64][64];
 decl path: bit<8>[140];
 
 let llike: double[140][64];
@@ -18,18 +18,18 @@ let min_s: bit<8> = 0;
 
 {
 for (let s = 0..64) {
-  llike[0][s] := init[s] + emission[s*64+obs[0]];
+  llike[0][s] := init[s] + emission[s][obs[0]];
 }
 ---
 for (let t = 1..140) {
   decor "#pragma HLS loop_tripcount avg=139"
   for (let curr = 0..64) {
     decor "#pragma HLS loop_tripcount avg=64"
-    min_p := llike[t-1][0] + transition[0*64+curr] + emission[curr*64+obs[t]];
+    min_p := llike[t-1][0] + transition[0][curr] + emission[curr][obs[t]];
     ---
     for (let prev = 1..64) {
       decor "#pragma HLS loop_tripcount avg=63"
-      p := llike[t-1][prev] + transition[prev*64+curr] + emission[curr*64+obs[t]];
+      p := llike[t-1][prev] + transition[prev][curr] + emission[curr][obs[t]];
       if (p < min_p) {
         min_p := p;
       }
@@ -57,11 +57,11 @@ while (t >= 0) {
   decor "#pragma HLS loop_tripcount avg=138"
   min_s := 0;
   temp_t := t;
-  min_p := llike[t][min_s] + transition[min_s*64+path[t+1]];
+  min_p := llike[t][min_s] + transition[min_s][path[t+1]];
   ---
   for (let s = 1..64) {
     decor "#pragma HLS loop_tripcount avg=63"
-    p := llike[t][s] + transition[s*64+path[t+1]];
+    p := llike[t][s] + transition[s][path[t+1]];
     if (p < min_p) {
       min_p := p;
       min_s := s;

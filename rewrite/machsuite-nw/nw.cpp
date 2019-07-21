@@ -25,14 +25,6 @@ char ptr[16641]) {
   ap_int<7> SKIPB = 60;
   ap_int<7> DASH = 45;
   ap_int<8> UNDERSCORE = 95;
-  ap_int<32> score = 0;
-  ap_int<32> up_left = 0;
-  ap_int<32> up = 0;
-  ap_int<32> left = 0;
-  ap_int<32> max = 0;
-  ap_int<32> row = 0;
-  ap_int<32> row_up = 0;
-  ap_int<32> r = 0;
   for(int a_idx = 0; a_idx < 129; a_idx++) {
     #pragma HLS loop_tripcount max=100 min=0
     M[a_idx] = (a_idx * GAP_SCORE);
@@ -47,18 +39,20 @@ char ptr[16641]) {
     #pragma HLS loop_tripcount max=100 min=0
     for(int a_idx = 1; a_idx < 129; a_idx++) {
       #pragma HLS loop_tripcount max=100 min=0
+      ap_int<32> score = 0;
       if((SEQA[(a_idx - 1)] == SEQB[(b_idx - 1)])){
         score = MATCH_SCORE;
       } else{
         score = MISMATCH_SCORE;
       }
-      row_up = ((b_idx - 1) * 129);
-      row = (b_idx * 129);
-      up_left = (M[(row_up + (a_idx - 1))] + score);
+      ap_int<9> row_up = ((b_idx - 1) * 129);
+      ap_int<9> row = (b_idx * 129);
+      ap_int<32> up_left = (M[(row_up + (a_idx - 1))] + score);
       //---
-      up = (M[(row_up + a_idx)] + GAP_SCORE);
+      ap_int<32> up = (M[(row_up + a_idx)] + GAP_SCORE);
       //---
-      left = (M[(row + (a_idx - 1))] + GAP_SCORE);
+      ap_int<32> left = (M[(row + (a_idx - 1))] + GAP_SCORE);
+      ap_int<32> max = 0;
       if(((up_left >= up) && (up_left >= left))){
         max = up_left;
       } else{
@@ -88,7 +82,7 @@ char ptr[16641]) {
   ap_int<32> b_str_idx = 0;
   while(((a_idx > 0) || (b_idx > 0))) {
     #pragma HLS loop_tripcount max=100 min=0
-    r = (b_idx * 129);
+    ap_int<9> r = (b_idx * 129);
     if((ptr[(r + a_idx)] == ALIGN)){
       alignedA[a_str_idx] = SEQA[(a_idx - 1)];
       alignedB[b_str_idx] = SEQB[(b_idx - 1)];
