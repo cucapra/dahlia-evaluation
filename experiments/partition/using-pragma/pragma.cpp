@@ -2,16 +2,18 @@
 #include "pragma.h"
 
 ap_int<32> A[32][32];
-#pragma HLS ARRAY_PARTITION variable=A factor=2 dim=1
-#pragma HLS ARRAY_PARTITION variable=A factor=2 dim=2
-
 ap_int<32> B[32][32];
-#pragma HLS ARRAY_PARTITION variable=B factor=2 dim=1
-#pragma HLS ARRAY_PARTITION variable=B factor=2 dim=2
 
 ap_int<32> res;
 
 void kernel(ap_int<32> iterations) {
+
+  #pragma HLS ARRAY_PARTITION variable=A factor=2 dim=1
+  #pragma HLS ARRAY_PARTITION variable=A factor=2 dim=2
+
+  #pragma HLS ARRAY_PARTITION variable=B factor=2 dim=1
+  #pragma HLS ARRAY_PARTITION variable=B factor=2 dim=2
+
   while((iterations > 0)) {
     #pragma HLS loop_tripcount avg=1000
     res = 0;
