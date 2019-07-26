@@ -7,7 +7,7 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 
-#pragma SDS data copy(m1[0:row_size][0:col_size])
+#pragma SDS data copy(m1[0:64][0:64])
 void gemm(
 double m1[64][64], 
 double m2[64][64], 

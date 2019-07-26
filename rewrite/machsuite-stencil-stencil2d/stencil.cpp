@@ -7,7 +7,7 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 
-#pragma SDS data copy(orig[0:row_size][0:col_size])
+#pragma SDS data copy(orig[0:128][0:64])
 void stencil(
 ap_int<32> orig[128][64], 
 ap_int<32> sol[128][64], 

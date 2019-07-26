@@ -16,7 +16,7 @@ typedef struct {
   double y;
   double z;
 } dvector_t;
-#pragma SDS data copy(n_points[0:nBlocks])
+#pragma SDS data copy(n_points[0:64])
 void md(
 ap_int<32> n_points[4][4][4], 
 double force_x[4][4][4][10], 

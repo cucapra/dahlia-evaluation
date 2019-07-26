@@ -10,7 +10,7 @@ record dvector_t {
   z: double
 }
 
-decor "#pragma SDS data copy(n_points[0:nBlocks])"
+decor "#pragma SDS data copy(n_points[0:64])"
 
 decl n_points: bit<32>[4][4][4];
 decl force_x: double[4][4][4][10];

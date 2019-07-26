@@ -25,6 +25,8 @@ In `bfs.h`, for the BFS node/edge `struct`s, the "names" of the `struct`s are de
 
 Internal `for` loop changed to `while` because starting point is dynamically determined.
 
+Add type redefines manually.
+
 # OPTIMIZED BASELINE
 No change made
 

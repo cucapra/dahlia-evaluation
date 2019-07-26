@@ -7,7 +7,7 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 
-#pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])
+#pragma SDS data zero_copy(real[0:1024], img[0:1024])
 void fft(
 double real[1024], 
 double img[1024], 

@@ -2,8 +2,8 @@
 // N_STATES: 64
 // N_TOKENS 64
 
-decor "#pragma SDS data copy(obs[0:N_OBS])"
-decor "#pragma SDS data zero_copy(path[0:N_OBS])"
+decor "#pragma SDS data copy(obs[0:140])"
+decor "#pragma SDS data zero_copy(path[0:140])"
 
 decl obs: bit<8>[140];
 decl init: double[64];

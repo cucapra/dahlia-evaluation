@@ -7,7 +7,7 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 void cpf(
-char pattern[4], 
+ap_int<8> pattern[4], 
 ap_int<32> kmpNext[4]) {
   
   ap_int<32> k = 0;
@@ -39,8 +39,8 @@ ap_int<32> kmpNext[4]) {
 #pragma SDS data zero_copy(kmpNext[0:PATTERN_SIZE], n_matches)
 #pragma SDS data zero_copy(input[0:STRING_SIZE])
 void kmp(
-char pattern[4], 
-char input[32411], 
+ap_int<8> pattern[4], 
+ap_int<8> input[32411], 
 ap_int<32> kmpNext[4], 
 ap_int<32> n_matches[1]) {
   

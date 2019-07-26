@@ -3,24 +3,27 @@
 #include "ap_int.h"
 #else
 template <int N> using ap_int = int;
-template <int N> using ap_uint = unsigned int;
+template <int N> using ap_uint = uint8_t;
 #endif
 #include <inttypes.h>
 
-#pragma SDS data copy(obs[0:N_OBS])
-#pragma SDS data zero_copy(path[0:N_OBS])
+typedef uint8_t tok_t;
+typedef double prob_t;
+typedef uint8_t state_t;
+#pragma SDS data copy(obs[0:140])
+#pragma SDS data zero_copy(path[0:140])
 void viterbi(
-uint8_t obs[140], 
-double init[64], 
-double transition[64][64], 
-double emission[64][64], 
-uint8_t path[140]) {
+tok_t obs[140], 
+prob_t init[64], 
+prob_t transition[64][64], 
+prob_t emission[64][64], 
+state_t path[140]) {
   
   
   double llike[140][64];
   double min_p = 0.0;
   double p = 0.0;
-  ap_int<8> min_s = 0;
+  uint8_t min_s = 0;
   for(int s = 0; s < 64; s++) {
     llike[0][s] = (init[s] + emission[s][obs[0]]);
   }

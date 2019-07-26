@@ -16,7 +16,13 @@ Data copy pragma used for `nodes` to avoid #34.
 # REWRITE
 Removed names from structs. Changed defines to inline. For loop changed to a while. Break statement changed to skip loop. 
 
-`ap_uint<64>` changed to `uint64_t` and `ap_int<8>` changed to `int8_t` for software.
+For `bit<8>` and `ubit<64>`, `ap_int<8>` and `unsigned int` are manually changed to `char` and `uint64_t` to avoid interface conflicts in software.
+
+Added 
+```
+#include <inttypes.h>
+
+Add type redefines manually.
 
 # OPTIMIZED BASELINE
 No change made

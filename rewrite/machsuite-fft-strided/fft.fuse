@@ -1,4 +1,4 @@
-decor "#pragma SDS data zero_copy(real[0:FFT_SIZE], img[0:FFT_SIZE])"
+decor "#pragma SDS data zero_copy(real[0:1024], img[0:1024])"
 
 decl real: double[1024];
 decl img: double[1024];

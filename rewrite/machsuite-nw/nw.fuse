@@ -1,7 +1,7 @@
 // ALEN: 128
 // BLEN: 128
 
-decor "#pragma SDS data copy(SEQA[0:ALEN])"
+decor "#pragma SDS data copy(SEQA[0:128])"
 decor "#pragma SDS data zero_copy(M[0:16641], ptr[0:16641])"
 
 decl SEQA: bit<8>[128];

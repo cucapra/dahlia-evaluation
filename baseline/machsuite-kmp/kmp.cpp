@@ -21,7 +21,7 @@ void CPF(char pattern[PATTERN_SIZE], int32_t kmpNext[PATTERN_SIZE]) {
 }
 
 
-int kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PATTERN_SIZE], int32_t n_matches[1]) {
+void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PATTERN_SIZE], int32_t n_matches[1]) {
     int32_t i, q;
     n_matches[0] = 0;
 
@@ -40,5 +40,4 @@ int kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PAT
             q = kmpNext[q - 1];
         }
     }
-    return 0;
 }

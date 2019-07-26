@@ -7,15 +7,15 @@ template <int N> using ap_uint = unsigned int;
 #endif
 
 
-#pragma SDS data copy(SEQA[0:ALEN])
+#pragma SDS data copy(SEQA[0:128])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])
 void nw(
-char SEQA[128], 
-char SEQB[128], 
-char alignedA[256], 
-char alignedB[256], 
+ap_int<8> SEQA[128], 
+ap_int<8> SEQB[128], 
+ap_int<8> alignedA[256], 
+ap_int<8> alignedB[256], 
 ap_int<32> M[16641], 
-char ptr[16641]) {
+ap_int<8> ptr[16641]) {
   
   ap_int<1> MATCH_SCORE = 1;
   ap_int<32> MISMATCH_SCORE = (0 - 1);

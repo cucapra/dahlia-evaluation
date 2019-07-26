@@ -15,7 +15,7 @@ Data zero copy pragma used for `input` to avoid #36.
 Data copy pragma used for `pattern` to avoid #34.
 
 # REWRITE
-For `bit<8>`, `ap_int<8>` is manually changed to `char` to avoid interface conflicts in software.
+For `bit<8>`, `ap_int<8>` is manually changed to `char` to avoid interface conflicts only in software.
 
 # OPTIMIZED BASELINE
 No change made

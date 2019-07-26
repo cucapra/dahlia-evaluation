@@ -14,7 +14,7 @@ BRAM resource directives commented out as they break the flow. #35
 Data copy pragma used for `SEQA` to avoid #34.
 
 # REWRITE
-`ap_int<8>`s in the interface changed to `char` for software execution. Last two `for` loops changed to `while` as the starting point is dynamically determined.
+`ap_int<8>`s in the interface changed to `char` only for software execution. Last two `for` loops changed to `while` as the starting point is dynamically determined.
 
 # OPTIMIZED BASELINE
 No change made
