@@ -13,6 +13,7 @@ ap_int<32> res;
 
 void kernel(ap_int<32> iterations) {
   while((iterations > 0)) {
+    #pragma HLS loop_tripcount avg=1000
     res = 0;
     for(int i = 0; i < 32; i++) {
       #pragma HLS loop_tripcount avg=32
