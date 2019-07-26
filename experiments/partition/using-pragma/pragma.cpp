@@ -15,20 +15,26 @@ void kernel(ap_int<32> iterations) {
   while((iterations > 0)) {
     res = 0;
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         A[i][j] = 0;
         B[i][j] = (i + j);
       }
     }
     //---
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         A[i][j] = (B[i][j] + 1);
       }
     }
     //---
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         ap_int<32> x = B[i][j];
         // combiner:
         res += x;

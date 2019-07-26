@@ -87,20 +87,26 @@ void kernel(ap_int<32> iterations) {
   while((iterations > 0)) {
     res = 0;
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         write_a(i, j, 0);
         write_b(i, j, (i + j));
       }
     }
     //---
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         write_a(i, j, read_b(i, j) + 1);
       }
     }
     //---
     for(int i = 0; i < 32; i++) {
+      #pragma HLS loop_tripcount avg=32
       for(int j = 0; j < 32; j++) {
+        #pragma HLS loop_tripcount avg=32
         ap_int<32> x = read_b(i, j);
         // combiner:
         res += x;
