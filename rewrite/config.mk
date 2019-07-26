@@ -1,6 +1,9 @@
 BENCHMARKS=\
+	machsuite-aes \
 	machsuite-bfs-bulk \
+	machsuite-bfs-queue \
 	machsuite-fft-strided \
+	machsuite-fft-transpose \
 	machsuite-gemm-blocked \
 	machsuite-gemm-ncubed \
 	machsuite-kmp \
@@ -14,8 +17,5 @@ BENCHMARKS=\
 	machsuite-stencil-stencil2d \
 	machsuite-stencil-stencil3d \
 	machsuite-viterbi \
-	#machsuite-aes \
-	machsuite-backprop \
-	machsuite-bfs-queue \
-	machsuite-fft-transpose \
+	#machsuite-backprop \
 

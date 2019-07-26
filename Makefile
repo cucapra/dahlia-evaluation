@@ -19,8 +19,11 @@ BENCHMARKS := baseline/machsuite-aes \
 	baseline/machsuite-stencil-stencil2d \
 	baseline/machsuite-stencil-stencil3d \
 	baseline/machsuite-viterbi \
+	rewrite/machsuite-aes \
 	rewrite/machsuite-bfs-bulk \
+	rewrite/machsuite-bfs-queue \
 	rewrite/machsuite-fft-strided \
+	rewrite/machsuite-fft-transpose \
 	rewrite/machsuite-gemm-ncubed \
 	rewrite/machsuite-gemm-blocked \
 	rewrite/machsuite-kmp \
