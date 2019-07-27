@@ -40,6 +40,11 @@ The script creates a new directory for the batch under `_results/` named with a 
 It puts a list of job IDs in a file called `jobs.txt` there.
 It prints the name of the batch directory (i.e., the timestamp) to stdout.
 
+This script has command-line options:
+
+- `-E`: Submit jobs for full synthesis. (The default is to just do estimation.)
+- `-p`: Pretend to submit jobs, but don't actually submit anything. (For debugging.)
+
 ### `extract.py`
 
 Download results for a previously-submitted batch of benchmark jobs.
