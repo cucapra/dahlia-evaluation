@@ -20,7 +20,12 @@ There is also a `make fuse` target to recompile all the source code to HLS C++.
 ## Benchmarking Scripts
 
 The infrastructure for running benchmarks is under the `_scripts` directory.
+
+To use the scripts, first install [Requests][] by typing `pip install --user requests`.
+
 For these scripts, you can set a `BUILDBOT` environment variable to point to the URL of the running Buildbot instance.
+
+[requests]: https://2.python-requests.org/en/master/
 
 ### `batch.py`
 

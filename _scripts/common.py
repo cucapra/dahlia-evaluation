@@ -37,4 +37,4 @@ def logging_setup():
     logging.basicConfig(
         format='%(levelname)s: %(message)s',
         stream=sys.stderr,
-        level=logging.DEBUG)
+        level=logging.INFO)

@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
-import subprocess
 import os
 import sys
 import logging
 import json
+import requests
 
 import common
 import extracting
@@ -53,19 +53,28 @@ DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
 
+def _download(url, path, chunk_size=4096):
+    """Download the file at `url` to `path`.
+    """
+    with requests.get(url, stream=True) as res:
+        res.raise_for_status()
+        with open(path, 'wb') as f:
+            for chunk in res.iter_content(chunk_size=chunk_size):
+                if chunk:
+                    f.write(chunk)
+
+
 def get_metadata(job_id):
     """Download the configuration JSON located at $BUILDBOT/jobs/.
     Return None if the download fails.
     """
-    # Download the json information form job page. Capture the Json
-    res = subprocess.run(
-        ['curl', '-sSf', '{}/jobs/{}'.format(common.buildbot_url(), job_id)],
-        capture_output=True)
-
-    if res.returncode:
+    url = '{}/jobs/{}'.format(common.buildbot_url(), job_id)
+    try:
+        with requests.get(url) as res:
+            res.raise_for_status()
+            return res.json()
+    except requests.HTTPError:
         return None
-    else:
-        return json.loads(res.stdout)
 
 
 def download_files(base_dir, job_id, file_config):
@@ -93,15 +102,13 @@ def download_files(base_dir, job_id, file_config):
             conf['file'],
         )
         local_name = os.path.join(job_path, os.path.basename(conf['file']))
-        cmd = ['curl', '-sSf', '-o', local_name, url]
-        res = subprocess.run(cmd, capture_output=True)
-
-        if res.returncode:
+        try:
+            _download(url, local_name)
+        except requests.HTTPError as exc:
             success = False
-
             logging.error(
-                'Failed to download {} for job {} with error {}'.format(
-                    conf['file'], job_id, res.stderr.decode('utf-8')))
+                'Failed to download {} for job {}: {}'.format(
+                    conf['file'], job_id, exc))
         else:
             out_data[conf['key']] = conf['collect'](local_name)
 
@@ -134,6 +141,8 @@ def extract_job(batch_dir, job_id):
 
     # Guess the location for the HLS report.
     rptname = os.path.basename(hwname).split("-")[1]
+
+    # Collect the HLS report.
     collect_hls = dict(COLLECT_HLS)
     collect_hls['file'] = collect_hls['file'].format(rptname)
 
