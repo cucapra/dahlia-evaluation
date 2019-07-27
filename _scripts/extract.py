@@ -5,6 +5,7 @@ import sys
 import logging
 import json
 import requests
+import re
 
 import common
 import extracting
@@ -26,10 +27,10 @@ COLLECT_EST = {
 
 # This one is the report from HLS-compiling the kernel source code to
 # RTL. It seems to exist regardless of whether we're doing estimation. The
-# filename here is template; it needs the kernel function name filled in.
+# filename here needs to be filled in by searching the file list.
 COLLECT_HLS = {
     'key': 'hls',
-    'file': 'code/_sds/reports/sds_{}.rpt',
+    'file': None,
     'collect': extracting.hls_report,
 }
 
@@ -139,20 +140,34 @@ def extract_job(batch_dir, job_id):
             'error': 'job in state {}'.format(job['state']),
         })
 
-    # Guess the location for the HLS report.
-    rptname = os.path.basename(hwname).split("-")[1]
-
-    # Collect the HLS report.
-    collect_hls = dict(COLLECT_HLS)
-    collect_hls['file'] = collect_hls['file'].format(rptname)
-
     # The list of files to download and extract.
-    collections = [COLLECT_LOG, collect_hls]
+    collections = [COLLECT_LOG]
     estimate = bool(job['estimate'])
     if estimate:
         collections += [COLLECT_EST]
     else:
         collections += [COLLECT_FULL]
+
+    # Find the name of the HLS report, which depends on the job.
+    files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
+    with requests.get(files_url) as res:
+        res.raise_for_status()
+        file_list = res.json()
+    for file_path in file_list:
+        m = re.search(r'/reports/sds_(\w+).rpt', file_path)
+        if m and m.groups(1) != 'main':
+            # Found it!
+            hls_rpt_path = file_path
+            break
+    else:
+        logging.error('HLS report not found for job %s', job_id)
+        hls_rpt_path = None
+
+    # Collect the HLS report, if available.
+    if hls_rpt_path:
+        collect_hls = dict(COLLECT_HLS)
+        collect_hls['file'] = hls_rpt_path
+        collections.append(collect_hls)
 
     # Download files and extract results.
     success, res_data = download_files(
