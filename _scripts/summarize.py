@@ -33,7 +33,13 @@ BENCH_PREFIXES = ['machsuite-']  # Remove these prefixes for display.
 
 
 def summarize_one(job_results):
-    bench_version, bench_name = job_results['bench'].split('/')
+    bench = job_results['bench']
+    if bench.count('/') == 1:
+        bench_version, bench_name = job_results['bench'].split('/')
+    else:
+        bench_version = ''
+        bench_name = bench
+
     for prefix in BENCH_PREFIXES:
         if bench_name.startswith(prefix):
             bench_name = bench_name[len(prefix):]

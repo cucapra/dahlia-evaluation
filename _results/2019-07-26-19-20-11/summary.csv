@@ -1,0 +1,3 @@
+bench,version,status,estimate,hls_lut,est_lut,hls_lat_min,hls_lat_max,est_lat,hls_bram,est_bram,hls_dsp,est_dsp,hls_ff,est_ff
+experiments/partition/manual-partition,,ok,True,1614,1614,1,1,255,8,4,0,0,557,557
+experiments/partition/using-pragma,,ok,True,2748,2748,1,1,255,0,0,0,0,6377,6377
