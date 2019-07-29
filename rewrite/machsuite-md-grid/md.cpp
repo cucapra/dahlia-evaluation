@@ -17,17 +17,17 @@ typedef struct {
   double z;
 } dvector_t;
 #pragma SDS data copy(n_points[0:64])
-void md(
-ap_int<32> n_points[4][4][4], 
-double force_x[4][4][4][10], 
-double force_y[4][4][4][10], 
-double force_z[4][4][4][10], 
-double position_x[4][4][4][10], 
-double position_y[4][4][4][10], 
-double position_z[4][4][4][10]) {
+void md(ap_int<32> n_points[4][4][4]
+, double force_x[4][4][4][10]
+, double force_y[4][4][4][10]
+, double force_z[4][4][4][10]
+, double position_x[4][4][4][10]
+, double position_y[4][4][4][10]
+, double position_z[4][4][4][10]
+) {
   
-  
-  dvector_t force_local[4][4][4][10];
+  dvector_t force_local[4][4][4][10]
+  ;
   dvector_t empty = {
     .x = 0.0, .y = 0.0, .z = 0.0
   };
@@ -110,7 +110,7 @@ double position_z[4][4][4][10]) {
               #pragma HLS loop_tripcount max=4 min=0
               ap_int<32> q_idx_range = n_points[b1x][b1y][b1z];
               //---
-              ap_int<1> p_idx = 0;
+              ap_int<32> p_idx = 0;
               ap_int<32> p_idx_upper = n_points[b0x][b0y][b0z];
               while((p_idx < p_idx_upper)) {
                 #pragma HLS loop_tripcount avg=10
@@ -121,7 +121,7 @@ double position_z[4][4][4][10]) {
                 double sum_x = force_local[b0x][b0y][b0z][p_idx].x;
                 double sum_y = force_local[b0x][b0y][b0z][p_idx].y;
                 double sum_z = force_local[b0x][b0y][b0z][p_idx].z;
-                ap_int<1> q_idx = 0;
+                ap_int<32> q_idx = 0;
                 while((q_idx < q_idx_range)) {
                   #pragma HLS loop_tripcount avg=10
                   dvector_t q = {

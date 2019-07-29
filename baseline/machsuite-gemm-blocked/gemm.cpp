@@ -5,7 +5,7 @@ M. D. Lam, E. E. Rothberg, and M. E. Wolf
 ASPLOS 1991
 */
 
-#include "gemm.h"
+#include "func.h"
 
 void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N]){
     int i, k, j, jj, kk;

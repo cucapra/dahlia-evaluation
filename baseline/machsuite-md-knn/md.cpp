@@ -5,7 +5,7 @@ The scalable heterogeneous computing (shoc) benchmark suite.
 In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Processing Units, 2010.
 */
 
-#include "md.h"
+#include "func.h"
 
 void md(TYPE force_x[nAtoms],
                TYPE force_y[nAtoms],

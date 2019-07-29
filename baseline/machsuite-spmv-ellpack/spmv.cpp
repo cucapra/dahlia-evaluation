@@ -3,7 +3,7 @@ Based on algorithm described here:
 http://www.cs.berkeley.edu/~mhoemmen/matrix-seminar/slides/UCB_sparse_tutorial_1.pdf
 */
 
-#include "spmv.h"
+#include "func.h"
 
 void spmv(TYPE nzval[N*L], int32_t cols[N*L], TYPE vec[N], TYPE out[N])
 {

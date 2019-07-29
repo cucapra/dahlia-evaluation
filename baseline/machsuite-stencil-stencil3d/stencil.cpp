@@ -5,7 +5,7 @@ K. Datta, M. Murphy, V. Volkov, S. Williams, J. Carter, L. Oliker, D. Patterson,
 SC 2008
 */
 
-#include "stencil.h"
+#include "func.h"
 
 void stencil(TYPE C[2], TYPE orig[SIZE], TYPE sol[SIZE]) {
     int i, j, k;
