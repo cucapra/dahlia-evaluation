@@ -24,8 +24,8 @@ BENCHMARKS := baseline/machsuite-aes \
 	rewrite/machsuite-bfs-queue \
 	rewrite/machsuite-fft-strided \
 	rewrite/machsuite-fft-transpose \
-	rewrite/machsuite-gemm-ncubed \
 	rewrite/machsuite-gemm-blocked \
+	rewrite/machsuite-gemm-ncubed \
 	rewrite/machsuite-kmp \
 	rewrite/machsuite-md-grid \
 	rewrite/machsuite-md-knn \

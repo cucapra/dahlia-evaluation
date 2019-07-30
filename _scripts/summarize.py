@@ -12,12 +12,15 @@ FIELDS = [
     'version',
     'status',
     'estimate',
-    'hls_lut',
-    'est_lut',
-    'full_lut',
     'hls_lat_min',
     'hls_lat_max',
     'est_lat',
+    'hls_lut',
+    'est_lut',
+    'full_lut',
+    'hls_ff',
+    'est_ff',
+    'full_ff',
     'hls_bram',
     'est_bram',
     'full_bram18',
@@ -25,9 +28,6 @@ FIELDS = [
     'hls_dsp',
     'est_dsp',
     'full_dsp',
-    'hls_ff',
-    'est_ff',
-    'full_ff',
 ]
 BENCH_PREFIXES = ['machsuite-']  # Remove these prefixes for display.
 
