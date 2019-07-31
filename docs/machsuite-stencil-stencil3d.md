@@ -9,6 +9,7 @@ Function name changed from `stencil3d` to `stencil` in all three source files.
 
 # BASELINE
 Data copy pragma used for `C` to avoid #34.
+Outer loop pipeline removed to meet timing on Zed board.
 
 # REWRITE
 3D arrays are used. Accumulation order is changed.
