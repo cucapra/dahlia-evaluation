@@ -1,34 +1,25 @@
 #mem
-set_directive_resource -core RAM_1P_BRAM "fft" x
-set_directive_resource -core RAM_1P_BRAM "fft" y
+set_directive_resource -core RAM_1P_BRAM "fft" real
+set_directive_resource -core RAM_1P_BRAM "fft" img
+set_directive_resource -core RAM_1P_BRAM "fft" real_twid
+set_directive_resource -core RAM_1P_BRAM "fft" img_twid
 
 #partitioning
-#set_directive_array_partition -factor 64 -type cyclic fft x
-#set_directive_array_partition -factor 64 -type cyclic fft y
+#set_directive_array_partition -factor 64 -type cyclic fft real
+#set_directive_array_partition -factor 64 -type cyclic fft img
+#set_directive_array_partition -factor 32 -type cyclic fft real_twid
+#set_directive_array_partition -factor 32 -type cyclic fft img_twid
 
 #unrolling
-#set_directive_unroll -factor 8 fft/points_loop
-#set_directive_unroll -factor 8 fft/fft_out
-#set_directive_unroll -factor 8 fft/fft_mid
-#set_directive_unroll -factor 8 fft/fft_in
-#set_directive_unroll -factor 8 fft/scale
+#set_directive_unroll -factor 8 fft/outer
+#set_directive_unroll -factor 8 fft/inner
 
 #pipeline
-set_directive_pipeline fft/points_loop
-#set_directive_pipeline fft/fft_out
-#set_directive_pipeline fft/fft_mid
-#set_directive_pipeline fft/fft_in
-#set_directive_pipeline fft/scale
+#set_directive_pipeline fft/outer
+#set_directive_pipeline fft/inner
 
 #resources
-#set_directive_resource -core Mul "fft" T1
-#set_directive_resource -core Mul "fft" T2
-#set_directive_resource -core Mul "fft" T3
-#set_directive_resource -core Mul "fft" T4
-#set_directive_resource -core Mul "fft" T5
-#set_directive_resource -core Mul "fft" T6
-#set_directive_resource -core Mul "fft" T7
-#set_directive_resource -core Mul "fft" T8
+#set_directive_resource -core Mul "fft" (maybe they meant temp by T1?)
 
 #estimation
 # based on theoretical max and min, probably not the best estimate

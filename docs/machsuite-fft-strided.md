@@ -9,6 +9,7 @@ All `.c` files changed to `.cpp`.
 # BASELINE
 Data zero copy pragma used for both arguments.
 Add tripcount to inner loop for estimation.
+Directives file is stale, uses non existent labels and even the argument numbers differ. Best effort to update it.
 
 # REWRITE
 For loops turned to while loops, outer due to complex pattern, inner due to starting point determined dynamically. Operation order adjusted and temporary variables introduced to reduce dependency.
