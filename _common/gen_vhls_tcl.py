@@ -13,6 +13,9 @@ open_solution "solution1"
 set_part {{xc7z020clg484-1}}
 create_clock -period {clock_period}
 
+# Source directives
+source "{func}_dir"
+
 # Actions we can take include csim_design, csynth_design, or cosim_design.
 csynth_design
 
