@@ -108,6 +108,9 @@ include $(DEPENDS)
 run_hls.tcl:
 	python gen_vhls_tcl.py $(VHLS_MODE) $(KERNEL) $(HW_SRCS) > $@
 
+vhls: run_hls.tcl
+	vivado_hls -f $<
+
 # Debugging targets: submit code to Buildbot as a new job, and execute
 # the compiled (software) executable.
 
