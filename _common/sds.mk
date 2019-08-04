@@ -59,6 +59,9 @@ SDSFLAGS  := -sds-hw $(HWLIST) -sds-end -sds-pf $(PLATFORM) \
 ifeq ($(ESTIMATE),1)
 SDSFLAGS  += -perf-est-hw-only
 CURLFLAGS += -F estimate=1
+VHLS_MODE := hls
+else
+VHLS_MODE := syn
 endif
 
 # Set COMPILER (and a few other things) according to whether we're doing a
@@ -100,6 +103,11 @@ clean:
 # Include the generated dependencies.
 include $(DEPENDS)
 
+# Vivado HLS targets: skip SDSoC entirely and just run the kernel through HLS.
+
+run_hls.tcl:
+	python gen_vhls_tcl.py $(VHLS_MODE) $(KERNEL) $(HW_SRCS) > $@
+
 # Debugging targets: submit code to Buildbot as a new job, and execute
 # the compiled (software) executable.
 
@@ -111,5 +119,4 @@ submit:
 		$(BUILDBOT)/jobs
 
 run: $(TARGET)
-	./$(TARGET) 
-
+	./$(TARGET)
