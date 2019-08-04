@@ -11,4 +11,7 @@ create_clock -period 7
 # Actions we can take include csim_design, csynth_design, or cosim_design.
 csynth_design
 
+# This extra step runs Vivado synthesis.
+export_design -flow syn
+
 exit
