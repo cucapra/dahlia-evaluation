@@ -37,7 +37,7 @@ source "{}"
 def gen_vhls_tcl(synthesize, directives, func_name, source_files):
     return TCL_TMPL.format(
         synth_cmd=SYNTH_CMD if synthesize else '',
-        dir_cmd=DIR_CMD.format(directives),
+        dir_cmd=DIR_CMD.format(directives) if directives else '',
         sources=' '.join(source_files),
         top=func_name,
         clock_period=7,  # We're always using 7 ns for now.
@@ -47,13 +47,13 @@ def gen_vhls_tcl(synthesize, directives, func_name, source_files):
 if __name__ == '__main__':
     args = sys.argv[1:]
     if len(args) < 4 or args[0] not in ('hls', 'syn'):
-        print('Usage: {} <hls|syn> <dir> <func> <source...>'
+        print('Usage: {} <hls|syn> <dir|-> <func> <source...>'
               .format(sys.argv[0]),
               file=sys.stderr)
         sys.exit(1)
     print(gen_vhls_tcl(
         args[0] == 'syn',
-        args[1],
+        args[1] if args[1] != '-' else None,
         args[2],
         args[3:],
     ))
