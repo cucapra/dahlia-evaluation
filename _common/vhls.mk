@@ -14,8 +14,13 @@ endif
 vhls: run_hls.tcl
 	vivado_hls -f $<
 
+ifeq ($(DIRECTIVES),)
+DIRARG := -
+else
+DIRARG := $(DIRECTIVES)
+endif
 run_hls.tcl:
-	python gen_vhls_tcl.py $(VHLS_MODE) $(DIRECTIVES) $(KERNEL) $(HW_SRCS) > $@
+	python gen_vhls_tcl.py $(VHLS_MODE) $(DIRARG) $(KERNEL) $(HW_SRCS) > $@
 
 .PHONY: submit
 BUILDBOT := http://gorgonzola.cs.cornell.edu:8000
