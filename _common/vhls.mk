@@ -2,6 +2,7 @@
 # As with `sds.mk`, set KERNEL, HW_SRCS, and possibly ESTIMATE.
 
 CURLFLAGS := -F hwname=$(KERNEL)
+CURLFLAGS += -F directives=$(DIRECTIVES)
 
 ifeq ($(ESTIMATE),1)
 VHLS_MODE := hls
@@ -14,7 +15,7 @@ vhls: run_hls.tcl
 	vivado_hls -f $<
 
 run_hls.tcl:
-	python gen_vhls_tcl.py $(VHLS_MODE) $(KERNEL) $(HW_SRCS) > $@
+	python gen_vhls_tcl.py $(VHLS_MODE) $(DIRECTIVES) $(KERNEL) $(HW_SRCS) > $@
 
 .PHONY: submit
 BUILDBOT := http://gorgonzola.cs.cornell.edu:8000
