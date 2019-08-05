@@ -33,6 +33,7 @@ DIR_CMD = """
 source "{}"
 """.strip()
 
+
 def gen_vhls_tcl(synthesize, directives, func_name, source_files):
     return TCL_TMPL.format(
         synth_cmd=SYNTH_CMD if synthesize else '',
@@ -46,7 +47,8 @@ def gen_vhls_tcl(synthesize, directives, func_name, source_files):
 if __name__ == '__main__':
     args = sys.argv[1:]
     if len(args) < 4 or args[0] not in ('hls', 'syn'):
-        print('Usage: {} <hls|syn> <func> <source...>'.format(sys.argv[0]),
+        print('Usage: {} <hls|syn> <dir> <func> <source...>'
+              .format(sys.argv[0]),
               file=sys.stderr)
         sys.exit(1)
     print(gen_vhls_tcl(
