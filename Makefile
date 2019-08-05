@@ -41,7 +41,7 @@ BENCHMARKS := baseline/machsuite-aes \
 LAST_BATCH := last_batch.txt
 
 all:
-	./_scripts/batch.py $(BENCHMARKS) > $(LAST_BATCH)
+	./_scripts/batch.py $(BENCHMARKS)  -E > $(LAST_BATCH)
 
 resume-batch:
 	cat $(FAILED_BATCH) | xargs

@@ -64,12 +64,14 @@ def hls_report(filepath):
 def sds_report(filepath):
     parser = RPTParser(filepath)
 
+    print(parser)
+    print(re.compile(r'1. Slice Logic'))
     logic_table = parser.get_table(
         re.compile(r'1. Slice Logic'), 2)
     mem_table = parser.get_table(
-        re.compile(r'3. Memory'), 2)
+        re.compile(r'2. Memory'), 2)
     dsp_table = parser.get_table(
-        re.compile(r'4. DSP'), 2)
+        re.compile(r'3. DSP'), 2)
 
     return {
         'lut_used':        int(logic_table[1][1]),
@@ -88,8 +90,8 @@ def sds_report(filepath):
         'bram_tile_avail': int(mem_table[1][3]),
         'bram36_used':     int(mem_table[2][1]),
         'bram36_avail':    int(mem_table[2][3]),
-        'bram18_used':     int(mem_table[4][1]),
-        'bram18_avail':    int(mem_table[4][3]),
+        'bram18_used':     int(mem_table[3][1]),
+        'bram18_avail':    int(mem_table[3][3]),
         'dsp_used':        int(dsp_table[1][1]),
         'dsp_avail':       int(dsp_table[1][3]),
     }
