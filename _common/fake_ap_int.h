@@ -1,4 +1,4 @@
-#ifdef __SDSCC__
+#if defined(__SDSCC__) || defined(__HLS_SYN__)
 
 // In "hardware" mode (i.e., SDSoC compilation), use the real/provided ap_int
 // library.
