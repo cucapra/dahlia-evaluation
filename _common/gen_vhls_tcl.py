@@ -7,7 +7,7 @@ set hls_prj benchmark.prj
 open_project ${{hls_prj}} -reset
 
 set_top {top}  ; # The name of the hardware function.
-add_files {sources}  ; # HLS source files.
+add_files {sources} -cflags "-std=c++11 -DVHLS" ; # HLS source files.
 
 open_solution "solution1"
 set_part {{xc7z020clg484-1}}
