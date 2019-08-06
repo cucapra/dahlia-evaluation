@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 
 class RPTParser:
     """
@@ -96,21 +97,22 @@ class RPTParser:
 
         """
 
-        table = []
+        table_rows = []
 
         # Extract the headers and set table start
         table_start = 0
         if multi_header:
-            table.append(RPTParser._parse_multi_header(table_lines[1:3]))
+            table_columns = RPTParser._parse_multi_header(table_lines[1:3])
             table_start = 3
         else:
-            table.append(RPTParser._parse_simple_header(table_lines[1]))
+            table_columns = RPTParser._parse_simple_header(table_lines[1])
             table_start = 2
 
         for line in table_lines[table_start:]:
             if not RPTParser.SKIP_LINE.match(line):
-                table.append(RPTParser._clean_and_strip(line.split('|')))
-
+                table_rows.append(RPTParser._clean_and_strip(line.split('|')))
+        
+        table = pd.DataFrame(table_rows, columns=table_columns)
         return table
 
     def get_table(self, reg, off, multi_header=False):

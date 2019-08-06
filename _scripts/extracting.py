@@ -1,5 +1,6 @@
 import re
 import xml.etree.ElementTree as ET
+import pandas as pd
 
 from rpt import RPTParser
 
@@ -49,15 +50,15 @@ def hls_report(filepath):
 
     # Extract relevant data.
     return {
-        'target_clock':    timing_table[-1][1],
-        'estimated_clock': timing_table[-1][2],
-        'min_latency':     latency_table[-1][0],
-        'max_latency':     latency_table[-1][1],
-        'pipelining':      latency_table[-1][4],
-        'bram_used':       utilization_table[-3][1],
-        'dsp48_used':      utilization_table[-3][2],
-        'ff_used':         utilization_table[-3][3],
-        'lut_used':        utilization_table[-3][4]
+        'target_clock':    timing_table.iloc[0,1],
+        'estimated_clock': timing_table.iloc[0,2],
+        'min_latency':     latency_table.iloc[0,0],
+        'max_latency':     latency_table.iloc[0,1],
+        'pipelining':      latency_table.iloc[0,4],
+        'bram_used':       utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],1],
+        'dsp48_used':      utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],2],
+        'ff_used':         utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],3],
+        'lut_used':        utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],4]
     }
 
 
@@ -71,27 +72,31 @@ def sds_report(filepath):
     dsp_table = parser.get_table(
         re.compile(r'\. DSP'), 2)
 
+    used_idx = 'Used'
+    avail_idx = 'Available'
+    #print(logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  ), used_idx])
+
     return {
-        'lut_used':        int(logic_table[1][1]),
-        'lut_avail':       int(logic_table[1][3]),
-        'lut_logic_used':  int(logic_table[2][1]),
-        'lut_logic_avail': int(logic_table[2][3]),
-        'lut_mem_used':    int(logic_table[3][1]),
-        'lut_mem_avail':   int(logic_table[3][3]),
-        'reg_used':        int(logic_table[6][1]),
-        'reg_avail':       int(logic_table[6][3]),
-        'reg_ff_used':     int(logic_table[7][1]),
-        'reg_ff_avail':    int(logic_table[7][3]),
-        'reg_latch_used':  int(logic_table[8][1]),
-        'reg_latch_avail': int(logic_table[8][3]),
-        'bram_tile_used':  float(mem_table[1][1]),
-        'bram_tile_avail': int(mem_table[1][3]),
-        'bram36_used':     int(mem_table[2][1]),
-        'bram36_avail':    int(mem_table[2][3]),
-        'bram18_used':     int(mem_table[3][1]),
-        'bram18_avail':    int(mem_table[3][3]),
-        'dsp_used':        int(dsp_table[1][1]),
-        'dsp_avail':       int(dsp_table[1][3]),
+        'lut_used':        logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  )   ].index[0],used_idx],
+        'lut_avail':       logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  )   ].index[0],avail_idx],
+        'lut_logic_used':  logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Logic' )   ].index[0],used_idx],
+        'lut_logic_avail': logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Logic' )   ].index[0],avail_idx],
+        'lut_mem_used':    logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Memory')   ].index[0],used_idx],
+        'lut_mem_avail':   logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Memory')   ].index[0],avail_idx],
+        'reg_used':        logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Registers')].index[0],used_idx],
+        'reg_avail':       logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Registers')].index[0],avail_idx],
+        'reg_ff_used':     logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Flip Flop')].index[0],used_idx],
+        'reg_ff_avail':    logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Flip Flop')].index[0],avail_idx],
+        'reg_latch_used':  logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Latch')    ].index[0],used_idx],
+        'reg_latch_avail': logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Latch')    ].index[0],avail_idx],
+        'bram_tile_used':  mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('Block RAM')      ].index[0],used_idx],
+        'bram_tile_avail': mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('Block RAM')      ].index[0],avail_idx],
+        'bram36_used':     mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('RAMB36/')        ].index[0],used_idx],
+        'bram36_avail':    mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('RAMB36/')        ].index[0],avail_idx],
+        'bram18_used':     mem_table.loc[mem_table.loc[mem_table.iloc[:,0] == 'RAMB18'                    ].index[0],used_idx],
+        'bram18_avail':    mem_table.loc[mem_table.loc[mem_table.iloc[:,0] == 'RAMB18'                    ].index[0],avail_idx],
+        'dsp_used':        dsp_table.loc[dsp_table.loc[dsp_table.iloc[:,0].str.contains('DSPs')           ].index[0],used_idx],
+        'dsp_avail':       dsp_table.loc[dsp_table.loc[dsp_table.iloc[:,0].str.contains('DSPs')           ].index[0],avail_idx],
     }
 
 
