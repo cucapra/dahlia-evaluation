@@ -117,7 +117,7 @@ class RPTParser:
         start = 0
         end = 0
         for idx, line in enumerate(self.lines, 1):
-            if reg.match(line):
+            if reg.search(line):
                 start = idx + off
                 end = start
                 while(self.lines[end].strip() != ''): end += 1
