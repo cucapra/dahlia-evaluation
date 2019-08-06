@@ -74,7 +74,6 @@ def sds_report(filepath):
 
     used_idx = 'Used'
     avail_idx = 'Available'
-    #print(logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  ), used_idx])
 
     return {
         'lut_used':        logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  )   ].index[0],used_idx],
