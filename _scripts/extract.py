@@ -34,16 +34,9 @@ COLLECT_HLS = {
     'collect': extracting.hls_report,
 }
 
-# The synthesis report from Vivado synthesis. Only available on synthesis runs (not
-# HLS).
-COLLECT_SYNTH = {
-    'key': 'full',
-    'file': None,
-    'collect': extracting.sds_report,
-}
-
-# The *overall* report from SDSoC synthesis. Only available on full runs (not
-# estimation).
+# The *overall* report from synthesis. Only available on full runs (not
+# estimation). Available in non-estimation SDSoC runs and Vivado HLS runs where
+# the tool is configured to run full synthesis, not just HLS itself.
 COLLECT_FULL = {
     'key': 'full',
     'file': 'code/_sds/reports/sds.rpt',
@@ -140,7 +133,6 @@ def extract_job(batch_dir, job_id):
         'job': job,
         'bench': hwname,
     }
-    kernel = re.split('/|-',hwname)[2]
 
     if job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
@@ -149,24 +141,29 @@ def extract_job(batch_dir, job_id):
             'error': 'job in state {}'.format(job['state']),
         })
 
-    # The list of files to download and extract.
-    collections = [COLLECT_LOG]
-    #estimate = bool(job['estimate'])
-    #if estimate:
-    #    collections += [COLLECT_EST]
-    #else:
-    #    collections += [COLLECT_FULL]
-
-    # Find the name of the HLS report, which depends on the job.
+    # Get the list of files for the job.
     files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
     with requests.get(files_url) as res:
         res.raise_for_status()
         file_list = res.json()
+
+    # The list of files to download and extract.
+    collections = [COLLECT_LOG]
+
+    # TODO Restore collection for SDSoC.
+    # if estimate:
+    #     collections += [COLLECT_EST]
+    # else:
+    #     collections += [COLLECT_FULL]
+
+    # Find the name of the HLS report, which exists for both Vivado HLS jobs
+    # and SDSoC jobs---but in different locations!
     for file_path in file_list:
-        #m = re.search(r'/reports/sds_(\w+).rpt', file_path)
-        m = re.search(r'/syn/report/{}_csynth.rpt'.format(kernel), file_path)
+        m = re.search(r'/reports/sds_(\w+).rpt', file_path)
         if m and m.groups(1) != 'main':
-            # Found it!
+            hls_rpt_path = file_path
+            break
+        if re.search(r'/report/(\w+)_csynth.rpt', file_path):
             hls_rpt_path = file_path
             break
     else:
@@ -179,23 +176,23 @@ def extract_job(batch_dir, job_id):
         collect_hls['file'] = hls_rpt_path
         collections.append(collect_hls)
 
-    # Find the name of the SYNTH report, which depends on the job.
-    estimate = bool(job['estimate'])
-    if not estimate:
-        # file_list already got in synth
+    # In *non-estimate* Vivado HLS runs only, look for the full
+    # synthesis report.
+    # FIXME: Don't do this for SDSoC runs, wherein the report lives in
+    # `sds.rpt`.
+    if not job['estimate']:
         for file_path in file_list:
-            m = re.search(r'/verilog/report/(\w+)_utilization_synth.rpt', file_path)
-            if m and m.groups(1) != 'main':
-                # Found it!
+            if re.search(r'/verilog/report/(\w+)_utilization_synth.rpt',
+                         file_path):
                 synth_rpt_path = file_path
                 break
         else:
-            logging.error('SYNTH report not found for job %s', job_id)
+            logging.error('Synthesis report not found for job %s', job_id)
             synth_rpt_path = None
 
-    # Collect the SYNTH report, if available.
+        # Collect the HLS synthesis report, if available.
         if synth_rpt_path:
-            collect_synth = dict(COLLECT_SYNTH)
+            collect_synth = dict(COLLECT_FULL)
             collect_synth['file'] = synth_rpt_path
             collections.append(collect_synth)
 
