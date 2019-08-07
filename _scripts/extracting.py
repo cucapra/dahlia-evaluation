@@ -76,30 +76,43 @@ def sds_report(filepath):
     dsp_table = parser.get_table(
         re.compile(r'\. DSP'), 2)
 
-    used_idx = 'Used'
-    avail_idx = 'Available'
+    used_key = 'Used'
+    avail_key = 'Available'
+
+    lut = logic_table[logic_table['Site Type'].str.contains('LUTs')].iloc[0]
+    lut_logic = logic_table[logic_table['Site Type'].str.contains('Logic')].iloc[0]
+    lut_mem = logic_table[logic_table['Site Type'].str.contains('Memory')].iloc[0]
+    reg = logic_table[logic_table['Site Type'].str.contains('Registers')].iloc[0]
+    reg_ff = logic_table[logic_table['Site Type'].str.contains('Flip Flop')].iloc[0]
+    reg_latch = logic_table[logic_table['Site Type'].str.contains('Latch')].iloc[0]
+
+    bram_tile = mem_table[mem_table['Site Type'].str.contains('Block RAM Tile')].iloc[0]
+    bram36 = mem_table[mem_table['Site Type'].str.contains('RAMB36/')].iloc[0]
+    bram18 = mem_table[mem_table['Site Type'].str.contains('RAMB18')].iloc[0]
+
+    dsp = dsp_table[dsp_table['Site Type'].str.contains('DSPs')].iloc[0]
 
     return {
-        'lut_used':        logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  )   ].index[0],used_idx],
-        'lut_avail':       logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('LUTs'  )   ].index[0],avail_idx],
-        'lut_logic_used':  logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Logic' )   ].index[0],used_idx],
-        'lut_logic_avail': logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Logic' )   ].index[0],avail_idx],
-        'lut_mem_used':    logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Memory')   ].index[0],used_idx],
-        'lut_mem_avail':   logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Memory')   ].index[0],avail_idx],
-        'reg_used':        logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Registers')].index[0],used_idx],
-        'reg_avail':       logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Registers')].index[0],avail_idx],
-        'reg_ff_used':     logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Flip Flop')].index[0],used_idx],
-        'reg_ff_avail':    logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Flip Flop')].index[0],avail_idx],
-        'reg_latch_used':  logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Latch')    ].index[0],used_idx],
-        'reg_latch_avail': logic_table.loc[logic_table.loc[logic_table.iloc[:,0].str.contains('Latch')    ].index[0],avail_idx],
-        'bram_tile_used':  mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('Block RAM')      ].index[0],used_idx],
-        'bram_tile_avail': mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('Block RAM')      ].index[0],avail_idx],
-        'bram36_used':     mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('RAMB36/')        ].index[0],used_idx],
-        'bram36_avail':    mem_table.loc[mem_table.loc[mem_table.iloc[:,0].str.contains('RAMB36/')        ].index[0],avail_idx],
-        'bram18_used':     mem_table.loc[mem_table.loc[mem_table.iloc[:,0] == 'RAMB18'                    ].index[0],used_idx],
-        'bram18_avail':    mem_table.loc[mem_table.loc[mem_table.iloc[:,0] == 'RAMB18'                    ].index[0],avail_idx],
-        'dsp_used':        dsp_table.loc[dsp_table.loc[dsp_table.iloc[:,0].str.contains('DSPs')           ].index[0],used_idx],
-        'dsp_avail':       dsp_table.loc[dsp_table.loc[dsp_table.iloc[:,0].str.contains('DSPs')           ].index[0],avail_idx],
+        'lut_used':        lut[used_key],
+        'lut_avail':       lut[avail_key],
+        'lut_logic_used':  lut_logic[used_key],
+        'lut_logic_avail': lut_logic[avail_key],
+        'lut_mem_used':    lut_mem[used_key],
+        'lut_mem_avail':   lut_mem[avail_key],
+        'reg_used':        reg[used_key],
+        'reg_avail':       reg[avail_key],
+        'reg_ff_used':     reg_ff[used_key],
+        'reg_ff_avail':    reg_ff[avail_key],
+        'reg_latch_used':  reg_latch[used_key],
+        'reg_latch_avail': reg_latch[avail_key],
+        'bram_tile_used':  bram_tile[used_key],
+        'bram_tile_avail': bram_tile[avail_key],
+        'bram36_used':     bram36[used_key],
+        'bram36_avail':    bram36[avail_key],
+        'bram18_used':     bram18[used_key],
+        'bram18_avail':    bram18[avail_key],
+        'dsp_used':        dsp[used_key],
+        'dsp_avail':       dsp[avail_key],
     }
 
 
