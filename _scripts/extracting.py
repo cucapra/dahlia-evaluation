@@ -113,7 +113,7 @@ def sds_report(filepath):
         'reg_ff_avail':    int(reg_ff[avail_key]),
         'reg_latch_used':  int(reg_latch[used_key]),
         'reg_latch_avail': int(reg_latch[avail_key]),
-        'bram_tile_used':  int(bram_tile[used_key]),
+        'bram_tile_used':  float(bram_tile[used_key]),
         'bram_tile_avail': int(bram_tile[avail_key]),
         'bram36_used':     int(bram36[used_key]),
         'bram36_avail':    int(bram36[avail_key]),
