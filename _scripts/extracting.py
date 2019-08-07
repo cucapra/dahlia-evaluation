@@ -48,17 +48,21 @@ def hls_report(filepath):
     utilization_table = parser.get_table(
         re.compile(r'== Utilization Estimates'), 2)
 
+    # Get the (only) row in the table whose "Name" is "Total".
+    util_total = utilization_table[utilization_table['Name'] == 'Total'] \
+        .iloc[0]
+
     # Extract relevant data.
     return {
-        'target_clock':    timing_table.iloc[0,1],
-        'estimated_clock': timing_table.iloc[0,2],
-        'min_latency':     latency_table.iloc[0,0],
-        'max_latency':     latency_table.iloc[0,1],
-        'pipelining':      latency_table.iloc[0,4],
-        'bram_used':       utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],1],
-        'dsp48_used':      utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],2],
-        'ff_used':         utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],3],
-        'lut_used':        utilization_table.iloc[utilization_table.loc[utilization_table.iloc[:,0] == 'Total'].index[0],4]
+        'target_clock':    timing_table.loc[0, 'Target'],
+        'estimated_clock': timing_table.loc[0, 'Estimated'],
+        'min_latency':     latency_table.loc[0, 'Latency min'],
+        'max_latency':     latency_table.loc[0, 'Latency max'],
+        'pipelining':      latency_table.loc[0, 'Pipeline Type'],
+        'bram_used':       util_total['BRAM_18K'],
+        'dsp48_used':      util_total['DSP48E'],
+        'ff_used':         util_total['FF'],
+        'lut_used':        util_total['LUT'],
     }
 
 
