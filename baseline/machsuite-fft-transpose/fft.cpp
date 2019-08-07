@@ -111,6 +111,9 @@ void loady8(TYPE a_y[], TYPE x[], int offset, int sx){
 }
 
 void fft(TYPE work_x[512], TYPE work_y[512]){
+#pragma HLS INTERFACE s_axilite port=work_x
+#pragma HLS INTERFACE s_axilite port=work_y
+
     int tid, hi, lo, stride;
     int reversed[] = {0,4,2,6,1,5,3,7};
     TYPE DATA_x[THREADS*8];

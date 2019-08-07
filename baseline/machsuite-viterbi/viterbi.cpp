@@ -2,6 +2,12 @@
 
 void viterbi( tok_t obs[N_OBS], prob_t init[N_STATES], prob_t transition[N_STATES*N_STATES], prob_t emission[N_STATES*N_TOKENS], state_t path[N_OBS] )
 {
+#pragma HLS INTERFACE s_axilite port=obs
+#pragma HLS INTERFACE s_axilite port=init
+#pragma HLS INTERFACE s_axilite port=transition
+#pragma HLS INTERFACE s_axilite port=emission
+#pragma HLS INTERFACE s_axilite port=path
+
   prob_t llike[N_OBS][N_STATES];
   step_t t;
   state_t prev, curr;

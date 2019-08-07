@@ -13,6 +13,12 @@
 void nw(char SEQA[ALEN], char SEQB[BLEN],
              char alignedA[ALEN+BLEN], char alignedB[ALEN+BLEN],
              int M[(ALEN+1)*(BLEN+1)], char ptr[(ALEN+1)*(BLEN+1)]){
+#pragma HLS INTERFACE s_axilite port=SEQA
+#pragma HLS INTERFACE s_axilite port=SEQB
+#pragma HLS INTERFACE s_axilite port=alignedA
+#pragma HLS INTERFACE s_axilite port=alignedB
+#pragma HLS INTERFACE s_axilite port=M
+#pragma HLS INTERFACE s_axilite port=ptr
 
     int score, up_left, up, left, max;
     int row, row_up, r;

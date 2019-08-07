@@ -175,6 +175,13 @@ void aes_expandEncKey(uint8_t *k, uint8_t *rc)
 /* -------------------------------------------------------------------------- */
 void aes(uint8_t key[32], uint8_t enckey[32], uint8_t deckey[32], uint8_t k[32], uint8_t buf[16])
 {
+
+#pragma HLS INTERFACE s_axilite port=key
+#pragma HLS INTERFACE s_axilite port=enckey
+#pragma HLS INTERFACE s_axilite port=deckey
+#pragma HLS INTERFACE s_axilite port=k
+#pragma HLS INTERFACE s_axilite port=buf
+
     //INIT
     uint8_t rcon = 1;
     uint8_t i;

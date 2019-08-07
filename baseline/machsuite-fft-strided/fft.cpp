@@ -1,6 +1,11 @@
 #include "fft.h"
 
 void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE/2], double img_twid[FFT_SIZE/2]){
+#pragma HLS INTERFACE s_axilite port=real
+#pragma HLS INTERFACE s_axilite port=img
+#pragma HLS INTERFACE s_axilite port=real_twid
+#pragma HLS INTERFACE s_axilite port=img_twid
+
     int even, odd, span, log, rootindex;
     double temp;
     log = 0;

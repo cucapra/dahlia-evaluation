@@ -11,6 +11,14 @@ void md( int32_t n_points[blockSide][blockSide][blockSide],
          TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
          TYPE position_z[blockSide][blockSide][blockSide][densityFactor] )
 {
+#pragma HLS INTERFACE s_axilite port=n_points
+#pragma HLS INTERFACE s_axilite port=force_x
+#pragma HLS INTERFACE s_axilite port=force_y
+#pragma HLS INTERFACE s_axilite port=force_z
+#pragma HLS INTERFACE s_axilite port=position_x
+#pragma HLS INTERFACE s_axilite port=position_y
+#pragma HLS INTERFACE s_axilite port=position_z
+
   ivector_t b0, b1; // b0 is the current block, b1 is b0 or a neighboring block
   dvector_t p, q; // p is a point in b0, q is a point in either b0 or b1
   int32_t p_idx, q_idx;

@@ -1,6 +1,10 @@
 #include "func.h"
 
 void stencil (TYPE orig[row_size * col_size], TYPE sol[row_size * col_size], TYPE filter[f_size]){
+#pragma HLS INTERFACE s_axilite port=orig
+#pragma HLS INTERFACE s_axilite port=sol
+#pragma HLS INTERFACE s_axilite port=filter
+
     int r, c, k1, k2;
     TYPE temp, mul;
 

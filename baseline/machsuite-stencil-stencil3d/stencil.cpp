@@ -8,6 +8,10 @@ SC 2008
 #include "func.h"
 
 void stencil(TYPE C[2], TYPE orig[SIZE], TYPE sol[SIZE]) {
+#pragma HLS INTERFACE s_axilite port=C
+#pragma HLS INTERFACE s_axilite port=orig
+#pragma HLS INTERFACE s_axilite port=sol
+
     int i, j, k;
     TYPE sum0, sum1, mul0, mul1;
 

@@ -76,6 +76,11 @@ void update(int b[SIZE], int bucket[BUCKETSIZE], int a[SIZE], int exp)
 }
 
 void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]){
+#pragma HLS INTERFACE s_axilite port=a
+#pragma HLS INTERFACE s_axilite port=b
+#pragma HLS INTERFACE s_axilite port=bucket
+#pragma HLS INTERFACE s_axilite port=sum
+
     int exp=0;
     int valid_buffer=0;
     #define BUFFER_A 0

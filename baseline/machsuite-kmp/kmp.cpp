@@ -22,11 +22,10 @@ void CPF(char pattern[PATTERN_SIZE], int32_t kmpNext[PATTERN_SIZE]) {
 
 
 void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PATTERN_SIZE], int32_t n_matches[1]) {
-    
-#pragma HLS INTERFACE ap_memory port=pattern
-#pragma HLS INTERFACE ap_memory port=input
-#pragma HLS INTERFACE ap_memory port=kmpNext
-#pragma HLS INTERFACE ap_memory port=n_matches
+#pragma HLS INTERFACE s_axilite port=pattern
+#pragma HLS INTERFACE s_axilite port=input
+#pragma HLS INTERFACE s_axilite port=kmpNext
+#pragma HLS INTERFACE s_axilite port=n_matches
 
     int32_t i, q;
     n_matches[0] = 0;

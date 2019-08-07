@@ -10,6 +10,11 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
             node_index_t starting_node, level_t level[N_NODES],
             edge_index_t level_counts[N_LEVELS])
 {
+#pragma HLS INTERFACE s_axilite port=nodes
+#pragma HLS INTERFACE s_axilite port=edges
+#pragma HLS INTERFACE s_axilite port=level
+#pragma HLS INTERFACE s_axilite port=level_counts
+
   node_index_t n;
   edge_index_t e;
   level_t horizon;

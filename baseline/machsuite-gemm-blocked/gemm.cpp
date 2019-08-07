@@ -8,6 +8,10 @@ ASPLOS 1991
 #include "func.h"
 
 void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N]){
+#pragma HLS INTERFACE s_axilite port=m1
+#pragma HLS INTERFACE s_axilite port=m2
+#pragma HLS INTERFACE s_axilite port=prod
+
     int i, k, j, jj, kk;
     int i_row, k_row;
     TYPE temp_x, mul;

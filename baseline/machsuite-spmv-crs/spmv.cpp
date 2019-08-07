@@ -6,6 +6,12 @@ http://www.cs.berkeley.edu/~mhoemmen/matrix-seminar/slides/UCB_sparse_tutorial_1
 #include "spmv.h"
 
 void spmv(TYPE val[NNZ], int32_t cols[NNZ], int32_t rowDelimiters[N+1], TYPE vec[N], TYPE out[N]){
+#pragma HLS INTERFACE s_axilite port=val
+#pragma HLS INTERFACE s_axilite port=cols
+#pragma HLS INTERFACE s_axilite port=row_delimiters
+#pragma HLS INTERFACE s_axilite port=vec
+#pragma HLS INTERFACE s_axilite port=out
+
     int i, j;
     TYPE sum, Si;
 

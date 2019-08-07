@@ -29,6 +29,7 @@ void merge(TYPE a[SIZE], int start, int m, int stop){
 }
 
 void sort(TYPE a[SIZE]) {
+#pragma HLS INTERFACE s_axilite port=a
     int start, stop;
     int i, m, from, mid, to;
 
