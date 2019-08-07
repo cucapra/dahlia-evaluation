@@ -62,15 +62,15 @@ def hls_report(filepath):
 
     # Extract relevant data.
     return {
-        'target_clock':    timing_table[0]['Target'],
-        'estimated_clock': timing_table[0]['Estimated'],
-        'min_latency':     latency_table[0]['Latency min'],
-        'max_latency':     latency_table[0]['Latency max'],
+        'target_clock':    float(timing_table[0]['Target']),
+        'estimated_clock': float(timing_table[0]['Estimated']),
+        'min_latency':     int(latency_table[0]['Latency min']),
+        'max_latency':     int(latency_table[0]['Latency max']),
         'pipelining':      latency_table[0]['Pipeline Type'],
-        'bram_used':       util_total['BRAM_18K'],
-        'dsp48_used':      util_total['DSP48E'],
-        'ff_used':         util_total['FF'],
-        'lut_used':        util_total['LUT'],
+        'bram_used':       int(util_total['BRAM_18K']),
+        'dsp48_used':      int(util_total['DSP48E']),
+        'ff_used':         int(util_total['FF']),
+        'lut_used':        int(util_total['LUT']),
     }
 
 
@@ -101,26 +101,26 @@ def sds_report(filepath):
     dsp = _find_row(dsp_table, 'Site Type', 'DSPs')
 
     return {
-        'lut_used':        lut[used_key],
-        'lut_avail':       lut[avail_key],
-        'lut_logic_used':  lut_logic[used_key],
-        'lut_logic_avail': lut_logic[avail_key],
-        'lut_mem_used':    lut_mem[used_key],
-        'lut_mem_avail':   lut_mem[avail_key],
-        'reg_used':        reg[used_key],
-        'reg_avail':       reg[avail_key],
-        'reg_ff_used':     reg_ff[used_key],
-        'reg_ff_avail':    reg_ff[avail_key],
-        'reg_latch_used':  reg_latch[used_key],
-        'reg_latch_avail': reg_latch[avail_key],
-        'bram_tile_used':  bram_tile[used_key],
-        'bram_tile_avail': bram_tile[avail_key],
-        'bram36_used':     bram36[used_key],
-        'bram36_avail':    bram36[avail_key],
-        'bram18_used':     bram18[used_key],
-        'bram18_avail':    bram18[avail_key],
-        'dsp_used':        dsp[used_key],
-        'dsp_avail':       dsp[avail_key],
+        'lut_used':        int(lut[used_key]),
+        'lut_avail':       int(lut[avail_key]),
+        'lut_logic_used':  int(lut_logic[used_key]),
+        'lut_logic_avail': int(lut_logic[avail_key]),
+        'lut_mem_used':    int(lut_mem[used_key]),
+        'lut_mem_avail':   int(lut_mem[avail_key]),
+        'reg_used':        int(reg[used_key]),
+        'reg_avail':       int(reg[avail_key]),
+        'reg_ff_used':     int(reg_ff[used_key]),
+        'reg_ff_avail':    int(reg_ff[avail_key]),
+        'reg_latch_used':  int(reg_latch[used_key]),
+        'reg_latch_avail': int(reg_latch[avail_key]),
+        'bram_tile_used':  int(bram_tile[used_key]),
+        'bram_tile_avail': int(bram_tile[avail_key]),
+        'bram36_used':     int(bram36[used_key]),
+        'bram36_avail':    int(bram36[avail_key]),
+        'bram18_used':     int(bram18[used_key]),
+        'bram18_avail':    int(bram18[avail_key]),
+        'dsp_used':        int(dsp[used_key]),
+        'dsp_avail':       int(dsp[avail_key]),
     }
 
 
