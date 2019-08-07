@@ -21,7 +21,7 @@ void md(TYPE force_x[nAtoms],
 #pragma HLS INTERFACE s_axilite port=position_x
 #pragma HLS INTERFACE s_axilite port=position_y
 #pragma HLS INTERFACE s_axilite port=position_z
-#pragma HLS INTERFACE s_axilite port=nl
+#pragma HLS INTERFACE s_axilite port=NL
 
     TYPE delx, dely, delz, r2inv;
     TYPE r6inv, potential, force, j_x, j_y, j_z;
