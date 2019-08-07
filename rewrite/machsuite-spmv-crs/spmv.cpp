@@ -1,25 +1,24 @@
-// Avoid using `ap_int` in "software" compilation.
-#ifdef __SDSCC__
 #include "ap_int.h"
-#else
-template <int N> using ap_int = int;
-template <int N> using ap_uint = unsigned int;
-#endif
 
 
 #pragma SDS data copy(val[0:NNZ])
-void spmv(
-double val[1666], 
-ap_int<32> cols[1666], 
-ap_int<32> row_delimiters[495], 
-double vec[494], 
-double out[494]) {
+void spmv(double val[1666], ap_int<32> cols[1666], ap_int<32> row_delimiters[495], double vec[494], double out[494]) {
+  #pragma HLS INTERFACE s_axilite port=val
+  #pragma HLS INTERFACE s_axilite port=cols
+  #pragma HLS INTERFACE s_axilite port=row_delimiters
+  #pragma HLS INTERFACE s_axilite port=vec
+  #pragma HLS INTERFACE s_axilite port=out
   
   double sum = 0.0;
+  
   double si = 0.0;
+  
   ap_int<32> tmp_begin = 0;
+  
   ap_int<32> tmp_end = 0;
+  
   ap_int<32> j = 0;
+  
   for(int i = 0; i < 494; i++) {
     sum = 0.0;
     si = 0.0;

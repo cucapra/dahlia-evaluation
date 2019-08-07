@@ -1,16 +1,12 @@
-// Avoid using `ap_int` in "software" compilation.
-#ifdef __SDSCC__
 #include "ap_int.h"
-#else
-template <int N> using ap_int = int;
-template <int N> using ap_uint = unsigned int;
-#endif
 
-void local_scan(
-ap_int<32> bucket[128][16]) {
+void local_scan(ap_int<32> bucket[128][16]) {
+  
   
   ap_int<32> bucket_tmp1 = 0;
+  
   ap_int<32> bucket_tmp2 = 0;
+  
   for(int radix_id = 0; radix_id < 128; radix_id++) {
     for(int i = 1; i < 16; i++) {
       bucket_tmp1 = bucket[radix_id][(i - 1)];
@@ -21,11 +17,11 @@ ap_int<32> bucket[128][16]) {
     }
   }
 }
-void sum_scan(
-ap_int<32> sum[128], 
-ap_int<32> bucket[128][16]) {
+void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
+  
   
   ap_int<32> sum_tmp = 0;
+  
   sum[0] = 0;
   //---
   for(int radix_id = 0; radix_id < 127; radix_id++) {
@@ -34,11 +30,11 @@ ap_int<32> bucket[128][16]) {
     sum[(radix_id + 1)] = (sum_tmp + bucket[radix_id][15]);
   }
 }
-void last_step_scan(
-ap_int<32> bucket[128][16], 
-ap_int<32> sum[128]) {
+void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
+  
   
   ap_int<32> bucket_tmp = 0;
+  
   for(int radix_id = 0; radix_id < 128; radix_id++) {
     for(int i = 0; i < 16; i++) {
       bucket_tmp = bucket[radix_id][i];
@@ -47,8 +43,8 @@ ap_int<32> sum[128]) {
     }
   }
 }
-void init(
-ap_int<32> bucket[128][16]) {
+void init(ap_int<32> bucket[128][16]) {
+  
   
   for(int i = 0; i < 128; i++) {
     for(int j = 0; j < 16; j++) {
@@ -56,12 +52,13 @@ ap_int<32> bucket[128][16]) {
     }
   }
 }
-void hist(
-ap_int<32> bucket[128][16], 
-ap_int<32> a[512][4], ap_int<32> exp) {
+void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
+  
   
   ap_int<32> bucket_idx = 0;
+  
   ap_int<32> bucket_tmp = 0;
+  
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
       bucket_idx = ((((a[block_id][i] >> exp) & 0x3) * 512) + (block_id + 1));
@@ -71,15 +68,17 @@ ap_int<32> a[512][4], ap_int<32> exp) {
     }
   }
 }
-void update(
-ap_int<32> b[512][4], 
-ap_int<32> bucket[128][16], 
-ap_int<32> a[512][4], ap_int<32> exp) {
+void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
+  
   
   ap_int<32> bucket_idx = 0;
+  
   ap_int<32> elem_per_block = 4;
+  
   ap_int<32> a_idx = 0;
+  
   ap_int<32> bucket_tmp = 0;
+  
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
       bucket_idx = ((((a[block_id][i] >> exp) & 0x3) * 512) + block_id);
@@ -91,16 +90,20 @@ ap_int<32> a[512][4], ap_int<32> exp) {
   }
 }
 #pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])
-void sort(
-ap_int<32> a[512][4], 
-ap_int<32> b[512][4], 
-ap_int<32> bucket[128][16], 
-ap_int<32> sum[128]) {
+void sort(ap_int<32> a[512][4], ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
+  #pragma HLS INTERFACE s_axilite port=a
+  #pragma HLS INTERFACE s_axilite port=b
+  #pragma HLS INTERFACE s_axilite port=bucket
+  #pragma HLS INTERFACE s_axilite port=sum
   
   ap_int<1> valid_buffer = 0;
+  
   ap_int<1> buffer_a = 0;
+  
   ap_int<1> buffer_b = 1;
+  
   ap_int<1> temp_valid_buffer = 0;
+  
   for(int exp = 0; exp < 16; exp++) {
     init(bucket);
     //---
