@@ -40,11 +40,11 @@
 //  let return =  sb ^ 99;
 //}
 
-def rj_xtime (x: ubit<8>) {
+def rj_xtime (x: ubit<8>): ubit<8> {
   if ((x & 128) != 0) { 
-    let return = (x << 1) ^ 27;
+    return (x << 1) ^ 27;
   } else {
-    let return = x << 1;
+    return x << 1;
   }
 }
 

@@ -1,6 +1,6 @@
 import "math.h" {
-  def extern cos(a: double);
-  def extern sin(a: double);
+  def extern cos(a: double): double;
+  def extern sin(a: double): double;
 }
 
 def fft8 (a_x: double[8], a_y: double[8]) {
@@ -167,10 +167,8 @@ def twiddles8 (a_x: double [8], a_y: double [8], i: bit<32>, n: bit<32>) {
   {
     for (let j = 1..8) {
       let phi: double = ( ((0-2) as double) * PI * (reversed8[j] as double) / (n as double) ) * (i as double);
-      let phi_x: double = 0.0;
-      let phi_y: double = 0.0;
-      cos(phi, phi_x);
-      sin(phi, phi_y);
+      let phi_x = cos(phi);
+      let phi_y = sin(phi);
       let tmp_x = a_x[j];
       let tmp_y = a_y[j];
       ---
