@@ -194,10 +194,10 @@ def extract_job(batch_dir, job_id):
             synth_rpt_path = None
 
     # Collect the SYNTH report, if available.
-    if synth_rpt_path:
-        collect_synth = dict(COLLECT_SYNTH)
-        collect_synth['file'] = synth_rpt_path
-        collections.append(collect_synth)
+        if synth_rpt_path:
+            collect_synth = dict(COLLECT_SYNTH)
+            collect_synth['file'] = synth_rpt_path
+            collections.append(collect_synth)
 
     # Download files and extract results.
     success, res_data = download_files(
