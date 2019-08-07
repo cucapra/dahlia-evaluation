@@ -1,0 +1,2418 @@
+{
+  "0TVPQM2OItM": {
+    "bench": "baseline/machsuite-fft-transpose",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-fft-transpose",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "0TVPQM2OItM",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195043.0707302,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 4,
+        "bram36_avail": 140,
+        "bram36_used": 10,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 12.0,
+        "dsp_avail": 220,
+        "dsp_used": 218,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 60251,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 425,
+        "lut_used": 60676,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 35879,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 35879
+      },
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 0,
+        "estimated_clock": 6.02,
+        "ff_used": 2043,
+        "lut_used": 2186,
+        "max_latency": 36,
+        "min_latency": 24,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "0Wdf45LdPjE": {
+    "bench": "rewrite/machsuite-aes",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-aes",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "0Wdf45LdPjE",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195087.0833898,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 1,
+        "bram36_avail": 140,
+        "bram36_used": 5,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 5.5,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 816,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 816,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 837,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 837
+      },
+      "hls": {
+        "bram_used": 1,
+        "dsp48_used": 0,
+        "estimated_clock": 5.74,
+        "ff_used": 117,
+        "lut_used": 515,
+        "max_latency": 96,
+        "min_latency": 96,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "17JB8hcEe9s": {
+    "bench": "rewrite/machsuite-nw",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-nw",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "17JB8hcEe9s",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195094.4987187,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 44,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 44.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1226,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 1226,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 997,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 997
+      },
+      "hls": {
+        "bram_used": 88,
+        "dsp48_used": 0,
+        "estimated_clock": 5.12,
+        "ff_used": 1208,
+        "lut_used": 1980,
+        "max_latency": 132192,
+        "min_latency": 131592,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "3uk45UUgoFg": {
+    "bench": "baseline/machsuite-bfs-queue",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-bfs-queue",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "3uk45UUgoFg",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195042.0204337,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 1,
+        "bram36_avail": 140,
+        "bram36_used": 23,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 23.5,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1032,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 1032,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 989,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 989
+      },
+      "hls": {
+        "bram_used": 48,
+        "dsp48_used": 0,
+        "estimated_clock": 6.51,
+        "ff_used": 961,
+        "lut_used": 1191,
+        "max_latency": 1281,
+        "min_latency": 6,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "4-BiTJOKdoc": {
+    "bench": "rewrite/machsuite-spmv-crs",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-spmv-crs",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "4-BiTJOKdoc",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195096.415803,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 11,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 11.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1270,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1305,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1953,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1953
+      },
+      "hls": {
+        "bram_used": 22,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 2032,
+        "lut_used": 2305,
+        "max_latency": 4882697,
+        "min_latency": 1977,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "7fnVXHvbYOs": {
+    "bench": "baseline/machsuite-gemm-ncubed",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-gemm-ncubed",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "7fnVXHvbYOs",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195044.161173,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 24,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 24.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 4488,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 2415,
+        "lut_used": 6903,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 11742,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 11742
+      },
+      "hls": {
+        "bram_used": 142,
+        "dsp48_used": 14,
+        "estimated_clock": 6.96,
+        "ff_used": 8382,
+        "lut_used": 5042,
+        "max_latency": 262612,
+        "min_latency": 262612,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "Cq0G4sdsbT8": {
+    "bench": "rewrite/machsuite-gemm-blocked",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-gemm-blocked",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "Cq0G4sdsbT8",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195090.9365706,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 24,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 24.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1056,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1091,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1869,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1869
+      },
+      "hls": {
+        "bram_used": 48,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1788,
+        "lut_used": 2238,
+        "max_latency": 5316753,
+        "min_latency": 5316753,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "DmOPb3pzWfA": {
+    "bench": "baseline/machsuite-sort-radix",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-sort-radix",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "DmOPb3pzWfA",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195048.4181476,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 7,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 7.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 757,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 757,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 835,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 835
+      },
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 0,
+        "estimated_clock": 5.81,
+        "ff_used": 233,
+        "lut_used": 290,
+        "max_latency": 13313,
+        "min_latency": 13313,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "F9kGv79_aZM": {
+    "bench": "rewrite/machsuite-viterbi",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-viterbi",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "F9kGv79_aZM",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195098.974796,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 52,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 52.0,
+        "dsp_avail": 220,
+        "dsp_used": 3,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 2048,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 16,
+        "lut_used": 2064,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 2265,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 2265
+      },
+      "hls": {
+        "bram_used": 104,
+        "dsp48_used": 3,
+        "estimated_clock": 6.95,
+        "ff_used": 2200,
+        "lut_used": 3584,
+        "max_latency": 12064418,
+        "min_latency": 12064418,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "FKhAia6xPfo": {
+    "bench": "rewrite/machsuite-backprop",
+    "error": "job in state failed",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-backprop",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "FKhAia6xPfo",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195087.8925858,
+      "state": "failed"
+    },
+    "ok": false,
+    "results": {
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "LEFZEzrTQ5M": {
+    "bench": "baseline/machsuite-stencil-stencil3d",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-stencil-stencil3d",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "LEFZEzrTQ5M",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195050.6780112,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 33,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 33.0,
+        "dsp_avail": 220,
+        "dsp_used": 84,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 3603,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 3603,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 2700,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 2700
+      },
+      "hls": {
+        "bram_used": 66,
+        "dsp48_used": 98,
+        "estimated_clock": 8.51,
+        "ff_used": 5588,
+        "lut_used": 6446,
+        "max_latency": 70668,
+        "min_latency": 70668,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "Lyv3ed0tPdo": {
+    "bench": "baseline/machsuite-spmv-ellpack",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-spmv-ellpack",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "Lyv3ed0tPdo",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195049.4970458,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 28,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 28.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1178,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1213,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1917,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1917
+      },
+      "hls": {
+        "bram_used": 56,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1997,
+        "lut_used": 2301,
+        "max_latency": 47919,
+        "min_latency": 47919,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "Mdm6ucKj7jQ": {
+    "bench": "rewrite/machsuite-md-grid",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-md-grid",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "Mdm6ucKj7jQ",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195093.3333564,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 19,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 19.0,
+        "dsp_avail": 220,
+        "dsp_used": 42,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 8159,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 212,
+        "lut_used": 8371,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 12249,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 12249
+      },
+      "hls": {
+        "bram_used": 38,
+        "dsp48_used": 42,
+        "estimated_clock": 6.91,
+        "ff_used": 12754,
+        "lut_used": 13848,
+        "max_latency": 17339,
+        "min_latency": 2491,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "P6PyCXoiOvc": {
+    "bench": "rewrite/machsuite-stencil-stencil3d",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-stencil-stencil3d",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "P6PyCXoiOvc",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195098.2280846,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 33,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 33.0,
+        "dsp_avail": 220,
+        "dsp_used": 6,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 560,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 560,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 800,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 800
+      },
+      "hls": {
+        "bram_used": 66,
+        "dsp48_used": 8,
+        "estimated_clock": 5.75,
+        "ff_used": 1190,
+        "lut_used": 1302,
+        "max_latency": 184124,
+        "min_latency": 184124,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "QWJy_NL7GW4": {
+    "bench": "baseline/machsuite-bfs-bulk",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-bfs-bulk",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "QWJy_NL7GW4",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195041.5538974,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 23,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 23.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1049,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 1049,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1040,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1040
+      },
+      "hls": {
+        "bram_used": 46,
+        "dsp48_used": 0,
+        "estimated_clock": 5.59,
+        "ff_used": 1022,
+        "lut_used": 975,
+        "max_latency": 15383,
+        "min_latency": 771,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "Rn7KEO0dnUU": {
+    "bench": "baseline/machsuite-backprop",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-backprop",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "Rn7KEO0dnUU",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195040.9840372,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 15,
+        "bram36_avail": 140,
+        "bram36_used": 9,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 16.5,
+        "dsp_avail": 220,
+        "dsp_used": 136,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 25828,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 1286,
+        "lut_used": 27114,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 42675,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 42675
+      },
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1651,
+        "lut_used": 2057,
+        "max_latency": 16642,
+        "min_latency": 16642,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "TZAvRNaGM34": {
+    "bench": "baseline/machsuite-viterbi",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-viterbi",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "TZAvRNaGM34",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195051.2831392,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 52,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 52.0,
+        "dsp_avail": 220,
+        "dsp_used": 3,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1986,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 16,
+        "lut_used": 2002,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 2287,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 2287
+      },
+      "hls": {
+        "bram_used": 104,
+        "dsp48_used": 3,
+        "estimated_clock": 6.95,
+        "ff_used": 2250,
+        "lut_used": 3574,
+        "max_latency": 12064418,
+        "min_latency": 12064418,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "UxUcY5mpOps": {
+    "bench": "rewrite/machsuite-sort-merge",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-sort-merge",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "UxUcY5mpOps",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195095.0780747,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 4,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 4.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 420,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 420,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 377,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 377
+      },
+      "hls": {
+        "bram_used": 4,
+        "dsp48_used": 0,
+        "estimated_clock": 6.01,
+        "ff_used": 267,
+        "lut_used": 374,
+        "max_latency": 12291,
+        "min_latency": 3,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "YxvedshdkGI": {
+    "bench": "rewrite/machsuite-stencil-stencil2d",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-stencil-stencil2d",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "YxvedshdkGI",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195097.6329162,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 17,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 17.0,
+        "dsp_avail": 220,
+        "dsp_used": 3,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 301,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 301,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 453,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 453
+      },
+      "hls": {
+        "bram_used": 34,
+        "dsp48_used": 4,
+        "estimated_clock": 5.75,
+        "ff_used": 652,
+        "lut_used": 629,
+        "max_latency": 484597,
+        "min_latency": 484597,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "_EmHftS1zmg": {
+    "bench": "rewrite/machsuite-kmp",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-kmp",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "_EmHftS1zmg",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195092.3258383,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 11,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 11.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 634,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 634,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 711,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 711
+      },
+      "hls": {
+        "bram_used": 22,
+        "dsp48_used": 0,
+        "estimated_clock": 5.24,
+        "ff_used": 796,
+        "lut_used": 967,
+        "max_latency": 3160364231,
+        "min_latency": 194486,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "_barzdyzSmU": {
+    "bench": "rewrite/machsuite-gemm-ncubed",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-gemm-ncubed",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "_barzdyzSmU",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195091.63023,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 24,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 24.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1029,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1064,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1734,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1734
+      },
+      "hls": {
+        "bram_used": 48,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1719,
+        "lut_used": 2206,
+        "max_latency": 4989057,
+        "min_latency": 4989057,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "aP0pBo1XQWY": {
+    "bench": "baseline/machsuite-stencil-stencil2d",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-stencil-stencil2d",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "aP0pBo1XQWY",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195050.0761876,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 17,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 17.0,
+        "dsp_avail": 220,
+        "dsp_used": 3,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 336,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 336,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 360,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 360
+      },
+      "hls": {
+        "bram_used": 34,
+        "dsp48_used": 3,
+        "estimated_clock": 8.51,
+        "ff_used": 554,
+        "lut_used": 700,
+        "max_latency": 117181,
+        "min_latency": 117181,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "aYdf39B_SEM": {
+    "bench": "baseline/machsuite-nw",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-nw",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "aYdf39B_SEM",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195047.3646352,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 44,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 44.0,
+        "dsp_avail": 220,
+        "dsp_used": 1,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1162,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 1162,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1003,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1003
+      },
+      "hls": {
+        "bram_used": 88,
+        "dsp48_used": 3,
+        "estimated_clock": 8.51,
+        "ff_used": 1154,
+        "lut_used": 1828,
+        "max_latency": 148576,
+        "min_latency": 147976,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "aq5Sue37ONQ": {
+    "bench": "baseline/machsuite-md-knn",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-md-knn",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "aq5Sue37ONQ",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195046.7958305,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 16,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 16.0,
+        "dsp_avail": 220,
+        "dsp_used": 42,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 6644,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 212,
+        "lut_used": 6856,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 11200,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 11200
+      },
+      "hls": {
+        "bram_used": 32,
+        "dsp48_used": 42,
+        "estimated_clock": 6.91,
+        "ff_used": 11432,
+        "lut_used": 10561,
+        "max_latency": 676609,
+        "min_latency": 676609,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "bDSjTT73UJ0": {
+    "bench": "rewrite/machsuite-spmv-ellpack",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-spmv-ellpack",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "bDSjTT73UJ0",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195096.9988058,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 28,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 28.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1088,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1123,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1908,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1908
+      },
+      "hls": {
+        "bram_used": 56,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1856,
+        "lut_used": 2212,
+        "max_latency": 104729,
+        "min_latency": 104729,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "be2L8Truhzw": {
+    "bench": "rewrite/machsuite-bfs-bulk",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-bfs-bulk",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "be2L8Truhzw",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195088.4789524,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 23,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 23.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 956,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 956,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 998,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 998
+      },
+      "hls": {
+        "bram_used": 46,
+        "dsp48_used": 0,
+        "estimated_clock": 5.59,
+        "ff_used": 916,
+        "lut_used": 1013,
+        "max_latency": 15381,
+        "min_latency": 1027,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "eCHnu51-Y_w": {
+    "bench": "rewrite/machsuite-md-knn",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-md-knn",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "eCHnu51-Y_w",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195093.9160879,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 16,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 16.0,
+        "dsp_avail": 220,
+        "dsp_used": 42,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 6768,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 212,
+        "lut_used": 6980,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 11202,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 11202
+      },
+      "hls": {
+        "bram_used": 32,
+        "dsp48_used": 42,
+        "estimated_clock": 6.91,
+        "ff_used": 11425,
+        "lut_used": 10578,
+        "max_latency": 676609,
+        "min_latency": 676609,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "fiGyDWiPGWk": {
+    "bench": "baseline/machsuite-sort-merge",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-sort-merge",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "fiGyDWiPGWk",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195047.8366404,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 4,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 4.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 615,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 615,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 556,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 556
+      },
+      "hls": {
+        "bram_used": 4,
+        "dsp48_used": 0,
+        "estimated_clock": 5.82,
+        "ff_used": 423,
+        "lut_used": 488,
+        "max_latency": 12291,
+        "min_latency": 3,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "hwr2n8qKgLs": {
+    "bench": "rewrite/machsuite-fft-transpose",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-fft-transpose",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "hwr2n8qKgLs",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195090.227153,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 4,
+        "bram36_avail": 140,
+        "bram36_used": 10,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 12.0,
+        "dsp_avail": 220,
+        "dsp_used": 218,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 56478,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 425,
+        "lut_used": 56903,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 33902,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 33902
+      },
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 68,
+        "estimated_clock": 6.93,
+        "ff_used": 10167,
+        "lut_used": 12758,
+        "max_latency": 62,
+        "min_latency": 62,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "jlDFTu315O8": {
+    "bench": "baseline/machsuite-spmv-crs",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-spmv-crs",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "jlDFTu315O8",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195049.0125732,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 11,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 11.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1333,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1368,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1948,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1948
+      },
+      "hls": {
+        "bram_used": 22,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 2089,
+        "lut_used": 2322,
+        "max_latency": 1960193,
+        "min_latency": 2471,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "lAq8x9jac-8": {
+    "bench": "rewrite/machsuite-sort-radix",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-sort-radix",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "lAq8x9jac-8",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195095.6983767,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 7,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 7.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 813,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 813,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 899,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 899
+      },
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 0,
+        "estimated_clock": 5.12,
+        "ff_used": 237,
+        "lut_used": 323,
+        "max_latency": 13313,
+        "min_latency": 13313,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "ryYOtkj_aoI": {
+    "bench": "rewrite/machsuite-bfs-queue",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-bfs-queue",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "ryYOtkj_aoI",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195089.0604022,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 1,
+        "bram36_avail": 140,
+        "bram36_used": 23,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 23.5,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 933,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 933,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 947,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 947
+      },
+      "hls": {
+        "bram_used": 48,
+        "dsp48_used": 0,
+        "estimated_clock": 6.51,
+        "ff_used": 863,
+        "lut_used": 1147,
+        "max_latency": 1025,
+        "min_latency": 5,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "t3RQvMXkbrk": {
+    "bench": "baseline/machsuite-aes",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-aes",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "t3RQvMXkbrk",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195040.2755175,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 2,
+        "bram36_avail": 140,
+        "bram36_used": 5,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 6.0,
+        "dsp_avail": 220,
+        "dsp_used": 0,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 916,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 0,
+        "lut_used": 916,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 935,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 935
+      },
+      "hls": {
+        "bram_used": 1,
+        "dsp48_used": 0,
+        "estimated_clock": 4.35,
+        "ff_used": 211,
+        "lut_used": 827,
+        "max_latency": 96,
+        "min_latency": 96,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "vek5mqhOXEA": {
+    "bench": "baseline/machsuite-gemm-blocked",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-gemm-blocked",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "vek5mqhOXEA",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195043.5660138,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 24,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 24.0,
+        "dsp_avail": 220,
+        "dsp_used": 14,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 1073,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 35,
+        "lut_used": 1108,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 1875,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 1875
+      },
+      "hls": {
+        "bram_used": 48,
+        "dsp48_used": 14,
+        "estimated_clock": 5.76,
+        "ff_used": 1802,
+        "lut_used": 2273,
+        "max_latency": 5382289,
+        "min_latency": 5382289,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "wujRjDBnFOU": {
+    "bench": "rewrite/machsuite-fft-strided",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "rewrite/machsuite-fft-strided",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "wujRjDBnFOU",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195089.6581192,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 8,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 8.0,
+        "dsp_avail": 220,
+        "dsp_used": 56,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 3652,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 140,
+        "lut_used": 3792,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 5429,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 5429
+      },
+      "hls": {
+        "bram_used": 16,
+        "dsp48_used": 56,
+        "estimated_clock": 5.76,
+        "ff_used": 6109,
+        "lut_used": 7630,
+        "max_latency": 337941,
+        "min_latency": 71701,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "xE1MSF5SAS8": {
+    "bench": "baseline/machsuite-fft-strided",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-fft-strided",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "xE1MSF5SAS8",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195042.4954693,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 8,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 8.0,
+        "dsp_avail": 220,
+        "dsp_used": 56,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 3659,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 140,
+        "lut_used": 3799,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 5386,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 5386
+      },
+      "hls": {
+        "bram_used": 16,
+        "dsp48_used": 56,
+        "estimated_clock": 5.76,
+        "ff_used": 6053,
+        "lut_used": 7601,
+        "max_latency": 337941,
+        "min_latency": 71701,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "yW9YczivGCM": {
+    "bench": "baseline/machsuite-kmp",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-kmp",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "yW9YczivGCM",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195044.7298837,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "hls": {
+        "bram_used": 0,
+        "dsp48_used": 0,
+        "estimated_clock": 5.24,
+        "ff_used": 152,
+        "lut_used": 317,
+        "max_latency": 46,
+        "min_latency": 16,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  },
+  "yjSWhriUQWs": {
+    "bench": "baseline/machsuite-md-grid",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline/machsuite-md-grid",
+        "make": true,
+        "mode": "",
+        "platform": "",
+        "sdsflags": "",
+        "skipexec": true,
+        "skipseashell": true
+      },
+      "estimate": 0,
+      "mode": "sw_emu",
+      "name": "yjSWhriUQWs",
+      "platform": "zed",
+      "sdsflags": "",
+      "started": 1565195045.5618012,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "full": {
+        "bram18_avail": 280,
+        "bram18_used": 0,
+        "bram36_avail": 140,
+        "bram36_used": 19,
+        "bram_tile_avail": 140,
+        "bram_tile_used": 19.0,
+        "dsp_avail": 220,
+        "dsp_used": 55,
+        "lut_avail": 53200,
+        "lut_logic_avail": 53200,
+        "lut_logic_used": 9100,
+        "lut_mem_avail": 17400,
+        "lut_mem_used": 486,
+        "lut_used": 9586,
+        "reg_avail": 106400,
+        "reg_ff_avail": 106400,
+        "reg_ff_used": 14097,
+        "reg_latch_avail": 106400,
+        "reg_latch_used": 0,
+        "reg_used": 14097
+      },
+      "hls": {
+        "bram_used": 50,
+        "dsp48_used": 67,
+        "estimated_clock": 7.53,
+        "ff_used": 15462,
+        "lut_used": 14661,
+        "max_latency": 2506,
+        "min_latency": 2506,
+        "pipelining": "none",
+        "target_clock": 7.0
+      },
+      "log": {
+        "compiler error": false,
+        "missing file": false,
+        "resources": false,
+        "timing": false
+      }
+    }
+  }
+}
