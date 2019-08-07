@@ -1,6 +1,5 @@
 import re
 import xml.etree.ElementTree as ET
-import pandas as pd
 
 from rpt import RPTParser
 
@@ -38,6 +37,16 @@ def performance_estimates(filepath):
     return out
 
 
+def _find_row(table, key, value):
+    """Given a list of dicts in `table`, find the dict whose value for
+    `key` contains `value`.
+    """
+    for row in table:
+        if value in row[key]:
+            return row
+    raise ValueError("row not found")
+
+
 def hls_report(filepath):
     parser = RPTParser(filepath)
 
@@ -49,16 +58,15 @@ def hls_report(filepath):
         re.compile(r'== Utilization Estimates'), 2)
 
     # Get the (only) row in the table whose "Name" is "Total".
-    util_total = utilization_table[utilization_table['Name'] == 'Total'] \
-        .iloc[0]
+    util_total = _find_row(utilization_table, 'Name', 'Total')
 
     # Extract relevant data.
     return {
-        'target_clock':    timing_table.loc[0, 'Target'],
-        'estimated_clock': timing_table.loc[0, 'Estimated'],
-        'min_latency':     latency_table.loc[0, 'Latency min'],
-        'max_latency':     latency_table.loc[0, 'Latency max'],
-        'pipelining':      latency_table.loc[0, 'Pipeline Type'],
+        'target_clock':    timing_table[0]['Target'],
+        'estimated_clock': timing_table[0]['Estimated'],
+        'min_latency':     latency_table[0]['Latency min'],
+        'max_latency':     latency_table[0]['Latency max'],
+        'pipelining':      latency_table[0]['Pipeline Type'],
         'bram_used':       util_total['BRAM_18K'],
         'dsp48_used':      util_total['DSP48E'],
         'ff_used':         util_total['FF'],
@@ -79,18 +87,18 @@ def sds_report(filepath):
     used_key = 'Used'
     avail_key = 'Available'
 
-    lut = logic_table[logic_table['Site Type'].str.contains('LUTs')].iloc[0]
-    lut_logic = logic_table[logic_table['Site Type'].str.contains('Logic')].iloc[0]
-    lut_mem = logic_table[logic_table['Site Type'].str.contains('Memory')].iloc[0]
-    reg = logic_table[logic_table['Site Type'].str.contains('Registers')].iloc[0]
-    reg_ff = logic_table[logic_table['Site Type'].str.contains('Flip Flop')].iloc[0]
-    reg_latch = logic_table[logic_table['Site Type'].str.contains('Latch')].iloc[0]
+    lut = _find_row(logic_table, 'Site Type', 'LUTs')
+    lut_logic = _find_row(logic_table, 'Site Type', 'Logic')
+    lut_mem = _find_row(logic_table, 'Site Type', 'Memory')
+    reg = _find_row(logic_table, 'Site Type', 'Registers')
+    reg_ff = _find_row(logic_table, 'Site Type', 'Flip Flop')
+    reg_latch = _find_row(logic_table, 'Site Type', 'Latch')
 
-    bram_tile = mem_table[mem_table['Site Type'].str.contains('Block RAM Tile')].iloc[0]
-    bram36 = mem_table[mem_table['Site Type'].str.contains('RAMB36/')].iloc[0]
-    bram18 = mem_table[mem_table['Site Type'].str.contains('RAMB18')].iloc[0]
+    bram_tile = _find_row(mem_table, 'Site Type', 'Block RAM Tile')
+    bram36 = _find_row(mem_table, 'Site Type', 'RAMB36/')
+    bram18 = _find_row(mem_table, 'Site Type', 'RAMB18')
 
-    dsp = dsp_table[dsp_table['Site Type'].str.contains('DSPs')].iloc[0]
+    dsp = _find_row(dsp_table, 'Site Type', 'DSPs')
 
     return {
         'lut_used':        lut[used_key],
