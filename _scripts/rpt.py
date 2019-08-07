@@ -111,7 +111,7 @@ class RPTParser:
         for line in table_lines[table_start:]:
             if not RPTParser.SKIP_LINE.match(line):
                 table_rows.append(RPTParser._clean_and_strip(line.split('|')))
-        
+
         table = pd.DataFrame(table_rows, columns=table_columns)
         return table
 
