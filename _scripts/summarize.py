@@ -23,8 +23,7 @@ FIELDS = [
     'full_ff',
     'hls_bram',
     'est_bram',
-    'full_bram18',
-    'full_bram36',
+    'full_bram',
     'hls_dsp',
     'est_dsp',
     'full_dsp',
@@ -93,8 +92,7 @@ def summarize_one(job_results):
     if 'full' in job_results['results']:
         full = job_results['results']['full']
         out.update({
-            'full_bram18': full['bram18_used'],
-            'full_bram36': full['bram36_used'],
+            'full_bram': full['bram_tile_used'],
             'full_lut': full['lut_used'],
             'full_ff': full['reg_ff_used'],
             'full_dsp': full['dsp_used'],
