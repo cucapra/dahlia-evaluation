@@ -133,6 +133,7 @@ def extract_job(batch_dir, job_id):
         'job': job,
         'bench': hwname,
     }
+    kernel = re.split('/|-',hwname)[2]
 
     if job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
@@ -163,7 +164,8 @@ def extract_job(batch_dir, job_id):
         if m and m.groups(1) != 'main':
             hls_rpt_path = file_path
             break
-        if re.search(r'/report/(\w+)_csynth.rpt', file_path):
+        m = re.search(r'/report/(\w+)_csynth.rpt', file_path)
+        if m and ''.join(m.groups(1)) == kernel:
             hls_rpt_path = file_path
             break
     else:

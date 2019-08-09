@@ -176,13 +176,13 @@
         "reg_used": 899
       },
       "hls": {
-        "bram_used": 0,
+        "bram_used": 14,
         "dsp48_used": 0,
         "estimated_clock": 5.12,
-        "ff_used": 237,
-        "lut_used": 323,
-        "max_latency": 13313,
-        "min_latency": 13313,
+        "ff_used": 1164,
+        "lut_used": 1990,
+        "max_latency": 761969,
+        "min_latency": 761969,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -306,13 +306,13 @@
         "reg_used": 33902
       },
       "hls": {
-        "bram_used": 0,
-        "dsp48_used": 68,
+        "bram_used": 40,
+        "dsp48_used": 290,
         "estimated_clock": 6.93,
-        "ff_used": 10167,
-        "lut_used": 12758,
-        "max_latency": 62,
-        "min_latency": 62,
+        "ff_used": 41617,
+        "lut_used": 40494,
+        "max_latency": 210955,
+        "min_latency": 200203,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -891,13 +891,13 @@
         "reg_used": 556
       },
       "hls": {
-        "bram_used": 4,
+        "bram_used": 8,
         "dsp48_used": 0,
-        "estimated_clock": 5.82,
-        "ff_used": 423,
-        "lut_used": 488,
-        "max_latency": 12291,
-        "min_latency": 3,
+        "estimated_clock": 6.09,
+        "ff_used": 731,
+        "lut_used": 900,
+        "max_latency": 276959255,
+        "min_latency": 23,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -1281,13 +1281,13 @@
         "reg_used": 377
       },
       "hls": {
-        "bram_used": 4,
+        "bram_used": 8,
         "dsp48_used": 0,
         "estimated_clock": 6.01,
-        "ff_used": 267,
-        "lut_used": 374,
-        "max_latency": 12291,
-        "min_latency": 3,
+        "ff_used": 464,
+        "lut_used": 706,
+        "max_latency": 276959255,
+        "min_latency": 23,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -1606,13 +1606,13 @@
         "reg_used": 35879
       },
       "hls": {
-        "bram_used": 0,
-        "dsp48_used": 0,
-        "estimated_clock": 6.02,
-        "ff_used": 2043,
-        "lut_used": 2186,
-        "max_latency": 36,
-        "min_latency": 24,
+        "bram_used": 40,
+        "dsp48_used": 290,
+        "estimated_clock": 8.05,
+        "ff_used": 44107,
+        "lut_used": 45062,
+        "max_latency": 179595,
+        "min_latency": 168843,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -1996,13 +1996,13 @@
         "reg_used": 675
       },
       "hls": {
-        "bram_used": 0,
+        "bram_used": 20,
         "dsp48_used": 0,
-        "estimated_clock": 4.88,
-        "ff_used": 313,
-        "lut_used": 336,
-        "max_latency": 25,
-        "min_latency": 13,
+        "estimated_clock": 5.88,
+        "ff_used": 995,
+        "lut_used": 1113,
+        "max_latency": 2106909493,
+        "min_latency": 162070,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -2191,13 +2191,13 @@
         "reg_used": 837
       },
       "hls": {
-        "bram_used": 1,
+        "bram_used": 12,
         "dsp48_used": 0,
         "estimated_clock": 5.74,
-        "ff_used": 117,
-        "lut_used": 515,
-        "max_latency": 96,
-        "min_latency": 96,
+        "ff_used": 885,
+        "lut_used": 2308,
+        "max_latency": 4249,
+        "min_latency": 2988,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -2256,13 +2256,13 @@
         "reg_used": 935
       },
       "hls": {
-        "bram_used": 1,
+        "bram_used": 12,
         "dsp48_used": 0,
-        "estimated_clock": 4.35,
-        "ff_used": 211,
-        "lut_used": 827,
-        "max_latency": 96,
-        "min_latency": 96,
+        "estimated_clock": 5.88,
+        "ff_used": 1001,
+        "lut_used": 2777,
+        "max_latency": 4164,
+        "min_latency": 2903,
         "pipelining": "none",
         "target_clock": 7.0
       },
@@ -2321,13 +2321,13 @@
         "reg_used": 835
       },
       "hls": {
-        "bram_used": 0,
+        "bram_used": 14,
         "dsp48_used": 0,
         "estimated_clock": 5.81,
-        "ff_used": 233,
-        "lut_used": 290,
-        "max_latency": 13313,
-        "min_latency": 13313,
+        "ff_used": 1073,
+        "lut_used": 1729,
+        "max_latency": 725105,
+        "min_latency": 725105,
         "pipelining": "none",
         "target_clock": 7.0
       },
