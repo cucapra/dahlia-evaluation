@@ -1,80 +1,87 @@
- #Points to Utility Directory
+# Include sdaccel utilities
 COMMON_REPO =  .
 ABS_COMMON_REPO = $(shell readlink -n $(COMMON_REPO))
 
 include ./utils.mk
 
-MODES := hw
-MODE := $(MODES)
-DEVICES := xilinx_vcu1525_dynamic
-DEVICE := $(DEVICES)
-XCLBIN := ./xclbin
-DSA := $(call device2sandsa, $(DEVICE))
-
-CXX := $(XILINX_SDX)/bin/xcpp
-XOCC := $(XILINX_SDX)/bin/xocc
-
-#Include Libraries
+# Include sdaccel libraries
 include libs/opencl/opencl.mk
 include libs/xcl2/xcl2.mk
-CXXFLAGS += $(xcl2_CXXFLAGS)
-LDFLAGS += $(xcl2_LDFLAGS)
-HOST_SRCS += $(xcl2_SRCS)
-CXXFLAGS += $(opencl_CXXFLAGS) -Wall -O0 -g -std=c++14
-LDFLAGS += $(opencl_LDFLAGS)
 
-HOST_SRCS += $(EXECUTABLE).cpp
+# OCL compilation options.
+MODES := hw
+MODE  := $(MODES)
+DEVICES   := xilinx_vcu1525_dynamic
+DEVICE    := $(DEVICES)
+# How to set clock? CLOCK_ID  := ??
+
+# The ordinary (software) C++ compiler.
+CXX   := $(XILINX_SDX)/bin/xcpp
+CXXFLAGS  := $(xcl2_CXXFLAGS)
+LDFLAGS   := $(xcl2_LDFLAGS)
+CXXFLAGS  += $(opencl_CXXFLAGS)
+LDFLAGS   += $(opencl_LDFLAGS)
+CXXFLAGS  += -Wall -O0 -g -std=c++14
+
+HOST_SRCS += $(xcl2_SRCS)
 
 # Host compiler global settings
-CXXFLAGS += -fmessage-length=0
-LDFLAGS += -lrt -lstdc++ 
+CXXFLAGS  += -fmessage-length=0
+LDFLAGS   += -lrt -lstdc++ 
 
-# Kernel compiler global settings
-CLFLAGS += -t $(MODE) --platform $(DEVICE) --save-temps 
+# The OCL compiler.
+XOCC  := $(XILINX_SDX)/bin/xocc
+XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps 
+## How to add directives, can you add directives? other options?
 
-
-EXECUTABLE = host
-
-EMCONFIG_DIR = $(XCLBIN)/$(DSA)
-
-BINARY_CONTAINERS += $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xclbin
+# Binaries
+BINARY_CONTAINERS     += $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xclbin
 BINARY_CONTAINER_OBJS += $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xo
 
-CP = cp -rf
-
+# emconfig stuff
+XCLBIN       := ./xclbin
+DSA          := $(call device2sandsa, $(DEVICE))
+EMCONFIG_DIR = $(XCLBIN)/$(DSA)
+CP           = cp -rf
+EXECUTABLE   := host
 
 check: all
 ifeq ($(MODE),$(filter $(MODE),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
+	XCL_EMULATION_MODE=$(MODE) ./$(EXECUTABLE)	
 endif
 
-.PHONY: all clean cleanall docs emconfig
+.PHONY: all
 all: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
 .PHONY: exe
 exe: $(EXECUTABLE)
 
+# emconfig 
+.PHONY: emconfig
+emconfig:$(EMCONFIG_DIR)/emconfig.json
+$(EMCONFIG_DIR)/emconfig.json:
+	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
+
 # Building kernel
-$(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xo: $(KERNEL).cpp
+$(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xo: $(HW_SRCS)
 	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) -c -k $(KERNEL) -I'$(<D)' -o'$@' '$<'
+	$(XOCC) $(XOCCFLAGS) -c -k $(KERNEL) -I'$(<D)' -o'$@' '$<'
 $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xclbin: $(BINARY_CONTAINER_OBJS)
 	mkdir -p $(XCLBIN)
-	$(XOCC) $(CLFLAGS) -l $(LDCLFLAGS) --nk $(KERNEL):1 -o'$@' $(+)
+	$(XOCC) $(XOCCFLAGS) -l $(LDCLFLAGS) --nk $(KERNEL):1 -o'$@' $(+)
 
 # Building Host
 $(EXECUTABLE): $(HOST_SRCS) $(HOST_HDRS)
 	mkdir -p $(XCLBIN)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
 
-
-emconfig:$(EMCONFIG_DIR)/emconfig.json
-$(EMCONFIG_DIR)/emconfig.json:
-	emconfigutil --platform $(DEVICE) --od $(EMCONFIG_DIR)
-
-
+# Check for host
+checkhost: all 
+	sudo sh -c 'source /opt/xilinx/xrt/setup.sh ; ./$(EXECUTABLE)'
 
 # Cleaning stuff
+.PHONY: clean cleanall
 clean:
 	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
 	-$(RMDIR) sdaccel_* TempConfig system_estimate.xtxt *.rpt
@@ -84,18 +91,15 @@ cleanall: clean
 	-$(RMDIR) $(XCLBIN)
 	-$(RMDIR) ./_x
 
-checkhost: all 
-	sudo sh -c 'source /opt/xilinx/xrt/setup.sh ; ./$(EXECUTABLE)'
-
-
-
-.PHONY: submit run
+# Debugging targets: submit code to Buildbot as a new job
+.PHONY: submit
 BUILDBOT := http://ec2-54-234-195-6.compute-1.amazonaws.com:5000
 
 submit:
 	zip -r - . | curl -F file='@-;filename=code.zip' -F make=1 -F mode=$(MODE)\
 		$(BUILDBOT)/jobs
 
+# What's this? Device check?
 bar: all
 	echo $(DSA)
 	$(COMMON_REPO)/utility/parsexpmf.py $(DEVICE) dsa
