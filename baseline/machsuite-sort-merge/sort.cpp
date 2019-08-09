@@ -28,8 +28,11 @@ void merge(TYPE a[SIZE], int start, int m, int stop){
     }
 }
 
+extern "C" {
 void sort(TYPE a[SIZE]) {
-#pragma HLS INTERFACE s_axilite port=a
+#pragma HLS INTERFACE m_axi port=a offset=slave bundle=gmem
+#pragma HLS INTERFACE s_axilite port=a  bundle=control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
     int start, stop;
     int i, m, from, mid, to;
 
@@ -49,4 +52,5 @@ void sort(TYPE a[SIZE]) {
             }
         }
     }
+}
 }
