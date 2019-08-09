@@ -67,6 +67,15 @@ Give the script the path to a `results.json`, like this:
 
 The script produces a file in the same directory called `summary.csv` with particularly relevant information pulled out.
 
+### `status.py`
+
+Get the current status of a batch while you impatiently wait for jobs to complete.
+Print out the number of jobs in each state.
+
+Give the script the path to a batch directory:
+
+    ./_scripts/status.py _results/2019-07-13-17-13-09
+
 
 ## Directory Structure
 
