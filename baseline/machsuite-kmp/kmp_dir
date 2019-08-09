@@ -21,7 +21,7 @@
 #set_directive_unroll -factor 2  CDF/c2
 
 #Array partitioning
-set_directive_array_partition -factor 2 -type cyclic kmp pattern
+set_directive_array_partition -factor 4 -type cyclic kmp pattern
 #set_directive_array_partition -factor 2 -type cyclic kmp input 
 #set_directive_array_partition -factor 2 -type complete CPF pattern
 #set_directive_array_partition -factor 2 -type complete CPF input
