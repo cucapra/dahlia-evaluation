@@ -11,8 +11,10 @@ else
 VHLS_MODE := syn
 endif
 
+.PHONY: vhls
 vhls: run_hls.tcl
 	vivado_hls -f $<
+	! grep 'Command failed' vivado_hls.log
 
 ifeq ($(DIRECTIVES),)
 DIRARG := -
