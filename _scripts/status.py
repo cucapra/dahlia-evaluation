@@ -4,6 +4,7 @@ import os
 import sys
 import requests
 from collections import defaultdict
+import logging
 
 import common
 
@@ -30,7 +31,15 @@ def get_status(batch_dir):
         job_ids = jobs.read().strip().split('\n')
 
     # Download all the status stuff.
-    job_info = {i: get_metadata(i) for i in job_ids}
+    job_info = {}
+    for job_id in job_ids:
+        info = get_metadata(job_id)
+        logging.log(
+            logging.ERROR if info['state'] == 'failed' else logging.INFO,
+            '%s (%s): %s',
+            job_id, info['config']['hwname'], info['state'],
+        )
+        job_info[job_id] = info
 
     # Count up the states.
     counts = defaultdict(int)
