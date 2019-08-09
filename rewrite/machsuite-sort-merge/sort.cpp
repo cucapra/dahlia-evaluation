@@ -1,4 +1,4 @@
-#include "ap_int.h"
+#include <ap_int.h>
 
 void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) {
   
@@ -47,6 +47,7 @@ void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) 
     k = (k + 1);
   }
 }
+extern "C" {
 void sort(ap_int<32> a[2048]) {
 #pragma HLS INTERFACE m_axi port=a offset=slave bundle=gmem
 #pragma HLS INTERFACE s_axilite port=a  bundle=control
@@ -84,4 +85,5 @@ void sort(ap_int<32> a[2048]) {
     }
     m = (m + m);
   }
+}
 }

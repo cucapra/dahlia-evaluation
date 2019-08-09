@@ -7,8 +7,10 @@
 #define TYPE int32_t
 #define TYPE_MAX INT32_MAX
 
-#pragma SDS data zero_copy(a[0:SIZE])
-void sort(TYPE a[SIZE]);
+//#pragma SDS data zero_copy(a[0:SIZE])
+//extern "C" {
+//void sort(TYPE a[SIZE]);
+//}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
