@@ -47,9 +47,10 @@ void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) 
     k = (k + 1);
   }
 }
-#pragma SDS data zero_copy(a[0:SIZE])
 void sort(ap_int<32> a[2048]) {
-  #pragma HLS INTERFACE s_axilite port=a
+#pragma HLS INTERFACE m_axi port=a offset=slave bundle=gmem
+#pragma HLS INTERFACE s_axilite port=a  bundle=control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
   
   ap_int<16> start = 0;
   

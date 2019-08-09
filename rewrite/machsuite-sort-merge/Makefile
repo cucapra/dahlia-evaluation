@@ -3,5 +3,6 @@ HW_SRCS          = $(KERNEL).cpp
 HOST_SRCS        = main.cpp local_support.cpp support.cpp
 DATA             = input.data check.data
 
-include vhls.mk
+include sda.mk
+include utils.mk
 -include fuse.mk
