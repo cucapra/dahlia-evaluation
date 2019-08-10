@@ -31,7 +31,7 @@ LDFLAGS   += -lrt -lstdc++
 
 # The OCL compiler.
 XOCC  := $(XILINX_SDX)/bin/xocc
-XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps 
+XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) 
 ## How to add directives, can you add directives? other options?
 
 # Binaries
@@ -48,7 +48,6 @@ EXECUTABLE   := sdaccel
 check: all
 ifeq ($(MODE),$(filter $(MODE),sw_emu hw_emu))
 	$(CP) $(EMCONFIG_DIR)/emconfig.json .
-	XCL_EMULATION_MODE=$(MODE) ./$(EXECUTABLE)	
 endif
 
 .PHONY: all
