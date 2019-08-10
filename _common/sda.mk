@@ -43,7 +43,7 @@ XCLBIN       := ./xclbin
 DSA          := $(call device2sandsa, $(DEVICE))
 EMCONFIG_DIR = $(XCLBIN)/$(DSA)
 CP           = cp -rf
-EXECUTABLE   := host
+EXECUTABLE   := sdaccel
 
 check: all
 ifeq ($(MODE),$(filter $(MODE),sw_emu hw_emu))
