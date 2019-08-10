@@ -1,5 +1,6 @@
-#include "gemm.h"
+
 #include <string.h>
+#include "gemm.h"
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
 
