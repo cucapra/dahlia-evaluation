@@ -5,7 +5,7 @@ The scalable heterogeneous computing (shoc) benchmark suite.
 In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Processing Units, 2010
 */
 
-#include "func.h"
+#include "sort.h"
 
 void local_scan(int bucket[BUCKETSIZE])
 {
@@ -75,11 +75,18 @@ void update(int b[SIZE], int bucket[BUCKETSIZE], int a[SIZE], int exp)
     }
 }
 
+extern "C" {
 void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]){
-#pragma HLS INTERFACE s_axilite port=a
-#pragma HLS INTERFACE s_axilite port=b
-#pragma HLS INTERFACE s_axilite port=bucket
-#pragma HLS INTERFACE s_axilite port=sum
+#pragma HLS INTERFACE s_axilite port=a  bundle=control
+#pragma HLS INTERFACE s_axilite port=b  bundle=control
+#pragma HLS INTERFACE s_axilite port=bucket  bundle=control
+#pragma HLS INTERFACE s_axilite port=sum  bundle=control
+#pragma HLS INTERFACE m_axi port = a offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = b offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = bucket offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = sum offset = slave bundle = gmem
+#pragma HLS INTERFACE s_axilite port = return bundle = control
+
 
     int exp=0;
     int valid_buffer=0;
@@ -107,4 +114,5 @@ void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX])
         }
     }
     // If trip count is even, buffer A will be valid at the end.
+}
 }
