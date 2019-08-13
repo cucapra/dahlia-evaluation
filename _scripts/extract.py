@@ -54,6 +54,7 @@ RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
+KERNEL_LIST = ['aes','backprop','bfs','fft','gemm','kmp','md','nw','sort','spmv','stencil','viterbi']
 
 def _download(url, path, chunk_size=4096):
     """Download the file at `url` to `path`.
@@ -165,10 +166,7 @@ def extract_job(batch_dir, job_id):
             hls_rpt_path = file_path
             break
         m = re.search(r'/report/(\w+)_csynth.rpt', file_path)
-        print(m)
-        if m:
-            print(m.group(1))
-        if m and m.group(1) == kernel:
+        if m and m.group(1) in KERNEL_LIST:
             hls_rpt_path = file_path
             break
     else:
