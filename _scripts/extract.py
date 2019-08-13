@@ -161,11 +161,14 @@ def extract_job(batch_dir, job_id):
     # and SDSoC jobs---but in different locations!
     for file_path in file_list:
         m = re.search(r'/reports/sds_(\w+).rpt', file_path)
-        if m and m.groups(1) != 'main':
+        if m and m.group(1) != 'main':
             hls_rpt_path = file_path
             break
         m = re.search(r'/report/(\w+)_csynth.rpt', file_path)
-        if m and ''.join(m.groups(1)) == kernel:
+        print(m)
+        if m:
+            print(m.group(1))
+        if m and m.group(1) == kernel:
             hls_rpt_path = file_path
             break
     else:
