@@ -19,6 +19,44 @@ BENCHMARKS := baseline/machsuite-aes \
 	baseline/machsuite-stencil-stencil2d \
 	baseline/machsuite-stencil-stencil3d \
 	baseline/machsuite-viterbi \
+	baseline-opt/machsuite-aes \
+	baseline-opt/machsuite-backprop \
+	baseline-opt/machsuite-bfs-bulk \
+	baseline-opt/machsuite-bfs-queue \
+	baseline-opt/machsuite-fft-strided \
+	baseline-opt/machsuite-fft-transpose \
+	baseline-opt/machsuite-gemm-blocked \
+	baseline-opt/machsuite-gemm-ncubed \
+	baseline-opt/machsuite-kmp \
+	baseline-opt/machsuite-md-grid \
+	baseline-opt/machsuite-md-knn \
+	baseline-opt/machsuite-nw \
+	baseline-opt/machsuite-sort-merge \
+	baseline-opt/machsuite-sort-radix \
+	baseline-opt/machsuite-spmv-crs \
+	baseline-opt/machsuite-spmv-ellpack \
+	baseline-opt/machsuite-stencil-stencil2d \
+	baseline-opt/machsuite-stencil-stencil3d \
+	baseline-opt/machsuite-viterbi \
+	baseline-no_opt/machsuite-aes \
+	baseline-no_opt/machsuite-backprop \
+	baseline-no_opt/machsuite-bfs-bulk \
+	baseline-no_opt/machsuite-bfs-queue \
+	baseline-no_opt/machsuite-fft-strided \
+	baseline-no_opt/machsuite-fft-transpose \
+	baseline-no_opt/machsuite-gemm-blocked \
+	baseline-no_opt/machsuite-gemm-ncubed \
+	baseline-no_opt/machsuite-kmp \
+	baseline-no_opt/machsuite-md-grid \
+	baseline-no_opt/machsuite-md-knn \
+	baseline-no_opt/machsuite-nw \
+	baseline-no_opt/machsuite-sort-merge \
+	baseline-no_opt/machsuite-sort-radix \
+	baseline-no_opt/machsuite-spmv-crs \
+	baseline-no_opt/machsuite-spmv-ellpack \
+	baseline-no_opt/machsuite-stencil-stencil2d \
+	baseline-no_opt/machsuite-stencil-stencil3d \
+	baseline-no_opt/machsuite-viterbi \
 	rewrite/machsuite-aes \
 	rewrite/machsuite-bfs-bulk \
 	rewrite/machsuite-bfs-queue \
