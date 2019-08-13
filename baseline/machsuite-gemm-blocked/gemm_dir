@@ -1,26 +1,26 @@
 #mem
-#set_directive_resource -core RAM_1P_BRAM "gemm" m1
-#set_directive_resource -core RAM_1P_BRAM "gemm" m2
-#set_directive_resource -core RAM_1P_BRAM "gemm" prod
+#set_directive_resource -core RAM_1P_BRAM "bbgemm" m1
+#set_directive_resource -core RAM_1P_BRAM "bbgemm" m2
+#set_directive_resource -core RAM_1P_BRAM "bbgemm" prod
 
 #partitioning
-#set_directive_array_partition -factor 64 -type cyclic gemm m1
-#set_directive_array_partition -factor 64 -type cyclic gemm m2
-#set_directive_array_partition -factor 64 -type cyclic gemm prod
+#set_directive_array_partition -factor 64 -type cyclic bbgemm m1
+#set_directive_array_partition -factor 64 -type cyclic bbgemm m2
+#set_directive_array_partition -factor 64 -type cyclic bbgemm prod
 
 #unrolling
-#set_directive_unroll -factor 8 gemm/loopjj
-#set_directive_unroll -factor 8 gemm/loopkk
-#set_directive_unroll -factor 8 gemm/loopi
-#set_directive_unroll -factor 8 gemm/loopk
-#set_directive_unroll -factor 8 gemm/loopj
+#set_directive_unroll -factor 8 bbgemm/loopjj
+#set_directive_unroll -factor 8 bbgemm/loopkk
+#set_directive_unroll -factor 8 bbgemm/loopi
+#set_directive_unroll -factor 8 bbgemm/loopk
+#set_directive_unroll -factor 8 bbgemm/loopj
 
 #pipeline
-#set_directive_pipeline gemm/loopjj
-#set_directive_pipeline gemm/loopkk
-#set_directive_pipeline gemm/loopi
-#set_directive_pipeline gemm/loopk
-#set_directive_pipeline gemm/loopj
+#set_directive_pipeline bbgemm/loopjj
+#set_directive_pipeline bbgemm/loopkk
+#set_directive_pipeline bbgemm/loopi
+#set_directive_pipeline bbgemm/loopk
+#set_directive_pipeline bbgemm/loopj
 
 #resources
-set_directive_resource -core Mul "gemm" mul
+set_directive_resource -core Mul "bbgemm" mul
