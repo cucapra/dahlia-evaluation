@@ -1,0 +1,28 @@
+#mem
+set_directive_resource -core RAM_1P_BRAM "gemm" m1
+set_directive_resource -core RAM_1P_BRAM "gemm" m2
+set_directive_resource -core RAM_1P_BRAM "gemm" prod
+
+#partitioning
+set_directive_array_partition -factor 8 -type cyclic gemm m1
+set_directive_array_partition -factor 8 -type cyclic gemm m2
+set_directive_array_partition -factor 8 -type cyclic gemm prod
+
+#unrolling
+#set_directive_unroll -factor 8 gemm/outer
+#set_directive_unroll -factor 8 gemm/middle
+#set_directive_unroll -factor 8 gemm/inner
+
+#pipeline
+#set_directive_pipeline gemm/outer
+set_directive_pipeline gemm/middle
+#set_directive_pipeline gemm/inner
+
+#resources
+set_directive_resource -core Mul "gemm" mult
+
+#Notes
+# Array partitioning by 64 consumes more BRAMs than Zed's
+# outer had a typo
+# Unrolling outer from this config gives timing fail
+# Pipe outer gives timing and resource fails

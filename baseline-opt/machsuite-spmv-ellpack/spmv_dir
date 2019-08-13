@@ -1,0 +1,17 @@
+set_directive_resource -core RAM_1P_BRAM "spmv" nzval
+set_directive_resource -core RAM_1P_BRAM "spmv" cols
+set_directive_resource -core RAM_1P_BRAM "spmv" vec
+set_directive_resource -core RAM_1P_BRAM "spmv" out
+
+set_directive_array_partition -factor 8 -type cyclic spmv nzval
+set_directive_array_partition -factor 8 -type cyclic spmv cols
+set_directive_array_partition -factor 8 -type cyclic spmv vec
+set_directive_array_partition -factor 8 -type cyclic spmv out
+
+set_directive_unroll -factor 8 spmv/ellpack_1
+#set_directive_unroll -factor 8 spmv/ellpack_2
+
+#set_directive_pipeline spmv/ellpack_1
+set_directive_pipeline spmv/ellpack_2
+
+#set_directive_resource -core Mul "spmv" Si

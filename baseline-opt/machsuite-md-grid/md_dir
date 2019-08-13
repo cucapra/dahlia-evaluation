@@ -1,0 +1,55 @@
+set_directive_allocation -limit 26858 -type operation md add
+set_directive_allocation -limit 11150 -type operation md mul
+
+#set_directive_resource -core RAM_1P_BRAM "md" force_x
+#set_directive_resource -core RAM_1P_BRAM "md" force_y
+#set_directive_resource -core RAM_1P_BRAM "md" force_z
+#set_directive_resource -core RAM_1P_BRAM "md" position_x
+#set_directive_resource -core RAM_1P_BRAM "md" position_y
+#set_directive_resource -core RAM_1P_BRAM "md" position_z
+#set_directive_resource -core RAM_1P_BRAM "md" n_points
+
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md force_x
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md force_y
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md force_z
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md position_x
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md position_y
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md position_z
+#set_directive_array_partition -factor 4 -dim 3 -type cyclic md n_points
+
+#set_directive_unroll -factor 8 md/loop_grid0_x
+#set_directive_unroll -factor 8 md/loop_grid0_y
+#set_directive_unroll -factor 8 md/loop_grid0_z
+#set_directive_unroll -factor 8 md/loop_grid1_x
+#set_directive_unroll -factor 8 md/loop_grid1_y
+#set_directive_unroll -factor 8 md/loop_grid1_z
+#set_directive_unroll -factor 8 md/loop_p
+#set_directive_unroll -factor 8 md/loop_q
+
+
+set_directive_pipeline md/loop_init_x
+#set_directive_pipeline md/loop_init_y
+#set_directive_pipeline md/loop_init_z
+#set_directive_pipeline md/loop_init_p
+#set_directive_pipeline md/loop_grid0_x
+#set_directive_pipeline md/loop_grid0_y
+#set_directive_pipeline md/loop_grid0_z
+#set_directive_pipeline md/loop_grid1_x
+#set_directive_pipeline md/loop_grid1_y
+#set_directive_pipeline md/loop_grid1_z
+#set_directive_pipeline md/loop_p
+#set_directive_pipeline md/loop_q
+set_directive_pipeline md/loop_copy_x
+#set_directive_pipeline md/loop_copy_y
+#set_directive_pipeline md/loop_copy_z
+#set_directive_pipeline md/loop_copy_p
+
+#estimation
+# using the range from 0 to blockside as estimate
+set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_x
+set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_y
+set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_z
+# no basis
+set_directive_loop_tripcount -avg 10 md/loop_p
+set_directive_loop_tripcount -avg 10 md/loop_q
+#set_directive_data_pack  md force
