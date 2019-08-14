@@ -10,15 +10,23 @@
 
 #define MAX(A,B) ( ((A)>(B))?(A):(B) )
 
+extern "C" {
 void nw(char SEQA[ALEN], char SEQB[BLEN],
              char alignedA[ALEN+BLEN], char alignedB[ALEN+BLEN],
              int M[(ALEN+1)*(BLEN+1)], char ptr[(ALEN+1)*(BLEN+1)]){
-#pragma HLS INTERFACE s_axilite port=SEQA
-#pragma HLS INTERFACE s_axilite port=SEQB
-#pragma HLS INTERFACE s_axilite port=alignedA
-#pragma HLS INTERFACE s_axilite port=alignedB
-#pragma HLS INTERFACE s_axilite port=M
-#pragma HLS INTERFACE s_axilite port=ptr
+#pragma HLS INTERFACE m_axi port = SEQA offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = SEQB offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = alignedA offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = alignedB offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = M offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = ptr offset = slave bundle = gmem
+#pragma HLS INTERFACE s_axilite port=SEQA bundle = control 
+#pragma HLS INTERFACE s_axilite port=SEQB bundle = control 
+#pragma HLS INTERFACE s_axilite port=alignedA bundle = control 
+#pragma HLS INTERFACE s_axilite port=alignedB bundle = control 
+#pragma HLS INTERFACE s_axilite port=M bundle = control 
+#pragma HLS INTERFACE s_axilite port=ptr bundle = control 
+#pragma HLS INTERFACE s_axilite port = return bundle = control
 
     int score, up_left, up, left, max;
     int row, row_up, r;
@@ -94,4 +102,5 @@ void nw(char SEQA[ALEN], char SEQB[BLEN],
     pad_b: for( ; b_str_idx<ALEN+BLEN; b_str_idx++ ) {
       alignedB[b_str_idx] = '_';
     }
+  }
 }

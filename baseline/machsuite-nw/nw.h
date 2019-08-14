@@ -7,9 +7,9 @@
 
 #pragma SDS data copy(SEQA[0:ALEN])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])  
-void nw(char SEQA[ALEN], char SEQB[BLEN],
-             char alignedA[ALEN+BLEN], char alignedB[ALEN+BLEN],
-             int M[(ALEN+1)*(BLEN+1)], char ptr[(ALEN+1)*(BLEN+1)]);
+// void nw(char SEQA[ALEN], char SEQB[BLEN],
+//              char alignedA[ALEN+BLEN], char alignedB[ALEN+BLEN],
+//              int M[(ALEN+1)*(BLEN+1)], char ptr[(ALEN+1)*(BLEN+1)]);
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 
