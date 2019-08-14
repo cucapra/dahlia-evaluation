@@ -1,3 +1,5 @@
+#include "xcl2.hpp"
+#include <vector> 
 #include "kmp.h"
 #include <string.h>
 

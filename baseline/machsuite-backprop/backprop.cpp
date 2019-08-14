@@ -235,7 +235,7 @@ void update_weights(TYPE weights1[input_dimension*nodes_per_layer],
         biases3[i] = (biases3[i]/bias_norm);
     }
 }
-
+extern "C" {
 void backprop(TYPE weights1[input_dimension*nodes_per_layer], 
                 TYPE weights2[nodes_per_layer*nodes_per_layer],
                 TYPE weights3[nodes_per_layer*possible_outputs],
@@ -244,6 +244,23 @@ void backprop(TYPE weights1[input_dimension*nodes_per_layer],
                 TYPE biases3[possible_outputs],
                 TYPE training_data[training_sets*input_dimension],
                 TYPE training_targets[training_sets*possible_outputs]) {
+#pragma HLS INTERFACE m_axi port = weights1 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = weights2 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = weights3 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = biases1 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = biases2 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = biases3 offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = training_data offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = training_targets offset = slave bundle = gmem
+#pragma HLS INTERFACE s_axilite port= weights1 bundle = control
+#pragma HLS INTERFACE s_axilite port= weights2 bundle = control
+#pragma HLS INTERFACE s_axilite port= weights3 bundle = control
+#pragma HLS INTERFACE s_axilite port=biases1 bundle = control
+#pragma HLS INTERFACE s_axilite port=biases2 bundle = control
+#pragma HLS INTERFACE s_axilite port=biases3 bundle = control
+#pragma HLS INTERFACE s_axilite port=training_data bundle = control
+#pragma HLS INTERFACE s_axilite port=training_targets bundle = control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
     int i,j;
     //Forward and training structures
     TYPE activations1[nodes_per_layer];
@@ -285,4 +302,5 @@ void backprop(TYPE weights1[input_dimension*nodes_per_layer],
         update_weights(weights1, weights2, weights3, delta_weights1, delta_weights2, delta_weights3, 
                        biases1, biases2, biases3, oracle_activations1, oracle_activations2, output_difference);
     }
+  }
 }

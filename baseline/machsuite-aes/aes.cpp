@@ -173,14 +173,22 @@ void aes_expandEncKey(uint8_t *k, uint8_t *rc)
 } /* aes_expandEncKey */
 
 /* -------------------------------------------------------------------------- */
+extern "C" {
 void aes(uint8_t key[32], uint8_t enckey[32], uint8_t deckey[32], uint8_t k[32], uint8_t buf[16])
 {
 
-#pragma HLS INTERFACE s_axilite port=key
-#pragma HLS INTERFACE s_axilite port=enckey
-#pragma HLS INTERFACE s_axilite port=deckey
-#pragma HLS INTERFACE s_axilite port=k
-#pragma HLS INTERFACE s_axilite port=buf
+#pragma HLS INTERFACE m_axi port = key offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = enckey offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = deckey offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = k offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = buf offset = slave bundle = gmem
+#pragma HLS INTERFACE s_axilite port=key bundle = control
+#pragma HLS INTERFACE s_axilite port=enckey bundle = control
+#pragma HLS INTERFACE s_axilite port=deckey bundle = control
+#pragma HLS INTERFACE s_axilite port=k bundle = control
+#pragma HLS INTERFACE s_axilite port=buf bundle = control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
+
 
     //INIT
     uint8_t rcon = 1;
@@ -208,4 +216,4 @@ void aes(uint8_t key[32], uint8_t enckey[32], uint8_t deckey[32], uint8_t k[32],
     aes_expandEncKey(key, &rcon);
     aes_addRoundKey(buf, key);
 } /* aes256_encrypt */
-
+}

@@ -23,15 +23,15 @@
 #define MIN 1
 
 #pragma SDS data zero_copy(weights1[0:input_dimension*nodes_per_layer], weights2[0:nodes_per_layer*nodes_per_layer], weights3[0:nodes_per_layer*possible_outputs], biases1[0:nodes_per_layer], biases2[0:nodes_per_layer], biases3[0:possible_outputs])
-void backprop(
-    TYPE weights1[input_dimension*nodes_per_layer],
-    TYPE weights2[nodes_per_layer*nodes_per_layer],
-    TYPE weights3[nodes_per_layer*possible_outputs],
-    TYPE biases1[nodes_per_layer],
-    TYPE biases2[nodes_per_layer],
-    TYPE biases3[possible_outputs],
-    TYPE training_data[training_sets*input_dimension],
-    TYPE training_targets[training_sets*possible_outputs]);
+// void backprop(
+//     TYPE weights1[input_dimension*nodes_per_layer],
+//     TYPE weights2[nodes_per_layer*nodes_per_layer],
+//     TYPE weights3[nodes_per_layer*possible_outputs],
+//     TYPE biases1[nodes_per_layer],
+//     TYPE biases2[nodes_per_layer],
+//     TYPE biases3[possible_outputs],
+//     TYPE training_data[training_sets*input_dimension],
+//     TYPE training_targets[training_sets*possible_outputs]);
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 

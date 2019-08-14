@@ -19,8 +19,8 @@ typedef struct complex_t {
 #ifndef M_SQRT1_2
 #define M_SQRT1_2      0.70710678118654752440f
 #endif
-#pragma SDS data zero_copy(work_x[0:512], work_y[0:512])
-void fft(TYPE work_x[512], TYPE work_y[512]);
+// #pragma SDS data zero_copy(work_x[0:512], work_y[0:512])
+// void fft(TYPE work_x[512], TYPE work_y[512]);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
