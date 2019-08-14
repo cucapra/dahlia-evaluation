@@ -94,6 +94,9 @@ resume-extract:
 summarize:
 	./_scripts/summarize.py _results/$(shell cat $(LAST_BATCH))/results.json
 
+plot:
+	./_scripts/plots.py _results/$(shell cat $(LAST_BATCH))/results.json
+
 clean:
 	rm -rf $(LAST_BATCH)
 
