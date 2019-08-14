@@ -307,7 +307,7 @@ def plot_resources(data, results_json):
             'color'      : 0,
             'ref_1'      : norm_full_lut,
             'bar_labels' : ['LUTs'],
-            'plot_labels': ['Normalized Plots','Benchmarks','normalized utilization of LUTs from synthesis'],
+            'plot_labels': ['Normalized Plots','Benchmarks','Normalized LUT count'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_normalized_luts.pdf')
         }
         plot_n_fields(plot_data)
@@ -436,7 +436,7 @@ def plot_resources(data, results_json):
             'color'      : 0,
             'ref_1'      : absdiff_full_lut,
             'bar_labels' : ['LUTs'],
-            'plot_labels': ['Absolute Difference Plots','Benchmarks','increase in LUTs from synthesis'],
+            'plot_labels': ['Absolute Difference Plots','Benchmarks','Change in LUTs'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_absdiff_luts.pdf')
         }
         plot_n_fields(plot_data)
@@ -449,7 +449,7 @@ def plot_resources(data, results_json):
             'color'      : 1,
             'ref_1'      : absdiff_full_ff,
             'bar_labels' : ['FFs'],
-            'plot_labels': ['Absolute Difference Plots','Benchmarks','increase in FFs from synthesis'],
+            'plot_labels': ['Absolute Difference Plots','Benchmarks','Change in flip-flops'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_absdiff_ffs.pdf')
         }
         plot_n_fields(plot_data)
@@ -462,7 +462,7 @@ def plot_resources(data, results_json):
             'color'      : 2,
             'ref_1'      : absdiff_full_bram,
             'bar_labels' : ['BRAMs'],
-            'plot_labels': ['Absolute Difference Plots','Benchmarks','increase in BRAMs from synthesis'],
+            'plot_labels': ['Absolute Difference Plots','Benchmarks','Change in BRAMs'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_absdiff_brams.pdf')
         }
         plot_n_fields(plot_data)
@@ -475,7 +475,7 @@ def plot_resources(data, results_json):
             'color'      : 3,
             'ref_1'      : absdiff_full_dsp,
             'bar_labels' : ['DSPs'],
-            'plot_labels': ['Absolute Difference Plots','Benchmarks','increase in DSPs from synthesis'],
+            'plot_labels': ['Absolute Difference Plots','Benchmarks','Change in DSPs'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_absdiff_dsps.pdf')
         }
         plot_n_fields(plot_data)
@@ -587,7 +587,7 @@ def plot_latencies(data, results_json):
         'color'      : 0,
         'ref_1'      : norm_hls_maxlat,
         'bar_labels' : ['Latency'],
-        'plot_labels': ['Normalized Plots','Benchmarks','Estimated latency normalized to baseline'],
+        'plot_labels': ['Normalized Plots','Benchmarks','Normalized latency'],
         'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_hls_latencies_normalized.pdf')
     }
     plot_n_fields(plot_data)
