@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 # Colorblind safe, print friendly color scheme 3-class PuOr from http://colorbrewer2.org/
 COLOR = ['#e66101', '#fdb863', '#b2abd2', '#5e3c99']
 
+# Single gray color for plots that don't have multiple series.
+SINGLE_COLOR = '#666666'
+
 # Geometric mean function
 def geo_mean(field):
     a = np.array(field)
@@ -60,7 +63,9 @@ def plot_n_fields(data):
     bar_offset = [0] if data['fields'] == 1 else [-.5, +.5] if data['fields'] == 2 else [-1.5, -.5, +.5, +1.5] if data['fields'] == 4 else print('Plotting only supports 2 and 4 vectors')
 
     # Plot reference field 1
-    bar1     = plt.bar(index + bar_offset[0] * bar_width, data['ref_1'] , bar_width, align='center', alpha=opacity, color=COLOR[data['color']], label=data['bar_labels'][0])
+    color = SINGLE_COLOR if data['color'] is None else \
+        COLOR[data['color']]
+    bar1     = plt.bar(index + bar_offset[0] * bar_width, data['ref_1'] , bar_width, align='center', alpha=opacity, color=color, label=data['bar_labels'][0])
     
     # Plot comparing field 1
     if data['fields'] >= 2:
@@ -134,7 +139,9 @@ def subplot_n_fields(data):
     plt.rcParams.update(params)
 
     # Plot reference field 1
-    axs[0, 0].bar(index, data['ref_1'] , bar_width, align='center', alpha=opacity, color=COLOR[data['color']], label=data['bar_labels'][0])
+    color = SINGLE_COLOR if data['color'] is None else \
+        COLOR[data['color']]
+    axs[0, 0].bar(index, data['ref_1'] , bar_width, align='center', alpha=opacity, color=color, label=data['bar_labels'][0])
     
     # Plot comparing field 1
     axs[0, 1].bar(index, data['ref_2'], bar_width, align='center', alpha=opacity, color=COLOR[1], label=data['bar_labels'][1])
