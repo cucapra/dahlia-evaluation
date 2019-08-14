@@ -1,12 +1,13 @@
-decor "#pragma SDS data copy(orig[0:129][0:66])"
+decor "#pragma SDS data copy(orig[0:132][0:66])"
 
-decl orig: bit<32>[129 bank 3][66 bank 3];
-decl sol: bit<32>[128][64];
+decl orig: bit<32>[132 bank 3][66 bank 6];
+decl sol: bit<32>[128][64 bank 2];
 decl filter: bit<32>[3 bank 3][3 bank 3];
 
 for (let r = 0..126) {
-  for (let c = 0..62) {
-    view orig_v   = orig[r! :][c! :];
+  split orig_s  = orig[by 1][by 2];
+  for (let c = 0..62) unroll 2 {
+    view orig_v   = orig_s[r! :][c! :];
     let temp: bit<32> = 0;
     for (let k1 = 0..3) unroll 3 {
       let temp_2: bit<32> = 0;
