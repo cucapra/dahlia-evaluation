@@ -1,0 +1,25 @@
+decor "#pragma SDS data copy(m1[0:64][0:64])"
+decor "#pragma SDS data zero_copy(prod[0:64][0:64])"
+
+decl m1: double[64][64 bank 8];
+decl m2: double[64 bank 8][64 bank 4];
+decl prod: double[64][64 bank 4];
+
+for (let jj = 0..16) {
+  view prod_v = prod[_:][4 * jj: bank 4];
+  for (let kk = 0..8) {
+    view m1_v = m1[_:][8 * kk: bank 8];
+    view m2_v = m2[8 * kk: bank 8][4 * jj: bank 4];
+    for (let i = 0..64) {
+        for (let j = 0..4) unroll 4 {
+      for (let k = 0..8) unroll 8 {
+        let temp_x = m1_v[i][k];
+          let mul = temp_x * m2_v[k][j];
+        } combine {
+          prod_v[i][j] += mul;
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,364 @@
+import "math.h" {
+  def extern cos(a: double): double;
+  def extern sin(a: double): double;
+}
+
+def fft8 (a_x: double[8], a_y: double[8]) {
+  let exp_p1: double = 1.0;
+  let exp_n1: double = -1.0;
+  let exp_0: double = 0.0;
+  let exp_1_44_x: double = 0.0;
+  let exp_1_44_y: double = -1.0;
+  
+  let c0_x = a_x[0];
+  let c0_y = a_y[0];
+  ---
+  let c4_x = a_x[4];
+  let c4_y = a_y[4];
+  ---
+  a_x[0] := c0_x + c4_x;
+  a_y[0] := c0_y + c4_y;
+  ---
+  a_x[4] := c0_x - c4_x;
+  a_y[4] := c0_y - c4_y;
+  ---
+  let c1_x = a_x[1];
+  let c1_y = a_y[1];
+  ---
+  let c5_x = a_x[5];
+  let c5_y = a_y[5];
+  ---
+  a_x[1] := c1_x + c5_x;
+  a_y[1] := c1_y + c5_y;
+  ---
+  a_x[5] := c1_x - c5_x;
+  a_y[5] := c1_y - c5_y;
+  ---
+  let c2_x = a_x[2];
+  let c2_y = a_y[2];
+  ---
+  let c6_x = a_x[6];
+  let c6_y = a_y[6];
+  ---
+  a_x[2] := c2_x + c6_x;
+  a_y[2] := c2_y + c6_y;
+  ---
+  a_x[6] := c2_x - c6_x;
+  a_y[6] := c2_y - c6_y;
+  ---
+  let c3_x = a_x[3];
+  let c3_y = a_y[3];
+  ---
+  let c7_x = a_x[7];
+  let c7_y = a_y[7];
+  ---
+  a_x[3] := c3_x + c7_x;
+  a_y[3] := c3_y + c7_y;
+  ---
+  a_x[7] := c3_x - c7_x;
+  a_y[7] := c3_y - c7_y;
+  ---
+  c0_x := a_x[0];
+  c0_y := a_y[0];
+  ---
+  c2_x := a_x[2];
+  c2_y := a_y[2];
+  ---
+  a_x[0] := c0_x + c2_x;
+  a_y[0] := c0_y + c2_y;
+  ---
+  a_x[2] := c0_x - c2_x;
+  a_y[2] := c0_y - c2_y;
+  ---
+  c1_x := a_x[1];
+  c1_y := a_y[1];
+  ---
+  c3_x := a_x[3];
+  c3_y := a_y[3];
+  ---
+  a_x[1] := c1_x + c3_x;
+  a_y[1] := c1_y + c3_y;
+  ---
+  let b3_x = c1_x - c3_x;
+  let b3_y = c1_y - c3_y;
+  
+  c3_x := b3_x * exp_1_44_x - b3_y * exp_1_44_y;    
+  c3_y := b3_x * exp_1_44_y - b3_y * exp_1_44_x; 
+  
+  c0_x := a_x[0];
+  c0_y := a_y[0];
+  ---
+  c1_x := a_x[1];
+  c1_y := a_y[1];
+  ---
+  a_x[0] := c0_x + c1_x;
+  a_y[0] := c0_y + c1_y;
+  ---
+  a_x[1] := c0_x - c1_x;
+  a_y[1] := c0_y - c1_y;
+  ---
+  c2_x := a_x[2];
+  c2_y := a_y[2];
+  ---
+  a_x[2] := c2_x + c3_x;
+  a_y[2] := c2_y + c3_y;
+  ---
+  a_x[3] := c2_x - c3_x;
+  a_y[3] := c2_y - c3_y;
+  ---
+  c4_x := a_x[4];
+  c4_y := a_y[4];
+  ---
+  c6_x := a_x[6];
+  c6_y := a_y[6];
+  let b6_x = c6_x * exp_0 - c6_y * exp_n1;  
+  let b6_y = c6_x * exp_n1 + c6_y * exp_0;  
+  ---
+  a_x[4] := c4_x + b6_x;
+  a_y[4] := c4_y + b6_y;
+  ---
+  a_x[6] := c4_x - b6_x;
+  a_y[6] := c4_y - b6_y;
+  ---
+  c5_x := a_x[5];
+  c5_y := a_y[5];
+  let b5_x = (c5_x * exp_p1 - c5_y * exp_n1) * 0.70710678118654752440;  
+  let b5_y = (c5_x * exp_n1 + c5_y * exp_p1) * 0.70710678118654752440;  
+  ---
+  c7_x := a_x[7];
+  c7_y := a_y[7];
+  let b7_x = (c7_x * exp_n1 - c7_y * exp_n1) * 0.70710678118654752440;  
+  let b7_y = (c7_x * exp_n1 + c7_y * exp_n1) * 0.70710678118654752440;  
+  ---
+  a_x[5] := b5_x + b7_x;
+  a_y[5] := b5_y + b7_y;
+  ---
+  b3_x := b5_x - b7_x;
+  b3_y := b5_y - b7_y;
+  
+  c7_x := b3_x * exp_1_44_x - b3_y * exp_1_44_y;    
+  c7_y := b3_x * exp_1_44_y - b3_y * exp_1_44_x; 
+  
+  c4_x := a_x[4];
+  c4_y := a_y[4];
+  ---
+  c5_x := a_x[5];
+  c5_y := a_y[5];
+  ---
+  a_x[4] := c4_x + c5_x;
+  a_y[4] := c4_y + c5_y;
+  ---
+  a_x[5] := c4_x - c5_x;
+  a_y[5] := c4_y - c5_y;
+  ---
+  c6_x := a_x[6];
+  c6_y := a_y[6];
+  ---
+  a_x[6] := c6_x + c7_x;
+  a_y[6] := c6_y + c7_y;
+  ---
+  a_x[7] := c6_x - c7_x;
+  a_y[7] := c6_y - c7_y;
+}
+
+def twiddles8 (a_x: double [8], a_y: double [8], i: bit<32>, n: bit<32>) {
+  let reversed8: bit<32>[8] = {0, 4, 2, 6, 1, 5, 3, 7};
+  let PI: double = 3.1415926535;
+  {
+    for (let j = 1..8) {
+      let phi: double = ( ((0-2) as double) * PI * (reversed8[j] as double) / (n as double) ) * (i as double);
+      let phi_x = cos(phi);
+      let phi_y = sin(phi);
+      let tmp_x = a_x[j];
+      let tmp_y = a_y[j];
+      ---
+      a_x[j] := tmp_x * phi_x - tmp_y * phi_y;
+      a_y[j] := tmp_x * phi_y + tmp_y * phi_x;
+    }
+  }
+}
+
+def loadx8 (a_x: double[8], x: double[576], offset: bit<32>, sx: bit<32>) {
+  for (let i = 0..8) {
+    a_x[i] := x[i * sx + offset];
+  }
+}
+
+def loady8 (a_y: double[8], x: double[576], offset: bit<32>, sx: bit<32>) {
+  for (let i = 0..8) {
+    a_y[i] := x[i * sx + offset];
+  }
+}
+
+decor "#pragma SDS data zero_copy(work_x[0:512], work_y[0:512])"
+
+decl work_x: double[512];
+decl work_y:double[512];
+
+let DATA_x: double[512];
+let DATA_y: double[512];
+let data_x: double[8];
+let data_y: double[8];
+let smem: double[576];
+let reversed8: bit<32>[8] = {0, 4, 2, 6, 1, 5, 3, 7};
+let access_1: bit<32>[8] = {0, 4, 1, 5, 2, 6, 3, 7};
+let access_2: bit<32>[8] = {0, 1, 4, 5, 2, 3, 6, 7};
+
+{
+  // Do it all at once - loop1
+  for (let tid = 0..64) {
+    for (let i = 0..8) {
+      data_x[i] := work_x[i * 64 + tid];
+      data_y[i] := work_y[i * 64 + tid];
+    }
+    ---
+
+    // First 8 point fft
+    fft8(data_x, data_y);
+    ---
+
+    // First twiddle
+    twiddles8(data_x, data_y, tid, 512);
+    ---
+
+    // save for fence
+    for (let i = 0..8) {
+      DATA_x[tid * 8 + i] := data_x[i];
+      DATA_y[tid * 8 + i] := data_y[i];
+    }
+  }
+  ---
+ 
+  // loop 2
+  for (let tid = 0..64) {
+    let offset = (tid >> 3) * 8 + (tid & 7);
+    for (let i = 0..8) {
+      smem[access_1[i] * 66 + offset] := DATA_x[tid * 8 + access_2[i]];
+    }
+  }
+  ---
+  
+  // loop 3
+  for (let tid = 0..64) {
+    let offset = (tid & 7) * 66 + (tid >> 3);
+    for (let i = 0..8) {
+      DATA_x[tid * 8 + access_1[i]] := smem[access_1[i] * 8 + offset];
+    }
+  }
+  ---
+  
+  // loop 4
+  for (let tid = 0..64) {
+    let offset = (tid >> 3) * 8 + (tid & 7);
+    for (let i = 0..8) {
+      smem[access_1[i] * 66 + offset] := DATA_y[tid * 8 + access_2[i]];
+    }
+  }
+  ---
+  
+  // loop 5
+  for (let tid = 0..64) {
+    for (let i = 0..8) {
+      data_y[i] := DATA_y[tid * 8 + i];
+    }
+    ---
+    
+    loady8(data_y, smem, (tid & 7) * 66 + (tid >> 3), 8);
+    ---
+    
+    for (let i = 0..8) {
+      DATA_y[tid * 8 + i] := data_y[i];
+    }
+  }
+  ---
+  
+  // loop 6
+  for (let tid = 0..64) {
+    for (let i = 0..8) {
+      data_x[i] := DATA_x[tid * 8 + i];
+      data_y[i] := DATA_y[tid * 8 + i];
+    }
+    ---
+  
+    // second 8 point fft
+    fft8(data_x, data_y);
+    ---
+  
+    // second twiddle
+    twiddles8(data_x, data_y, (tid >> 3), 64);
+    ---
+  
+    // save for final transpose
+    for (let i = 0..8) {
+      DATA_x[tid * 8 + i] := data_x[i];
+      DATA_y[tid * 8 + i] := data_y[i];
+    }
+  }
+  ---
+  
+  // transpose- loop 7
+  for (let tid = 0..64) {
+    let offset = (tid >> 3) * 8 + (tid & 7);
+    
+    for (let i = 0..8) {
+      smem[access_1[i] * 72 + offset] := DATA_x[tid * 8 + access_2[i]];
+    }
+  }
+  ---
+  
+  // loop 8
+  for (let tid = 0..64) {
+    let offset = (tid >> 3) * 72 + (tid & 7);
+    
+    for (let i = 0..8) {
+       DATA_x[tid * 8 + access_1[i]] := smem[access_1[i] * 8 + offset];
+    }
+  }
+  ---
+  
+  // loop 9
+  for (let tid = 0..64) {
+    let offset = (tid >> 3) * 8 + (tid & 7);
+    
+    for (let i = 0..8) {
+      smem[access_1[i] * 72 + offset] := DATA_y[tid * 8 + access_2[i]];
+    }
+  }
+  ---
+  
+  // loop 10
+  for (let tid = 0..64) {
+    for (let i = 0..8) {
+      data_y[i] := DATA_y[tid * 8 + i];
+    }
+    ---
+    
+    loady8(data_y, smem, (tid >> 3) * 72 + (tid & 7), 8);
+    ---
+    
+    for (let i = 0..8) {
+      DATA_y[tid * 8 + i] := data_y[i];
+    }
+  }
+  ---
+  
+  // loop 11
+  for (let tid = 0..64) {
+    // load post-transpose
+    for (let i = 0..8) {
+      data_x[i] := DATA_x[tid * 8 + i];
+      data_y[i] := DATA_y[tid * 8 + i];
+    }
+    ---
+  
+    // final 8 point fft
+    fft8(data_x, data_y);
+    ---
+  
+    // global store
+    for (let i = 0..8) {
+      work_x[i * 64 + tid] := data_x[reversed8[i]];
+      work_y[i * 64 + tid] := data_y[reversed8[i]];
+    }
+  }
+}

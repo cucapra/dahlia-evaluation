@@ -16,4 +16,19 @@ No change made
 No change made
 
 # OPTIMIZED REWRITE
-No change made
+## DSE
+unroll both loops by 8                        - BRAMs overun  - bYhsKOCfbkE
+unroll inner by 8 and middle by 4             - timing fail   - tgBnmVmbh1o
+unroll inner by 8                             - timing fail   - LiaW05L3FJ8
+unroll inner completely                       - timing fail   - HhA2w3DyOp4
+unroll inner by 4 and middle by 8 outer by 4  - BRAM overun   - r9WfqBTrtyA
+### Current best
+unroll inner by 4 and middle by 8            - fSyh66HAlW8
+
+unroll inner by 4 and middle by 16           - nWusTY_NKs8
+unroll inner by 4 and middle by 4            - iArPVt-vrfc
+unroll inner by 4 and middle by 2            - WpsQvZn3-6Y
+unroll inner by 4 and middle by 4 outer by 4 - oatbvRc_Xhs
+unroll inner by 4                            - 5QMi81s0u6A
+unroll inner by 2                            - mZ7V1AsG9cM
+

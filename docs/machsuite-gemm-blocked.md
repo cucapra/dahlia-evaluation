@@ -15,6 +15,18 @@ Data copy pragma used for `m1` to avoid #34.
 
 # OPTIMIZED BASELINE
 No change made
-
+'
 # OPTIMIZED REWRITE
-No change made
+## DSE
+split views in jj and kk                     - 
+`[Type error] [8.7] Cannot create split view m1_v: split factor 1 does not divide banking factor 1 in dimension 64 for m1.i`
+`        split m1_v = m1[by 1][by 8];`
+basic access unroll k                        - 
+`[Type error] [13.22] Dynamic access of array 'm1' requires unbanked dimension. Actual banking factor: 8. Use a shrink view to create unbanked array.`
+`        let temp_x = m1[i][kk * 8 + k];`
+aligned view unroll k by 8 j by 8            - YYpGXdsvL1A - BRAM overun
+### Current best
+aligned view jj(16) unroll k by 8 j(4) by 4  - iOsIXO3NKtU
+aligned view unroll k by 8                   - dmuM2chxUG4
+no change                                    - R8zBqbJdlXY
+aligned view no banking                      - 0BrH77HvJhY

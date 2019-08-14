@@ -1,0 +1,15 @@
+decor "#pragma SDS data copy(nzval[0:494][0:10])"
+decor "#pragma SDS data zero_copy(out[0:494])"
+
+decl nzval: double[494][10];
+decl cols: bit<32>[494][10];
+decl vec: double[494];
+decl out: double[494];
+
+for (let i = 0..494) {
+  for (let j = 0..10) {
+    let si = nzval[i][j] * vec[cols[i][j]];
+  } combine {
+    out[i] += si;
+  }
+}
