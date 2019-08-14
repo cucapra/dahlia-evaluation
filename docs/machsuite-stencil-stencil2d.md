@@ -16,4 +16,9 @@ Data copy pragma used for `orig` to avoid #34.
 No change made
 
 # OPTIMIZED REWRITE
-No change made
+Use rotational views. Increase array size to partition.
+## DSE
+
+### Current best
+Unroll k1 and k2 - EKNUVM3Odpc
+
