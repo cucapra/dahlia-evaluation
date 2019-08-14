@@ -25,6 +25,8 @@ for (let i = 0..256) unroll 8 {
   let fz: double = 0.0;
 
   for (let j = 0..16) {
+    decor "#pragma HLS pipeline"
+
     let j_idx = nl[i][j];
 
     let jx = at_j(position_x, j);
