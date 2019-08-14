@@ -82,7 +82,8 @@ def plot_n_fields(data):
     #plt.xlabel(data['plot_labels'][1])
     plt.xticks(index, bench_list)
     plt.ylabel(data['plot_labels'][2])
-    plt.legend()
+    if data['color'] is not None:  # Only show legend for colors.
+        plt.legend()
     #plt.title(data['plot_labels'][0])
     
     # Create plot and close it after an interval
@@ -159,7 +160,8 @@ def subplot_n_fields(data):
         #ax.set(ylabel=data['plot_labels'][2])
         ax.set_xticks(index)
         ax.set_xticklabels(bench_list)
-        ax.legend()
+        if data['color'] is not None:  # Only show legend for colors.
+            ax.legend()
         #ax.title(data['plot_labels'][0])
         ax.yaxis.grid(True)
         if data['base']:
