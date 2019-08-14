@@ -29,9 +29,9 @@ for (let i = 0..256) unroll 8 {
 
     let j_idx = nl[i][j];
 
-    let jx = at_j(position_x, j);
-    let jy = at_j(position_y, j);
-    let jz = at_j(position_z, j);
+    let jx = at_j(position_x, j_idx);
+    let jy = at_j(position_y, j_idx);
+    let jz = at_j(position_z, j_idx);
 
     let delx = ix - jx;
     let dely = iy - jy;

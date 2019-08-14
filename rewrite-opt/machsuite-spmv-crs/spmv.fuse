@@ -1,10 +1,10 @@
 decor "#pragma SDS data copy(val[0:NNZ])"
 
-decl val: double[1666];
-decl cols: bit<32>[1666];
-decl row_delimiters: bit<32>[495];
-decl vec: double[494];
-decl out: double[494];
+decl val: double[1672];  // HACK: Wasting space (should be 1666).
+decl cols: bit<32>[1672];  // As above.
+decl row_delimiters: bit<32>[496 bank 8];  // Should be 495.
+decl vec: double[496];  // Should be 494.
+decl out: double[496 bank 8];  // Should be 494.
 
 let sum: double = 0.0;
 let si: double = 0.0;
@@ -13,16 +13,18 @@ let tmp_begin: bit<32> = 0;
 let tmp_end: bit<32> = 0;
 let j: bit<32> = 0;
 
-for (let i = 0..494) {
+view delim_rot = row_delimiters[1!:];
+
+for (let i = 0..496) unroll 8 {
   sum := 0.0;
   si := 0.0;
   tmp_begin := row_delimiters[i];
   ---
-  tmp_end := row_delimiters[i+1];
+  tmp_end := delim_rot[i];
 
   j := tmp_begin;
   while (j < tmp_end) {
-    decor "#pragma HLS loop_tripcount max=494 min=0"
+    decor "#pragma HLS loop_tripcount max=496 min=0"
     si := val[j] * vec[cols[j]];
     sum := sum + si;
     j := j + 1;
