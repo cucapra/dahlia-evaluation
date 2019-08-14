@@ -13,7 +13,7 @@ Implementation based on http://www-igm.univ-mlv.fr/~lecroq/string/node8.html
 #pragma SDS data copy(pattern[0:PATTERN_SIZE])
 #pragma SDS data zero_copy(kmpNext[0:PATTERN_SIZE], n_matches)
 #pragma SDS data zero_copy(input[0:STRING_SIZE])
-void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PATTERN_SIZE], int32_t n_matches[1]);
+// void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PATTERN_SIZE], int32_t n_matches[1]);
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 
