@@ -1,12 +1,12 @@
 decor "#pragma SDS data copy(nzval[0:494][0:10])"
 decor "#pragma SDS data zero_copy(out[0:494])"
 
-decl nzval: double[494][10];
-decl cols: bit<32>[494][10];
-decl vec: double[494];
-decl out: double[494];
+decl nzval: double[496 bank 8][10];  // HACK: Wasting space (494).
+decl cols: bit<32>[496 bank 8][10];  // Ditto.
+decl vec: double[496];  // Ditto.
+decl out: double[496 bank 8];  // Ditto.
 
-for (let i = 0..494) {
+for (let i = 0..496) unroll 8 {  // Should be 494.
   for (let j = 0..10) {
     let si = nzval[i][j] * vec[cols[i][j]];
   } combine {
