@@ -36,20 +36,14 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
   level_counts[0] = 1;
   Q_PUSH(starting_node);
 
-  int max =0; int min = 0; int number = 0; int total = 0;
   loop_queue: for( dummy=0; dummy<N_NODES; dummy++ ) { // Typically while(not_empty(queue)){
-    if( Q_EMPTY() ){
-        printf("max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
+    if( Q_EMPTY() )
       break;
-    }
     n = Q_PEEK();
     Q_POP();
     edge_index_t tmp_begin = nodes[n].edge_begin;
     edge_index_t tmp_end = nodes[n].edge_end;
-        int count = 0;
-        number += 1;
     loop_neighbors: for( e=tmp_begin; e<tmp_end; e++ ) {
-          count += 1;
       node_index_t tmp_dst = edges[e].dst;
       level_t tmp_level = level[tmp_dst];
 
@@ -60,11 +54,6 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
         Q_PUSH(tmp_dst);
       }
     }
-        total += count;
-        if (count >= max)
-            max = count;
-        if (count <= min)
-            min = count;
   }
 
   /*
@@ -73,5 +62,4 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
     printf(" %d", level_counts[i]);
   printf("\n");
   */
-        printf("max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
 }

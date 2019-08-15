@@ -9,25 +9,15 @@ void CPF(char pattern[PATTERN_SIZE], int32_t kmpNext[PATTERN_SIZE]) {
     k = 0;
     kmpNext[0] = 0;
 
-  int max =0; int min = 0; int number = 0; int total = 0;
     c1 : for(q = 1; q < PATTERN_SIZE; q++){
-        int count = 0;
-        number += 1;
         c2 : while(k > 0 && pattern[k] != pattern[q]){
-          count += 1;
             k = kmpNext[q];
         }
-        total += count;
-        if (count >= max)
-            max = count;
-        if (count <= min)
-            min = count;
         if(pattern[k] == pattern[q]){
             k++;
         }
         kmpNext[q] = k;
     }
-        printf("CPF max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
 }
 
 
@@ -42,20 +32,11 @@ void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PA
 
     CPF(pattern, kmpNext);
 
-  int max =0; int min = 0; int number = 0; int total = 0;
     q = 0;
     k1 : for(i = 0; i < STRING_SIZE; i++){
-        int count = 0;
-        number += 1;
         k2 : while (q > 0 && pattern[q] != input[i]){
-          count += 1;
             q = kmpNext[q];
         }
-        total += count;
-        if (count >= max)
-            max = count;
-        if (count <= min)
-            min = count;
         if (pattern[q] == input[i]){
             q++;
         }
@@ -64,5 +45,4 @@ void kmp(char pattern[PATTERN_SIZE], char input[STRING_SIZE], int32_t kmpNext[PA
             q = kmpNext[q - 1];
         }
     }
-        printf("kmp max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
 }
