@@ -9,6 +9,8 @@ All `.c` files changed to `.cpp`.
 # BASELINE
 Data zero copy pragma used for `kmpNext, n_matches`.
 Add tripcount to `k1, k2` and `c1, c2` for estimation.
+CPF c2 max: 0, min: 0, total: 0, number: 3, avg: 0
+kmp k2 max: 1, min: 0, total: 438, number: 32411, avg: 0  
 BRAM resource directives commented out as they break the flow. #35
 Partition directives commented  to appease #44.
 Data zero copy pragma used for `input` to avoid #36.

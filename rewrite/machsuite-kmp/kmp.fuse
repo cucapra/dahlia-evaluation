@@ -9,7 +9,7 @@ def cpf(pattern: bit<8>[4], kmpNext: bit<32>[4]) {
     let q_val = pattern[q];
     ---
     while (k > 0 && k_val != q_val) {
-      decor "#pragma HLS loop_tripcount max=4 min=0"
+      decor "#pragma HLS loop_tripcount max=0 min=0"
       k := kmpNext[q];
       k_val := pattern[k];
       ---
@@ -37,9 +37,9 @@ cpf(pattern, kmpNext);
 ---
 let q:bit<32> = 0;
 for (let i = 0..32411) {
-  decor "#pragma HLS loop_tripcount max=32500 min=0"
+  decor "#pragma HLS loop_tripcount max=32411 min=0"
   while (q > 0 && pattern[q] != input[i]) {
-    decor "#pragma HLS loop_tripcount max=32500 min=0"
+    decor "#pragma HLS loop_tripcount max=1 min=0"
     q := kmpNext[q];
   }
   ---

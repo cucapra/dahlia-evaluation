@@ -27,8 +27,8 @@
 #set_directive_array_partition -factor 2 -type complete CPF input
 
 #estimation
-# STRING_SIZE used as the limit
-set_directive_loop_tripcount -max 32500 -min 0 kmp/k1
-set_directive_loop_tripcount -max 32500 -min 0 kmp/k2
+# Based on loop limits and software
+set_directive_loop_tripcount -max 32411 -min 0 kmp/k1
+set_directive_loop_tripcount -max 1 -min 0 kmp/k2
 set_directive_loop_tripcount -max 4 -min 0 CPF/c1
-set_directive_loop_tripcount -max 4 -min 0 CPF/c2
+set_directive_loop_tripcount -max 0 -min 0 CPF/c2
