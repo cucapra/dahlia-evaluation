@@ -54,11 +54,11 @@ void md(double force_x[256], double force_y[256], double force_z[256], double po
       #pragma HLS pipeline
       ap_int<32> j_idx = nl[i][j];
       
-      double jx = at_j(position_x, j);
+      double jx = at_j(position_x, j_idx);
       
-      double jy = at_j(position_y, j);
+      double jy = at_j(position_y, j_idx);
       
-      double jz = at_j(position_z, j);
+      double jz = at_j(position_z, j_idx);
       
       double delx = (ix - jx);
       

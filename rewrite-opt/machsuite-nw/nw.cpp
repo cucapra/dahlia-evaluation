@@ -39,14 +39,14 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   for(int a_idx = 0; a_idx < 130; a_idx++) {
     #pragma HLS UNROLL factor=2 skip_exit_check
     
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=128 min=0
     M[0][a_idx] = (a_idx * GAP_SCORE);
   }
   //---
   for(int b_idx = 0; b_idx < 130; b_idx++) {
     #pragma HLS UNROLL factor=2 skip_exit_check
     
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=128 min=0
     M[b_idx][0] = (b_idx * GAP_SCORE);
   }
   //---
@@ -58,11 +58,11 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   for(int b_idx = 1; b_idx < 129; b_idx++) {
     #pragma HLS UNROLL factor=2 skip_exit_check
     
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=128 min=0
     for(int a_idx = 1; a_idx < 129; a_idx++) {
       #pragma HLS UNROLL factor=2 skip_exit_check
       
-      #pragma HLS loop_tripcount max=100 min=0
+      #pragma HLS loop_tripcount max=128 min=0
       ap_int<32> score = 0;
       
       if((SEQA[((1 * -1) + a_idx)] == SEQB[((1 * -1) + b_idx)])){
@@ -115,7 +115,7 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   
   
   while(((a_idx > 0) || (b_idx > 0))) {
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=151 min=0
     ap_int<32> r = (b_idx * 129);
     
     if((ptr[b_idx][a_idx] == ALIGN)){
@@ -139,12 +139,12 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   }
   //---
   while((a_str_idx < 256)) {
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=105 min=0
     alignedA[a_str_idx] = UNDERSCORE;
     a_str_idx = (a_str_idx + 1);
   }
   while((b_str_idx < 256)) {
-    #pragma HLS loop_tripcount max=100 min=0
+    #pragma HLS loop_tripcount max=105 min=0
     alignedB[b_str_idx] = UNDERSCORE;
     b_str_idx = (b_str_idx + 1);
   }

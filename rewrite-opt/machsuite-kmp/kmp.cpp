@@ -16,7 +16,7 @@ void cpf(ap_int<8> pattern[4], ap_int<32> kmpNext[4]) {
     
     //---
     while(((k > 0) && (k_val != q_val))) {
-      #pragma HLS loop_tripcount max=4 min=0
+      #pragma HLS loop_tripcount max=0 min=0
       k = kmpNext[q];
       k_val = pattern[k];
       //---
@@ -46,9 +46,9 @@ void kmp(ap_int<8> pattern[4], ap_int<8> input[32411], ap_int<32> kmpNext[4], ap
   ap_int<32> q = 0;
   
   for(int i = 0; i < 32411; i++) {
-    #pragma HLS loop_tripcount max=32500 min=0
+    #pragma HLS loop_tripcount max=32411 min=0
     while(((q > 0) && (pattern[q] != input[i]))) {
-      #pragma HLS loop_tripcount max=32500 min=0
+      #pragma HLS loop_tripcount max=1 min=0
       #pragma HLS pipeline
       q = kmpNext[q];
     }

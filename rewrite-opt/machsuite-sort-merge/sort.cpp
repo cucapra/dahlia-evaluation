@@ -11,13 +11,13 @@ void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) 
   
   //---
   while((i <= m)) {
-    #pragma HLS loop_tripcount max=2048 min=0
+    #pragma HLS loop_tripcount avg=5
     temp[i] = a[i];
     i = (i + 1);
   }
   //---
   while((j <= stop)) {
-    #pragma HLS loop_tripcount max=2048 min=0
+    #pragma HLS loop_tripcount avg=6
     temp[(m + (1 + (stop - j)))] = a[j];
     j = (j + 1);
   }
@@ -28,7 +28,7 @@ void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) 
   j = stop;
   //---
   while((k <= stop)) {
-    #pragma HLS loop_tripcount max=2048 min=0
+    #pragma HLS loop_tripcount avg=11
     ap_int<32> temp_j = 0;
     
     ap_int<32> temp_i = 0;
@@ -65,11 +65,11 @@ void sort(ap_int<32> a[2048]) {
   
   //---
   while((m < (stop - start))) {
-    #pragma HLS loop_tripcount max=2048 min=0
+    #pragma HLS loop_tripcount avg=2047
     ap_int<16> i = start;
     
     while((i < stop)) {
-      #pragma HLS loop_tripcount max=2048 min=0
+      #pragma HLS loop_tripcount avg=186
       from = i;
       mid = (i + (m - 1));
       to = (i + (m + (m - 1)));

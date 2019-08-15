@@ -33,7 +33,7 @@ void spmv(double val[1672], ap_int<32> cols[1672], ap_int<32> row_delimiters[496
     tmp_end = row_delimiters[(1 + i)];
     j = tmp_begin;
     while((j < tmp_end)) {
-      #pragma HLS loop_tripcount max=496 min=0
+      #pragma HLS loop_tripcount avg=3
       #pragma HLS pipeline
       si = (val[j] * vec[cols[j]]);
       sum = (sum + si);
