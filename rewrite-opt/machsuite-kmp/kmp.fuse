@@ -40,6 +40,7 @@ for (let i = 0..32411) {
   decor "#pragma HLS loop_tripcount max=32500 min=0"
   while (q > 0 && pattern[q] != input[i]) {
     decor "#pragma HLS loop_tripcount max=32500 min=0"
+    decor "#pragma HLS pipeline"
     q := kmpNext[q];
   }
   ---

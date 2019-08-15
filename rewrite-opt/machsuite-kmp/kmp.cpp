@@ -49,6 +49,7 @@ void kmp(ap_int<8> pattern[4], ap_int<8> input[32411], ap_int<32> kmpNext[4], ap
     #pragma HLS loop_tripcount max=32500 min=0
     while(((q > 0) && (pattern[q] != input[i]))) {
       #pragma HLS loop_tripcount max=32500 min=0
+      #pragma HLS pipeline
       q = kmpNext[q];
     }
     //---
