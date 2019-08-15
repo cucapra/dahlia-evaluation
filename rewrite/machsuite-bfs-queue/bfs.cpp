@@ -60,7 +60,7 @@ void bfs(node_t nodes[256], edge_t edges[4096], ap_uint<64> starting_node, ap_in
     
     //---
     while((e < tmp_end)) {
-      #pragma HLS loop_tripcount avg=12
+      #pragma HLS loop_tripcount avg=17
       ap_uint<64> tmp_dst = edges[e].dst;
       
       ap_int<8> tmp_level = level[tmp_dst];
