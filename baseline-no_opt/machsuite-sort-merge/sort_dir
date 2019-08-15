@@ -23,9 +23,9 @@
 #set_directive_array_partition -factor 2 -type cyclic merge a
 
 #estimation
-# no basis
-set_directive_loop_tripcount -max 2048 -min 0 sort/mergesort_label1
-set_directive_loop_tripcount -max 2048 -min 0 sort/mergesort_label2
-set_directive_loop_tripcount -max 2048 -min 0 merge/merge_label1
-set_directive_loop_tripcount -max 2048 -min 0 merge/merge_label2
-set_directive_loop_tripcount -max 2048 -min 0 merge/merge_label3
+# Based on software
+set_directive_loop_tripcount -avg 2047 sort/mergesort_label1
+set_directive_loop_tripcount -avg 186  sort/mergesort_label2
+set_directive_loop_tripcount -avg 5    merge/merge_label1
+set_directive_loop_tripcount -avg 6    merge/merge_label2
+set_directive_loop_tripcount -avg 11   merge/merge_label3
