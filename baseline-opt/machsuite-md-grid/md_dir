@@ -45,11 +45,10 @@ set_directive_pipeline md/loop_copy_x
 #set_directive_pipeline md/loop_copy_p
 
 #estimation
-# using the range from 0 to blockside as estimate
-set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_x
-set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_y
-set_directive_loop_tripcount -max 4 -min 0 md/loop_grid1_z
-# no basis
-set_directive_loop_tripcount -avg 10 md/loop_p
-set_directive_loop_tripcount -avg 10 md/loop_q
+# Based on software
+set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_x
+set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_y
+set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_z
+set_directive_loop_tripcount -avg 3 md/loop_p
+set_directive_loop_tripcount -avg 3 md/loop_q
 #set_directive_data_pack  md force

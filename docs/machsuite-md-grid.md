@@ -9,6 +9,9 @@ All `.c` files changed to `.cpp`.
 # BASELINE
 #Data zero copy pragma used for `force`, will give better results or avoid timing failures.
 Add tripcount to `grid1_x,y,z`,`loop_p` and `loop_q` for estimation.
+x max: 3, min: 0, total: 160, number: 64, avg: 2
+p max: 8, min: 0, total: 3964, number: 1000, avg: 3
+q max: 8, min: 0, total: 15722, number: 3964, avg: 3
 force_local local array is created to avoid #37.
 Data copy pragma used for `n_points` to avoid #34.
 Hardware function arguments are unpacked, `bench_args_t` struct is unpacked to avoid #43. 
