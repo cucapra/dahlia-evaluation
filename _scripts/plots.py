@@ -38,7 +38,7 @@ MARKED_BENCHES = [
 # Select benchmarks to compare for analysis
 SELECT_BENCHES = [
     'baseline-opt',
-    'rewrite',
+    'rewrite-opt',
     #'baseline',
     #'baseline-no_opt',
 ]
@@ -324,6 +324,7 @@ def plot_resources(data, results_json):
         absdiff_full_dsp  = abs_diff(rewrite_full_dsp , baseline_full_dsp , 1)
     
     # Edit vectors for missing and error benches
+    """
     bench_list  = [r['bench']  for r in data ]
     status_list = [r['status'] for r in data ]
     for index, r in enumerate(bench_list):
@@ -337,6 +338,7 @@ def plot_resources(data, results_json):
                 absdiff_full_ff[index//2] = 0   
                 absdiff_full_bram[index//2] = 0   
                 absdiff_full_dsp[index//2] = 0   
+    """
 
     # Plot absolute differential rewrite hls resources
     plot_data = {
@@ -492,6 +494,7 @@ def plot_resources(data, results_json):
         propdiff_full_dsp  = prop_diff(rewrite_full_dsp , baseline_full_dsp)
     
     # Edit vectors for missing and error benches
+    """
     bench_list  = [r['bench']  for r in data ]
     status_list = [r['status'] for r in data ]
     for index, r in enumerate(bench_list):
@@ -505,6 +508,7 @@ def plot_resources(data, results_json):
                 propdiff_full_ff[index//2] = 0   
                 propdiff_full_bram[index//2] = 0   
                 propdiff_full_dsp[index//2] = 0   
+    """
 
     # Plot proportional differential rewrite hls resources
     plot_data = {
