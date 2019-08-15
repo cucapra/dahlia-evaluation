@@ -3,7 +3,7 @@
 
 #pragma SDS data copy(SEQA[0:128])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])
-void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_int<8> alignedB[256], ap_int<32> M[16641], ap_int<8> ptr[16641]) {
+void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_int<8> alignedB[256], ap_int<32> M[129][129], ap_int<8> ptr[129][129]) {
   #pragma HLS INTERFACE s_axilite port=SEQA
   #pragma HLS INTERFACE s_axilite port=SEQB
   #pragma HLS INTERFACE s_axilite port=alignedA
@@ -29,12 +29,12 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   
   for(int a_idx = 0; a_idx < 129; a_idx++) {
     #pragma HLS loop_tripcount max=100 min=0
-    M[a_idx] = (a_idx * GAP_SCORE);
+    M[0][a_idx] = (a_idx * GAP_SCORE);
   }
   //---
   for(int b_idx = 0; b_idx < 129; b_idx++) {
     #pragma HLS loop_tripcount max=100 min=0
-    M[(b_idx * 129)] = (b_idx * GAP_SCORE);
+    M[b_idx][0] = (b_idx * GAP_SCORE);
   }
   //---
   for(int b_idx = 1; b_idx < 129; b_idx++) {
@@ -48,17 +48,13 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
       } else{
         score = MISMATCH_SCORE;
       }
-      ap_int<32> row_up = ((b_idx - 1) * 129);
-      
-      ap_int<32> row = (b_idx * 129);
-      
-      ap_int<32> up_left = (M[(row_up + (a_idx - 1))] + score);
+      ap_int<32> up_left = (M[(b_idx - 1)][(a_idx - 1)] + score);
       
       //---
-      ap_int<32> up = (M[(row_up + a_idx)] + GAP_SCORE);
+      ap_int<32> up = (M[(b_idx - 1)][a_idx] + GAP_SCORE);
       
       //---
-      ap_int<32> left = (M[(row + (a_idx - 1))] + GAP_SCORE);
+      ap_int<32> left = (M[b_idx][(a_idx - 1)] + GAP_SCORE);
       
       ap_int<32> max = 0;
       
@@ -72,14 +68,14 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
         }
       }
       //---
-      M[(row + a_idx)] = max;
+      M[b_idx][a_idx] = max;
       if((max == left)){
-        ptr[(row + a_idx)] = SKIPB;
+        ptr[b_idx][a_idx] = SKIPB;
       } else{
         if((max == up)){
-          ptr[(row + a_idx)] = SKIPA;
+          ptr[b_idx][a_idx] = SKIPA;
         } else{
-          ptr[(row + a_idx)] = ALIGN;
+          ptr[b_idx][a_idx] = ALIGN;
         }
       }
     }
@@ -97,13 +93,13 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
     #pragma HLS loop_tripcount max=100 min=0
     ap_int<32> r = (b_idx * 129);
     
-    if((ptr[(r + a_idx)] == ALIGN)){
+    if((ptr[b_idx][a_idx] == ALIGN)){
       alignedA[a_str_idx] = SEQA[(a_idx - 1)];
       alignedB[b_str_idx] = SEQB[(b_idx - 1)];
       a_idx = (a_idx - 1);
       b_idx = (b_idx - 1);
     } else{
-      if((ptr[(r + a_idx)] == SKIPB)){
+      if((ptr[b_idx][a_idx] == SKIPB)){
         alignedA[a_str_idx] = SEQA[(a_idx - 1)];
         alignedB[b_str_idx] = DASH;
         a_idx = (a_idx - 1);
