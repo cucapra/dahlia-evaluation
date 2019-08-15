@@ -10,14 +10,18 @@ void spmv(double nzval[496][10], ap_int<32> cols[496][10], double vec[496], doub
   #pragma HLS INTERFACE s_axilite port=out
   
   #pragma HLS ARRAY_PARTITION variable=nzval cyclic factor=8 dim=1
+  #pragma HLS ARRAY_PARTITION variable=nzval cyclic factor=5 dim=2
   
   #pragma HLS ARRAY_PARTITION variable=cols cyclic factor=8 dim=1
+  #pragma HLS ARRAY_PARTITION variable=cols cyclic factor=5 dim=2
   
   #pragma HLS ARRAY_PARTITION variable=out cyclic factor=8 dim=1
   for(int i = 0; i < 496; i++) {
     #pragma HLS UNROLL factor=8 skip_exit_check
     
     for(int j = 0; j < 10; j++) {
+      #pragma HLS UNROLL factor=5 skip_exit_check
+      
       double si = (nzval[i][j] * vec[cols[i][j]]);
       
       // combiner:
