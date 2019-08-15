@@ -35,10 +35,11 @@
 #set_directive_array_partition -factor 2 -type cyclic nw alignedB
 
 #estimations
-set_directive_loop_tripcount -max 100 -min 0 nw/init_row
-set_directive_loop_tripcount -max 100 -min 0 nw/init_col
-set_directive_loop_tripcount -max 100 -min 0 nw/fill_out
-set_directive_loop_tripcount -max 100 -min 0 nw/fill_in
-set_directive_loop_tripcount -max 100 -min 0 nw/trace
-set_directive_loop_tripcount -max 100 -min 0 nw/pad_a
-set_directive_loop_tripcount -max 100 -min 0 nw/pad_b
+# Based on loop limits and software
+set_directive_loop_tripcount -avg 128 nw/init_row
+set_directive_loop_tripcount -avg 128 nw/init_col
+set_directive_loop_tripcount -avg 128 nw/fill_out
+set_directive_loop_tripcount -avg 128 nw/fill_in
+set_directive_loop_tripcount -avg 151 nw/trace
+set_directive_loop_tripcount -avg 105 nw/pad_a
+set_directive_loop_tripcount -avg 105 nw/pad_b

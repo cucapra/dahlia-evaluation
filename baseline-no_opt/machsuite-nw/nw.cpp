@@ -67,7 +67,11 @@ void nw(char SEQA[ALEN], char SEQB[BLEN],
     a_str_idx = 0;
     b_str_idx = 0;
 
+  int maxx =0; int min = 0; int number = 0; int total = 0;
+        int count = 0;
+        number += 1;
     trace: while(a_idx>0 || b_idx>0) {
+          count += 1;
         r = b_idx*(ALEN+1);
         if (ptr[r + a_idx] == ALIGN){
             alignedA[a_str_idx++] = SEQA[a_idx-1];
@@ -86,7 +90,13 @@ void nw(char SEQA[ALEN], char SEQB[BLEN],
             b_idx--;
         }
     }
+        total += count;
+        if (count >= maxx)
+            maxx = count;
+        if (count <= min)
+            min = count;
 
+        printf("max: %d, min: %d, total: %d, number: %d, avg: %d \n",maxx, min, total, number, total/number);
     // Pad the result
     pad_a: for( ; a_str_idx<ALEN+BLEN; a_str_idx++ ) {
       alignedA[a_str_idx] = '_';

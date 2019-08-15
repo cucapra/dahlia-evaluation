@@ -9,7 +9,8 @@ Function name changed from `needwun` to `nw` in all three source files.
 
 # BASELINE
 Data zero copy pragma used for `M, ptr` arguments.
-Add tripcount to all 8 loops naively for estimation (only adding for `trace` didn't work).
+Add tripcount to all 8 loops for estimation (only adding for `trace` didn't work).
+max: 151, min: 0, total: 151, number: 1, avg: 151
 BRAM resource directives commented out as they break the flow. #35
 Data copy pragma used for `SEQA` to avoid #34.
 
