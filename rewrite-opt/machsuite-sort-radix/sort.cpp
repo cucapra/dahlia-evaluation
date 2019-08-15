@@ -3,11 +3,14 @@
 void local_scan(ap_int<32> bucket[128][16]) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
   ap_int<32> bucket_tmp1 = 0;
   
   ap_int<32> bucket_tmp2 = 0;
   
   for(int radix_id = 0; radix_id < 128; radix_id++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     for(int i = 1; i < 16; i++) {
       bucket_tmp1 = bucket[radix_id][(i - 1)];
       //---
@@ -20,22 +23,33 @@ void local_scan(ap_int<32> bucket[128][16]) {
 void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=sum cyclic factor=2 dim=1
+  
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
   ap_int<32> sum_tmp = 0;
   
   sum[0] = 0;
   //---
-  for(int radix_id = 0; radix_id < 127; radix_id++) {
+  
+  for(int radix_id = 0; radix_id < 128; radix_id++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     sum_tmp = sum[radix_id];
     //---
-    sum[(radix_id + 1)] = (sum_tmp + bucket[radix_id][15]);
+    sum[(1 + radix_id)] = (sum_tmp + bucket[radix_id][15]);
   }
 }
 void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
+  
+  #pragma HLS ARRAY_PARTITION variable=sum cyclic factor=2 dim=1
   ap_int<32> bucket_tmp = 0;
   
   for(int radix_id = 0; radix_id < 128; radix_id++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     for(int i = 0; i < 16; i++) {
       bucket_tmp = bucket[radix_id][i];
       //---
@@ -46,7 +60,10 @@ void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
 void init(ap_int<32> bucket[128][16]) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
   for(int i = 0; i < 128; i++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     for(int j = 0; j < 16; j++) {
       bucket[i][j] = 0;
     }
@@ -55,9 +72,11 @@ void init(ap_int<32> bucket[128][16]) {
 void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
   ap_int<32> bucket_idx = 0;
   
   ap_int<32> bucket_tmp = 0;
+  
   
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
@@ -71,6 +90,7 @@ void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
 void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
   
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
   ap_int<32> bucket_idx = 0;
   
   ap_int<32> elem_per_block = 4;
@@ -78,6 +98,7 @@ void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][
   ap_int<32> a_idx = 0;
   
   ap_int<32> bucket_tmp = 0;
+  
   
   for(int block_id = 0; block_id < 512; block_id++) {
     for(int i = 0; i < 4; i++) {
@@ -96,6 +117,9 @@ void sort(ap_int<32> a[512][4], ap_int<32> b[512][4], ap_int<32> bucket[128][16]
   #pragma HLS INTERFACE s_axilite port=bucket
   #pragma HLS INTERFACE s_axilite port=sum
   
+  #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
+  
+  #pragma HLS ARRAY_PARTITION variable=sum cyclic factor=2 dim=1
   ap_int<1> valid_buffer = 0;
   
   ap_int<1> buffer_a = 0;
