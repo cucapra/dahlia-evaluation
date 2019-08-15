@@ -5,8 +5,8 @@ The scalable heterogeneous computing (shoc) benchmark suite.
 In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Processing Units, 2010.
 */
 
-#include "func.h"
-
+#include "md.h"
+extern "C" {
 void md(TYPE force_x[nAtoms],
                TYPE force_y[nAtoms],
                TYPE force_z[nAtoms],
@@ -15,13 +15,21 @@ void md(TYPE force_x[nAtoms],
                TYPE position_z[nAtoms],
                int32_t NL[nAtoms*maxNeighbors])
 {
-#pragma HLS INTERFACE s_axilite port=force_x
-#pragma HLS INTERFACE s_axilite port=force_y
-#pragma HLS INTERFACE s_axilite port=force_z
-#pragma HLS INTERFACE s_axilite port=position_x
-#pragma HLS INTERFACE s_axilite port=position_y
-#pragma HLS INTERFACE s_axilite port=position_z
-#pragma HLS INTERFACE s_axilite port=NL
+#pragma HLS INTERFACE m_axi port=force_x offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=force_y offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=force_z offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_x offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_y offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_z offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=NL offset=slave bundle=gmem2
+#pragma HLS INTERFACE s_axilite port=force_x bundle=control
+#pragma HLS INTERFACE s_axilite port=force_y bundle=control
+#pragma HLS INTERFACE s_axilite port=force_z bundle=control
+#pragma HLS INTERFACE s_axilite port=position_x bundle=control
+#pragma HLS INTERFACE s_axilite port=position_y bundle=control
+#pragma HLS INTERFACE s_axilite port=position_z bundle=control
+#pragma HLS INTERFACE s_axilite port=NL bundle=control
+#pragma HLS INTERFACE s_axilite port=return bundle=control
 
     TYPE delx, dely, delz, r2inv;
     TYPE r6inv, potential, force, j_x, j_y, j_z;
@@ -63,4 +71,5 @@ loop_j : for( j = 0; j < maxNeighbors; j++){
          force_z[i] = fz;
          //printf("dF=%lf,%lf,%lf\n", fx, fy, fz);
          }
+}
 }

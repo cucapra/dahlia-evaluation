@@ -1,9 +1,15 @@
-#include "func.h"
+#include "stencil.h"
 
+extern "C" {
 void stencil (TYPE orig[row_size * col_size], TYPE sol[row_size * col_size], TYPE filter[f_size]){
-#pragma HLS INTERFACE s_axilite port=orig
-#pragma HLS INTERFACE s_axilite port=sol
-#pragma HLS INTERFACE s_axilite port=filter
+
+#pragma HLS INTERFACE m_axi port=orig offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=sol offset=slave bundle=gmem
+#pragma HLS INTERFACE m_axi port=filter offset=slave bundle=gmem
+#pragma HLS INTERFACE s_axilite port=orig bundle=control
+#pragma HLS INTERFACE s_axilite port=sol bundle=control
+#pragma HLS INTERFACE s_axilite port=filter bundle=control
+#pragma HLS INTERFACE s_axilite port=return bundle=control
 
     int r, c, k1, k2;
     TYPE temp, mul;
@@ -20,4 +26,5 @@ void stencil (TYPE orig[row_size * col_size], TYPE sol[row_size * col_size], TYP
             sol[(r*col_size) + c] = temp;
         }
     }
+}
 }

@@ -28,14 +28,14 @@ typedef struct {
 } ivector_t;
 
 #pragma SDS data copy(n_points[0:nBlocks])
-void md( int32_t n_points[blockSide][blockSide][blockSide],
-         TYPE force_x[blockSide][blockSide][blockSide][densityFactor],
-         TYPE force_y[blockSide][blockSide][blockSide][densityFactor],
-         TYPE force_z[blockSide][blockSide][blockSide][densityFactor],
-         TYPE position_x[blockSide][blockSide][blockSide][densityFactor],
-         TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
-         TYPE position_z[blockSide][blockSide][blockSide][densityFactor]
-       );
+// void md( int32_t n_points[blockSide][blockSide][blockSide],
+//          TYPE force_x[blockSide][blockSide][blockSide][densityFactor],
+//          TYPE force_y[blockSide][blockSide][blockSide][densityFactor],
+//          TYPE force_z[blockSide][blockSide][blockSide][densityFactor],
+//          TYPE position_x[blockSide][blockSide][blockSide][densityFactor],
+//          TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
+//          TYPE position_z[blockSide][blockSide][blockSide][densityFactor]
+//        );
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.
 

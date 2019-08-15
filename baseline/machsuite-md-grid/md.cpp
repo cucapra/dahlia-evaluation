@@ -2,7 +2,7 @@
 
 #define MIN(x,y) ( (x)<(y) ? (x) : (y) )
 #define MAX(x,y) ( (x)>(y) ? (x) : (y) )
-
+extern "C"{
 void md( int32_t n_points[blockSide][blockSide][blockSide],
          TYPE force_x[blockSide][blockSide][blockSide][densityFactor],
          TYPE force_y[blockSide][blockSide][blockSide][densityFactor],
@@ -11,13 +11,21 @@ void md( int32_t n_points[blockSide][blockSide][blockSide],
          TYPE position_y[blockSide][blockSide][blockSide][densityFactor],
          TYPE position_z[blockSide][blockSide][blockSide][densityFactor] )
 {
-#pragma HLS INTERFACE s_axilite port=n_points
-#pragma HLS INTERFACE s_axilite port=force_x
-#pragma HLS INTERFACE s_axilite port=force_y
-#pragma HLS INTERFACE s_axilite port=force_z
-#pragma HLS INTERFACE s_axilite port=position_x
-#pragma HLS INTERFACE s_axilite port=position_y
-#pragma HLS INTERFACE s_axilite port=position_z
+#pragma HLS INTERFACE m_axi port=force_x offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=force_y offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=force_z offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_x offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_y offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=position_z offset=slave bundle=gmem1
+#pragma HLS INTERFACE m_axi port=n_points offset=slave bundle=gmem2
+#pragma HLS INTERFACE s_axilite port=force_x bundle=control
+#pragma HLS INTERFACE s_axilite port=force_y bundle=control
+#pragma HLS INTERFACE s_axilite port=force_z bundle=control
+#pragma HLS INTERFACE s_axilite port=position_x bundle=control
+#pragma HLS INTERFACE s_axilite port=position_y bundle=control
+#pragma HLS INTERFACE s_axilite port=position_z bundle=control
+#pragma HLS INTERFACE s_axilite port=n_points bundle=control
+#pragma HLS INTERFACE s_axilite port=return bundle=control
 
   ivector_t b0, b1; // b0 is the current block, b1 is b0 or a neighboring block
   dvector_t p, q; // p is a point in b0, q is a point in either b0 or b1
@@ -95,4 +103,5 @@ void md( int32_t n_points[blockSide][blockSide][blockSide],
       force_z[b0.x][b0.y][b0.z][p_idx] = force_local[b0.x][b0.y][b0.z][p_idx].z ;
     }
   }}}
+}
 }
