@@ -41,9 +41,9 @@ void stencil(ap_int<32> C[2], ap_int<32> orig[33][33][18], ap_int<32> sol[32][32
   //---
   for(int i = 0; i < 30; i++) {
     for(int j = 0; j < 30; j++) {
-      #pragma HLS pipeline
+      #pragma HLS PIPELINE
       for(int k = 0; k < 14; k++) {
-        #pragma HLS pipeline
+        #pragma HLS PIPELINE
         
         
         ap_int<32> temp_1 = 0;

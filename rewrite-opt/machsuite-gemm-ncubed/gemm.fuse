@@ -8,8 +8,7 @@ view m1_v = m1[_: bank 1][_: bank 1];
 view m2_v = m2[_: bank 1][_: bank 1];
 view prod_v = prod[_: bank 1][_: bank 1];
 for (let i = 0..64) {
-  for (let j = 0..64) {
-    decor "#pragma HLS pipeline"
+  for (let j = 0..64) pipeline {
     let sum: double = 0.0;
     for (let k = 0..64) {
       let mult = m1_v[i][k] * m2_v[k][j];

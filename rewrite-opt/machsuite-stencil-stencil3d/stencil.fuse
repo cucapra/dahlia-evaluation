@@ -38,10 +38,8 @@ for (let i = 1..31) {
 
 // Stencil computation
 for (let i = 0..30) {
-  for (let j = 0..30) {
-      decor "#pragma HLS pipeline"
-    for (let k = 0..14) {
-      decor "#pragma HLS pipeline"
+  for (let j = 0..30) pipeline {
+    for (let k = 0..14) pipeline {
       view sol_v  = sol[1*1:][1*1:][1*1:];
       view orig_v = orig[i!:][j!:][k!:];
       let temp_1: bit<32> = 0;

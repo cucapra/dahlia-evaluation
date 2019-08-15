@@ -14,7 +14,7 @@ void stencil(ap_int<32> orig[129][66], ap_int<32> sol[128][64], ap_int<32> filte
   #pragma HLS ARRAY_PARTITION variable=filter cyclic factor=3 dim=2
   for(int r = 0; r < 126; r++) {
     for(int c = 0; c < 62; c++) {
-      #pragma HLS pipeline
+      #pragma HLS PIPELINE
       
       ap_int<32> temp = 0;
       

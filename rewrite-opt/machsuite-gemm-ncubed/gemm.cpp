@@ -18,7 +18,7 @@ void gemm(double m1[64][64], double m2[64][64], double prod[64][64]) {
   
   for(int i = 0; i < 64; i++) {
     for(int j = 0; j < 64; j++) {
-      #pragma HLS pipeline
+      #pragma HLS PIPELINE
       double sum = 0.0;
       
       for(int k = 0; k < 64; k++) {
