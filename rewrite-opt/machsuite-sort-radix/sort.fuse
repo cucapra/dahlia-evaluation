@@ -1,7 +1,7 @@
-def local_scan(bucket: bit<32>[128][16]) {
+def local_scan(bucket: bit<32>[128 bank 2][16]) {
   let bucket_tmp1: bit<32> = 0;
   let bucket_tmp2: bit<32> = 0;
-  for (let radix_id = 0..128) {
+  for (let radix_id = 0..128) unroll 2 {
     for (let i = 1..16) {
       bucket_tmp1 := bucket[radix_id][i - 1];
       ---
@@ -12,20 +12,21 @@ def local_scan(bucket: bit<32>[128][16]) {
   }
 }
 
-def sum_scan(sum: bit<32>[128], bucket: bit<32>[128][16]) {
+def sum_scan(sum: bit<32>[128 bank 2], bucket: bit<32>[128 bank 2][16]) {
   let sum_tmp: bit<32> = 0;
   sum[0] := 0;
   ---
-  for (let radix_id = 0..127) {
+  view sumshift = sum[1!:];
+  for (let radix_id = 0..128) unroll 2 {  // HACK wasted: upper bound is 127.
     sum_tmp := sum[radix_id];
     ---
-    sum[radix_id + 1] := sum_tmp + bucket[radix_id][15];
+    sumshift[radix_id] := sum_tmp + bucket[radix_id][15];
   }
 }
 
-def last_step_scan(bucket: bit<32>[128][16], sum: bit<32>[128]) {
+def last_step_scan(bucket: bit<32>[128 bank 2][16], sum: bit<32>[128 bank 2]) {
   let bucket_tmp: bit<32> = 0;
-  for (let radix_id = 0..128) {
+  for (let radix_id = 0..128) unroll 2 {
     for (let i = 0..16) {
       bucket_tmp := bucket[radix_id][i];
       ---
@@ -34,28 +35,29 @@ def last_step_scan(bucket: bit<32>[128][16], sum: bit<32>[128]) {
   }
 }
 
-def init(bucket: bit<32>[128][16]) {
-  for (let i = 0..128) {
+def init(bucket: bit<32>[128 bank 2][16]) {
+  for (let i = 0..128) unroll 2 {
     for (let j = 0..16) {
       bucket[i][j] := 0;
     }
   }
 }
 
-def hist(bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
+def hist(bucket: bit<32>[128 bank 2][16], a: bit<32>[512][4], exp: bit<32>) {
   let bucket_idx: bit<32> = 0;
   let bucket_tmp: bit<32> = 0;
+  view bucketv = bucket[_: bank 1][_: bank 1];
   for (let block_id = 0..512) {
     for (let i = 0..4) {
       bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id + 1;
-      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
+      bucket_tmp := bucketv[bucket_idx / 16][bucket_idx % 16];
       ---
-      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
+      bucketv[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
 
-def update(b: bit<32>[512][4], bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
+def update(b: bit<32>[512][4], bucket: bit<32>[128 bank 2][16], a: bit<32>[512][4], exp: bit<32>) {
 
   let bucket_idx: bit<32> = 0;
   let elem_per_block: bit<32> = 4;
@@ -63,13 +65,14 @@ def update(b: bit<32>[512][4], bucket: bit<32>[128][16], a: bit<32>[512][4], exp
 
   let bucket_tmp: bit<32> = 0;
 
+  view bucketv = bucket[_: bank 1][_: bank 1];
   for (let block_id = 0..512) {
     for (let i = 0..4) {
       bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id;
-      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
+      bucket_tmp := bucketv[bucket_idx / 16][bucket_idx % 16];
       ---
       b[bucket_tmp / 4][bucket_tmp % 4] := a[block_id][i];
-      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
+      bucketv[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
@@ -78,8 +81,8 @@ decor "#pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:
 
 decl a: bit<32>[512][4];
 decl b: bit<32>[512][4];
-decl bucket: bit<32>[128][16];
-decl sum: bit<32>[128];
+decl bucket: bit<32>[128 bank 2][16];
+decl sum: bit<32>[128 bank 2];
 
 let valid_buffer = 0;
 let buffer_a = 0;
