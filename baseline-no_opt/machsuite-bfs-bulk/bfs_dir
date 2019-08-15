@@ -27,5 +27,5 @@
 #set_directive_array_partition -factor 2 -type cyclic "bfs" level_counts
 
 #estimation
-# number of nodes is 2^8, estimate without a basis is 5% of it
-set_directive_loop_tripcount -avg 12 bfs/loop_neighbors
+# Based on software run
+set_directive_loop_tripcount -avg 17 bfs/loop_neighbors

@@ -24,7 +24,7 @@ level_counts[0] := 1;
 ---
 
 for (let horizon = 0..10) {
-        decor "#pragma HLS loop_tripcount max=10 min=1"
+  decor "#pragma HLS loop_tripcount max=10 min=1"
   let cnt:ubit<64> = 0;
   for (let n = 0..256) {
     let tmp_l = level[n];
@@ -35,7 +35,7 @@ for (let horizon = 0..10) {
       let tmp_end = nodes[n].edge_end;
       ---
       while (e < tmp_end) {
-        decor "#pragma HLS loop_tripcount avg=12"
+        decor "#pragma HLS loop_tripcount avg=17"
         let tmp_dst = edges[e].dst;
         let tmp_level = level[tmp_dst];
         ---

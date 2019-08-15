@@ -23,6 +23,7 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
   level[starting_node] = 0;
   level_counts[0] = 1;
 
+  int max =0; int min = 0; int number = 0; int total = 0;
   loop_horizons: for( horizon=0; horizon<N_LEVELS; horizon++ ) {
     cnt = 0;
     // Add unmarked neighbors of the current horizon to the next horizon
@@ -30,7 +31,10 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
       if( level[n]==horizon ) {
         edge_index_t tmp_begin = nodes[n].edge_begin;
         edge_index_t tmp_end = nodes[n].edge_end;
+        int count = 0;
+        number += 1;
         loop_neighbors: for( e=tmp_begin; e<tmp_end; e++ ) {
+          count += 1;
           node_index_t tmp_dst = edges[e].dst;
           level_t tmp_level = level[tmp_dst];
 
@@ -39,9 +43,16 @@ void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
             ++cnt;
           }
         }
+        total += count;
+        if (count >= max)
+            max = count;
+        if (count <= min)
+            min = count;
       }
     }
-    if( (level_counts[horizon+1]=cnt)==0 )
-      break;
+    if( (level_counts[horizon+1]=cnt)==0 ){
+        printf("max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
+        break;
+    }
   }
 }
