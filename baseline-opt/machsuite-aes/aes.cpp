@@ -7,8 +7,8 @@
 #define F(x)   (((x)<<1) ^ ((((x)>>7) & 1) * 0x1b))
 #define FD(x)  (((x) >> 1) ^ (((x) & 1) ? 0x8d : 0))
 
-#define BACK_TO_TABLES
-#ifdef BACK_TO_TABLES
+//#define BACK_TO_TABLES
+//#ifdef BACK_TO_TABLES
 
 const uint8_t sbox[256] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
@@ -47,50 +47,50 @@ const uint8_t sbox[256] = {
 
 #define rj_sbox(x)     sbox[(x)]
 
-#else /* tableless subroutines */
+//#else /* tableless subroutines */
 
 /* -------------------------------------------------------------------------- */
-uint8_t gf_alog(uint8_t x) // calculate anti-logarithm gen 3
-{
-    uint8_t atb = 1, z;
-
-    alog : while (x--) {z = atb; atb <<= 1; if (z & 0x80) atb^= 0x1b; atb ^= z;}
-
-    return atb;
-} /* gf_alog */
-
-/* -------------------------------------------------------------------------- */
-uint8_t gf_log(uint8_t x) // calculate logarithm gen 3
-{
-    uint8_t atb = 1, i = 0, z;
-
-    glog : do {
-        if (atb == x) break;
-        z = atb; atb <<= 1; if (z & 0x80) atb^= 0x1b; atb ^= z;
-    } while (++i > 0);
-
-    return i;
-} /* gf_log */
-
-
-/* -------------------------------------------------------------------------- */
-uint8_t gf_mulinv(uint8_t x) // calculate multiplicative inverse
-{
-    return (x) ? gf_alog(255 - gf_log(x)) : 0;
-} /* gf_mulinv */
-
-/* -------------------------------------------------------------------------- */
-uint8_t rj_sbox(uint8_t x)
-{
-    uint8_t y, sb;
-
-    sb = y = gf_mulinv(x);
-    y = (y<<1)|(y>>7); sb ^= y;  y = (y<<1)|(y>>7); sb ^= y;
-    y = (y<<1)|(y>>7); sb ^= y;  y = (y<<1)|(y>>7); sb ^= y;
-
-    return (sb ^ 0x63);
-} /* rj_sbox */
-#endif
+//uint8_t gf_alog(uint8_t x) // calculate anti-logarithm gen 3
+//{
+//    uint8_t atb = 1, z;
+//
+//    alog : while (x--) {z = atb; atb <<= 1; if (z & 0x80) atb^= 0x1b; atb ^= z;}
+//
+//    return atb;
+//} /* gf_alog */
+//
+///* -------------------------------------------------------------------------- */
+//uint8_t gf_log(uint8_t x) // calculate logarithm gen 3
+//{
+//    uint8_t atb = 1, i = 0, z;
+//
+//    glog : do {
+//        if (atb == x) break;
+//        z = atb; atb <<= 1; if (z & 0x80) atb^= 0x1b; atb ^= z;
+//    } while (++i > 0);
+//
+//    return i;
+//} /* gf_log */
+//
+//
+///* -------------------------------------------------------------------------- */
+//uint8_t gf_mulinv(uint8_t x) // calculate multiplicative inverse
+//{
+//    return (x) ? gf_alog(255 - gf_log(x)) : 0;
+//} /* gf_mulinv */
+//
+///* -------------------------------------------------------------------------- */
+//uint8_t rj_sbox(uint8_t x)
+//{
+//    uint8_t y, sb;
+//
+//    sb = y = gf_mulinv(x);
+//    y = (y<<1)|(y>>7); sb ^= y;  y = (y<<1)|(y>>7); sb ^= y;
+//    y = (y<<1)|(y>>7); sb ^= y;  y = (y<<1)|(y>>7); sb ^= y;
+//
+//    return (sb ^ 0x63);
+//} /* rj_sbox */
+//#endif
 
 /* -------------------------------------------------------------------------- */
 uint8_t rj_xtime(uint8_t x)
