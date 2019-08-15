@@ -11,7 +11,8 @@ let log:bit<32> = 0;
 while (span != 0) {
   let odd = span;
   while (odd < 1024) {
-    decor "#pragma HLS loop_tripcount max=1024 min=512"
+    // based on baseline software, but check for rewrites
+    decor "#pragma HLS loop_tripcount avg=512"
     odd := odd | span;
     let even = odd ^ span;
     let real_odd = real[odd];

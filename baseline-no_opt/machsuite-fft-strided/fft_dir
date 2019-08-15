@@ -22,5 +22,5 @@
 #set_directive_resource -core Mul "fft" (maybe they meant temp by T1?)
 
 #estimation
-# based on theoretical max and min, probably not the best estimate
-set_directive_loop_tripcount -max 1024 -min 512 fft/inner
+# Based on software (but come back and check, doesn't match with loop structure)
+set_directive_loop_tripcount -avg 512 fft/inner

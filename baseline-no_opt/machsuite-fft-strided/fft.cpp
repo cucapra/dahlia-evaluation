@@ -10,8 +10,12 @@ void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE/
     double temp;
     log = 0;
 
+  int max =0; int min = 0; int number = 0; int total = 0;
     outer:for(span=FFT_SIZE>>1; span; span>>=1, log++){
+        int count = 0;
+        number += 1;
         inner:for(odd=span; odd<FFT_SIZE; odd++){
+          count += 1;
             odd |= span;
             even = odd ^ span;
 
@@ -32,5 +36,11 @@ void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE/
                 real[odd] = temp;
             }
         }
+        total += count;
+        if (count >= max)
+            max = count;
+        if (count <= min)
+            min = count;
     }
+        printf("max: %d, min: %d, total: %d, number: %d, avg: %d \n",max, min, total, number, total/number);
 }
