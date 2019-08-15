@@ -3,7 +3,7 @@
 
 #pragma SDS data copy(SEQA[0:128])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])
-void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_int<8> alignedB[256], ap_int<32> M[129][129], ap_int<8> ptr[129][129]) {
+void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_int<8> alignedB[256], ap_int<32> M[130][130], ap_int<8> ptr[130][130]) {
   #pragma HLS INTERFACE s_axilite port=SEQA
   #pragma HLS INTERFACE s_axilite port=SEQB
   #pragma HLS INTERFACE s_axilite port=alignedA
@@ -11,6 +11,15 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   #pragma HLS INTERFACE s_axilite port=M
   #pragma HLS INTERFACE s_axilite port=ptr
   
+  #pragma HLS ARRAY_PARTITION variable=SEQA cyclic factor=2 dim=1
+  
+  #pragma HLS ARRAY_PARTITION variable=SEQB cyclic factor=2 dim=1
+  
+  #pragma HLS ARRAY_PARTITION variable=M cyclic factor=2 dim=1
+  #pragma HLS ARRAY_PARTITION variable=M cyclic factor=2 dim=2
+  
+  #pragma HLS ARRAY_PARTITION variable=ptr cyclic factor=2 dim=1
+  #pragma HLS ARRAY_PARTITION variable=ptr cyclic factor=2 dim=2
   ap_int<32> MATCH_SCORE = 1;
   
   ap_int<32> MISMATCH_SCORE = (0 - 1);
@@ -27,34 +36,47 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   
   ap_int<8> UNDERSCORE = 95;
   
-  for(int a_idx = 0; a_idx < 129; a_idx++) {
+  for(int a_idx = 0; a_idx < 130; a_idx++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     #pragma HLS loop_tripcount max=100 min=0
     M[0][a_idx] = (a_idx * GAP_SCORE);
   }
   //---
-  for(int b_idx = 0; b_idx < 129; b_idx++) {
+  for(int b_idx = 0; b_idx < 130; b_idx++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     #pragma HLS loop_tripcount max=100 min=0
     M[b_idx][0] = (b_idx * GAP_SCORE);
   }
   //---
+  
+  
+  
+  
+  
   for(int b_idx = 1; b_idx < 129; b_idx++) {
+    #pragma HLS UNROLL factor=2 skip_exit_check
+    
     #pragma HLS loop_tripcount max=100 min=0
     for(int a_idx = 1; a_idx < 129; a_idx++) {
+      #pragma HLS UNROLL factor=2 skip_exit_check
+      
       #pragma HLS loop_tripcount max=100 min=0
       ap_int<32> score = 0;
       
-      if((SEQA[(a_idx - 1)] == SEQB[(b_idx - 1)])){
+      if((SEQA[((1 * -1) + a_idx)] == SEQB[((1 * -1) + b_idx)])){
         score = MATCH_SCORE;
       } else{
         score = MISMATCH_SCORE;
       }
-      ap_int<32> up_left = (M[(b_idx - 1)][(a_idx - 1)] + score);
+      ap_int<32> up_left = (M[(-1 + b_idx)][(-1 + a_idx)] + score);
       
       //---
-      ap_int<32> up = (M[(b_idx - 1)][a_idx] + GAP_SCORE);
+      ap_int<32> up = (M[(-1 + b_idx)][a_idx] + GAP_SCORE);
       
       //---
-      ap_int<32> left = (M[b_idx][(a_idx - 1)] + GAP_SCORE);
+      ap_int<32> left = (M[b_idx][((1 * -1) + a_idx)] + GAP_SCORE);
       
       ap_int<32> max = 0;
       
@@ -88,6 +110,9 @@ void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_in
   ap_int<32> a_str_idx = 0;
   
   ap_int<32> b_str_idx = 0;
+  
+  
+  
   
   while(((a_idx > 0) || (b_idx > 0))) {
     #pragma HLS loop_tripcount max=100 min=0
