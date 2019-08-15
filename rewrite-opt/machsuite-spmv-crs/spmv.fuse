@@ -23,9 +23,8 @@ for (let i = 0..496) unroll 8 {
   tmp_end := delim_rot[i];
 
   j := tmp_begin;
-  while (j < tmp_end) {
+  while (j < tmp_end) pipeline {
     decor "#pragma HLS loop_tripcount avg=3"
-    decor "#pragma HLS pipeline"
     si := val[j] * vec[cols[j]];
     sum := sum + si;
     j := j + 1;

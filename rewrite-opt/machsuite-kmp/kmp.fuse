@@ -38,9 +38,8 @@ cpf(pattern, kmpNext);
 let q:bit<32> = 0;
 for (let i = 0..32411) {
   decor "#pragma HLS loop_tripcount max=32411 min=0"
-  while (q > 0 && pattern[q] != input[i]) {
+  while (q > 0 && pattern[q] != input[i]) pipeline {
     decor "#pragma HLS loop_tripcount max=1 min=0"
-    decor "#pragma HLS pipeline"
     q := kmpNext[q];
   }
   ---
