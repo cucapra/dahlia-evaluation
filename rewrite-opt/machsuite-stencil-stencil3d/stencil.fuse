@@ -1,54 +1,72 @@
 decor "#pragma SDS data copy(C[0:2])"
 
-decl C: bit<32>[2];
-decl orig: bit<32>[32][32][16];
-decl sol: bit<32>[32][32][16];
+decl C: bit<32>[2 bank 2];
+decl orig: bit<32>[32 bank 2][32 bank 2][16 bank 2];
+decl sol: bit<32>[32 bank 2][32 bank 2][16 bank 2];
 
 // Handle boundary conditions by filling with original values
+view sol_v0  = sol[_: bank 1][_: bank 1][_: bank 1];
+view orig_v0  = orig[_: bank 1][_: bank 1][_: bank 1];
 for (let j = 0..32) {
   for (let k = 0..16) {
-    sol[0][j][k] := orig[0][j][k];
+    sol_v0[0][j][k]  := orig_v0[0][j][k];
     ---
-    sol[31][j][k] := orig[31][j][k];
+    sol_v0[31][j][k] := orig_v0[31][j][k];
   }
 }
 ---
 
+view sol_v1  = sol[_: bank 1][_: bank 1][_: bank 1];
+view orig_v1  = orig[_: bank 1][_: bank 1][_: bank 1];
 for (let i = 1..31) {
   for (let k = 0..16) {
-    sol[i][0][k] := orig[i][0][k];
+    sol_v1[i][0][k]  := orig_v1[i][0][k];
     ---
-    sol[i][31][k] := orig[i][31][k];
+    sol_v1[i][31][k] := orig_v1[i][31][k];
   }
 }
 ---
 
+view sol_v2  = sol[_: bank 1][_: bank 1][_: bank 1];
+view orig_v2  = orig[_: bank 1][_: bank 1][_: bank 1];
 for (let i = 1..31) {
   for (let j = 1..31) {
-    sol[i][j][0] := orig[i][j][0];
+    sol_v2[i][j][0]  := orig_v2[i][j][0];
     ---
-    sol[i][j][15] := orig[i][j][15];
+    sol_v2[i][j][15] := orig_v2[i][j][15];
   }
 }
 ---
 
 // Stencil computation
+view sol_v = sol[_: bank 1][_: bank 1][_: bank 1];
 for (let i = 1..31) {
   for (let j = 1..31) {
     for (let k = 1..15) {
-      let temp1 = orig[i][j][k] * C[0];
-      ---
-      let temp2 = orig[i + 1][j][k] * C[1] + temp1;
-      ---
-      let temp3 = orig[i - 1][j][k] * C[1] + temp2;
-      ---
-      let temp4 = orig[i][j + 1][k] * C[1] + temp3;
-      ---
-      let temp5 = orig[i][j - 1][k] * C[1] + temp4;
-      ---
-      let temp6 = orig[i][j][k + 1] * C[1] + temp5;
-      ---
-      sol[i][j][k] := orig[i][j][k - 1] * C[1] + temp6;
+      view orig_v = orig[i!:][j!:][k!:];
+      let temp_1: bit<32> = 0;
+      for (let l1 = 0..2) unroll 2 {
+        let temp_2: bit<32> = 0;
+        for (let l2 = 0..2) unroll 2 {
+          let temp_3: bit<32> = 0;
+          for (let l3 = 0..2) unroll 2 {
+            let multiply: bit<32> = 0;
+            if(l1 == 0 && l2 == 0 && l3 == 0){
+              multiply := C[0];
+            } else {
+              multiply := C[1];
+            }
+            let mul = orig_v[l1][l2][l3] * multiply; 
+          } combine {
+            temp_3 += mul;
+          }
+        } combine {
+          temp_2 += temp_3;
+        }
+      } combine {
+        temp_1 += temp_2;
+      }
+      sol_v[i][j][k] := temp_1;
     }
   }
 }

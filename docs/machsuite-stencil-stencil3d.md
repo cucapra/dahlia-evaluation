@@ -18,4 +18,9 @@ Outer loop pipeline removed to meet timing on Zed board.
 No change made
 
 # OPTIMIZED REWRITE
-No change made
+Use rotational views. Use views to reduce banking factor in other loops.
+## DSE
+
+### Current best
+Default - cG1snfrBoZM
+Unroll inner filter comp - W42-1ZQAIy4
