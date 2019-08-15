@@ -18,7 +18,8 @@ set_directive_pipeline spmv/spmv_2
 #set_directive_resource -core Mul "spmv" Si
 
 #estimation
-set_directive_loop_tripcount -max 494 -min 0 spmv/spmv_2
+# Based on software
+set_directive_loop_tripcount -avg 3 spmv/spmv_2
 
 #Notes
 # Mul is not used

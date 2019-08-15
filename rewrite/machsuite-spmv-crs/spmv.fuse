@@ -22,7 +22,7 @@ for (let i = 0..494) {
 
   j := tmp_begin;
   while (j < tmp_end) {
-    decor "#pragma HLS loop_tripcount max=494 min=0"
+    decor "#pragma HLS loop_tripcount avg=3"
     si := val[j] * vec[cols[j]];
     sum := sum + si;
     j := j + 1;
