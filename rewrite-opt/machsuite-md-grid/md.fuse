@@ -79,7 +79,7 @@ for(let b0z = 0..4){
         let p_idx:bit<32> = 0;
         let p_idx_upper = n_points[b0x][b0y][b0z];
         while(p_idx < p_idx_upper){
-          decor "#pragma HLS loop_tripcount avg=3"
+          decor "#pragma HLS loop_tripcount max=3 min=3"
           let p: dvector_t = {x = position_x[b0x][b0y][b0z][p_idx]; y = position_y[b0x][b0y][b0z][p_idx]; z = position_z[b0x][b0y][b0z][p_idx]};
           ---
           let sum_x = force_local[b0x][b0y][b0z][p_idx].x;
@@ -87,7 +87,7 @@ for(let b0z = 0..4){
           let sum_z = force_local[b0x][b0y][b0z][p_idx].z;
           let q_idx:bit<32> = 0;
           while(q_idx < q_idx_range){
-            decor "#pragma HLS loop_tripcount avg=3"
+            decor "#pragma HLS loop_tripcount max=3 min=3"
             let q: dvector_t = {x = position_x[b1x][b1y][b1z][q_idx]; y = position_y[b1x][b1y][b1z][q_idx]; z = position_z[b1x][b1y][b1z][q_idx]};
             if ((q.x != p.x) || (q.y != p.y) || (q.z != p.z)){
               // Compute the LJ-potential

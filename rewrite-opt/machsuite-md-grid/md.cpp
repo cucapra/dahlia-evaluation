@@ -123,7 +123,7 @@ void md(ap_int<32> n_points[4][4][4], double force_x[4][4][4][10], double force_
               ap_int<32> p_idx_upper = n_points[b0x][b0y][b0z];
               
               while((p_idx < p_idx_upper)) {
-                #pragma HLS loop_tripcount avg=3
+                #pragma HLS loop_tripcount max=3 min=3
                 dvector_t p = {
                   .x = position_x[b0x][b0y][b0z][p_idx], .y = position_y[b0x][b0y][b0z][p_idx], .z = position_z[b0x][b0y][b0z][p_idx]
                 };
@@ -138,7 +138,7 @@ void md(ap_int<32> n_points[4][4][4], double force_x[4][4][4][10], double force_
                 ap_int<32> q_idx = 0;
                 
                 while((q_idx < q_idx_range)) {
-                  #pragma HLS loop_tripcount avg=3
+                  #pragma HLS loop_tripcount max=3 min=3
                   dvector_t q = {
                     .x = position_x[b1x][b1y][b1z][q_idx], .y = position_y[b1x][b1y][b1z][q_idx], .z = position_z[b1x][b1y][b1z][q_idx]
                   };

@@ -49,6 +49,6 @@ set_directive_pipeline md/loop_copy_x
 set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_x
 set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_y
 set_directive_loop_tripcount -max 2 -min 0 md/loop_grid1_z
-set_directive_loop_tripcount -avg 3 md/loop_p
-set_directive_loop_tripcount -avg 3 md/loop_q
+set_directive_loop_tripcount -max 3 -min 3 md/loop_p
+set_directive_loop_tripcount -max 3 -min 3 md/loop_q
 #set_directive_data_pack  md force
