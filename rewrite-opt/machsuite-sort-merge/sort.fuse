@@ -6,13 +6,13 @@ def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
    let j: bit<16> = m+1;
    ---
    while (i<=m){
-     decor "#pragma HLS loop_tripcount avg=5"
+     decor "#pragma HLS loop_tripcount min=5 max=5"
      temp[i] := a[i];
      i := i+1;
    }
    ---
    while (j<=stop){
-    decor "#pragma HLS loop_tripcount avg=6"
+    decor "#pragma HLS loop_tripcount min=6 max=6"
     temp[m+1+stop-j] := a[j];
     j := j+1;
    }
@@ -22,7 +22,7 @@ def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
    j := stop;
    ---
    while (k <= stop) {
-    decor "#pragma HLS loop_tripcount avg=11"
+    decor "#pragma HLS loop_tripcount min=11 max=11"
     let temp_j: bit<32>  = 0;
     let temp_i: bit<32>  = 0;
     {
@@ -58,10 +58,10 @@ let mid: bit<16> = 0;
 let to: bit<16> = 0;
 ---
 while (m < stop - start) {
-  decor "#pragma HLS loop_tripcount avg=2047"
+  decor "#pragma HLS loop_tripcount min=2047 max=2047"
   let i = start;
   while (i < stop) {
-    decor "#pragma HLS loop_tripcount avg=186"
+    decor "#pragma HLS loop_tripcount min=186 max=186"
     from := i;
     mid := i+m-1;
     to := i+m+m-1
