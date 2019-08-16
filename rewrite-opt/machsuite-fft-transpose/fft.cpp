@@ -1,6 +1,7 @@
 #include "ap_int.h"
 #include "math.h"
 void fft8(double a_x[8], double a_y[8]) {
+  #pragma HLS INLINE
   
   
   double exp_p1 = 1.0;
@@ -184,6 +185,7 @@ void fft8(double a_x[8], double a_y[8]) {
   a_y[7] = (c6_y - c7_y);
 }
 void twiddles8(double a_x[8], double a_y[8], ap_int<32> i, ap_int<32> n) {
+  #pragma HLS INLINE
   
   
   ap_int<32> reversed8[8] = {0, 4, 2, 6, 1, 5, 3, 7};
@@ -207,6 +209,7 @@ void twiddles8(double a_x[8], double a_y[8], ap_int<32> i, ap_int<32> n) {
   }
 }
 void loadx8(double a_x[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
+  #pragma HLS INLINE
   
   
   for(int i = 0; i < 8; i++) {
@@ -214,6 +217,7 @@ void loadx8(double a_x[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
   }
 }
 void loady8(double a_y[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
+  #pragma HLS INLINE
   
   
   for(int i = 0; i < 8; i++) {
@@ -222,6 +226,7 @@ void loady8(double a_y[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
 }
 #pragma SDS data zero_copy(work_x[0:512], work_y[0:512])
 void fft(double work_x[512], double work_y[512]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=work_x
   #pragma HLS INTERFACE s_axilite port=work_y
   

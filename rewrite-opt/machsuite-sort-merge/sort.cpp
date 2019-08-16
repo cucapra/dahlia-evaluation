@@ -1,6 +1,7 @@
 #include "ap_int.h"
 
 void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) {
+  #pragma HLS INLINE
   
   
   ap_int<32> temp[2048];
@@ -49,6 +50,7 @@ void merge(ap_int<32> a[2048], ap_int<16> start, ap_int<16> m, ap_int<16> stop) 
 }
 #pragma SDS data zero_copy(a[0:SIZE])
 void sort(ap_int<32> a[2048]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=a
   
   ap_int<16> start = 0;

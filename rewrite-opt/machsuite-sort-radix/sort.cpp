@@ -1,6 +1,7 @@
 #include "ap_int.h"
 
 void local_scan(ap_int<32> bucket[128][16]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
@@ -21,6 +22,7 @@ void local_scan(ap_int<32> bucket[128][16]) {
   }
 }
 void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=sum cyclic factor=2 dim=1
@@ -40,6 +42,7 @@ void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
   }
 }
 void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
@@ -58,6 +61,7 @@ void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
   }
 }
 void init(ap_int<32> bucket[128][16]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
@@ -70,6 +74,7 @@ void init(ap_int<32> bucket[128][16]) {
   }
 }
 void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
@@ -88,6 +93,7 @@ void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
   }
 }
 void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=bucket cyclic factor=2 dim=1
@@ -112,6 +118,7 @@ void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][
 }
 #pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])
 void sort(ap_int<32> a[512][4], ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=a
   #pragma HLS INTERFACE s_axilite port=b
   #pragma HLS INTERFACE s_axilite port=bucket

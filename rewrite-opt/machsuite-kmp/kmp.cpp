@@ -1,6 +1,7 @@
 #include "ap_int.h"
 
 void cpf(ap_int<8> pattern[4], ap_int<32> kmpNext[4]) {
+  #pragma HLS INLINE
   
   
   ap_int<32> k = 0;
@@ -35,6 +36,7 @@ void cpf(ap_int<8> pattern[4], ap_int<32> kmpNext[4]) {
 #pragma SDS data zero_copy(kmpNext[0:PATTERN_SIZE], n_matches)
 #pragma SDS data zero_copy(input[0:STRING_SIZE])
 void kmp(ap_int<8> pattern[4], ap_int<8> input[32411], ap_int<32> kmpNext[4], ap_int<32> n_matches[1]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=pattern
   #pragma HLS INTERFACE s_axilite port=input
   #pragma HLS INTERFACE s_axilite port=kmpNext

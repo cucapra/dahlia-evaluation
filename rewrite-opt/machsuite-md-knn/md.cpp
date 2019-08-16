@@ -1,6 +1,7 @@
 #include "ap_int.h"
 
 double at_j(double pos[256], ap_int<32> j) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=pos cyclic factor=8 dim=1
@@ -9,6 +10,7 @@ double at_j(double pos[256], ap_int<32> j) {
 }
 
 void md(double force_x[256], double force_y[256], double force_z[256], double position_x[256], double position_y[256], double position_z[256], ap_int<32> nl[256][16]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=force_x
   #pragma HLS INTERFACE s_axilite port=force_y
   #pragma HLS INTERFACE s_axilite port=force_z
@@ -51,7 +53,7 @@ void md(double force_x[256], double force_y[256], double force_z[256], double po
     double fz = 0.0;
     
     for(int j = 0; j < 16; j++) {
-      #pragma HLS pipeline
+      #pragma HLS PIPELINE
       ap_int<32> j_idx = nl[i][j];
       
       double jx = at_j(position_x, j_idx);

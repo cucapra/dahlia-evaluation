@@ -4,6 +4,7 @@
 #pragma SDS data copy(nzval[0:494][0:10])
 #pragma SDS data zero_copy(out[0:494])
 void spmv(double nzval[496][10], ap_int<32> cols[496][10], double vec[496], double out[496]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=nzval
   #pragma HLS INTERFACE s_axilite port=cols
   #pragma HLS INTERFACE s_axilite port=vec

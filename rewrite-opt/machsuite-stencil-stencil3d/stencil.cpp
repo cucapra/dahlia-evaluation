@@ -3,6 +3,7 @@
 
 #pragma SDS data copy(C[0:2])
 void stencil(ap_int<32> C[2], ap_int<32> orig[33][33][18], ap_int<32> sol[32][32][16]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=C
   #pragma HLS INTERFACE s_axilite port=orig
   #pragma HLS INTERFACE s_axilite port=sol

@@ -12,6 +12,7 @@ typedef struct {
 } dvector_t;
 #pragma SDS data copy(n_points[0:64])
 void md(ap_int<32> n_points[4][4][4], double force_x[4][4][4][10], double force_y[4][4][4][10], double force_z[4][4][4][10], double position_x[4][4][4][10], double position_y[4][4][4][10], double position_z[4][4][4][10]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=n_points
   #pragma HLS INTERFACE s_axilite port=force_x
   #pragma HLS INTERFACE s_axilite port=force_y

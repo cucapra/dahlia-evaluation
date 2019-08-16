@@ -11,6 +11,7 @@ typedef struct {
 #pragma SDS data copy(nodes[0:256])
 #pragma SDS data zero_copy(level[0:256])
 void bfs(node_t nodes[256], edge_t edges[4096], ap_uint<64> starting_node, ap_int<8> level[256], ap_uint<64> level_counts[10]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=nodes
   #pragma HLS INTERFACE s_axilite port=edges
   

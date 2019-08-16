@@ -4,6 +4,7 @@
 #pragma SDS data copy(SEQA[0:128])
 #pragma SDS data zero_copy(M[0:16641], ptr[0:16641])
 void nw(ap_int<8> SEQA[128], ap_int<8> SEQB[128], ap_int<8> alignedA[256], ap_int<8> alignedB[256], ap_int<32> M[130][130], ap_int<8> ptr[130][130]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=SEQA
   #pragma HLS INTERFACE s_axilite port=SEQB
   #pragma HLS INTERFACE s_axilite port=alignedA

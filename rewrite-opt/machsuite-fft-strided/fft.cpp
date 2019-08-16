@@ -3,6 +3,7 @@
 
 #pragma SDS data zero_copy(real[0:1024], img[0:1024])
 void fft(double real[1024], double img[1024], double real_twid[512], double img_twid[512]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=real
   #pragma HLS INTERFACE s_axilite port=img
   #pragma HLS INTERFACE s_axilite port=real_twid

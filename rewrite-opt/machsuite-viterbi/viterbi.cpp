@@ -4,6 +4,7 @@
 #pragma SDS data copy(obs[0:140])
 #pragma SDS data zero_copy(path[0:140])
 void viterbi(ap_int<8> obs[140], double init[64], double transition[64][64], double emission[64][64], ap_int<8> path[140]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=obs
   #pragma HLS INTERFACE s_axilite port=init
   #pragma HLS INTERFACE s_axilite port=transition
@@ -23,13 +24,10 @@ void viterbi(ap_int<8> obs[140], double init[64], double transition[64][64], dou
   }
   //---
   for(int t = 1; t < 140; t++) {
-    #pragma HLS loop_tripcount avg=139
     for(int curr = 0; curr < 64; curr++) {
-      #pragma HLS loop_tripcount avg=64
       min_p = (llike[(t - 1)][0] + (transition[0][curr] + emission[curr][obs[t]]));
       //---
       for(int prev = 1; prev < 64; prev++) {
-        #pragma HLS loop_tripcount avg=63
         p = (llike[(t - 1)][prev] + (transition[prev][curr] + emission[curr][obs[t]]));
         if((p < min_p)){
           min_p = p;
@@ -45,7 +43,6 @@ void viterbi(ap_int<8> obs[140], double init[64], double transition[64][64], dou
   min_p = llike[139][min_s];
   //---
   for(int s = 1; s < 64; s++) {
-    #pragma HLS loop_tripcount avg=63
     p = llike[139][s];
     if((p < min_p)){
       min_p = p;
@@ -61,13 +58,11 @@ void viterbi(ap_int<8> obs[140], double init[64], double transition[64][64], dou
   ap_int<9> temp_t = 138;
   
   while((t >= 0)) {
-    #pragma HLS loop_tripcount avg=138
     min_s = 0;
     temp_t = t;
     min_p = (llike[t][min_s] + transition[min_s][path[(t + 1)]]);
     //---
     for(int s = 1; s < 64; s++) {
-      #pragma HLS loop_tripcount avg=63
       p = (llike[t][s] + transition[s][path[(t + 1)]]);
       if((p < min_p)){
         min_p = p;

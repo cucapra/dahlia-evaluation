@@ -1,6 +1,7 @@
 #include "ap_int.h"
 
 ap_uint<8> rj_xtime(ap_uint<8> x) {
+  #pragma HLS INLINE
   
   
   if(((x & 128) != 0)){
@@ -10,6 +11,7 @@ ap_uint<8> rj_xtime(ap_uint<8> x) {
   }
 }
 void aes_subBytes(ap_uint<8> buf[16], ap_uint<8> sbox[256]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=buf cyclic factor=4 dim=1
@@ -23,6 +25,7 @@ void aes_subBytes(ap_uint<8> buf[16], ap_uint<8> sbox[256]) {
   }
 }
 void aes_addRoundKey(ap_uint<8> buf[16], ap_uint<8> key[32], ap_uint<1> offset) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=buf cyclic factor=4 dim=1
@@ -43,6 +46,7 @@ void aes_addRoundKey(ap_uint<8> buf[16], ap_uint<8> key[32], ap_uint<1> offset) 
   }
 }
 void aes_addRoundKey_cpy(ap_uint<8> buf[16], ap_uint<8> key[32], ap_uint<8> cpk[32]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=buf cyclic factor=4 dim=1
@@ -66,6 +70,7 @@ void aes_addRoundKey_cpy(ap_uint<8> buf[16], ap_uint<8> key[32], ap_uint<8> cpk[
   }
 }
 void aes_shiftRows(ap_uint<8> buf[16]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=buf cyclic factor=4 dim=1
@@ -120,6 +125,7 @@ void aes_shiftRows(ap_uint<8> buf[16]) {
   buf[6] = temp;
 }
 void aes_mixColumns(ap_uint<8> buf[16]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=buf cyclic factor=4 dim=1
@@ -158,6 +164,7 @@ void aes_mixColumns(ap_uint<8> buf[16]) {
   }
 }
 void aes_expandEncKey(ap_uint<8> k[32], ap_uint<8> rc, ap_uint<8> sbox[256]) {
+  #pragma HLS INLINE
   
   
   #pragma HLS ARRAY_PARTITION variable=k cyclic factor=4 dim=1
@@ -235,6 +242,7 @@ void aes_expandEncKey(ap_uint<8> k[32], ap_uint<8> rc, ap_uint<8> sbox[256]) {
 }
 #pragma SDS data zero_copy(key[0:32], enckey[0:32], deckey[0:32], buf[0:16])
 void aes(ap_uint<8> key[32], ap_uint<8> enckey[32], ap_uint<8> deckey[32], ap_uint<8> k[32], ap_uint<8> buf[16]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=key
   #pragma HLS INTERFACE s_axilite port=enckey
   #pragma HLS INTERFACE s_axilite port=deckey
