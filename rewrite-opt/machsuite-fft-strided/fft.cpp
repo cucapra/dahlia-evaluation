@@ -17,7 +17,7 @@ void fft(double real[1024], double img[1024], double real_twid[512], double img_
     ap_int<32> odd = span;
     
     while((odd < 1024)) {
-      #pragma HLS loop_tripcount avg=512
+      #pragma HLS loop_tripcount max=512 min=512
       odd = (odd | span);
       ap_int<32> even = (odd ^ span);
       
