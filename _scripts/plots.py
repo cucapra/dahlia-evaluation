@@ -56,6 +56,13 @@ def abs_diff(field1, field2, scale):
 def prop_diff(field1, field2, percent= True):
     return (np.asarray(field1) - np.asarray(field2)) * (100 if percent else 1) / np.asarray(field2)
 
+# Normalized mean
+def avg(field1, field2):
+    if (len(field1) == len(field2)):
+        return np.asarray(field1).sum()/np.asarray(field2).sum()
+    else:
+        return 0
+
 ## Data gather functions
 # Fill relevant fields with 0s to plot
 def dummy_data(data_vector):
@@ -260,7 +267,7 @@ def plot_resources(data, results_json):
         norm_full_ff   = np.asarray(rewrite_full_ff)  /np.asarray(baseline_full_ff)
         norm_full_bram = np.asarray(rewrite_full_bram)/np.asarray(baseline_full_bram)
         norm_full_dsp  = np.asarray(rewrite_full_dsp) /np.asarray(baseline_full_dsp)
-    
+
     # Plot normalized rewrite hls resources
     plot_data = {
         'benches'    : baseline_bench_list,
@@ -298,14 +305,18 @@ def plot_resources(data, results_json):
         }
         subplot_n_fields(plot_data)
         
+        # Add Average LUT diff to the array
+        baseline_bench_list_wavg = baseline_bench_list + ['average']
+        norm_full_lut_wavg = np.append(norm_full_lut, avg(rewrite_full_lut, baseline_full_lut))
+        
         plot_data = {
-            'benches'    : baseline_bench_list,
+            'benches'    : baseline_bench_list_wavg,
             'fields'     : 1,
-            'mean'       : 2,
+            'mean'       : 0,
             'base'       : True,
             'basepoint'  : 1,
             'color'      : None,
-            'ref_1'      : norm_full_lut,
+            'ref_1'      : norm_full_lut_wavg,
             'bar_labels' : ['LUTs'],
             'plot_labels': ['Normalized Plots','Benchmarks','Normalized LUT count'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_normalized_luts.pdf')
