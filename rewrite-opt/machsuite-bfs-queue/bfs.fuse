@@ -56,7 +56,7 @@ let MAX_LEVEL = 127;
     ---
   
     while(e < tmp_end) {
-      decor "#pragma HLS loop_tripcount avg=17"
+      decor "#pragma HLS loop_tripcount max=17 min=17"
       let tmp_dst: ubit<64> = edges[e].dst;
       let tmp_level: bit<8> = level[tmp_dst];
       ---

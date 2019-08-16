@@ -28,4 +28,4 @@ set_directive_unroll -factor 10 bfs/loop_horizons
 
 #estimation
 # Based on software run
-set_directive_loop_tripcount -avg 17 bfs/loop_neighbors
+set_directive_loop_tripcount -max 17 -min 17 bfs/loop_neighbors

@@ -35,7 +35,7 @@ for (let horizon = 0..10) {
       let tmp_end = nodes[n].edge_end;
       ---
       while (e < tmp_end) {
-        decor "#pragma HLS loop_tripcount avg=17"
+        decor "#pragma HLS loop_tripcount max=17 min=17"
         let tmp_dst = edges[e].dst;
         let tmp_level = level[tmp_dst];
         ---

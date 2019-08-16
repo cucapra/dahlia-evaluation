@@ -23,4 +23,4 @@ set_directive_pipeline fft/inner
 
 #estimation
 # Based on software
-set_directive_loop_tripcount -avg 512 fft/inner
+set_directive_loop_tripcount -max 512 -min 512 fft/inner
