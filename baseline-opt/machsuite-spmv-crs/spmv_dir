@@ -19,7 +19,7 @@ set_directive_pipeline spmv/spmv_2
 
 #estimation
 # Based on software
-set_directive_loop_tripcount -avg 3 spmv/spmv_2
+set_directive_loop_tripcount -max 3 -min 3 spmv/spmv_2
 
 #Notes
 # Mul is not used
