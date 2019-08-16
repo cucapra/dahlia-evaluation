@@ -1,0 +1,15 @@
+bench,version,status,estimate,hls_lat_min,hls_lat_max,hls_lut,full_lut,hls_ff,full_ff,hls_bram,full_bram,hls_dsp,full_dsp
+bfs-bulk,baseline-opt,ok,False,770,140811,3835,3037,2276,2349,46,23.0,0,0
+bfs-bulk,rewrite-opt,ok,False,1027,145941,1013,956,916,998,46,23.0,0,0
+bfs-queue,baseline-opt,ok,False,690,35095,5169,4363,4066,3665,48,23.5,0,0
+bfs-queue,rewrite-opt,ok,False,73,31489,1147,933,863,947,48,23.5,0,0
+fft-strided,baseline-opt,ok,False,168991,168991,6220,3626,5418,4989,44,22.0,50,50
+fft-strided,rewrite-opt,ok,False,71701,168981,7630,3792,6109,5429,16,8.0,56,56
+md-grid,baseline-opt,ok,True,1197,777645,29669,,30500,,38,,42,
+md-grid,rewrite-opt,ok,True,2491,778939,13848,,12754,,38,,42,
+nw,baseline-opt,ok,True,83210,83210,42624,,16852,,96,,0,
+nw,rewrite-opt,ok,True,83213,83213,4124,,2386,,92,,0,
+sort-merge,baseline-opt,ok,True,90047,90047,1248,,944,,8,,0,
+sort-merge,rewrite-opt,ok,True,98231,98231,1043,,644,,12,,0,
+spmv-crs,baseline-opt,ok,True,3459,3459,5703,,4573,,100,,14,
+spmv-crs,rewrite-opt,ok,True,1551,1551,4834,,5287,,64,,14,
