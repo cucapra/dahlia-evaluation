@@ -21,14 +21,14 @@ let DASH:bit<8>       = 45; // ASCII for '-'
 let UNDERSCORE:bit<8> = 95; // ASCII for '_'
 
 for (let a_idx = 0..130) unroll 2 {
-  decor "#pragma HLS loop_tripcount avg=128"
+  decor "#pragma HLS loop_tripcount min=128 max=128"
   M[0][a_idx] := a_idx * GAP_SCORE;
 }
 
 ---
 
 for (let b_idx = 0..130) unroll 2 {
-  decor "#pragma HLS loop_tripcount avg=128"
+  decor "#pragma HLS loop_tripcount min=128 max=128"
   M[b_idx][0] := b_idx * GAP_SCORE;
 }
 
@@ -40,9 +40,9 @@ view mshift0 = M[-1!:][-1!:];
 view mshift1 = M[-1!:][0!:];
 view mshift2 = M[0!:][1*-1!:];
 for (let b_idx = 1..129) unroll 2 {
-  decor "#pragma HLS loop_tripcount avg=128"
+  decor "#pragma HLS loop_tripcount min=128 max=128"
   for (let a_idx = 1..129) unroll 2 {
-    decor "#pragma HLS loop_tripcount avg=128"
+    decor "#pragma HLS loop_tripcount min=128 max=128"
     let score:bit<32>   = 0;
     if (ashift[a_idx] == bshift[b_idx]) {
       score := MATCH_SCORE;
@@ -89,7 +89,7 @@ view ptr_s = ptr[_: bank 1][_: bank 1];
 view SEQA_s = SEQA[_: bank 1];
 view SEQB_s = SEQB[_: bank 1];
 while (a_idx>0 || b_idx>0) {
-  decor "#pragma HLS loop_tripcount avg=151"
+  decor "#pragma HLS loop_tripcount min=151 max=151"
   let r:bit<32> = b_idx * 129;
 
   if (ptr_s[b_idx][a_idx] == ALIGN) {
@@ -113,13 +113,13 @@ while (a_idx>0 || b_idx>0) {
 }
 ---
 while (a_str_idx < 256) {
-  decor "#pragma HLS loop_tripcount avg=105"
+  decor "#pragma HLS loop_tripcount min=105 max=105"
   alignedA[a_str_idx] := UNDERSCORE;
   a_str_idx := a_str_idx + 1;
 }
 
 while (b_str_idx < 256) {
-  decor "#pragma HLS loop_tripcount avg=105"
+  decor "#pragma HLS loop_tripcount min=105 max=105"
   alignedB[b_str_idx] := UNDERSCORE;
   b_str_idx := b_str_idx + 1;
 }
