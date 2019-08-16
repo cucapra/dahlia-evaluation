@@ -268,18 +268,30 @@ def plot_resources(data, results_json):
         norm_full_bram = np.asarray(rewrite_full_bram)/np.asarray(baseline_full_bram)
         norm_full_dsp  = np.asarray(rewrite_full_dsp) /np.asarray(baseline_full_dsp)
 
+    # Add Average LUT diff to the array
+    baseline_bench_list_wavg = baseline_bench_list + ['average']
+    norm_hls_lut_wavg = np.append(norm_hls_lut, avg(rewrite_hls_lut, baseline_hls_lut))
+    norm_hls_ff_wavg = np.append(norm_hls_ff, avg(rewrite_hls_ff, baseline_hls_ff))
+    norm_hls_bram_wavg = np.append(norm_hls_bram, avg(rewrite_hls_bram, baseline_hls_bram))
+    norm_hls_dsp_wavg = np.append(norm_hls_dsp, avg(rewrite_hls_dsp, baseline_hls_dsp))
+    if not data[0]['estimate']:
+        norm_full_lut_wavg = np.append(norm_full_lut, avg(rewrite_full_lut, baseline_full_lut))
+        norm_full_ff_wavg = np.append(norm_full_ff, avg(rewrite_full_ff, baseline_full_ff))
+        norm_full_bram_wavg = np.append(norm_full_bram, avg(rewrite_full_bram, baseline_full_bram))
+        norm_full_dsp_wavg = np.append(norm_full_dsp, avg(rewrite_full_dsp, baseline_full_dsp))
+        
     # Plot normalized rewrite hls resources
     plot_data = {
-        'benches'    : baseline_bench_list,
+        'benches'    : baseline_bench_list_wavg,
         'fields'     : 4,
-        'mean'       : 2,
+        'mean'       : 0,
         'base'       : True,
         'basepoint'  : 1,
         'color'      : 0,
-        'ref_1'      : norm_hls_lut,
-        'ref_2'      : norm_hls_ff,
-        'ref_3'      : norm_hls_bram,
-        'ref_4'      : norm_hls_dsp,
+        'ref_1'      : norm_hls_lut_wavg,
+        'ref_2'      : norm_hls_ff_wavg,
+        'ref_3'      : norm_hls_bram_wavg,
+        'ref_4'      : norm_hls_dsp_wavg,
         'bar_labels' : ['LUTs', 'FFs', 'BRAMs', 'DSPs'],
         'plot_labels': ['Normalized Plots','Benchmarks','resource utilization from HLS normalized'],
         'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_hls_normalized.pdf')
@@ -289,25 +301,21 @@ def plot_resources(data, results_json):
     # Plot normalized rewrite synthesis resources
     if not data[0]['estimate']:
         plot_data = {
-            'benches'    : baseline_bench_list,
+            'benches'    : baseline_bench_list_wavg,
             'fields'     : 4,
-            'mean'       : 2,
+            'mean'       : 0,
             'base'       : True,
             'basepoint'  : 1,
             'color'      : 0,
-            'ref_1'      : norm_full_lut,
-            'ref_2'      : norm_full_ff,
-            'ref_3'      : norm_full_bram,
-            'ref_4'      : norm_full_dsp,
+            'ref_1'      : norm_full_lut_wavg,
+            'ref_2'      : norm_full_ff_wavg,
+            'ref_3'      : norm_full_bram_wavg,
+            'ref_4'      : norm_full_dsp_wavg,
             'bar_labels' : ['LUTs', 'FFs', 'BRAMs', 'DSPs'],
             'plot_labels': ['Normalized Plots','Benchmarks','resource utilization from synthesis normalized'],
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_normalized.pdf')
         }
         subplot_n_fields(plot_data)
-        
-        # Add Average LUT diff to the array
-        baseline_bench_list_wavg = baseline_bench_list + ['average']
-        norm_full_lut_wavg = np.append(norm_full_lut, avg(rewrite_full_lut, baseline_full_lut))
         
         plot_data = {
             'benches'    : baseline_bench_list_wavg,
@@ -592,15 +600,17 @@ def plot_latencies(data, results_json):
     # Normalized vectors
     norm_hls_maxlat  = np.asarray(rewrite_hls_maxlat)  /np.asarray(baseline_hls_maxlat)
     
+    baseline_bench_list_wavg = baseline_bench_list + ['average']
+    norm_hls_maxlat_wavg = np.append(norm_hls_maxlat, avg(rewrite_hls_maxlat, baseline_hls_maxlat))
     # Plot normalized rewrite hls resources
     plot_data = {
-        'benches'    : baseline_bench_list,
+        'benches'    : baseline_bench_list_wavg,
         'fields'     : 1,
-        'mean'       : 2,
+        'mean'       : 0,
         'base'       : True,
         'basepoint'  : 1,
         'color'      : None,
-        'ref_1'      : norm_hls_maxlat,
+        'ref_1'      : norm_hls_maxlat_wavg,
         'bar_labels' : ['Latency'],
         'plot_labels': ['Normalized Plots','Benchmarks','Normalized latency'],
         'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_hls_latencies_normalized.pdf')
