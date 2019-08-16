@@ -3,7 +3,6 @@
 
 #pragma SDS data copy(val[0:NNZ])
 void spmv(double val[1672], ap_int<32> cols[1672], ap_int<32> row_delimiters[496], double vec[496], double out[496]) {
-  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=val
   #pragma HLS INTERFACE s_axilite port=cols
   #pragma HLS INTERFACE s_axilite port=row_delimiters
@@ -35,7 +34,7 @@ void spmv(double val[1672], ap_int<32> cols[1672], ap_int<32> row_delimiters[496
     j = tmp_begin;
     while((j < tmp_end)) {
       #pragma HLS PIPELINE
-      #pragma HLS loop_tripcount avg=3
+      #pragma HLS loop_tripcount min=3 max=3
       si = (val[j] * vec[cols[j]]);
       sum = (sum + si);
       j = (j + 1);
