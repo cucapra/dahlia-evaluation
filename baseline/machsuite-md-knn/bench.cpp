@@ -27,16 +27,14 @@ void run_benchmark( void *vargs ) {
   std::vector<TYPE,aligned_allocator<TYPE>> position_z(nAtoms);
   std::vector<int32_t,aligned_allocator<int32_t>> NL(nAtoms*maxNeighbors);
 
-
-
-  for (int i=0; i<nAtoms; i++) 
+  for (int i=0; i < nAtoms; i++) 
         {
-          force_x[i]  = (args->force_x)[i] ;
-          force_y[i]  = (args->force_y)[i] ;
-          force_z[i] = (args->force_z)[i] ;
-          position_x[i]  = (args->position_x)[i] ;
-          position_y[i] = (args->position_y)[i] ;
-          position_z[i]  = (args->position_z)[i] ;
+          force_x[i]  = args->force_x[i] ;
+          force_y[i]  = args->force_y[i] ;
+          force_z[i] = args->force_z[i] ;
+          position_x[i]  = args->position_x[i] ;
+          position_y[i] = args->position_y[i] ;
+          position_z[i]  = args->position_z[i] ;
         }
 
   // OPENCL HOST CODE AREA START
@@ -66,11 +64,11 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err,
               cl::Buffer nl_buffer(context,
                                     CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    sizeof(NL),
+                                    nAtoms*maxNeighbors*sizeof(int32_t),
                                     NL.data(),
                                     &err));  
     OCL_CHECK(err,
-              cl::Buffer force_x_buffer(context,
+              cl::Buffer force_x_buffer(context, 
                                     CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                     sizeof(force_x),
                                     force_x.data(),

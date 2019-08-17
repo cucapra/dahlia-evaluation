@@ -21,7 +21,7 @@ void md(TYPE force_x[nAtoms],
 #pragma HLS INTERFACE m_axi port=position_x offset=slave bundle=gmem1
 #pragma HLS INTERFACE m_axi port=position_y offset=slave bundle=gmem1
 #pragma HLS INTERFACE m_axi port=position_z offset=slave bundle=gmem1
-#pragma HLS INTERFACE m_axi port=NL offset=slave bundle=gmem2
+#pragma HLS INTERFACE m_axi port=NL offset=slave bundle=gmem1
 #pragma HLS INTERFACE s_axilite port=force_x bundle=control
 #pragma HLS INTERFACE s_axilite port=force_y bundle=control
 #pragma HLS INTERFACE s_axilite port=force_z bundle=control

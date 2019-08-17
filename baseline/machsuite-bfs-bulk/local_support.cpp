@@ -1,13 +1,103 @@
+
+#include "xcl2.hpp"
+#include <vector>
 #include "bfs.h"
 #include <string.h>
 #include <unistd.h>
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
-
 void run_benchmark( void *vargs ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
-  bfs(args->nodes, args->edges, args->starting_node, args->level, args->level_counts);
+  cl_int err;
+  // Copy the test data 
+  std::vector<node_t,aligned_allocator<node_t>> nodes(N_NODES);
+  std::vector<edge_t,aligned_allocator<edge_t>> edges(N_EDGES);
+  std::vector<level_t,aligned_allocator<level_t>> level(N_NODES);
+  std::vector<edge_index_t,aligned_allocator<edge_index_t>> level_counts(N_LEVELS);
+  
+  node_index_t starting_node = args->starting_node;
+
+  for (int i=0; i < N_NODES; i++) {
+          nodes[i]  = args->nodes[i];
+          level[i]  = args->level[i];
+        }
+  for (int i=0; i<  N_EDGES; i++) edges[i] = args-> edges[i];
+
+  // OPENCL HOST CODE AREA START
+    // get_xil_devices() is a utility API which will find the xilinx
+    // platforms and will return list of devices connected to Xilinx platform
+    std::vector<cl::Device> devices = xcl::get_xil_devices();
+    cl::Device device = devices[0];
+
+    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
+
+    // find_binary_file() is a utility API which will search the xclbin file for
+    // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
+    std::string binaryFile = xcl::find_binary_file(device_name,"bfs");
+
+    // import_binary_file() ia a utility API which will load the binaryFile
+    // and will return Binaries.
+    cl::Program::Binaries bins = xcl::import_binary_file(binaryFile);
+    devices.resize(1);
+    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
+    OCL_CHECK(err, cl::Kernel krnl_bfs_bulk(program,"bfs", &err));
+
+    // Allocate Buffer in Global Memory
+    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
+    // Device-to-host communication
+    OCL_CHECK(err,
+              cl::Buffer nodes_buffer(context,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    N_NODES*sizeof(node_t),
+                                    nodes.data(),
+                                    &err));  
+    OCL_CHECK(err,
+              cl::Buffer edges_buffer(context, 
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    N_EDGES*sizeof(edge_t),
+                                    edges.data(),
+                                    &err));
+    OCL_CHECK(err,
+              cl::Buffer level_buffer(context,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    N_NODES*sizeof(level_t),
+                                    level.data(),
+                                    &err));
+    OCL_CHECK(err,
+              cl::Buffer level_counts_buffer(context,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    N_LEVELS*sizeof(edge_index_t),
+                                    level_counts.data(),
+                                    &err));
+    
+   
+    // Copy input data to device global memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({nodes_buffer, edges_buffer, level_buffer},0/* 0 means from host*/));
+
+    int size = 4096;
+    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(0, nodes_buffer));
+    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(1, edges_buffer));
+    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(2, starting_node));
+    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(3, level_buffer));
+    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(4, level_counts_buffer));
+
+    // Launch the Kernel
+    // For HLS kernels global and local size is always (1,1,1). So, it is recommended
+    // to always use enqueueTask() for invoking HLS kernel
+    OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
+
+    // Copy Result from Device Global Memory to Host Local Memory
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
+    q.finish();
+  // OPENCL HOST CODE AREA END
+  
+  // Copy results 
+  for (int i=0; i < N_LEVELS; i++) args->level_counts[i] = level_counts[i];
+              
 }
+
 
 /* Input format:
 %% Section 1
