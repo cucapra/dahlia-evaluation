@@ -1,5 +1,7 @@
 # A common Makefile for synthesizing benchmark kernels only with Vivado tools 
 # or run with standard software C++ compiler for debugging. 
+# Note that Makefile only synthesizes the hardware functions, host files can 
+# be included with data files to do functional testing in software
 # Benchmarks should `include` this file after defining at least these variables:
 #
 # - KERNEL: The name of the hardware function. (This is also used as the name
@@ -21,7 +23,7 @@ OBJECTS   := $(SOURCES:%.cpp=%.o)
 DEPENDS   := $(SOURCES:%.cpp=%.d)
 
 # Vivado compilation options.
-PLATFORM  := xc7z020clg484-1
+override PLATFORM  := xc7z020clg484-1
 CLOCK		  := 7
 
 # The software executable name. We use the kernel name by default.
