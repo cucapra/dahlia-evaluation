@@ -1,11 +1,10 @@
 # A common Makefile for synthesizing benchmark kernels only with Vivado tools 
-# or run with standard software C++ compiler for debugging. 
-# Note that Makefile only synthesizes the hardware functions, host files can 
-# be included with data files to do functional testing in software
+# or to do functional testing by building host and hardware sources with 
+# standard software C++ compiler and running with data files for debugging. 
 # Benchmarks should `include` this file after defining at least these variables:
 #
 # - KERNEL: The name of the hardware function. (This is also used as the name
-#   of the generated executable.)
+#   of the generated executable in software builds.)
 # - HW_SRCS: The C++ source files containing the hardware function.
 # 
 # For software runs,
@@ -45,7 +44,7 @@ GENERATED += benchmark.prj vivado_hls.log run_hls.tcl
 
 .PHONY: vhls
 vhls: run_hls.tcl
-	vivado_hls -f $< 
+	vivado_hls -f $<
 	! grep 'Command failed' vivado_hls.log
 
 ifeq ($(DIRECTIVES),)
