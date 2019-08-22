@@ -11,7 +11,6 @@ add_files {sources} -cflags "-std=c++11 -DVHLS" ; # HLS source files.
 
 open_solution "solution1"
 set_part {part_name}
-# set_part {{xc7z020clg484-1}}
 create_clock -period {clock_period}
 
 {dir_cmd}
@@ -49,7 +48,7 @@ def gen_vhls_tcl(synthesize, directives, func_name, target_part, target_clock, s
 if __name__ == '__main__':
     args = sys.argv[1:]
     if len(args) < 6 or args[0] not in ('hls', 'syn'):
-        print('Usage: {} <hls|syn> <dir|-> <func> <source...>'
+        print('Usage: {} <hls|syn> <dir|-> <func> <part> <clk> <source...>'
               .format(sys.argv[0]),
               file=sys.stderr)
         sys.exit(1)
