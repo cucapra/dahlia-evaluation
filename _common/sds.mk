@@ -43,7 +43,8 @@ HWLIST    := $(KERNEL) $(HW_SRCS)
 
 # When DIRECTIVES is supplied, include the filename of the standalone HLS
 # directives file.
-ifeq ($(DIRECTIVES),1)
+ifeq ($(DIRECTIVES),)
+else
 HWLIST    += -hls-tcl $(DIRECTIVES)
 CURLFLAGS += -F directives=$(DIRECTIVES)
 endif
