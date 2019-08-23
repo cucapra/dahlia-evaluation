@@ -31,7 +31,7 @@ LDFLAGS   += -lrt -lstdc++
 
 # The OCL compiler.
 XOCC  := $(XILINX_SDX)/bin/xocc
-XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) 
+XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) -DSDACCEL
 ## How to add directives, can you add directives? other options?
 
 # Binaries

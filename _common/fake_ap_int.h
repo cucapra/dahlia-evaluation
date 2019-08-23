@@ -1,4 +1,4 @@
-#if defined(__SDSCC__) || defined(VHLS)
+#if defined(__SDSCC__) || defined(VHLS) || defined(SDACCEL)
 
 // In "hardware" mode (i.e., SDSoC compilation), use the real/provided ap_int
 // library.
