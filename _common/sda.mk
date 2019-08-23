@@ -13,7 +13,7 @@ MODES := hw
 MODE  := $(MODES)
 DEVICES   := xilinx_vcu1525_dynamic
 DEVICE    := $(DEVICES)
-# How to set clock? CLOCK_ID  := ??
+TARGET_FREQ  := 250 # clock is set using frequency, using 4ns for testing
 
 # The ordinary (software) C++ compiler.
 CXX   := $(XILINX_SDX)/bin/xcpp
