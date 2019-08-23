@@ -22,7 +22,7 @@ OBJECTS   := $(SOURCES:%.cpp=%.o)
 DEPENDS   := $(SOURCES:%.cpp=%.d)
 
 # Vivado compilation options.
-override PLATFORM  := xc7z020clg484-1 # to stop Buildbot changing platform
+PLATFORM  := xc7z020clg484-1 # to stop Buildbot changing platform
 CLOCK		  := 7 # we use 7ns to test
 
 # The software executable name. We use the kernel name by default.
@@ -33,6 +33,7 @@ GENERATED := output.data
 CURLFLAGS := -F hwname=$(KERNEL)
 CURLFLAGS += -F directives=$(DIRECTIVES)
 CURLFLAGS += -F skipexec=1
+CURLFLAGS += -F platform=$(PLATFORM)
 
 ifeq ($(ESTIMATE),1)
 VHLS_MODE := hls
