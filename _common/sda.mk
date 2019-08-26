@@ -97,8 +97,3 @@ BUILDBOT := http://ec2-54-234-195-6.compute-1.amazonaws.com:5000
 submit:
 	zip -r - . | curl -F file='@-;filename=code.zip' -F make=1 -F mode=$(MODE)\
 		$(BUILDBOT)/jobs
-
-# What's this? Device check?
-bar: all
-	echo $(DSA)
-	$(COMMON_REPO)/utility/parsexpmf.py $(DEVICE) dsa
