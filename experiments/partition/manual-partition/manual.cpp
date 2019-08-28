@@ -14,6 +14,7 @@ ap_int<32> res = 0;
 
 // gadget for reading A
 ap_int<32> read_a(ap_int<32> i, ap_int<32> j) {
+  #pragma HLS INLINE
   if (i >= 0 && i < 16 && j >= 0 && j < 16) {
     return A_0_0[i][j];
   }
@@ -33,6 +34,7 @@ ap_int<32> read_a(ap_int<32> i, ap_int<32> j) {
 
 // gadget for writing to A
 void write_a(ap_int<32> i, ap_int<32> j, ap_int<32> v) {
+  #pragma HLS INLINE
   if (i >= 0 && i < 16 && j >= 0 && j < 16) {
     A_0_0[i][j] = v;
   }
@@ -49,6 +51,7 @@ void write_a(ap_int<32> i, ap_int<32> j, ap_int<32> v) {
 
 // gadget for read b
 ap_int<32> read_b(ap_int<32> i, ap_int<32> j) {
+  #pragma HLS INLINE
   if (i >= 0 && i < 16 && j >= 0 && j < 16) {
     return B_0_0[i][j];
   }
@@ -68,6 +71,7 @@ ap_int<32> read_b(ap_int<32> i, ap_int<32> j) {
 
 // gadget for writing to b
 void write_b(ap_int<32> i, ap_int<32> j, ap_int<32> v) {
+  #pragma HLS INLINE
   if (i >= 0 && i < 16 && j >= 0 && j < 16) {
     B_0_0[i][j] = v;
   }
@@ -82,8 +86,10 @@ void write_b(ap_int<32> i, ap_int<32> j, ap_int<32> v) {
   }
 }
 
-void kernel(ap_int<32> iterations) {
-
+extern "C" {
+void partition(ap_int<32> iterations) {
+#pragma HLS INTERFACE s_axilite port = iterations bundle = control
+#pragma HLS INTERFACE s_axilite port = return bundle = control
   while((iterations > 0)) {
     #pragma HLS loop_tripcount avg=1000
     res = 0;
@@ -120,4 +126,5 @@ void kernel(ap_int<32> iterations) {
   std::cout << res << std::endl;
   #endif
 
+  }
 }

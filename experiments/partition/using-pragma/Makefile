@@ -1,5 +1,5 @@
-KERNEL = kernel
+KERNEL = partition
 HW_SRCS = pragma.cpp
 HOST_SRCS = main.cpp
 
-include sds.mk
+include sda.mk
