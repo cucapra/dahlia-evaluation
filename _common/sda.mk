@@ -11,8 +11,7 @@ include libs/xcl2/xcl2.mk
 # OCL compilation options.
 MODES := hw
 MODE  := $(MODES)
-DEVICES   := xilinx_vcu1525_dynamic
-DEVICE    := $(DEVICES)
+DEVICE    := xilinx_vcu1525_dynamic
 TARGET_FREQ  := 250 # clock is set using frequency, using 4ns for testing
 
 # The ordinary (software) C++ compiler.
@@ -53,10 +52,7 @@ endif
 .PHONY: all
 all: $(EXECUTABLE) $(BINARY_CONTAINERS) emconfig
 
-.PHONY: exe
-exe: $(EXECUTABLE)
-
-# emconfig 
+# emconfig
 .PHONY: emconfig
 emconfig:$(EMCONFIG_DIR)/emconfig.json
 $(EMCONFIG_DIR)/emconfig.json:
