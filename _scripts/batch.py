@@ -13,25 +13,14 @@ BUILDBOT_JOBS_URL = common.buildbot_url() + '/jobs'
 # Written to when at least one benchmark upload fails.
 FAILED_JOBS = "failure_batch.txt"
 
-# POST fields to pass to the Polyphemus during submission.
+# POST fields to pass to the Buildbot during submission.
 OPTIONS = {
+    'skipseashell': '1',
     'make': '1',
 }
 
-def validate_conf(conf):
-    """Validate a configuration that is going to be send to polyphemus.
-    """
 
-    # Required keys
-    assert all (key in conf for key in ['file', 'hwname', 'estimate', 'make', 'skipexec']), "Required key is missing"
-
-    # If estimate is true, skipexec cannot be true
-    assert not (conf['estimate'] == True and conf['skipexec'] == False), "Estimate and skipexec cannot both be true"
-
-    return conf
-
-
-def submit(bench, pretend, conf):
+def submit(bench, estimate, pretend):
     """Given a path to a benchmark, submit it and return either a job ID
     or None if submission failed.
     """
@@ -42,22 +31,20 @@ def submit(bench, pretend, conf):
             archive_name = os.path.basename(os.getcwd()) + ".zip"
             subprocess.run(
                 ['zip', '-r', archive_name, '.'],
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
+                capture_output=True,
                 check=True,
             )
 
             # Build up the job submission options.
             options = dict(OPTIONS)
-            print(conf)
             options.update({
                 'file': '@{}'.format(archive_name),
                 'hwname': bench,
-                'estimate': conf['estimate'],
-                'skipexec': conf['skipexec'],
             })
-
-            validate_conf(options)
+            if estimate:
+                options['estimate'] = '1'
+            else:
+                options['skipexec'] = '1'
 
             # Upload the zip file to Buildbot.
             upload_cmd = ['curl', '-sS']
@@ -69,8 +56,7 @@ def submit(bench, pretend, conf):
             else:
                 upload = subprocess.run(
                     upload_cmd,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
+                    capture_output=True,
                     check=True,
                 )
                 job_id = upload.stdout.decode('utf-8').strip()
@@ -86,13 +72,12 @@ def submit(bench, pretend, conf):
 
         finally:
             # Clean up the zip file.
-            if not pretend:
-                os.unlink(archive_name)
+            os.unlink(archive_name)
 
         return job_id
 
 
-def batch_and_upload(benchmark_paths, pretend, conf):
+def batch_and_upload(benchmark_paths, estimate, pretend):
     """Submit a batch of jobs to the Buildbot.
     """
     job_ids = []
@@ -101,7 +86,7 @@ def batch_and_upload(benchmark_paths, pretend, conf):
     # Submit all the benchmarks in this batch.
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
-        job_id = submit(bench, pretend, conf)
+        job_id = submit(bench, estimate, pretend)
         if job_id:
             job_ids.append(job_id)
             logging.info('Submitted %s', job_id)
@@ -133,29 +118,14 @@ def batch_and_upload(benchmark_paths, pretend, conf):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Submit Buildbot jobs.')
-
-    # Dry run
+    parser.add_argument('-E', '--no-estimate',
+                        help='full synthesis (not estimation)',
+                        action='store_false', dest='estimate')
     parser.add_argument('-p', '--pretend',
                         help="just print jobs (don't submit anything)",
                         action='store_true', dest='pretend')
-
-    # Configuration for this set of jobs.
-    parser.add_argument('-E', '--no-estimate',
-                        help='full synthesis (not estimation)',
-                        action='store_const', const='0', default='1', dest='estimate')
-    parser.add_argument('-s', '--skip-exec',
-                        help='Skip execution stage',
-                        action='store_const', const='1', default='0', dest='skipexec')
-
-    # Paths pointing to benchmarks to run.
     parser.add_argument('bench', nargs='+')
-
     opts = parser.parse_args()
+
     common.logging_setup()
-
-    conf = {
-        'estimate': opts.estimate,
-        'skipexec': opts.skipexec,
-    }
-
-    batch_and_upload(opts.bench, opts.pretend, conf)
+    batch_and_upload(opts.bench, opts.estimate, opts.pretend)
