@@ -18,7 +18,14 @@ OPTIONS = {
     'make': '1',
 }
 
-def submit(bench, estimate, pretend):
+VALID_MODES = ['hw', 'hw_emu', 'sw_emu']
+
+def valid_mode(mode):
+    if mode not in VALID_MODES:
+        raise argparse.ArgumentTypeError("Invalid mode: %s. Must be one of %s." % (mode, VALID_MODES))
+
+
+def submit(bench, conf, pretend):
     """Given a path to a benchmark, submit it and return either a job ID
     or None if submission failed.
     """
@@ -39,8 +46,10 @@ def submit(bench, estimate, pretend):
             options.update({
                 'file': '@{}'.format(archive_name),
                 'hwname': bench,
+                'mode': conf['mode'],
             })
-            if estimate:
+
+            if conf['estimate']:
                 options['estimate'] = '1'
             else:
                 options['skipexec'] = '1'
@@ -77,7 +86,7 @@ def submit(bench, estimate, pretend):
         return job_id
 
 
-def batch_and_upload(benchmark_paths, estimate, pretend):
+def batch_and_upload(benchmark_paths, conf, pretend):
     """Submit a batch of jobs to the Buildbot.
     """
     job_ids = []
@@ -86,7 +95,7 @@ def batch_and_upload(benchmark_paths, estimate, pretend):
     # Submit all the benchmarks in this batch.
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
-        job_id = submit(bench, estimate, pretend)
+        job_id = submit(bench, conf, pretend)
         if job_id:
             job_ids.append(job_id)
             logging.info('Submitted %s', job_id)
@@ -118,14 +127,25 @@ def batch_and_upload(benchmark_paths, estimate, pretend):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Submit Buildbot jobs.')
-    parser.add_argument('-E', '--no-estimate',
-                        help='full synthesis (not estimation)',
-                        action='store_false', dest='estimate')
+
+    # Dry run mode
     parser.add_argument('-p', '--pretend',
                         help="just print jobs (don't submit anything)",
                         action='store_true', dest='pretend')
+
+    # Polyphemus configuration
+    parser.add_argument('-E', '--no-estimate',
+                        help='full synthesis (not estimation)',
+                        action='store_false', dest='estimate')
+    parser.add_argument('-m', '--mode',
+                        help='Execution mode for F1.',
+                        type=valid_mode, default='hw')
+
+    # Benchmarks to run
     parser.add_argument('bench', nargs='+')
+
     opts = parser.parse_args()
 
     common.logging_setup()
-    batch_and_upload(opts.bench, opts.estimate, opts.pretend)
+    conf = { 'estimate': opts.estimate, 'mode': opts.mode }
+    batch_and_upload(opts.bench, conf, opts.pretend)
