@@ -15,10 +15,8 @@ FAILED_JOBS = "failure_batch.txt"
 
 # POST fields to pass to the Buildbot during submission.
 OPTIONS = {
-    'skipseashell': '1',
     'make': '1',
 }
-
 
 def submit(bench, estimate, pretend):
     """Given a path to a benchmark, submit it and return either a job ID
@@ -31,7 +29,8 @@ def submit(bench, estimate, pretend):
             archive_name = os.path.basename(os.getcwd()) + ".zip"
             subprocess.run(
                 ['zip', '-r', archive_name, '.'],
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 check=True,
             )
 
@@ -56,7 +55,8 @@ def submit(bench, estimate, pretend):
             else:
                 upload = subprocess.run(
                     upload_cmd,
-                    capture_output=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     check=True,
                 )
                 job_id = upload.stdout.decode('utf-8').strip()
