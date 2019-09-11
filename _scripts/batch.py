@@ -23,6 +23,7 @@ VALID_MODES = ['hw', 'hw_emu', 'sw_emu']
 def valid_mode(mode):
     if mode not in VALID_MODES:
         raise argparse.ArgumentTypeError("Invalid mode: %s. Must be one of %s." % (mode, VALID_MODES))
+    return mode
 
 
 def submit(bench, conf, pretend):
