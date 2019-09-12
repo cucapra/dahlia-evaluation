@@ -76,6 +76,10 @@ Give the script the path to a batch directory:
 
     ./_scripts/status.py _results/2019-07-13-17-13-09
 
+The `-w` or `--watch` option repeatedly runs the commands every 5s.
+
+    ./_scripts/status.py --watch _results/2019-07-13-17-13-09
+
 
 ## Directory Structure
 
