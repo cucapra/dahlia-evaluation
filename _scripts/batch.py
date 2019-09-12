@@ -105,12 +105,13 @@ def batch_and_upload(benchmark_paths, conf, pretend):
 
     # Choose a "name" for the batch and print it to stdout.
     batch_name = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    print(batch_name)
+    batch_dir = os.path.join(common.OUT_DIR, batch_name)
+
+    print(batch_dir)
     if pretend:
         return
 
     # Create a directory for the batch.
-    batch_dir = os.path.join(common.OUT_DIR, batch_name)
     os.makedirs(batch_dir, exist_ok=True)
 
     # Record the job IDs.
