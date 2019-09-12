@@ -3,8 +3,11 @@
 import os
 import sys
 import requests
-from collections import defaultdict
 import logging
+import argparse
+import time
+from subprocess import call
+from collections import defaultdict
 
 import common
 
@@ -50,12 +53,29 @@ def get_status(batch_dir):
     for key, count in sorted(counts.items()):
         print('{}: {}/{}'.format(key, count, len(job_info)))
 
+def get_status_rep(watch, batch_dir):
+    if watch:
+        while True:
+            get_status(batch_dir)
+            time.sleep(5)
+            _ = call('clear' if os.name == 'posix' else 'cls')
+    else:
+        get_status(batch_dir)
+
+
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Script requires a path to a directory for the batch.\n'
-              'Usage: ./status.py <batch-dir>')
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Show status of buildbot jobs.")
+
+    # Run in watch mode
+    parser.add_argument('-w', '--watch',
+                        help='Keep running the command every 5s',
+                        action='store_true', dest='watch')
+
+    # Batch directory
+    parser.add_argument('batch_dir', nargs=1)
+
+    opts = parser.parse_args()
 
     common.logging_setup()
-    get_status(sys.argv[1])
+    get_status_rep(opts.watch, opts.batch_dir[0])
