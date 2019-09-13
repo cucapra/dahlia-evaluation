@@ -29,6 +29,8 @@ def valid_mode(mode):
 def submit(bench, conf, pretend):
     """Given a path to a benchmark, submit it and return either a job ID
     or None if submission failed.
+    `conf` contains two fields: `estimate` and `mode` which map to their
+    equivalents in Polyphemus options.
     """
     # Switch to benchmark directory to do the submission.
     with common.chdir(bench):
