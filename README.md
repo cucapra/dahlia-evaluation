@@ -76,9 +76,10 @@ Give the script the path to a batch directory:
 
     ./_scripts/status.py _results/2019-07-13-17-13-09
 
-The `-w` or `--watch` option repeatedly runs the commands every 5s.
+Use the [watch](https://linux.die.net/man/1/watch) command to repeatedly run
+the command every 5 seconds
 
-    ./_scripts/status.py --watch _results/2019-07-13-17-13-09
+    watch -n5 ./_scripts/status.py _results/2019-07-13-17-13-09
 
 
 ## Directory Structure
