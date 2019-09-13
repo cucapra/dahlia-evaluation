@@ -76,23 +76,28 @@ Give the script the path to a batch directory:
 
     ./_scripts/status.py _results/2019-07-13-17-13-09
 
+Use the [watch](https://linux.die.net/man/1/watch) command to repeatedly run
+the command every 5 seconds
+
+    watch -n5 ./_scripts/status.py _results/2019-07-13-17-13-09
+
 
 ## Directory Structure
 
 Different designs of benchmarks exist under its own directory. Currently there is,
 - **original**: This contains the original unedited code from the [benchmark
-  suite.](https://github.com/breagen/MachSuite/) This is useful comparison 
-  and diffing. Data files exists and are generated in this directory. Internal 
+  suite.](https://github.com/breagen/MachSuite/) This is useful comparison
+  and diffing. Data files exists and are generated in this directory. Internal
   folder structure maintains original benchmark suite's structure.
 - **baseline**: This contains C++ version of the benchmark with the minimal edits
   required for us to run it on our infrastructure in software and hardware. These changes are documented in
-  `docs/` directory under titles SOFTWARE and BASELINE. Runtime information estimators with wall clock and SDSoC provided clock cycle counts are also added. 
+  `docs/` directory under titles SOFTWARE and BASELINE. Runtime information estimators with wall clock and SDSoC provided clock cycle counts are also added.
 
 To be included are,
 - **rewrite**: This will contain one-to-one translation of the benchmark in Fuse.
   For the most part, we don't optimize this code unless it is trivial to
   make it work with our type system. Such changes will be documented in docs.
-- **baseline-optimized**: This will contain a manually tuned baseline using 
+- **baseline-optimized**: This will contain a manually tuned baseline using
   HLS hardware optimizations. We won't use major code changes unless it is trivial.
 - **fuse-optimized**: This is writing the benchmark from scratch in Fuse. A full
   rewrite will use features like `views` and `combine` blocks. The code runs the
@@ -102,5 +107,5 @@ Additionally, there is a **docs** directory to maintain all the changes done for
 
 Under these directories, there is subdirectory for each benchmark named `<benchmark suite-name>-<benchmark-name>`. Subdirectory `_<benchmark suite name>-templates` contains basic templates used across all the benchmarks. `Makefile` can be used to run all benchmarks locally or in Buildbot without support for failure detection or data extraction.
 
-The `_common` directory contains useful stuff for all designs. The `sds.mk` Makefile snippet therein can be included to make it simple to compile applications with the Xilinx SDSoC toolchain. Subdirectory `_<benchmark suite-name>-common` contains useful stuff for all benchmark versions in that suite. 
+The `_common` directory contains useful stuff for all designs. The `sds.mk` Makefile snippet therein can be included to make it simple to compile applications with the Xilinx SDSoC toolchain. Subdirectory `_<benchmark suite-name>-common` contains useful stuff for all benchmark versions in that suite.
 

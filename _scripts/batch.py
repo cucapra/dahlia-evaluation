@@ -15,14 +15,22 @@ FAILED_JOBS = "failure_batch.txt"
 
 # POST fields to pass to the Buildbot during submission.
 OPTIONS = {
-    'skipseashell': '1',
     'make': '1',
 }
 
+VALID_MODES = ['hw', 'hw_emu', 'sw_emu']
 
-def submit(bench, estimate, pretend):
+def valid_mode(mode):
+    if mode not in VALID_MODES:
+        raise argparse.ArgumentTypeError("Invalid mode: %s. Must be one of %s." % (mode, VALID_MODES))
+    return mode
+
+
+def submit(bench, conf, pretend):
     """Given a path to a benchmark, submit it and return either a job ID
     or None if submission failed.
+    `conf` contains two fields: `estimate` and `mode` which map to their
+    equivalents in Polyphemus options.
     """
     # Switch to benchmark directory to do the submission.
     with common.chdir(bench):
@@ -31,7 +39,8 @@ def submit(bench, estimate, pretend):
             archive_name = os.path.basename(os.getcwd()) + ".zip"
             subprocess.run(
                 ['zip', '-r', archive_name, '.'],
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 check=True,
             )
 
@@ -40,8 +49,10 @@ def submit(bench, estimate, pretend):
             options.update({
                 'file': '@{}'.format(archive_name),
                 'hwname': bench,
+                'mode': conf['mode'],
             })
-            if estimate:
+
+            if conf['estimate']:
                 options['estimate'] = '1'
             else:
                 options['skipexec'] = '1'
@@ -56,7 +67,8 @@ def submit(bench, estimate, pretend):
             else:
                 upload = subprocess.run(
                     upload_cmd,
-                    capture_output=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
                     check=True,
                 )
                 job_id = upload.stdout.decode('utf-8').strip()
@@ -77,7 +89,7 @@ def submit(bench, estimate, pretend):
         return job_id
 
 
-def batch_and_upload(benchmark_paths, estimate, pretend):
+def batch_and_upload(benchmark_paths, conf, pretend):
     """Submit a batch of jobs to the Buildbot.
     """
     job_ids = []
@@ -86,7 +98,7 @@ def batch_and_upload(benchmark_paths, estimate, pretend):
     # Submit all the benchmarks in this batch.
     for bench in benchmark_paths:
         logging.info('Submitting %s', bench)
-        job_id = submit(bench, estimate, pretend)
+        job_id = submit(bench, conf, pretend)
         if job_id:
             job_ids.append(job_id)
             logging.info('Submitted %s', job_id)
@@ -95,12 +107,13 @@ def batch_and_upload(benchmark_paths, estimate, pretend):
 
     # Choose a "name" for the batch and print it to stdout.
     batch_name = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    print(batch_name)
+    batch_dir = os.path.join(common.OUT_DIR, batch_name)
+
+    print(batch_dir)
     if pretend:
         return
 
     # Create a directory for the batch.
-    batch_dir = os.path.join(common.OUT_DIR, batch_name)
     os.makedirs(batch_dir, exist_ok=True)
 
     # Record the job IDs.
@@ -118,14 +131,25 @@ def batch_and_upload(benchmark_paths, estimate, pretend):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Submit Buildbot jobs.')
-    parser.add_argument('-E', '--no-estimate',
-                        help='full synthesis (not estimation)',
-                        action='store_false', dest='estimate')
+
+    # Dry run mode
     parser.add_argument('-p', '--pretend',
                         help="just print jobs (don't submit anything)",
                         action='store_true', dest='pretend')
+
+    # Polyphemus configuration
+    parser.add_argument('-E', '--no-estimate',
+                        help='full synthesis (not estimation)',
+                        action='store_false', dest='estimate')
+    parser.add_argument('-m', '--mode',
+                        help='Execution mode for F1.',
+                        type=valid_mode, default='hw')
+
+    # Benchmarks to run
     parser.add_argument('bench', nargs='+')
+
     opts = parser.parse_args()
 
     common.logging_setup()
-    batch_and_upload(opts.bench, opts.estimate, opts.pretend)
+    conf = { 'estimate': opts.estimate, 'mode': opts.mode }
+    batch_and_upload(opts.bench, conf, opts.pretend)
