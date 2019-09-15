@@ -55,7 +55,7 @@ def submit(bench, conf, pretend):
             if conf['estimate']:
                 options['estimate'] = '1'
             else:
-                options['skipexec'] = '1'
+                options['skipexec'] = '0'
 
             # Upload the zip file to Buildbot.
             upload_cmd = ['curl', '-sS']
