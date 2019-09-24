@@ -138,9 +138,9 @@ if __name__ == '__main__':
                         action='store_true', dest='pretend')
 
     # Polyphemus configuration
-    parser.add_argument('-E', '--no-estimate',
-                        help='full synthesis (not estimation)',
-                        action='store_false', dest='estimate')
+    parser.add_argument('-e', '--estimate',
+                        help='Run estimation instead of full synthesis',
+                        action='store_true', dest='estimate')
     parser.add_argument('-m', '--mode',
                         help='Execution mode for F1.',
                         type=valid_mode, default='hw')
