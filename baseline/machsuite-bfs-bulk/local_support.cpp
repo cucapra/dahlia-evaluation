@@ -67,7 +67,7 @@ void run_benchmark( void *vargs ) {
                                     &err));
     OCL_CHECK(err,
               cl::Buffer level_counts_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                     N_LEVELS*sizeof(edge_index_t),
                                     level_counts.data(),
                                     &err));
