@@ -5,6 +5,7 @@ import os
 import logging
 import datetime
 import argparse
+from collections import namedtuple
 
 import common
 
@@ -19,6 +20,13 @@ OPTIONS = {
 }
 
 VALID_MODES = ['hw', 'hw_emu', 'sw_emu']
+
+# Configuration object
+Config = namedtuple("Config", [
+    'estimate', # Enable estimation mode
+    'mode',     # Modes for F1 execution
+    'prefix'    # Prefix for job names
+])
 
 def valid_mode(mode):
     if mode not in VALID_MODES:
@@ -46,13 +54,18 @@ def submit(bench, conf, pretend):
 
             # Build up the job submission options.
             options = dict(OPTIONS)
+            if conf.prefix:
+                hwname = conf.prefix + ":" + os.path.basename(bench)
+            else:
+                hwname = bench
+
             options.update({
                 'file': '@{}'.format(archive_name),
-                'hwname': bench,
-                'mode': conf['mode'],
+                'hwname': hwname,
+                'mode': conf.mode,
             })
 
-            if conf['estimate']:
+            if conf.estimate:
                 options['estimate'] = '1'
             else:
                 options['skipexec'] = '0'
@@ -106,7 +119,8 @@ def batch_and_upload(benchmark_paths, conf, pretend):
             failed_paths.append(bench)
 
     # Choose a "name" for the batch and print it to stdout.
-    batch_name = datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+    batch_name = (conf.prefix if conf.prefix else "") + \
+        datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
     batch_dir = os.path.join(common.OUT_DIR, batch_name)
 
     print(batch_dir)
@@ -133,7 +147,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Submit Buildbot jobs.')
 
     # Dry run mode
-    parser.add_argument('-p', '--pretend',
+    parser.add_argument('-n', '--dry-run',
                         help="just print jobs (don't submit anything)",
                         action='store_true', dest='pretend')
 
@@ -145,11 +159,19 @@ if __name__ == '__main__':
                         help='Execution mode for F1.',
                         type=valid_mode, default='hw')
 
+    # Prefix for batch
+    parser.add_argument('-p', '--prefix',
+                        help='Strip basename of directories and add prefix to job names', dest='prefix', default=None)
+
     # Benchmarks to run
     parser.add_argument('bench', nargs='+')
 
     opts = parser.parse_args()
 
     common.logging_setup()
-    conf = { 'estimate': opts.estimate, 'mode': opts.mode }
+    conf = Config(
+        estimate=opts.estimate,
+        mode=opts.mode,
+        prefix=opts.prefix,
+    )
     batch_and_upload(opts.bench, conf, opts.pretend)
