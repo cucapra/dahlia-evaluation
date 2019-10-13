@@ -26,7 +26,7 @@ HOST_SRCS += $(xcl2_SRCS)
 
 # Host compiler global settings
 CXXFLAGS  += -fmessage-length=0
-LDFLAGS   += -lrt -lstdc++ 
+LDFLAGS   += -lrt -lstdc++
 
 # The OCL compiler.
 XOCC  := $(XILINX_SDX)/bin/xocc
@@ -72,13 +72,13 @@ $(EXECUTABLE): $(HOST_SRCS) $(HOST_HDRS)
 	$(CXX) $(CXXFLAGS) $(HOST_SRCS) $(HOST_HDRS) -o '$@' $(LDFLAGS)
 
 # Check for host
-checkhost: all 
+checkhost: all
 	sudo sh -c 'source /opt/xilinx/xrt/setup.sh ; ./$(EXECUTABLE)'
 
 # Cleaning stuff
 .PHONY: clean cleanall
 clean:
-	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*} 
+	-$(RMDIR) $(EXECUTABLE) $(XCLBIN)/{*sw_emu*,*hw_emu*}
 	-$(RMDIR) sdaccel_* TempConfig system_estimate.xtxt *.rpt
 	-$(RMDIR) ./*.ll _xocc_* .Xil emconfig.json dltmp* xmltmp* *.log *.jou *.wcfg *.wdb
 
