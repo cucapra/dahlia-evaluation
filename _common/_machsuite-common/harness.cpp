@@ -39,7 +39,7 @@ int main(int argc, char **argv)
   in_fd = open( in_file, O_RDONLY );
   assert( in_fd>0 && "Couldn't open input data file");
   input_to_data(in_fd, data);
-  
+
   struct perf_counter_t sw_ctr;
   perf_reset(&sw_ctr);
   perf_start(&sw_ctr);
