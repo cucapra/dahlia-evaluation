@@ -35,8 +35,11 @@ def generate_all_assignments(template):
         """For every parameter mapping, calculate the length of arrays.
         """
         index_map = []
+        assert isinstance(template, dict), "{} should be a dict mapping filenames to patterns".format(template)
         for file, pats in template.items():
+            assert isinstance(pats, dict), "{} should be a dict mapping parameters to arrays of possible values.".format(pats)
             for pat, assigns in pats.items():
+                assert isinstance(assigns, list), "{} should a list of possible values.".format(assigns)
                 index_map.append(len(assigns))
 
         return index_map
