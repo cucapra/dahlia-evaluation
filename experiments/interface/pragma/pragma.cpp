@@ -9,7 +9,7 @@ extern "C"
     #pragma HLS INTERFACE s_axilite port = A bundle = control
     #pragma HLS INTERFACE s_axilite port = return bundle = control
 
-    #pragma HLS ARRAY_PARTITION variable = A factor = 4 dim = 1
+    #pragma HLS ARRAY_PARTITION variable = A cyclic factor = 4 dim = 1
 
     for (int i = 0; i < 1024; i++) {
       out[0] += A[i];
