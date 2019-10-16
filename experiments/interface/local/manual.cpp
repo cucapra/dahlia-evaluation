@@ -10,7 +10,7 @@ extern "C"
     #pragma HLS INTERFACE s_axilite port = return bundle = control
 
     ap_int<32> A_local[1024];
-    #pragma HLS ARRAY_PARTITION variable = A_local factor = 4 dim = 1
+    #pragma HLS ARRAY_PARTITION variable = A_local cyclic factor = 4 dim = 1
 
     for(int j = 0; j < 1024; j++) {
       A_local[j] = A[j];
