@@ -9,7 +9,6 @@ include libs/opencl/opencl.mk
 include libs/xcl2/xcl2.mk
 
 # OCL compilation options.
-MODES := hw
 MODE  := $(MODES)
 DEVICE    := xilinx_vcu1525_dynamic
 TARGET_FREQ  := 250 # clock is set using frequency, using 4ns for testing
@@ -20,9 +19,15 @@ CXXFLAGS  := $(xcl2_CXXFLAGS)
 LDFLAGS   := $(xcl2_LDFLAGS)
 CXXFLAGS  += $(opencl_CXXFLAGS)
 LDFLAGS   += $(opencl_LDFLAGS)
-CXXFLAGS  += -Wall -O0 -g -std=c++14
 
 HOST_SRCS += $(xcl2_SRCS)
+
+# Add helper library
+HOST_SRCS += ${COMMON_REPO}/libs/helpers/helpers.cpp
+CXXFLAGS += -I${COMMON_REPO}/libs/helpers
+
+# Compiler flags
+CXXFLAGS  += -Wall -O0 -g -std=c++14
 
 # Host compiler global settings
 CXXFLAGS  += -fmessage-length=0
@@ -86,10 +91,6 @@ cleanall: clean
 	-$(RMDIR) $(XCLBIN)
 	-$(RMDIR) ./_x
 
-# Debugging targets: submit code to Buildbot as a new job
-.PHONY: submit
-BUILDBOT := http://ec2-54-234-195-6.compute-1.amazonaws.com:5000
 
-submit:
-	zip -r - . | curl -F file='@-;filename=code.zip' -F make=1 -F mode=$(MODE)\
-		$(BUILDBOT)/jobs
+# Print value of a Makefile variable.
+print-%:  ; @echo $* = $($*)
