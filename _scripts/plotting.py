@@ -47,7 +47,7 @@ def plot_n_fields(data):
         if data['fields'] == 4:
             data['ref_3'] = np.append(data['ref_3'], geo_mean(data['ref_3']))
             data['ref_4'] = np.append(data['ref_4'], geo_mean(data['ref_4']))
-    
+
     # Create stuff needed for plotting
     index = np.arange(len(bench_list))
     bar_width = 0.5 if data['fields'] == 1 else 0.4 if data['fields'] == 2 else 0.2 if data['fields'] == 4 else print('Plotting only supports 2 and 4 vectors')
@@ -55,10 +55,10 @@ def plot_n_fields(data):
     font_size = 18
     params = {#'backend'        : 'ps',
               'axes.labelsize' : font_size,
-              'font.size'      : font_size, 
+              'font.size'      : font_size,
               'legend.fontsize': font_size,
               'xtick.labelsize': font_size,
-              'ytick.labelsize': font_size} 
+              'ytick.labelsize': font_size}
     plt.rcParams.update(params)
     bar_offset = [0] if data['fields'] == 1 else [-.5, +.5] if data['fields'] == 2 else [-1.5, -.5, +.5, +1.5] if data['fields'] == 4 else print('Plotting only supports 2 and 4 vectors')
 
@@ -66,18 +66,18 @@ def plot_n_fields(data):
     color = SINGLE_COLOR if data['color'] is None else \
         COLOR[data['color']]
     bar1     = plt.bar(index + bar_offset[0] * bar_width, data['ref_1'] , bar_width, align='center', alpha=opacity, color=color, label=data['bar_labels'][0])
-    
+
     # Plot comparing field 1
     if data['fields'] >= 2:
         bar2     = plt.bar(index + bar_offset[1] * bar_width, data['ref_2'], bar_width, align='center', alpha=opacity, color=COLOR[1], label=data['bar_labels'][1])
-    
+
     if data['fields'] == 4:
         # Plot reference field 2
         bar3 = plt.bar(index + bar_offset[2] * bar_width, data['ref_3'] , bar_width, align='center', alpha=opacity, color=COLOR[2], label=data['bar_labels'][2])
-        
+
         # Plot comparing field 2
         bar4 = plt.bar(index + bar_offset[3] * bar_width, data['ref_4'], bar_width, align='center', alpha=opacity, color=COLOR[3], label=data['bar_labels'][3])
-    
+
     # Plot settings
     #plt.xlabel(data['plot_labels'][1])
     plt.xticks(index, bench_list)
@@ -85,11 +85,11 @@ def plot_n_fields(data):
     if data['color'] is not None:  # Only show legend for colors.
         plt.legend()
     #plt.title(data['plot_labels'][0])
-    
+
     # Create plot and close it after an interval
     plt.gca().yaxis.grid(True)
     if data['base']:
-        plt.gca().axhline(y=data['basepoint'], color='k') 
+        plt.gca().axhline(y=data['basepoint'], color='k')
     plt.tight_layout()
     fig.autofmt_xdate()
     #plt.show(block=False)
@@ -125,7 +125,7 @@ def subplot_n_fields(data):
         if data['fields'] == 4:
             data['ref_3'] = np.append(data['ref_3'], geo_mean(data['ref_3']))
             data['ref_4'] = np.append(data['ref_4'], geo_mean(data['ref_4']))
-    
+
     # Create stuff needed for plotting
     index = np.arange(len(bench_list))
     bar_width = 0.4 if data['fields'] == 2 else 0.2 if data['fields'] == 4 else print('Plotting only supports 2 and 4 vectors')
@@ -133,27 +133,27 @@ def subplot_n_fields(data):
     font_size = 15
     params = {#'backend'        : 'ps',
               'axes.labelsize' : font_size,
-              'font.size'      : font_size, 
+              'font.size'      : font_size,
               'legend.fontsize': font_size,
               'xtick.labelsize': 10,
-              'ytick.labelsize': font_size} 
+              'ytick.labelsize': font_size}
     plt.rcParams.update(params)
 
     # Plot reference field 1
     color = SINGLE_COLOR if data['color'] is None else \
         COLOR[data['color']]
     axs[0, 0].bar(index, data['ref_1'] , bar_width, align='center', alpha=opacity, color=color, label=data['bar_labels'][0])
-    
+
     # Plot comparing field 1
     axs[0, 1].bar(index, data['ref_2'], bar_width, align='center', alpha=opacity, color=COLOR[1], label=data['bar_labels'][1])
-    
+
     if data['fields'] == 4:
         # Plot reference field 2
         axs[1, 0].bar(index, data['ref_3'] , bar_width, align='center', alpha=opacity, color=COLOR[2], label=data['bar_labels'][2])
-        
+
         # Plot comparing field 2
         axs[1, 1].bar(index, data['ref_4'], bar_width, align='center', alpha=opacity, color=COLOR[3], label=data['bar_labels'][3])
-    
+
     # Plot settings
     for ax in axs.flat:
         #ax.set(xlabel=data['plot_labels'][1])
@@ -165,16 +165,16 @@ def subplot_n_fields(data):
         #ax.title(data['plot_labels'][0])
         ax.yaxis.grid(True)
         if data['base']:
-            ax.axhline(y=data['basepoint'], color='k') 
-    
+            ax.axhline(y=data['basepoint'], color='k')
+
     #fig.text(0.5, 0.04, data['plot_labels'][1], ha='center')
     fig.text(0.04, 0.5, data['plot_labels'][2], va='center', rotation='vertical')
     fig.autofmt_xdate()
-    
+
     # Hide x labels and tick labels for top plots and y ticks for right plots.
     #for ax in axs.flat:
         #ax.label_outer()
-    
+
     # Create a figure and save it
     fig.set_figheight(6)
     fig.set_figwidth(12)

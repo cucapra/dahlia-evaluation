@@ -21,6 +21,7 @@ class RPTParser:
 
     @staticmethod
     def _parse_simple_header(line):
+        assert re.search(r'\s*\|', line), 'Simple header line should have | as first non-whitespace character'
         return RPTParser._clean_and_strip(line.split('|'))
 
     @staticmethod
@@ -117,6 +118,9 @@ class RPTParser:
                 if len(row) == len(header)]
 
     def get_table(self, reg, off, multi_header=False):
+        """Parse table `off` lines after `reg` matches the files in the current
+        file.
+        """
         start = 0
         end = 0
         for idx, line in enumerate(self.lines, 1):
@@ -124,5 +128,7 @@ class RPTParser:
                 start = idx + off
                 end = start
                 while(self.lines[end].strip() != ''): end += 1
+
+        assert end > start, "Failed to find table start."
 
         return self._parse_table(self.lines[start:end], multi_header)

@@ -12,7 +12,7 @@ def buildbot_url():
     """Get the base URL for the Buildbot. We have a default, and it can
     be overridden with the `BUILDBOT` environment variable.
     """
-    return os.environ.get('BUILDBOT', 'http://gorgonzola.cs.cornell.edu:8000')
+    return os.environ.get('BUILDBOT', 'http://cerberus.cs.cornell.edu:5000')
 
 
 @contextmanager
