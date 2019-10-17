@@ -1,4 +1,6 @@
 import re
+import csv
+import json
 import xml.etree.ElementTree as ET
 
 from rpt import RPTParser
@@ -48,6 +50,9 @@ def _find_row(table, key, value):
 
 
 def hls_report(filepath):
+    """Parse a file of the format:
+    http://cerberus.cs.cornell.edu:5000/jobs/F5sSE_bfhVQ/files/code/_x/gemm.hw.xilinx_aws-vu9p-f1-04261818_dynamic_5_0/gemm/gemm/solution/syn/report/gemm_csynth.rpt
+    """
     parser = RPTParser(filepath)
 
     timing_table = parser.get_table(
@@ -140,3 +145,41 @@ def log_messages(filepath):
                 if pat in line:
                     out[key] = True
     return out
+
+
+def get_number(string):
+    """Given a string of the form 'dddd [xxxx]', return the string 'dddd'
+    """
+    m = re.search(r'\s*(\d+).*', string)
+    assert m and m[1], 'Failed to cleanup {}.'.format(string)
+    return m[1]
+
+
+def util_routed_report(filepath):
+    """Extract file of the form:
+    http://cerberus.cs.cornell.edu:5000/jobs/F5sSE_bfhVQ/files/code/_x/reports/link/imp/kernel_util_routed.rpt
+    """
+    parser = RPTParser(filepath)
+
+    util_table = parser.get_table(
+        re.compile(r'.*SDx System Utilization'), 2)
+
+    # Row for resource usages
+    usages = _find_row(util_table, 'Name', 'Used Resources')
+    usage_counts = { k.lower() + '_used': get_number(v) for k, v in usages.items() if k.lower() != 'name' }
+
+    # Row for available resources
+    avail = _find_row(util_table, 'Name', 'User Budget')
+    avail_counts = { k.lower() + '_avail': get_number(v) for k, v in avail.items() if k.lower() != 'name' }
+
+    return { **avail_counts, **usage_counts }
+
+
+def runtime_log(filepath):
+    """Extract runtime logs of the form:
+    http://cerberus.cs.cornell.edu:5000/jobs/F5sSE_bfhVQ/files/code/runtime.log
+    """
+    fieldnames = ('iteration', 'time(ms)')
+    with open(filepath) as f:
+        csvfile = csv.DictReader(f, fieldnames, delimiter=',')
+        return list(csvfile)

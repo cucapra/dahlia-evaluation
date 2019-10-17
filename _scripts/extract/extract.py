@@ -5,56 +5,20 @@ import sys
 import logging
 import json
 import requests
-import re
 
+import collect_configs
+
+sys.path.insert(0, '../') # To allow importing from parent.
 import common
-import extracting
-
-# Instructions for data collection and extraction. In each, `file` is
-# the path to a file to download and analyze. `collect` is a function to
-# call on the downloaded file, which should return JSON-serializable
-# information to include in the results. `key` is the key to use in the
-# result data.
-
-# This one is the output of *estimation*, which runs on the complete
-# design (not just a single kernel). It appears to happen *after* HLS.
-# It only happens on estimation runs; not on full synthesis runs.
-COLLECT_EST = {
-    'key': 'est',
-    'file': 'code/_sds/est/perf.est',
-    'collect': extracting.performance_estimates,
-}
-
-# This one is the report from HLS-compiling the kernel source code to
-# RTL. It seems to exist regardless of whether we're doing estimation. The
-# filename here needs to be filled in by searching the file list.
-COLLECT_HLS = {
-    'key': 'hls',
-    'file': None,
-    'collect': extracting.hls_report,
-}
-
-# The *overall* report from synthesis. Only available on full runs (not
-# estimation). Available in non-estimation SDSoC runs and Vivado HLS runs where
-# the tool is configured to run full synthesis, not just HLS itself.
-COLLECT_FULL = {
-    'key': 'full',
-    'file': 'code/_sds/reports/sds.rpt',
-    'collect': extracting.sds_report,
-}
-
-# Just check for various messages in the job log.
-COLLECT_LOG = {
-    'key': 'log',
-    'file': 'log.txt',
-    'collect': extracting.log_messages,
-}
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
-KERNEL_LIST = ['aes','backprop','bfs','fft','gemm','kmp','md','nw','sort','spmv','stencil','viterbi']
+# The list of files to download and extract.
+STATIC_COLLECTIONS = [collect_configs.COLLECT_UTIL_ROUTED, collect_configs.COLLECT_RUNTIME]
+DYN_COLLECTIONS = [collect_configs.COLLECT_HLS]
+
 
 def _download(url, path, chunk_size=4096):
     """Download the file at `url` to `path`.
@@ -96,24 +60,35 @@ def download_files(base_dir, job_id, file_config):
     job_path = os.path.join(base_dir, job_id)
     os.makedirs(job_path, exist_ok=True)
 
-    logging.info("Extracting files for {} in {}".format(job_id, job_path))
+    logging.info(
+        "Extracting files for {} in {} for collections {}.".format(
+            job_id,
+            job_path,
+            ', '.join(map(lambda conf: conf.key, file_config))))
 
     for conf in file_config:
         url = '{}/jobs/{}/files/{}'.format(
             common.buildbot_url(),
             job_id,
-            conf['file'],
+            conf.file,
         )
-        local_name = os.path.join(job_path, os.path.basename(conf['file']))
+        local_name = os.path.join(job_path, os.path.basename(conf.file))
         try:
             _download(url, local_name)
         except requests.HTTPError as exc:
             success = False
             logging.error(
                 'Failed to download {} for job {}: {}'.format(
-                    conf['file'], job_id, exc))
+                    conf.file, job_id, exc))
         else:
-            out_data[conf['key']] = conf['collect'](local_name)
+            try:
+                out_data[conf.key] = conf.collect(local_name)
+            except Exception as err:
+                success = False
+                logging.error(
+                    'Failed to parse {} for job {}.'.format(
+                        conf.file, job_id))
+                logging.error(err)
 
     return success, out_data
 
@@ -134,7 +109,6 @@ def extract_job(batch_dir, job_id):
         'job': job,
         'bench': hwname,
     }
-    kernel = re.split('/|-',hwname)[2]
 
     if job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
@@ -143,61 +117,30 @@ def extract_job(batch_dir, job_id):
             'error': 'job in state {}'.format(job['state']),
         })
 
+    # Collections for this job
+    collections = list(STATIC_COLLECTIONS)
+    dynamic_collections = list(DYN_COLLECTIONS)
+
     # Get the list of files for the job.
     files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
     with requests.get(files_url) as res:
         res.raise_for_status()
         file_list = res.json()
 
-    # The list of files to download and extract.
-    collections = [COLLECT_LOG]
-
-    # TODO Restore collection for SDSoC.
-    # if estimate:
-    #     collections += [COLLECT_EST]
-    # else:
-    #     collections += [COLLECT_FULL]
-
-    # Find the name of the HLS report, which exists for both Vivado HLS jobs
-    # and SDSoC jobs---but in different locations!
+    # Find paths for dynamic collections.
     for file_path in file_list:
-        m = re.search(r'/reports/sds_(\w+).rpt', file_path)
-        if m and m.group(1) != 'main':
-            hls_rpt_path = file_path
-            break
-        m = re.search(r'/report/(\w+)_csynth.rpt', file_path)
-        if m and m.group(1) in KERNEL_LIST:
-            hls_rpt_path = file_path
-            break
-    else:
-        logging.error('HLS report not found for job %s', job_id)
-        hls_rpt_path = None
+        for idx, collect in enumerate(dynamic_collections):
+            if not isinstance(collect.file, str) and collect.file(file_path):
+                dynamic_collections.pop(idx)
+                collections.append(collect_configs.CollectConfig(
+                    key=collect.key,
+                    file=collect.file(file_path),
+                    collect=collect.collect,
+                ))
 
-    # Collect the HLS report, if available.
-    if hls_rpt_path:
-        collect_hls = dict(COLLECT_HLS)
-        collect_hls['file'] = hls_rpt_path
-        collections.append(collect_hls)
-
-    # In *non-estimate* Vivado HLS runs only, look for the full
-    # synthesis report.
-    # FIXME: Don't do this for SDSoC runs, wherein the report lives in
-    # `sds.rpt`.
-    if not job['estimate']:
-        for file_path in file_list:
-            if re.search(r'/verilog/report/(\w+)_utilization_synth.rpt',
-                         file_path):
-                synth_rpt_path = file_path
-                break
-        else:
-            logging.error('Synthesis report not found for job %s', job_id)
-            synth_rpt_path = None
-
-        # Collect the HLS synthesis report, if available.
-        if synth_rpt_path:
-            collect_synth = dict(COLLECT_FULL)
-            collect_synth['file'] = synth_rpt_path
-            collections.append(collect_synth)
+    # Errors for dynamic_collections that didn't find matching file_paths.
+    for collect in dynamic_collections:
+        logging.error("Failed to find file for collection '%s' in job %s", collect.key, job_id)
 
     # Download files and extract results.
     success, res_data = download_files(
@@ -205,6 +148,7 @@ def extract_job(batch_dir, job_id):
         job_id,
         collections,
     )
+
     out['results'] = res_data
     if out['ok'] and not success:
         logging.error('Some data extraction failed.')
