@@ -14,7 +14,11 @@ DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
 # The list of files to download and extract.
-STATIC_COLLECTIONS = [collect_configs.COLLECT_UTIL_ROUTED, collect_configs.COLLECT_RUNTIME]
+STATIC_COLLECTIONS = [
+    collect_configs.COLLECT_UTIL_ROUTED,
+    collect_configs.COLLECT_RUNTIME,
+    collect_configs.COLLECT_DSE_TEMPLATE,
+]
 DYN_COLLECTIONS = [collect_configs.COLLECT_HLS]
 
 

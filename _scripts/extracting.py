@@ -183,3 +183,7 @@ def runtime_log(filepath):
     with open(filepath) as f:
         csvfile = csv.DictReader(f, fieldnames, delimiter=',')
         return list(csvfile)
+
+def json_report(filepath):
+    with open(filepath) as f:
+        return json.load(f)
