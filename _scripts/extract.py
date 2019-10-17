@@ -7,8 +7,6 @@ import json
 import requests
 
 import collect_configs
-
-sys.path.insert(0, '../') # To allow importing from parent.
 import common
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
