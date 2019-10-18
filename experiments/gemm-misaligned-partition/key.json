@@ -1,0 +1,3 @@
+{
+  "partition": "results:dse_template:gemm.cpp:PARTITION"
+}
