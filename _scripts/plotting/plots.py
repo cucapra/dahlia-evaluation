@@ -189,7 +189,7 @@ def plot_resources(data, results_json):
 
     if data[0]['estimate']:
         if hasattr(data[0], 'est_lut'):
-    # Plot EST LUTs and FFs
+            # Plot EST LUTs and FFs
             plot_data = {
                 'benches'    : baseline_bench_list,
                 'fields'     : 4,
@@ -207,23 +207,23 @@ def plot_resources(data, results_json):
             plot_n_fields(plot_data)
 
     # Plot EST BRAMs and DSPs
-            plot_data = {
-                'benches'    : baseline_bench_list,
-                'fields'     : 4,
-                'mean'       : 0,
-                'base'       : False,
-                'color'      : 0,
-                'ref_1'      : baseline_est_bram,
-                'ref_2'      : rewrite_est_bram,
-                'ref_3'      : baseline_est_dsp,
-                'ref_4'      : rewrite_est_dsp,
-                'bar_labels' : ['HLS C++ BRAMs', 'Fuse BRAMs', 'HLS C++ DSPs', 'Fuse DSPs'],
-                'plot_labels': ['MachSuite BRAMs and DSPs Estimates','Benchmarks','BRAMs and DSPs from HLS'],
-                'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_est_brams-dsps.pdf')
-            }
-            plot_n_fields(plot_data)
+    plot_data = {
+        'benches'    : baseline_bench_list,
+        'fields'     : 4,
+        'mean'       : 0,
+        'base'       : False,
+        'color'      : 0,
+        'ref_1'      : baseline_est_bram,
+        'ref_2'      : rewrite_est_bram,
+        'ref_3'      : baseline_est_dsp,
+        'ref_4'      : rewrite_est_dsp,
+        'bar_labels' : ['HLS C++ BRAMs', 'Fuse BRAMs', 'HLS C++ DSPs', 'Fuse DSPs'],
+        'plot_labels': ['MachSuite BRAMs and DSPs Estimates','Benchmarks','BRAMs and DSPs from HLS'],
+        'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_est_brams-dsps.pdf')
+    }
+    plot_n_fields(plot_data)
     else:
-    # Plot FULL LUTs and FFs
+        # Plot FULL LUTs and FFs
         plot_data = {
             'benches'    : baseline_bench_list,
             'fields'     : 4,
@@ -241,21 +241,21 @@ def plot_resources(data, results_json):
         plot_n_fields(plot_data)
 
     # Plot FULL BRAMs and DSPs
-        plot_data = {
-            'benches'    : baseline_bench_list,
-            'fields'     : 4,
-            'mean'       : 0,
-            'base'       : False,
-            'color'      : 0,
-            'ref_1'      : baseline_full_bram,
-            'ref_2'      : rewrite_full_bram,
-            'ref_3'      : baseline_full_dsp,
-            'ref_4'      : rewrite_full_dsp,
-            'bar_labels' : ['HLS C++ BRAMs', 'Fuse DSPs', 'HLS C++ BRAMs', 'Fuse DSPs'],
-            'plot_labels': ['MachSuite BRAMs and DSPs','Benchmarks','BRAMs and DSPs from synthesis'],
-            'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_brams-dsps.pdf')
-        }
-        plot_n_fields(plot_data)
+    plot_data = {
+        'benches'    : baseline_bench_list,
+        'fields'     : 4,
+        'mean'       : 0,
+        'base'       : False,
+        'color'      : 0,
+        'ref_1'      : baseline_full_bram,
+        'ref_2'      : rewrite_full_bram,
+        'ref_3'      : baseline_full_dsp,
+        'ref_4'      : rewrite_full_dsp,
+        'bar_labels' : ['HLS C++ BRAMs', 'Fuse DSPs', 'HLS C++ BRAMs', 'Fuse DSPs'],
+        'plot_labels': ['MachSuite BRAMs and DSPs','Benchmarks','BRAMs and DSPs from synthesis'],
+        'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_brams-dsps.pdf')
+    }
+    plot_n_fields(plot_data)
 
     # Normalized vectors
     norm_hls_lut   = np.asarray(rewrite_hls_lut)  /np.asarray(baseline_hls_lut)
@@ -279,7 +279,7 @@ def plot_resources(data, results_json):
         norm_full_ff_wavg = np.append(norm_full_ff, avg(rewrite_full_ff, baseline_full_ff))
         norm_full_bram_wavg = np.append(norm_full_bram, avg(rewrite_full_bram, baseline_full_bram))
         norm_full_dsp_wavg = np.append(norm_full_dsp, avg(rewrite_full_dsp, baseline_full_dsp))
-        
+
     # Plot normalized rewrite hls resources
     plot_data = {
         'benches'    : baseline_bench_list_wavg,
@@ -316,7 +316,7 @@ def plot_resources(data, results_json):
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_normalized.pdf')
         }
         subplot_n_fields(plot_data)
-        
+
         plot_data = {
             'benches'    : baseline_bench_list_wavg,
             'fields'     : 1,
@@ -330,7 +330,7 @@ def plot_resources(data, results_json):
             'figure_name': os.path.join(os.path.dirname(results_json),'machsuite_normalized_luts.pdf')
         }
         plot_n_fields(plot_data)
-    
+
     # Absolute Differential vectors
     absdiff_hls_lut   = abs_diff(rewrite_hls_lut , baseline_hls_lut , 1)
     absdiff_hls_ff    = abs_diff(rewrite_hls_ff  , baseline_hls_ff  , 1)
@@ -341,22 +341,22 @@ def plot_resources(data, results_json):
         absdiff_full_ff   = abs_diff(rewrite_full_ff  , baseline_full_ff  , 1)
         absdiff_full_bram = abs_diff(rewrite_full_bram, baseline_full_bram, 1)
         absdiff_full_dsp  = abs_diff(rewrite_full_dsp , baseline_full_dsp , 1)
-    
+
     # Edit vectors for missing and error benches
     """
     bench_list  = [r['bench']  for r in data ]
     status_list = [r['status'] for r in data ]
     for index, r in enumerate(bench_list):
         if status_list[index] is not 'ok':
-            absdiff_hls_lut[index//2] = 0   
-            absdiff_hls_ff[index//2] = 0   
-            absdiff_hls_bram[index//2] = 0   
-            absdiff_hls_dsp[index//2] = 0   
+            absdiff_hls_lut[index//2] = 0
+            absdiff_hls_ff[index//2] = 0
+            absdiff_hls_bram[index//2] = 0
+            absdiff_hls_dsp[index//2] = 0
             if not data[0]['estimate']:
-                absdiff_full_lut[index//2] = 0   
-                absdiff_full_ff[index//2] = 0   
-                absdiff_full_bram[index//2] = 0   
-                absdiff_full_dsp[index//2] = 0   
+                absdiff_full_lut[index//2] = 0
+                absdiff_full_ff[index//2] = 0
+                absdiff_full_bram[index//2] = 0
+                absdiff_full_dsp[index//2] = 0
     """
 
     # Plot absolute differential rewrite hls resources
@@ -511,22 +511,22 @@ def plot_resources(data, results_json):
         propdiff_full_ff   = prop_diff(rewrite_full_ff  , baseline_full_ff)
         propdiff_full_bram = prop_diff(rewrite_full_bram, baseline_full_bram)
         propdiff_full_dsp  = prop_diff(rewrite_full_dsp , baseline_full_dsp)
-    
+
     # Edit vectors for missing and error benches
     """
     bench_list  = [r['bench']  for r in data ]
     status_list = [r['status'] for r in data ]
     for index, r in enumerate(bench_list):
         if status_list[index] is not 'ok':
-            propdiff_hls_lut[index//2] = 0   
-            propdiff_hls_ff[index//2] = 0   
-            propdiff_hls_bram[index//2] = 0   
-            propdiff_hls_dsp[index//2] = 0   
+            propdiff_hls_lut[index//2] = 0
+            propdiff_hls_ff[index//2] = 0
+            propdiff_hls_bram[index//2] = 0
+            propdiff_hls_dsp[index//2] = 0
             if not data[0]['estimate']:
-                propdiff_full_lut[index//2] = 0   
-                propdiff_full_ff[index//2] = 0   
-                propdiff_full_bram[index//2] = 0   
-                propdiff_full_dsp[index//2] = 0   
+                propdiff_full_lut[index//2] = 0
+                propdiff_full_ff[index//2] = 0
+                propdiff_full_bram[index//2] = 0
+                propdiff_full_dsp[index//2] = 0
     """
 
     # Plot proportional differential rewrite hls resources
@@ -599,7 +599,7 @@ def plot_latencies(data, results_json):
 
     # Normalized vectors
     norm_hls_maxlat  = np.asarray(rewrite_hls_maxlat)  /np.asarray(baseline_hls_maxlat)
-    
+
     baseline_bench_list_wavg = baseline_bench_list + ['average']
     norm_hls_maxlat_wavg = np.append(norm_hls_maxlat, avg(rewrite_hls_maxlat, baseline_hls_maxlat))
     # Plot normalized rewrite hls resources
@@ -630,7 +630,7 @@ def plot(results_json):
         print('{} is missing'.format(missing))
         missing_data = {
             'bench':missing,
-    	    'version':SELECT_BENCHES[1],
+            'version':SELECT_BENCHES[1],
             'status':'missing',
         }
         data.append(dummy_data(missing_data))
@@ -641,7 +641,7 @@ def plot(results_json):
 
     # Sort to group benchmarks together.
     data.sort(key=lambda r: (r['bench'], r['version']))
-    
+
     # Plot resources.
     plot_resources(data, results_json)
     plot_latencies(data, results_json)
