@@ -113,8 +113,20 @@ def gen_dse(bench, force):
         with open(template_path) as f:
             template = json.load(f)
 
+        always_true = "lambda _: True"
+        # Get filering rule if it exists
+        filt = eval(template.pop("FILTER", always_true))
+
+        count = 0
         for assign in generate_all_assignments(template):
-            gen_updated_directory(bench_abs, template, assign, force)
+            full_assign = get_assignment(template, assign)
+            if filt(full_assign):
+                gen_updated_directory(bench_abs, template, assign, force)
+                count = count + 1
+            else:
+                common.logging.warn('Ignoring configuration because filter was false on: {}'.format(full_assign))
+
+        common.logging.info('Generated {} configurations.'.format(count))
 
     except AssertionError as err:
         common.logging.error(err)
