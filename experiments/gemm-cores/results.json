@@ -411,6 +411,119 @@
       ]
     }
   },
+  "cw2foeLpl80": {
+    "bench": "baseline:gemm-baseline",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "baseline:gemm-baseline",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "cw2foeLpl80",
+      "platform": "zed",
+      "started": 1571415208.4117007,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        }
+      },
+      "hls": {
+        "bram_used": 89,
+        "dsp48_used": 4,
+        "estimated_clock": 2.92,
+        "ff_used": 2132,
+        "lut_used": 2172,
+        "max_latency": 2146329,
+        "min_latency": 2146329,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "44",
+        "dsp_avail": "6837",
+        "dsp_used": "3",
+        "lut_avail": "1024102",
+        "lut_used": "1535",
+        "lutmem_avail": "578911",
+        "lutmem_used": "137",
+        "reg_avail": "2142012",
+        "reg_used": "2642",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.4353"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.4109"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.4158"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.4068"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.4204"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.4047"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.4163"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.4233"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.4198"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.4104"
+        }
+      ]
+    }
+  },
   "gmd8hSIcad4": {
     "bench": "gemm-cores:gemm-5",
     "job": {
