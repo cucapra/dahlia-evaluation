@@ -1,8 +1,9 @@
- status,       resource,             bench, bram_used, dsp_used, lut_used, lutmem_used, reg_used, uram_used,        runtime_avg,          runtime_std
-     ok,    RAM_1P_BRAM, gemm-cores:gemm-0,        49,       24,     1747,         125,     3183,         0, 10.932330000000002,  0.01161335868730511
-     ok,  RAM_1P_LUTRAM, gemm-cores:gemm-1,         1,       24,    27994,       24701,     3571,         0, 10.942359999999999, 0.008204657214046316
-     ok,    RAM_2P_BRAM, gemm-cores:gemm-2,        49,       24,     1785,         125,     3069,         0,           6.746562, 0.010435499796368056
-     ok,  RAM_2P_LUTRAM, gemm-cores:gemm-3,         1,       24,    50426,       43137,     4428,         0,           6.747184, 0.008981686033256907
-     ok,   RAM_S2P_BRAM, gemm-cores:gemm-4,        49,       24,     1697,         125,     3185,         0, 10.929799999999998, 0.012509036733497824
-     ok, RAM_S2P_LUTRAM, gemm-cores:gemm-5,         1,       24,    39808,       30845,     4609,         0,           10.94222,   0.0116743993421503
-     ok,   RAM_T2P_BRAM, gemm-cores:gemm-6,        49,       24,     1815,         125,     3040,         0,  6.738352999999999, 0.012500901607484263
+status,resource,bench,bram_used,dsp_used,lut_used,lutmem_used,reg_used,uram_used,runtime_avg,runtime_std
+ok,,baseline:gemm-baseline,44,3,1535,137,2642,0,10.416369999999999,0.008532531863403687
+ok,RAM_1P_BRAM,gemm-cores:gemm-0,49,24,1747,125,3183,0,10.932330000000002,0.01161335868730511
+ok,RAM_1P_LUTRAM,gemm-cores:gemm-1,1,24,27994,24701,3571,0,10.942359999999999,0.008204657214046316
+ok,RAM_2P_BRAM,gemm-cores:gemm-2,49,24,1785,125,3069,0,6.746562,0.010435499796368056
+ok,RAM_2P_LUTRAM,gemm-cores:gemm-3,1,24,50426,43137,4428,0,6.747184,0.008981686033256907
+ok,RAM_S2P_BRAM,gemm-cores:gemm-4,49,24,1697,125,3185,0,10.929799999999998,0.012509036733497824
+ok,RAM_S2P_LUTRAM,gemm-cores:gemm-5,1,24,39808,30845,4609,0,10.94222,0.0116743993421503
+ok,RAM_T2P_BRAM,gemm-cores:gemm-6,49,24,1815,125,3040,0,6.738352999999999,0.012500901607484263
