@@ -1,0 +1,9 @@
+{
+  "gemm.cpp": {
+    "PARTITION1": [1,2,4],
+    "PARTITION2": [1,2,4],
+    "UNROLL1": [1,2,4],
+    "UNROLL2": [1,2,4]
+  },
+  "FILTER": "lambda self: self['gemm.cpp']['PARTITION1'] != self['gemm.cpp']['PARTITION2'] and self['gemm.cpp']['UNROLL1'] != self['gemm.cpp']['UNROLL2'] and self['gemm.cpp']['PARTITION1'] * self['gemm.cpp']['PARTITION2'] == self['gemm.cpp']['UNROLL1'] * self['gemm.cpp']['UNROLL2']"
+}
