@@ -1,0 +1,13 @@
+{
+  "gemm.cpp": {
+    "RESOURCE": [
+      "RAM_1P_BRAM",
+      "RAM_1P_LUTRAM",
+      "RAM_2P_BRAM",
+      "RAM_2P_LUTRAM",
+      "RAM_S2P_BRAM",
+      "RAM_S2P_LUTRAM",
+      "RAM_T2P_BRAM"
+    ]
+  }
+}
