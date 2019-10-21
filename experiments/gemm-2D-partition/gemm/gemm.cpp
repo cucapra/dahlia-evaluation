@@ -16,10 +16,10 @@ extern "C" {
     #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
     TYPE m2_local[ROW_SIZE][COL_SIZE];
     #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = ::PARTITION1:: dim = 1
-    #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
+    #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = ::PARTITION2:: dim = 2
     TYPE prod_local[ROW_SIZE][COL_SIZE];
     #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = ::PARTITION1:: dim = 1
-    #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
+    #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = ::PARTITION2:: dim = 2
 
     // Copy data to local buffers
     for(int l = 0; l < ROW_SIZE; l++) {
