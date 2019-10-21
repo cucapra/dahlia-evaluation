@@ -42,3 +42,5 @@ __pycache__
 _sds
 *.swp
 .bit
+
+.ipynb_checkpoints/
