@@ -1,0 +1,8 @@
+{
+  "gemm.cpp": {
+    "UNROLL1": [2, 4, 8],
+    "UNROLL2": [2, 4, 8],
+    "PARTITION": [4, 8, 16, 32, 64]
+  },
+  "FILTER": "lambda s: s['gemm.cpp']['UNROLL1'] * s['gemm.cpp']['UNROLL2'] == s['gemm.cpp']['PARTITION']"
+}
