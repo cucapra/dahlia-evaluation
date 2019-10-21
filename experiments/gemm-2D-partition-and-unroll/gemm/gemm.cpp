@@ -16,10 +16,10 @@ extern "C" {
     #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
     TYPE m2_local[ROW_SIZE][COL_SIZE];
     #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = ::PARTITION1:: dim = 1
-    #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
+    #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = ::PARTITION2:: dim = 2
     TYPE prod_local[ROW_SIZE][COL_SIZE];
     #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = ::PARTITION1:: dim = 1
-    #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = ::PARTITION2:: dim = 2
+    #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = ::PARTITION2:: dim = 2
 
     // Copy data to local buffers
     for(int l = 0; l < ROW_SIZE; l++) {
@@ -33,10 +33,10 @@ extern "C" {
     TYPE sum;
     for(int i=0; i < ROW_SIZE; i++) {
       for(int j=0; j < COL_SIZE; j++) {
-          #pragma HLS unroll factor = ::UNROLL1::
+        #pragma HLS unroll factor = ::UNROLL2::
         sum = 0;
         for(int k=0; k<ROW_SIZE; k++) {
-          #pragma HLS unroll factor = ::UNROLL2::
+          #pragma HLS unroll factor = ::UNROLL1::
           sum += m1_local[i][k] * m2_local[k][j];
         }
         prod_local[i][j] = sum;

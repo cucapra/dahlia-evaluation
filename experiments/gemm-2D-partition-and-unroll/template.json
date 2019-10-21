@@ -1,6 +1,0 @@
-{
-  "gemm.cpp": {
-    "PARTITION1": [1,2,4],
-    "PARTITION2": [1,2,4]
-  }
-}
