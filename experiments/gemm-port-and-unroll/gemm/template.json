@@ -1,0 +1,9 @@
+{
+  "gemm.cpp": {
+    "UNROLL": [1,2,3,4],
+    "RESOURCE": [
+      "RAM_1P_BRAM",
+      "RAM_2P_BRAM"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "unroll": "results:dse_template:gemm.cpp:UNROLL",
+  "unroll": "results:dse_template:gemm.cpp:RESOURCE",
+}
