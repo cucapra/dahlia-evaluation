@@ -13,10 +13,13 @@ extern "C" {
     // Local partitioned buffers
     TYPE m1_local[N];
     #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = 8 dim = 1
+    #pragma HLS resource variable=m1_local core = RAM_1P_BRAM
     TYPE m2_local[N];
     #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = 8 dim = 1
+    #pragma HLS resource variable=m2_local core = RAM_1P_BRAM
     TYPE prod_local[N];
     #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = 8 dim = 1
+    #pragma HLS resource variable=prod_local core = RAM_1P_BRAM
 
     // Copy data to local buffers
     for(int l = 0; l < N; l++) {
