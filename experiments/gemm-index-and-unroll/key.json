@@ -1,3 +1,5 @@
 {
-  "partition": "results:dse_template:gemm.cpp:PARTITION"
+  "partition": "results:dse_template:gemm.cpp:PARTITION",
+  "unroll1": "results:dse_template:gemm.cpp:UNROLL1",
+  "unroll2": "results:dse_template:gemm.cpp:UNROLL2"
 }

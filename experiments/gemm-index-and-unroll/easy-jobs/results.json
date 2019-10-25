@@ -1,0 +1,947 @@
+{
+  "2Ps6Wg8YPIc": {
+    "bench": "index-easy:gemm-1-1-2",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-1-1-2",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "2Ps6Wg8YPIc",
+      "platform": "zed",
+      "started": 1571679013.8280675,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 16,
+          "UNROLL1": 4,
+          "UNROLL2": 4
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 64,
+        "estimated_clock": 2.92,
+        "ff_used": 8050,
+        "lut_used": 10995,
+        "max_latency": 2265112,
+        "min_latency": 2265112,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "48",
+        "lut_avail": "1024119",
+        "lut_used": "4247",
+        "lutmem_avail": "578911",
+        "lutmem_used": "128",
+        "reg_avail": "2142006",
+        "reg_used": "4633",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.9185"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8967"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8803"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.878"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8798"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.8872"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8919"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8791"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8809"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8838"
+        }
+      ]
+    }
+  },
+  "6N2YdWsCN3o": {
+    "bench": "index-easy:gemm-2-1-3",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-2-1-3",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "6N2YdWsCN3o",
+      "platform": "zed",
+      "started": 1571679014.4278533,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 32,
+          "UNROLL1": 8,
+          "UNROLL2": 4
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 128,
+        "estimated_clock": 2.92,
+        "ff_used": 12949,
+        "lut_used": 26120,
+        "max_latency": 2269208,
+        "min_latency": 2269208,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "96",
+        "lut_avail": "1024074",
+        "lut_used": "6450",
+        "lutmem_avail": "578911",
+        "lutmem_used": "129",
+        "reg_avail": "2142006",
+        "reg_used": "6299",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.9343"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8999"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8954"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.8949"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8937"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.9"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.9012"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8936"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8932"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8949"
+        }
+      ]
+    }
+  },
+  "J1jxLk8VKXc": {
+    "bench": "index-easy:gemm-0-2-2",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-0-2-2",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "J1jxLk8VKXc",
+      "platform": "zed",
+      "started": 1571679013.4226975,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 16,
+          "UNROLL1": 2,
+          "UNROLL2": 8
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 64,
+        "estimated_clock": 2.92,
+        "ff_used": 8377,
+        "lut_used": 12121,
+        "max_latency": 2246680,
+        "min_latency": 2246680,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "48",
+        "lut_avail": "1024068",
+        "lut_used": "5318",
+        "lutmem_avail": "578911",
+        "lutmem_used": "128",
+        "reg_avail": "2142006",
+        "reg_used": "4745",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.8384"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8011"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8046"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.8004"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8022"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.7985"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8075"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8016"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.7977"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8107"
+        }
+      ]
+    }
+  },
+  "KjqZZ5rogaQ": {
+    "bench": "index-easy:gemm-1-2-3",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-1-2-3",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "KjqZZ5rogaQ",
+      "platform": "zed",
+      "started": 1571679014.0258625,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 32,
+          "UNROLL1": 4,
+          "UNROLL2": 8
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 128,
+        "estimated_clock": 2.92,
+        "ff_used": 14363,
+        "lut_used": 27692,
+        "max_latency": 2263064,
+        "min_latency": 2263064,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "96",
+        "lut_avail": "1024051",
+        "lut_used": "9439",
+        "lutmem_avail": "578911",
+        "lutmem_used": "129",
+        "reg_avail": "2142006",
+        "reg_used": "6892",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.9098"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8792"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.874"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.8628"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.872"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.867"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8837"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8749"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8887"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8768"
+        }
+      ]
+    }
+  },
+  "OmmUJcbeEqI": {
+    "bench": "index-easy:gemm-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "OmmUJcbeEqI",
+      "platform": "zed",
+      "started": 1571679013.22118,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 8,
+          "UNROLL1": 2,
+          "UNROLL2": 4
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 32,
+        "estimated_clock": 2.92,
+        "ff_used": 5051,
+        "lut_used": 5974,
+        "max_latency": 2248728,
+        "min_latency": 2248728,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "24",
+        "lut_avail": "1024033",
+        "lut_used": "2905",
+        "lutmem_avail": "578911",
+        "lutmem_used": "127",
+        "reg_avail": "2142006",
+        "reg_used": "3689",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.848"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8318"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8238"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.8208"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8262"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.8211"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8201"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8161"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8233"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8152"
+        }
+      ]
+    }
+  },
+  "UKVE9GR9RWM": {
+    "bench": "index-easy:gemm-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "UKVE9GR9RWM",
+      "platform": "zed",
+      "started": 1571679013.6216335,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 8,
+          "UNROLL1": 4,
+          "UNROLL2": 2
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 32,
+        "estimated_clock": 2.92,
+        "ff_used": 4892,
+        "lut_used": 5473,
+        "max_latency": 2269208,
+        "min_latency": 2269208,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "24",
+        "lut_avail": "1024093",
+        "lut_used": "2771",
+        "lutmem_avail": "578911",
+        "lutmem_used": "127",
+        "reg_avail": "2142006",
+        "reg_used": "3636",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.9354"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.9203"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.914"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.9007"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8979"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.8951"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.9217"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.9042"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.9079"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.9215"
+        }
+      ]
+    }
+  },
+  "dFFh1emUIbI": {
+    "bench": "index-easy:gemm-2-0-2",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-2-0-2",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "dFFh1emUIbI",
+      "platform": "zed",
+      "started": 1571679014.2268069,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 16,
+          "UNROLL1": 8,
+          "UNROLL2": 2
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 64,
+        "estimated_clock": 2.92,
+        "ff_used": 7378,
+        "lut_used": 10400,
+        "max_latency": 2277400,
+        "min_latency": 2277400,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "48",
+        "lut_avail": "1024101",
+        "lut_used": "3668",
+        "lutmem_avail": "578911",
+        "lutmem_used": "128",
+        "reg_avail": "2142006",
+        "reg_used": "4460",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.9783"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.9354"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.9374"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.9294"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.933"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.93"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.9421"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.9389"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.9368"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.9237"
+        }
+      ]
+    }
+  },
+  "quN4rTXCSec": {
+    "bench": "index-easy:gemm-0-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-0-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "quN4rTXCSec",
+      "platform": "zed",
+      "started": 1571679013.0153835,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 4,
+          "UNROLL1": 2,
+          "UNROLL2": 2
+        }
+      },
+      "hls": {
+        "bram_used": 98,
+        "dsp48_used": 16,
+        "estimated_clock": 2.92,
+        "ff_used": 3423,
+        "lut_used": 3745,
+        "max_latency": 2252824,
+        "min_latency": 2252824,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "49",
+        "dsp_avail": "6837",
+        "dsp_used": "12",
+        "lut_avail": "1024094",
+        "lut_used": "2248",
+        "lutmem_avail": "578911",
+        "lutmem_used": "126",
+        "reg_avail": "2142006",
+        "reg_used": "3159",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.8599"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8268"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8365"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.8324"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.845"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.8329"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8451"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8405"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8442"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.8397"
+        }
+      ]
+    }
+  },
+  "t1SXZsVyI1E": {
+    "bench": "index-easy:gemm-2-2-4",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "index-easy:gemm-2-2-4",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm",
+          "TARGET_FREQ": "250"
+        },
+        "mode": "hw",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "hw",
+      "name": "t1SXZsVyI1E",
+      "platform": "zed",
+      "started": 1571679014.584093,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.cpp": {
+          "PARTITION": 64,
+          "UNROLL1": 8,
+          "UNROLL2": 8
+        }
+      },
+      "hls": {
+        "bram_used": 194,
+        "dsp48_used": 256,
+        "estimated_clock": 2.92,
+        "ff_used": 24075,
+        "lut_used": 77345,
+        "max_latency": 2265112,
+        "min_latency": 2265112,
+        "pipelining": "none",
+        "target_clock": 4.0
+      },
+      "routed_util": {
+        "bram_avail": "1909",
+        "bram_used": "97",
+        "dsp_avail": "6837",
+        "dsp_used": "192",
+        "lut_avail": "1024080",
+        "lut_used": "17099",
+        "lutmem_avail": "578911",
+        "lutmem_used": "130",
+        "reg_avail": "2142006",
+        "reg_used": "11439",
+        "uram_avail": "917",
+        "uram_used": "0"
+      },
+      "runtime": [
+        {
+          "iteration": "iteration",
+          "time(ms)": "time(ms)"
+        },
+        {
+          "iteration": "0",
+          "time(ms)": "10.916"
+        },
+        {
+          "iteration": "1",
+          "time(ms)": "10.8927"
+        },
+        {
+          "iteration": "2",
+          "time(ms)": "10.8826"
+        },
+        {
+          "iteration": "3",
+          "time(ms)": "10.89"
+        },
+        {
+          "iteration": "4",
+          "time(ms)": "10.8829"
+        },
+        {
+          "iteration": "5",
+          "time(ms)": "10.8915"
+        },
+        {
+          "iteration": "6",
+          "time(ms)": "10.8823"
+        },
+        {
+          "iteration": "7",
+          "time(ms)": "10.8872"
+        },
+        {
+          "iteration": "8",
+          "time(ms)": "10.8808"
+        },
+        {
+          "iteration": "9",
+          "time(ms)": "10.885"
+        }
+      ]
+    }
+  }
+}
