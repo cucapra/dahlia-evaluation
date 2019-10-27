@@ -1,5 +1,6 @@
 #include "viterbi.h"
 #include "xcl2.hpp"
+#include "helpers.hpp"
 #include <vector>
 
 void run_benchmark( void *vargs ) {
@@ -14,9 +15,10 @@ void run_benchmark( void *vargs ) {
 
   for (int i=0; i < N_OBS; i++) obs[i] = args->obs[i];
   for (int i=0; i < N_STATES; i++) init[i] = args->init[i];
-  for (int i=0; i < N_STATES*N_STATES; i++) transition[i] = args->transition[i];
-  for (int i=0; i < N_STATES*N_TOKENS; i++) emission[i] = args->emission[i];     
-        
+  for (int i=0; i < N_STATES*N_STATES; i++) {
+     transition[i] = args->transition[i];
+     emission[i] = args->emission[i];
+  }
 
   // OPENCL HOST CODE AREA START
     // get_xil_devices() is a utility API which will find the xilinx
@@ -26,30 +28,19 @@ void run_benchmark( void *vargs ) {
 
     OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
-
-    // find_binary_file() is a utility API which will search the xclbin file for
-    // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
-    std::string binaryFile = xcl::find_binary_file(device_name,"viterbi");
-
-    // import_binary_file() ia a utility API which will load the binaryFile
-    // and will return Binaries.
-    cl::Program::Binaries bins = xcl::import_binary_file(binaryFile);
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-    OCL_CHECK(err, cl::Kernel krnl_viterbi(program,"viterbi", &err));
+    cl::Kernel krnl_viterbi = helpers::get_kernel(context, device, "viterbi", err);
 
     // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
+    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     OCL_CHECK(err,
               cl::Buffer obs_buffer(context,
                                     CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                     N_OBS*sizeof(tok_t),
                                     obs.data(),
-                                    &err));  
+                                    &err));
     OCL_CHECK(err,
-              cl::Buffer init_buffer(context, 
+              cl::Buffer init_buffer(context,
                                     CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
                                     N_STATES*sizeof(prob_t),
                                     init.data(),
@@ -68,16 +59,15 @@ void run_benchmark( void *vargs ) {
                                     &err));
     OCL_CHECK(err,
               cl::Buffer path_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                                     N_OBS*sizeof(state_t),
                                     path.data(),
-                                    &err));  
-    
-   
+                                    &err));
+
+
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({obs_buffer, transition_buffer, emission_buffer, init_buffer},0/* 0 means from host*/));
 
-    int size = 4096;
     OCL_CHECK(err, err = krnl_viterbi.setArg(0, obs_buffer));
     OCL_CHECK(err, err = krnl_viterbi.setArg(1, init_buffer));
     OCL_CHECK(err, err = krnl_viterbi.setArg(2, transition_buffer));
@@ -94,8 +84,8 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({path_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
-  
-  // Copy results 
+
+  // Copy results
   for (int i=0; i < N_OBS; i++) args->path[i] = path[i];
 }
 
