@@ -2,6 +2,7 @@
 #include "xcl2.hpp"
 #include <vector>
 #include "bfs.h"
+#include "helpers.hpp"
 #include <string.h>
 #include <unistd.h>
 
@@ -9,104 +10,130 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 void run_benchmark( void *vargs ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   cl_int err;
-  // Copy the test data 
-  std::vector<node_t,aligned_allocator<node_t>> nodes(N_NODES);
-  std::vector<edge_t,aligned_allocator<edge_t>> edges(N_EDGES);
+
+  // Copy the test data
+  // OpenCL isn't happy with array of structs. Instead use several arrays.
+  std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_begin(N_NODES);
+  std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_end(N_NODES);
+  std::vector<node_index_t,aligned_allocator<node_index_t>> edges_src(N_EDGES);
+  std::vector<node_index_t,aligned_allocator<node_index_t>> edges_dst(N_EDGES);
+
   std::vector<level_t,aligned_allocator<level_t>> level(N_NODES);
   std::vector<edge_index_t,aligned_allocator<edge_index_t>> level_counts(N_LEVELS);
-  
-  node_index_t starting_node = args->starting_node;
 
   for (int i=0; i < N_NODES; i++) {
-          nodes[i]  = args->nodes[i];
-          level[i]  = args->level[i];
-        }
-  for (int i=0; i<  N_EDGES; i++) edges[i] = args-> edges[i];
+    nodes_edge_begin[i]  = args->nodes[i].edge_begin;
+    nodes_edge_end[i]  = args->nodes[i].edge_end;
+    level[i]  = args->level[i];
+  }
+  for (int i=0; i<  N_EDGES; i++) {
+    edges_src[i] = args->edges[i].src;
+    edges_dst[i] = args->edges[i].dst;
+  }
 
-  // OPENCL HOST CODE AREA START
-    // get_xil_devices() is a utility API which will find the xilinx
-    // platforms and will return list of devices connected to Xilinx platform
-    std::vector<cl::Device> devices = xcl::get_xil_devices();
-    cl::Device device = devices[0];
 
-    OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
-    OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
+  std::vector<cl::Device> devices = xcl::get_xil_devices();
+  cl::Device device = devices[0];
 
-    // find_binary_file() is a utility API which will search the xclbin file for
-    // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
-    std::string binaryFile = xcl::find_binary_file(device_name,"bfs");
+  OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
+  OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
+  cl::Kernel krnl_bfs_bulk = helpers::get_kernel(context, device, "bfs", err);
 
-    // import_binary_file() ia a utility API which will load the binaryFile
-    // and will return Binaries.
-    cl::Program::Binaries bins = xcl::import_binary_file(binaryFile);
-    devices.resize(1);
-    OCL_CHECK(err, cl::Program program(context, devices, bins, NULL, &err));
-    OCL_CHECK(err, cl::Kernel krnl_bfs_bulk(program,"bfs", &err));
+  OCL_CHECK(err,
+      cl::Buffer nodes_edge_begin_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+        N_NODES*sizeof(edge_index_t),
+        nodes_edge_begin.data(),
+        &err));
+  OCL_CHECK(err,
+      cl::Buffer nodes_edge_end_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+        N_NODES*sizeof(edge_index_t),
+        nodes_edge_end.data(),
+        &err));
 
-    // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
-    // Device-to-host communication
+  OCL_CHECK(err,
+      cl::Buffer edges_src_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+        N_EDGES*sizeof(node_index_t),
+        edges_src.data(),
+        &err));
+  OCL_CHECK(err,
+      cl::Buffer edges_dst_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+        N_EDGES*sizeof(node_index_t),
+        edges_dst.data(),
+        &err));
+
+  OCL_CHECK(err,
+      cl::Buffer level_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
+        N_NODES*sizeof(level_t),
+        level.data(),
+        &err));
+  OCL_CHECK(err,
+      cl::Buffer level_counts_buffer(context,
+        CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+        N_LEVELS*sizeof(edge_index_t),
+        level_counts.data(),
+        &err));
+
+
+  node_index_t starting_node = args->starting_node;
+  // Copy input data to device global memory
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(0, nodes_edge_begin_buffer));
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(1, nodes_edge_end_buffer));
+
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(2, edges_src_buffer));
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(3, edges_dst_buffer));
+
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(4, starting_node));
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(5, level_buffer));
+  OCL_CHECK(err, err = krnl_bfs_bulk.setArg(6, level_counts_buffer));
+
+  for (auto i = 0; i < 1; i++) {
+    // Init data
+
     OCL_CHECK(err,
-              cl::Buffer nodes_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_NODES*sizeof(node_t),
-                                    nodes.data(),
-                                    &err));  
-    OCL_CHECK(err,
-              cl::Buffer edges_buffer(context, 
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_EDGES*sizeof(edge_t),
-                                    edges.data(),
-                                    &err));
-    OCL_CHECK(err,
-              cl::Buffer level_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_NODES*sizeof(level_t),
-                                    level.data(),
-                                    &err));
-    OCL_CHECK(err,
-              cl::Buffer level_counts_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_LEVELS*sizeof(edge_index_t),
-                                    level_counts.data(),
-                                    &err));
-    
-   
-    // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({nodes_buffer, edges_buffer, level_buffer},0/* 0 means from host*/));
+        err = q.enqueueMigrateMemObjects({
+          nodes_edge_begin_buffer,
+          nodes_edge_end_buffer,
+          edges_src_buffer,
+          edges_dst_buffer,
+          level_buffer}, 0));
 
-    int size = 4096;
-    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(0, nodes_buffer));
-    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(1, edges_buffer));
-    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(2, starting_node));
-    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(3, level_buffer));
-    OCL_CHECK(err, err = krnl_bfs_bulk.setArg(4, level_counts_buffer));
-
-    // Launch the Kernel
-    // For HLS kernels global and local size is always (1,1,1). So, it is recommended
-    // to always use enqueueTask() for invoking HLS kernel
     OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
 
-    // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err,
+        err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
+
     q.finish();
-  // OPENCL HOST CODE AREA END
-  
-  // Copy results 
-  for (int i=0; i < N_LEVELS; i++) args->level_counts[i] = level_counts[i];
-              
+
+    // Copy results
+    /*std::cout << nodes.edge_begin << std::endl; ;
+    for (int i=0; i < N_LEVELS; i++) {
+      std::cout << level_counts[i] << ", ";
+    }
+    std::cout << std::endl;*/
+  }
+
+  // Copy results
+  for (int i=0; i < N_LEVELS; i++) {
+    args->level_counts[i] = level_counts[i];
+    std::cout << i << ": " << level_counts[i] << std::endl;
+  }
+
 }
 
 
 /* Input format:
-%% Section 1
-uint64_t[1]: starting node
-%% Section 2
-uint64_t[N_NODES*2]: node structures (start and end indices of edge lists)
-%% Section 3
-uint64_t[N_EDGES]: edges structures (just destination node id)
-*/
+   %% Section 1
+   uint64_t[1]: starting node
+   %% Section 2
+   uint64_t[N_NODES*2]: node structures (start and end indices of edge lists)
+   %% Section 3
+   uint64_t[N_EDGES]: edges structures (just destination node id)
+   */
 
 void input_to_data(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
@@ -179,9 +206,9 @@ void data_to_input(int fd, void *vdata) {
 }
 
 /* Output format:
-%% Section 1
-uint64_t[N_LEVELS]: horizon counts
-*/
+   %% Section 1
+   uint64_t[N_LEVELS]: horizon counts
+   */
 
 void output_to_data(int fd, void *vdata) {
   struct bench_args_t *data = (struct bench_args_t *)vdata;
