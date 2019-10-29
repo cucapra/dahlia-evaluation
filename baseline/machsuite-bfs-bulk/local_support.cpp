@@ -92,6 +92,10 @@ void run_benchmark( void *vargs ) {
   OCL_CHECK(err, err = krnl_bfs_bulk.setArg(6, level_counts_buffer));
 
   for (auto i = 0; i < 1; i++) {
+    for (auto j = 0; j < N_NODES; j++) {
+      std::cout << (int)level[j] << " ";
+    }
+    std::cout << "=========" << std::endl;
     // Init data
 
     OCL_CHECK(err,
