@@ -9,21 +9,32 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 void run_benchmark( void *vargs ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   cl_int err;
-  // Copy the test data 
-  std::vector<node_t,aligned_allocator<node_t>> nodes(N_NODES);
-  std::vector<edge_t,aligned_allocator<edge_t>> edges(N_EDGES);
+  // Copy the test data
+  // std::vector<node_t,aligned_allocator<node_t>> nodes(N_NODES);
+  std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_begin(N_NODES);
+  std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_end(N_NODES);
+  // std::vector<edge_t,aligned_allocator<edge_t>> edges(N_EDGES);
+  std::vector<node_index_t,aligned_allocator<node_index_t>> edges_src(N_EDGES);
+  std::vector<node_index_t,aligned_allocator<node_index_t>> edges_dst(N_EDGES);
+
   std::vector<level_t,aligned_allocator<level_t>> level(N_NODES);
   std::vector<edge_index_t,aligned_allocator<edge_index_t>> level_counts(N_LEVELS);
   std::vector<node_index_t,aligned_allocator<node_index_t>> starting_node(1);
-  
-  
+
+
   starting_node[0] = args->starting_node;
 
   for (int i=0; i < N_NODES; i++) {
-          nodes[i]  = args->nodes[i];
-          level[i]  = args->level[i];
-        }
-  for (int i=0; i<  N_EDGES; i++) edges[i] = args-> edges[i];
+    // nodes[i]  = args->nodes[i];
+    nodes_edge_begin[i] = args->nodes[i].edge_begin;
+    nodes_edge_end[i] = args->nodes[i].edge_end;
+    level[i]  = args->level[i];
+  }
+  for (int i=0; i<  N_EDGES; i++) {
+    // edges[i] = args-> edges[i];
+    edges_src[i] = args->edges[i].src;
+    edges_dst[i] = args->edges[i].dst;
+  }
 
   // OPENCL HOST CODE AREA START
     // get_xil_devices() is a utility API which will find the xilinx
@@ -33,7 +44,7 @@ void run_benchmark( void *vargs ) {
 
     OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
+    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // find_binary_file() is a utility API which will search the xclbin file for
     // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
@@ -47,50 +58,77 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err, cl::Kernel krnl_bfs_queue(program,"bfs", &err));
 
     // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
+    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
+    // OCL_CHECK(err,
+    //           cl::Buffer nodes_buffer(context,
+    //                                 CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+    //                                 N_NODES*sizeof(node_t),
+    //                                 nodes.data(),
+    //                                 &err));
     OCL_CHECK(err,
-              cl::Buffer nodes_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_NODES*sizeof(node_t),
-                                    nodes.data(),
-                                    &err));  
+              cl::Buffer nodes_edge_begin_buffer(context,
+                                                 CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                                 N_NODES*sizeof(edge_index_t),
+                                                 nodes_edge_begin.data(),
+                                                 &err));
     OCL_CHECK(err,
-              cl::Buffer edges_buffer(context, 
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    N_EDGES*sizeof(edge_t),
-                                    edges.data(),
-                                    &err));
+              cl::Buffer nodes_edge_end_buffer(context,
+                                               CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                               N_NODES*sizeof(edge_index_t),
+                                               nodes_edge_end.data(),
+                                               &err));
+    // OCL_CHECK(err,
+    //           cl::Buffer edges_buffer(context,
+    //                                 CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+    //                                 N_EDGES*sizeof(edge_t),
+    //                                 edges.data(),
+    //                                 &err));
+    OCL_CHECK(err,
+              cl::Buffer edges_src_buffer(context,
+                                          CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                          N_EDGES*sizeof(node_index_t),
+                                          edges_src.data(),
+                                          &err));
+    OCL_CHECK(err,
+              cl::Buffer edges_dst_buffer(context,
+                                          CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                          N_EDGES*sizeof(node_index_t),
+                                          edges_dst.data(),
+                                          &err));
+
     OCL_CHECK(err,
               cl::Buffer level_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                                     N_NODES*sizeof(level_t),
                                     level.data(),
                                     &err));
     OCL_CHECK(err,
               cl::Buffer level_counts_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                                     N_LEVELS*sizeof(edge_index_t),
                                     level_counts.data(),
                                     &err));
-    OCL_CHECK(err,
-              cl::Buffer starting_node_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-                                    sizeof(starting_node),
-                                    &(args->starting_node),
-                                    &err));
-    
-    
-   
-    // Copy input data to device global memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({nodes_buffer, edges_buffer, level_buffer, starting_node_buffer},0/* 0 means from host*/));
 
     int size = 4096;
-    OCL_CHECK(err, err = krnl_bfs_queue.setArg(0, nodes_buffer));
-    OCL_CHECK(err, err = krnl_bfs_queue.setArg(1, edges_buffer));
-    OCL_CHECK(err, err = krnl_bfs_queue.setArg(2, args->starting_node));
-    OCL_CHECK(err, err = krnl_bfs_queue.setArg(3, level_buffer));
-    OCL_CHECK(err, err = krnl_bfs_queue.setArg(4, level_counts_buffer));
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(0, nodes_edge_begin_buffer));
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(1, nodes_edge_end_buffer));
+
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(2, edges_src_buffer));
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(3, edges_dst_buffer));
+
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(4, args->starting_node));
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(5, level_buffer));
+    OCL_CHECK(err, err = krnl_bfs_queue.setArg(6, level_counts_buffer));
+
+    // Copy input data to device global memory
+    OCL_CHECK(err,
+              err = q.enqueueMigrateMemObjects({nodes_edge_begin_buffer,
+                                                nodes_edge_end_buffer,
+                                                edges_src_buffer,
+                                                edges_dst_buffer,
+                                                level_buffer}
+                ,0/* 0 means from host*/));
 
     // Launch the Kernel
     // For HLS kernels global and local size is always (1,1,1). So, it is recommended
@@ -101,10 +139,10 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
-  
-  // Copy results 
+
+  // Copy results
   for (int i=0; i < N_LEVELS; i++) args->level_counts[i] = level_counts[i];
-              
+
 }
 
 
