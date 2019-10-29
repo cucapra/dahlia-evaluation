@@ -47,11 +47,6 @@ extern "C"
     level[starting_node] = 0;
     level_counts[0] = 1;
 
-    for (auto k = 0; k < N_NODES; k++) {
-      std::cout << (int)level[k] << " ";
-    }
-    std::cout << "---------" << std::endl;
-
     for (horizon = 0; horizon < N_LEVELS; horizon++) {
       cnt = 0;
      //Add unmarked neighbors of the current horizon to the next horizon
@@ -60,13 +55,8 @@ extern "C"
           edge_index_t tmp_begin = nodes_edge_begin[n];
           edge_index_t tmp_end = nodes_edge_end[n];
           for (e = tmp_begin; e < tmp_end; e++) {
-            node_index_t tmp_dst = edges_dst[n];
+            node_index_t tmp_dst = edges_dst[e];
             level_t tmp_level = level[tmp_dst];
-            std::cout  << "N_NODES: " << ","
-              << "tmp_dst: " << tmp_dst << ", "
-              << "tmp_level: " << (int)tmp_level << ", "
-              << "MAX_LEVEL: " << MAX_LEVEL << ", "
-              << "cnt: " << cnt << std::endl;
 
             if (tmp_level == MAX_LEVEL) {
               level[tmp_dst] = horizon + 1;

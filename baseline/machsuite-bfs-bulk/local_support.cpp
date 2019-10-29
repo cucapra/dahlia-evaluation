@@ -91,42 +91,27 @@ void run_benchmark( void *vargs ) {
   OCL_CHECK(err, err = krnl_bfs_bulk.setArg(5, level_buffer));
   OCL_CHECK(err, err = krnl_bfs_bulk.setArg(6, level_counts_buffer));
 
-  for (auto i = 0; i < 1; i++) {
-    for (auto j = 0; j < N_NODES; j++) {
-      std::cout << (int)level[j] << " ";
-    }
-    std::cout << "=========" << std::endl;
-    // Init data
+  // Init data
 
-    OCL_CHECK(err,
-        err = q.enqueueMigrateMemObjects({
-          nodes_edge_begin_buffer,
-          nodes_edge_end_buffer,
-          edges_src_buffer,
-          edges_dst_buffer,
-          level_buffer}, 0));
+  OCL_CHECK(err,
+            err = q.enqueueMigrateMemObjects({
+                                              nodes_edge_begin_buffer,
+                                              nodes_edge_end_buffer,
+                                              edges_src_buffer,
+                                              edges_dst_buffer,
+                                              level_buffer}, 0));
 
-    OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
+  OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
 
-    OCL_CHECK(err,
-        err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
+  OCL_CHECK(err,
+            err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
 
-    q.finish();
-
-    // Copy results
-    /*std::cout << nodes.edge_begin << std::endl; ;
-    for (int i=0; i < N_LEVELS; i++) {
-      std::cout << level_counts[i] << ", ";
-    }
-    std::cout << std::endl;*/
-  }
+  q.finish();
 
   // Copy results
   for (int i=0; i < N_LEVELS; i++) {
     args->level_counts[i] = level_counts[i];
-    std::cout << i << ": " << level_counts[i] << std::endl;
   }
-
 }
 
 
