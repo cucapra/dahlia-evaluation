@@ -19,16 +19,31 @@ Hong, Oguntebi, Olukotun. "Efficient Parallel Graph Exploration on Multi-Core CP
 
 extern "C"
 {
-  void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
-           node_index_t starting_node, level_t level[N_NODES],
+  void bfs(edge_index_t nodes_edge_begin[N_NODES],
+           edge_index_t nodes_edge_end[N_NODES],
+           // edge_t edges[N_EDGES],
+           node_index_t edges_src[N_EDGES],
+           node_index_t edges_dst[N_EDGES],
+
+           node_index_t starting_node,
+           level_t level[N_NODES],
            edge_index_t level_counts[N_LEVELS])
   {
-#pragma HLS INTERFACE m_axi port = edges offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = nodes offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = nodes_edge_begin offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = nodes_edge_end offset = slave bundle = gmem
+
+#pragma HLS INTERFACE m_axi port = edges_src offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = edges_dst offset = slave bundle = gmem
+
 #pragma HLS INTERFACE m_axi port = level offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = level_counts offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = edges bundle = control
-#pragma HLS INTERFACE s_axilite port = nodes bundle = control
+
+#pragma HLS INTERFACE s_axilite port = nodes_edge_begin bundle = control
+#pragma HLS INTERFACE s_axilite port = nodes_edge_end bundle = control
+
+#pragma HLS INTERFACE s_axilite port = edges_src bundle = control
+#pragma HLS INTERFACE s_axilite port = edges_dst bundle = control
+
 #pragma HLS INTERFACE s_axilite port = level bundle = control
 #pragma HLS INTERFACE s_axilite port = starting_node bundle = control
 #pragma HLS INTERFACE s_axilite port = level_counts bundle = control
@@ -58,12 +73,12 @@ extern "C"
         break;
       n = Q_PEEK();
       Q_POP();
-      edge_index_t tmp_begin = nodes[n].edge_begin;
-      edge_index_t tmp_end = nodes[n].edge_end;
+      edge_index_t tmp_begin = nodes_edge_begin[n];
+      edge_index_t tmp_end = nodes_edge_end[n];
     loop_neighbors:
       for (e = tmp_begin; e < tmp_end; e++)
       {
-        node_index_t tmp_dst = edges[e].dst;
+        node_index_t tmp_dst = edges_dst[e];
         level_t tmp_level = level[tmp_dst];
 
         if (tmp_level == MAX_LEVEL)
@@ -75,12 +90,5 @@ extern "C"
         }
       }
     }
-
-    /*
-  printf("Horizons:");
-  for( i=0; i<N_LEVELS; i++ )
-    printf(" %d", level_counts[i]);
-  printf("\n");
-  */
   }
 }

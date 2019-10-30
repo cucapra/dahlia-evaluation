@@ -5,18 +5,35 @@ Hong, Oguntebi, Olukotun. "Efficient Parallel Graph Exploration on Multi-Core CP
 */
 
 #include "bfs.h"
+#include <iostream>
 extern "C"
 {
-  void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES],
-           node_index_t starting_node, level_t level[N_NODES],
-           edge_index_t level_counts[N_LEVELS])
+  void bfs(
+      edge_index_t nodes_edge_begin[N_NODES],
+      edge_index_t nodes_edge_end[N_NODES],
+
+      node_index_t edges_src[N_EDGES],
+      node_index_t edges_dst[N_EDGES],
+
+      node_index_t starting_node,
+      level_t level[N_NODES],
+      edge_index_t level_counts[N_LEVELS])
   {
-#pragma HLS INTERFACE m_axi port = edges offset = slave bundle = gmem
-#pragma HLS INTERFACE m_axi port = nodes offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = nodes_edge_begin offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = nodes_edge_end offset = slave bundle = gmem
+
+#pragma HLS INTERFACE m_axi port = edges_src offset = slave bundle = gmem
+#pragma HLS INTERFACE m_axi port = edges_dst offset = slave bundle = gmem
+
 #pragma HLS INTERFACE m_axi port = level offset = slave bundle = gmem
 #pragma HLS INTERFACE m_axi port = level_counts offset = slave bundle = gmem
-#pragma HLS INTERFACE s_axilite port = edges bundle = control
-#pragma HLS INTERFACE s_axilite port = nodes bundle = control
+
+#pragma HLS INTERFACE s_axilite port = nodes_edge_begin bundle = control
+#pragma HLS INTERFACE s_axilite port = nodes_edge_end bundle = control
+
+#pragma HLS INTERFACE s_axilite port = edges_src bundle = control
+#pragma HLS INTERFACE s_axilite port = edges_dst bundle = control
+
 #pragma HLS INTERFACE s_axilite port = level bundle = control
 #pragma HLS INTERFACE s_axilite port = starting_node bundle = control
 #pragma HLS INTERFACE s_axilite port = level_counts bundle = control
@@ -30,34 +47,28 @@ extern "C"
     level[starting_node] = 0;
     level_counts[0] = 1;
 
-  loop_horizons:
-    for (horizon = 0; horizon < N_LEVELS; horizon++)
-    {
+    for (horizon = 0; horizon < N_LEVELS; horizon++) {
       cnt = 0;
-    // Add unmarked neighbors of the current horizon to the next horizon
-    loop_nodes:
-      for (n = 0; n < N_NODES; n++)
-      {
-        if (level[n] == horizon)
-        {
-          edge_index_t tmp_begin = nodes[n].edge_begin;
-          edge_index_t tmp_end = nodes[n].edge_end;
-        loop_neighbors:
-          for (e = tmp_begin; e < tmp_end; e++)
-          {
-            node_index_t tmp_dst = edges[e].dst;
+     //Add unmarked neighbors of the current horizon to the next horizon
+      for (n = 0; n < N_NODES; n++) {
+        if (level[n] == horizon) {
+          edge_index_t tmp_begin = nodes_edge_begin[n];
+          edge_index_t tmp_end = nodes_edge_end[n];
+          for (e = tmp_begin; e < tmp_end; e++) {
+            node_index_t tmp_dst = edges_dst[e];
             level_t tmp_level = level[tmp_dst];
 
-            if (tmp_level == MAX_LEVEL)
-            { // Unmarked
+            if (tmp_level == MAX_LEVEL) {
               level[tmp_dst] = horizon + 1;
               ++cnt;
             }
           }
         }
       }
-      if ((level_counts[horizon + 1] = cnt) == 0)
+      level_counts[horizon + 1] = cnt;
+      if (cnt == 0) {
         break;
+      }
     }
   }
 }
