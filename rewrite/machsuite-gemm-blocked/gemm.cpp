@@ -1,9 +1,10 @@
-#include "ap_int.h"
+#include <ap_int.h>
 
 
 #pragma SDS data copy(m1[0:64][0:64])
 #pragma SDS data zero_copy(prod[0:64][0:64])
-void gemm(double m1[64][64], double m2[64][64], double prod[64][64]) {
+void kernel(double m1[64][64], double m2[64][64], double prod[64][64]) {
+  #pragma HLS INLINE
   #pragma HLS INTERFACE s_axilite port=m1
   #pragma HLS INTERFACE s_axilite port=m2
   #pragma HLS INTERFACE s_axilite port=prod
