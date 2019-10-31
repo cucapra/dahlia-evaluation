@@ -49,7 +49,3 @@ struct bench_args_t {
   level_t level[N_NODES];
   edge_index_t level_counts[N_LEVELS];
 };
-
-#pragma SDS data copy(nodes[0:N_NODES])
-#pragma SDS data zero_copy(level[0:N_NODES], level_counts[0:N_LEVELS])
-// void bfs(node_t nodes[N_NODES], edge_t edges[N_EDGES], node_index_t starting_node, level_t level[N_NODES], edge_index_t level_counts[N_LEVELS]);
