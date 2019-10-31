@@ -1,5 +1,3 @@
-decor "#pragma SDS data copy(orig[0:128][0:64])"
-
 decl orig: bit<32>[128][64];
 decl sol: bit<32>[128][64];
 decl filter: bit<32>[3][3];

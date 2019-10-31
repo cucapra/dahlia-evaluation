@@ -1,5 +1,3 @@
-decor "#pragma SDS data copy(C[0:2])"
-
 decl C: bit<32>[2];
 decl orig: bit<32>[32][32][16];
 decl sol: bit<32>[32][32][16];
