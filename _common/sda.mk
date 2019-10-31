@@ -39,13 +39,15 @@ LDFLAGS   += -lrt -lstdc++
 
 # The OCL compiler.
 XOCC  := $(XILINX_SDX)/bin/xocc
-XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) -DSDACCEL
-## How to add directives, can you add directives? other options?
-
 # If in estimation mode, add the required flags
 ifeq ($(MODE),estimate)
 XOCCFLAGS += --report estimate
+override MODE := hw_emu
 endif
+
+XOCCFLAGS += -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) -DSDACCEL
+## How to add directives, can you add directives? other options?
+
 
 # Binaries
 BINARY_CONTAINERS     += $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xclbin
