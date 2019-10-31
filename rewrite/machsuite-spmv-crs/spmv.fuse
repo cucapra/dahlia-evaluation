@@ -1,5 +1,3 @@
-decor "#pragma SDS data copy(val[0:NNZ])"
-
 decl val: double[1666];
 decl cols: bit<32>[1666];
 decl row_delimiters: bit<32>[495];
