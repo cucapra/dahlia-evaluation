@@ -74,8 +74,6 @@ def update(b: bit<32>[512][4], bucket: bit<32>[128][16], a: bit<32>[512][4], exp
   }
 }
 
-decor "#pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])"
-
 decl a: bit<32>[512][4];
 decl b: bit<32>[512][4];
 decl bucket: bit<32>[128][16];
@@ -88,14 +86,14 @@ let temp_valid_buffer = 0;
 
 for (let exp = 0..16) {
   init(bucket);
-  
+
   ---
   if (valid_buffer == buffer_a) {
     hist(bucket, a, exp << 1);
   } else {
     hist(bucket, b, exp << 1);
   }
-  
+
   ---
   local_scan(bucket);
   ---

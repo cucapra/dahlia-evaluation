@@ -18,6 +18,9 @@ template <int N>
 struct _int_hack {};
 
 template <>
+struct _int_hack<1> { using t = unsigned char; };
+
+template <>
 struct _int_hack<8> { using t = int8_t; };
 
 template <>
