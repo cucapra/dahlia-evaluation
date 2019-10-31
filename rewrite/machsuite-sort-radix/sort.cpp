@@ -78,7 +78,6 @@ void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][
     }
   }
 }
-#pragma SDS data zero_copy(a[0:512][0:4], b[0:512][0:4], bucket[0:128][0:16], sum[0:128])
 extern "C" {
   void sort(ap_int<32> a[512][4], ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
     #pragma HLS INTERFACE m_axi port=a offset=slave bundle=gmem

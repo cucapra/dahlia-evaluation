@@ -1,6 +1,4 @@
 #include <ap_int.h>
-#pragma SDS data copy(obs[0:140])
-#pragma SDS data zero_copy(path[0:140])
 extern "C" {
   void viterbi(ap_int<8> obs[140], double init[64], double transition[64][64], double emission[64][64], ap_int<8> path[140]) {
     #pragma HLS INTERFACE m_axi port=obs offset=slave bundle=gmem
