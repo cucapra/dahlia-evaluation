@@ -9,9 +9,13 @@ include libs/opencl/opencl.mk
 include libs/xcl2/xcl2.mk
 
 # OCL compilation options.
-MODE  := $(MODES)
 DEVICE    := xilinx_vcu1525_dynamic
 TARGET_FREQ  := 250 # clock is set using frequency, using 4ns for testing
+
+# Check if we have a valid MODE set
+ifeq (,$(filter $(MODE),sw_emu hw_emu hw estimate))
+$(error "Invalid MODE: $(MODE). Must be one of: hw, hw_emu, sw_emu, estimate")
+endif
 
 # The ordinary (software) C++ compiler.
 CXX   := $(XILINX_SDX)/bin/xcpp
@@ -37,6 +41,11 @@ LDFLAGS   += -lrt -lstdc++
 XOCC  := $(XILINX_SDX)/bin/xocc
 XOCCFLAGS := -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) -DSDACCEL
 ## How to add directives, can you add directives? other options?
+
+# If in estimation mode, add the required flags
+ifeq ($(MODE),estimate)
+XOCCFLAGS += --report estimate
+endif
 
 # Binaries
 BINARY_CONTAINERS     += $(XCLBIN)/$(KERNEL).$(MODE).$(DSA).xclbin
