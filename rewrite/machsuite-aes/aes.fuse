@@ -232,8 +232,6 @@ def aes_expandEncKey (k: ubit<8>[32], rc: ubit<8>, sbox: ubit<8>[256]) {
   }
 }
 
-decor "#pragma SDS data zero_copy(key[0:32], enckey[0:32], deckey[0:32], buf[0:16])"
-
 decl key:ubit<8>[32];
 decl enckey:ubit<8>[32];
 decl deckey:ubit<8>[32];

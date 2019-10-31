@@ -18,7 +18,7 @@ template <int N>
 struct _int_hack {};
 
 template <>
-struct _int_hack<1> { using t = unsigned char; };
+struct _int_hack<1> { using t = signed char; };
 
 template <>
 struct _int_hack<8> { using t = int8_t; };
@@ -39,6 +39,9 @@ using ap_int = typename _int_hack<N>::t;
 
 template <int N>
 struct _uint_hack {};
+
+template <>
+struct _uint_hack<1> { using t = unsigned char; };
 
 template <>
 struct _uint_hack<8> { using t = uint8_t; };
