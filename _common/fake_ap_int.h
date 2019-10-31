@@ -1,11 +1,11 @@
-#if defined(__SDSCC__) || defined(VHLS) || defined(SDACCEL)
+// #if defined(__SDSCC__) || defined(VHLS) || defined(SDACCEL)
 
 // In "hardware" mode (i.e., SDSoC compilation), use the real/provided ap_int
 // library.
 
-#include <ap_int.h>
+// #include <ap_int.h>
 
-#else
+// #else
 
 // In "software" mode (i.e., a normal C++ compiler), use standard int types.
 // Thanks to Matthew Milano for his help figuring out how to do this.
@@ -15,7 +15,7 @@
 // ap_int
 
 template <int N>
-struct _int_hack { static_assert(N != N, "precision unavailable"); };
+struct _int_hack {};
 
 template <>
 struct _int_hack<8> { using t = int8_t; };
@@ -35,7 +35,7 @@ using ap_int = typename _int_hack<N>::t;
 // ap_uint
 
 template <int N>
-struct _uint_hack { static_assert(N != N, "precision unavailable"); };
+struct _uint_hack {};
 
 template <>
 struct _uint_hack<8> { using t = uint8_t; };
@@ -52,4 +52,4 @@ struct _uint_hack<64> { using t = uint64_t; };
 template <int N>
 using ap_uint = typename _uint_hack<N>::t;
 
-#endif
+// #endif

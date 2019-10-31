@@ -1,5 +1,5 @@
-decor "#pragma SDS data copy(m1[0:64][0:64])"
-decor "#pragma SDS data zero_copy(prod[0:64][0:64])"
+// decor "#pragma SDS data copy(m1[0:64][0:64])"
+// decor "#pragma SDS data zero_copy(prod[0:64][0:64])"
 
 decl m1: double[64][64];
 decl m2: double[64][64];
@@ -19,4 +19,3 @@ for (let jj = 0..8) {
     }
   }
 }
-
