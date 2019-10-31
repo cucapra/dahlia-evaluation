@@ -41,7 +41,7 @@ LDFLAGS   += -lrt -lstdc++
 XOCC  := $(XILINX_SDX)/bin/xocc
 # If in estimation mode, add the required flags
 ifeq ($(MODE),estimate)
-XOCCFLAGS += --report estimate
+XOCCFLAGS += --report_level estimate
 override MODE := hw_emu
 endif
 
