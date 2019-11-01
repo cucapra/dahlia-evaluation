@@ -127,7 +127,9 @@ class RPTParser:
             if reg.search(line):
                 start = idx + off
                 end = start
-                while(self.lines[end].strip() != ''): end += 1
+                while(self.lines[end].strip() != ''):
+                    end += 1
+                break
 
         assert end > start, "Failed to find table start."
 

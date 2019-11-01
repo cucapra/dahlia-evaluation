@@ -60,6 +60,8 @@ def download_files(base_dir, job_id, file_config):
     job_path = os.path.join(base_dir, job_id)
     os.makedirs(job_path, exist_ok=True)
 
+    assert file_config != [], "No collect configurations provided"
+
     logging.info(
         "Extracting files for {} in {} for collections {}.".format(
             job_id,
@@ -125,7 +127,7 @@ def extract_job(batch_dir, job_id, static_collects, dync_collects):
     dynamic_collections = list(dyn_collects)
 
     # Get the list of files for the job.
-    if len(dynamic_collections) > 1:
+    if len(dynamic_collections) > 0:
         files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
         with requests.get(files_url) as res:
             res.raise_for_status()
