@@ -19,7 +19,7 @@ OPTIONS = {
     'make': '1',
 }
 
-VALID_MODES = ['hw', 'hw_emu', 'sw_emu']
+VALID_MODES = ['hw', 'hw_emu', 'sw_emu', 'estimate']
 
 # Configuration object
 Config = namedtuple("Config", [
