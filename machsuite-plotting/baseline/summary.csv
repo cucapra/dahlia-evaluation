@@ -1,0 +1,17 @@
+status,bench,uram_used,lut_used,dsp_used,bram_used,lutmem_used,reg_used
+ok,bfs-queue-fix:machsuite-bfs-queue,0,2717,0,3,136,4514
+ok,no-dir:machsuite-fft-strided,0,4291,38,2,437,8376
+ok,no-dir:machsuite-aes,0,14603,0,2,564,17513
+ok,no-dir:machsuite-kmp,0,2164,0,1,115,3583
+ok,no-dir:machsuite-nw,0,3970,0,1,122,6037
+ok,no-dir:machsuite-md-grid,0,11106,41,8,532,19492
+ok,no-dir:machsuite-spmv-ellpack,0,5687,11,2,226,9134
+ok,no-dir:machsuite-stencil-stencil3d,0,3303,6,1,375,5008
+ok,no-dir:machsuite-md-knn,0,29746,33,2,539,42472
+ok,bfs-bulk-fix:machsuite-bfs-bulk,0,2376,0,2,133,4518
+ok,no-dir:machsuite-sort-radix,0,2671,0,1,122,3863
+ok,no-dir:machsuite-gemm-ncubed,0,16881,11,2,1182,28988
+ok,no-dir:machsuite-stencil-stencil2d,0,2622,27,1,145,4283
+ok,no-dir:machsuite-spmv-crs,0,2646,11,2,226,5449
+ok,no-dir:machsuite-gemm-blocked,0,4468,11,2,221,8464
+ok,no-dir:machsuite-sort-merge,0,1717,0,3,133,2617
