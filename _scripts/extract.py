@@ -5,6 +5,7 @@ import sys
 import logging
 import json
 import requests
+import argparse
 
 import collect_configs
 import common
@@ -14,12 +15,9 @@ DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
 FAILURE_FILE = "failure_extract.txt"  # Job IDs we could not extract.
 
 # The list of files to download and extract.
-STATIC_COLLECTIONS = [
-    collect_configs.COLLECT_UTIL_ROUTED,
-    collect_configs.COLLECT_RUNTIME,
-    collect_configs.COLLECT_DSE_TEMPLATE,
+DEFAULT_COLLECTS = [
+    'routed_util', 'runtime', 'dse_template', 'hls'
 ]
-DYN_COLLECTIONS = [collect_configs.COLLECT_HLS]
 
 
 def _download(url, path, chunk_size=4096):
@@ -95,11 +93,12 @@ def download_files(base_dir, job_id, file_config):
     return success, out_data
 
 
-def extract_job(batch_dir, job_id):
+def extract_job(batch_dir, job_id, static_collects, dync_collects):
     """Extract information about a single job. Return a dict of
     information to include about it. The dict *at least* has an 'ok'
     attribute, indicating whether the job is completely ready.
     """
+
     job = get_metadata(job_id)
     if not job:
         logging.error('Could not get information for %s.', job_id)
@@ -112,6 +111,8 @@ def extract_job(batch_dir, job_id):
         'bench': hwname,
     }
 
+    job_download = os.path.join(DOWNLOAD_DIR, job_id)
+
     if job['state'] != 'done':
         logging.error('Job %s in state `%s`.', job_id, job['state'])
         out.update({
@@ -120,29 +121,31 @@ def extract_job(batch_dir, job_id):
         })
 
     # Collections for this job
-    collections = list(STATIC_COLLECTIONS)
-    dynamic_collections = list(DYN_COLLECTIONS)
+    collections = list(static_collects)
+    dynamic_collections = list(dyn_collects)
 
     # Get the list of files for the job.
-    files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
-    with requests.get(files_url) as res:
-        res.raise_for_status()
-        file_list = res.json()
+    if len(dynamic_collections) > 1:
+        files_url = '{}/jobs/{}/files'.format(common.buildbot_url(), job_id)
+        with requests.get(files_url) as res:
+            res.raise_for_status()
+            file_list = res.json()
 
-    # Find paths for dynamic collections.
-    for file_path in file_list:
-        for idx, collect in enumerate(dynamic_collections):
-            if not isinstance(collect.file, str) and collect.file(file_path):
-                dynamic_collections.pop(idx)
-                collections.append(collect_configs.CollectConfig(
-                    key=collect.key,
-                    file=collect.file(file_path),
-                    collect=collect.collect,
-                ))
+        # Find paths for dynamic collections.
+        for file_path in file_list:
+            for idx, collect in enumerate(dynamic_collections):
+                if not isinstance(collect.file, str) and collect.file(file_path):
+                    dynamic_collections.pop(idx)
+                    collections.append(collect_configs.CollectConfig(
+                        key=collect.key,
+                        file=collect.file(file_path),
+                        collect=collect.collect,
+                    ))
 
-    # Errors for dynamic_collections that didn't find matching file_paths.
-    for collect in dynamic_collections:
-        logging.error("Failed to find file for collection '%s' in job %s", collect.key, job_id)
+        # Errors for dynamic_collections that didn't find matching file_paths.
+        for collect in dynamic_collections:
+            logging.error(
+                "Failed to find file for collection '%s' in job %s", collect.key, job_id)
 
     # Download files and extract results.
     success, res_data = download_files(
@@ -162,7 +165,7 @@ def extract_job(batch_dir, job_id):
     return out
 
 
-def extract_batch(batch_dir):
+def extract_batch(batch_dir, static_collects, dyn_collects):
     # Load the list of job IDs for this batch.
     job_file = os.path.join(batch_dir, common.JOBS_FILE)
     if not os.path.isfile(job_file):
@@ -175,7 +178,7 @@ def extract_batch(batch_dir):
 
     for job_id in job_ids:
         logging.info('Extracting %s', job_id)
-        data = extract_job(batch_dir, job_id)
+        data = extract_job(batch_dir, job_id, static_collects, dyn_collects)
         json_data[job_id] = data
         if not data['ok']:
             failed_jobs.add(job_id)
@@ -195,10 +198,22 @@ def extract_batch(batch_dir):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 2:
-        print('Script requires a path to a directory for the batch.\n'
-              'Usage: ./extract.py <batch-dir>')
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description='Extract data from Cerberus jobs. Must be called called on a directory containing a jobs.txt file.')
+
+    # Parse name for collect configurations.
+    parser.add_argument('-c', '--collects', default=None, nargs="*",
+                        help='Collect configurations to use for extraction. One of {}'.format(', '.join(collect_configs.VALID_COLLECTS.keys())))
+
+    # Jobs directory
+    parser.add_argument('jobs')
+
+    opts = parser.parse_args()
 
     common.logging_setup()
-    extract_batch(sys.argv[1])
+
+    collect_strs = opts.collects or DEFAULT_COLLECTS
+    collects = [ collect_configs.parse_collect(conf) for conf in collect_strs ]
+    static_collects = [ conf for conf in collects if isinstance(conf.file, str) ]
+    dyn_collects = [ conf for conf in collects if not isinstance(conf.file, str) ]
+
+    extract_batch(sys.argv[1], static_collects, dyn_collects)
