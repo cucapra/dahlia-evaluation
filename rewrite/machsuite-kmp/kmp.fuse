@@ -23,10 +23,6 @@ def cpf(pattern: bit<8>[4], kmpNext: bit<32>[4]) {
   }
 }
 
-decor "#pragma SDS data copy(pattern[0:PATTERN_SIZE])"
-decor "#pragma SDS data zero_copy(kmpNext[0:PATTERN_SIZE], n_matches)"
-decor "#pragma SDS data zero_copy(input[0:STRING_SIZE])"
-
 decl pattern: bit<8>[4];
 decl input: bit<8>[32411];
 decl kmpNext: bit<32>[4];

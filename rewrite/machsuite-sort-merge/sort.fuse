@@ -44,10 +44,7 @@ def merge (a: bit<32>[2048], start: bit<16>, m: bit<16>, stop: bit<16>) {
 }
 
 
-
 // sorting
-
-decor "#pragma SDS data zero_copy(a[0:SIZE])"
 
 decl a: bit<32>[2048];
 let start: bit<16> = 0;

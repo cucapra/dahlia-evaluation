@@ -1,5 +1,3 @@
-// decor "#pragma SDS data copy(m1[0:64][0:64])"
-
 decl m1: double[64][64];
 decl m2: double[64][64];
 decl prod: double[64][64];
