@@ -1,10 +1,11 @@
-.PHONY: get-jobs
+KEYS=routed_util
+SOURCES=absolute.png normalized.png
 
-extract-all:
-	../_scripts/extract.py baseline/ -c routed_util
-	../_scripts/extract.py rewrite/ -c routed_util
+$(SOURCES): baseline/summary.csv rewrite/summary.csv analysis.ipynb
+	jupyter nbconvert --execute analysis.ipynb
 
-summarize-all:
-	# Does not download runtime log. Remove -R to download runtime log.
-	../_scripts/summarize.py baseline/results.json -c routed_util default -R
-	../_scripts/summarize.py rewrite/results.json -c routed_util default -R
+%/results.json: %/jobs.txt
+	../_scripts/extract.py $* -c $(KEYS)
+
+%/summary.csv: %/results.json
+	../_scripts/summarize.py $< -c $(KEYS) default -R
