@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import re
 import csv
 import json
@@ -52,27 +54,10 @@ def spatial_report(filepath):
 
 # Generate summary csv
 with open('summary.csv', 'w') as csvfile:
-    fieldnames = spatial_report("rpts/par_utilization_1.rpt").keys()
+    fieldnames = list(spatial_report("rpts/par_utilization_1.rpt").keys()) + ['unroll']
     summary = csv.DictWriter(csvfile, delimiter=',', fieldnames=fieldnames)
     summary.writeheader()
     for i in range(1,17):
-        summary.writerow(spatial_report("rpts/par_utilization_{}.rpt".format(i)))
-
-# fig,ax1 = plt.subplots()
-# loop_k = np.arange(16)+1
-# for r in plot_res.keys():
-    # ax1.plot(loop_k, plot_res[r])
-# ax1.set_ylabel('normalized resources usage')
-# ax1.set_xlabel('unrolling factor')
-# ax1.legend(PERF_RESOURCES)
-# marker = {'b_sram':'c+','a_sram':'ys'}
-# leg2 = ['a_sram','b_sram']
-# ax2 = ax1.twinx()
-# for sram in leg2:
-    # df = pd.read_csv(sram+'.csv')
-    # bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
-    # ax2.plot(loop_k,bank, marker[sram])
-# ax2.legend(leg2,loc=4)
-# ax2.set_ylabel('banking decisions')
-# plt.savefig('spatial.png')
-# plt.show()
+        row = spatial_report("rpts/par_utilization_{}.rpt".format(i))
+        row['unroll'] = i
+        summary.writerow(row)
