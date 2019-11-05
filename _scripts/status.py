@@ -34,6 +34,12 @@ def get_status(batch_dir):
     job_info = {}
     for job_id in job_ids:
         info = get_metadata(job_id)
+        if info is None:
+            logging.log(logging.ERROR,
+                        '%s: Metadata Not Found',
+                        job_id)
+            continue;
+
         logging.log(
             logging.ERROR if info['state'] == 'failed' else logging.INFO,
             '%s (%s): %s',
