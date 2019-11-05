@@ -1,0 +1,9 @@
+{
+  "dot.cpp": {
+    "BANK1": [1,2,3,4,5,6],
+    "BANK2": [1,2,3,4,5,6],
+    "UNROLL": [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 15, 16, 18, 20, 24, 25, 30, 36],
+    "RESOURCE1": [ "RAM_1P_BRAM", "RAM_T2P_BRAM" ],
+    "RESOURCE2": [ "RAM_1P_BRAM", "RAM_T2P_BRAM" ]
+  }
+}
