@@ -107,18 +107,17 @@ void aes_mixColumns(ap_uint<8> buf[16]) {
     //---
     ap_uint<8> e = (((a ^ b) ^ c) ^ d);
     //---
-    ap_uint<8> temp = 1;
+    ap_uint<8> temp = rj_xtime((a ^ b));
     buf[(4 * i)] = ((a ^ e) ^ temp);
-    rj_xtime((a ^ b));
     //---
+    temp = rj_xtime((b ^ c));
     buf[((4 * i) + 1)] = ((b ^ e) ^ temp);
-    rj_xtime((b ^ c));
     //---
+    temp = rj_xtime((c ^ d));
     buf[((4 * i) + 2)] = ((c ^ e) ^ temp);
-    rj_xtime((c ^ d));
     //---
+    temp = rj_xtime((d ^ a));
     buf[((4 * i) + 3)] = ((d ^ e) ^ temp);
-    rj_xtime((d ^ a));
   }
 }
 void aes_expandEncKey(ap_uint<8> k[32], ap_uint<8> rc, ap_uint<8> sbox[256]) {
@@ -208,7 +207,7 @@ extern "C" {
       deckey[i] = k[i];
     }
     //---
-    for(int i = 0; i < 8; i++) {
+    for(int i = 0; i < 7; i++) {
       aes_expandEncKey(deckey, rcon, sbox);
       rcon = ((rcon << 1) ^ (((rcon >> 7) & 1) * 27));
     }

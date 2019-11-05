@@ -143,18 +143,17 @@ def aes_mixColumns (buf: ubit<8>[16]) {
     ---
     let e: ubit<8> = a ^ b ^ c ^ d;
     ---
-    let temp: ubit<8> = 1;
+    let temp: ubit<8> = rj_xtime(a ^ b);
     buf[4 * i] := a ^ e ^ temp;
-    rj_xtime(a ^ b);
     ---
+    temp := rj_xtime(b ^ c);
     buf[4 * i + 1] := b ^ e ^ temp;
-    rj_xtime(b ^ c);
     ---
+    temp := rj_xtime(c ^ d);
     buf[4 * i + 2] := c ^ e ^ temp;
-    rj_xtime(c ^ d);
     ---
+    temp := rj_xtime(d ^ a);
     buf[4 * i + 3] := d ^ e ^ temp;
-    rj_xtime(d ^ a);
   }
 }
 
@@ -281,7 +280,7 @@ let sbox: ubit<8>[256] = {
     deckey[i] := k[i];
   }
   ---
-  for (let i = 0..8) {
+  for (let i = 0..7) {
     aes_expandEncKey(deckey, rcon, sbox);
     rcon := (rcon<<1) ^ (((rcon>>7) & 1) * 27);
   }
