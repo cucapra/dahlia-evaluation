@@ -42,7 +42,7 @@ XOCC  := $(XILINX_SDX)/bin/xocc
 # If in estimation mode, add the required flags
 ifeq ($(MODE),estimate)
 XOCCFLAGS += --report_level estimate
-override MODE := hw_emu
+override MODE := sw_emu
 endif
 
 XOCCFLAGS += -t $(MODE) --platform $(DEVICE) --save-temps --kernel_frequency=$(TARGET_FREQ) -DSDACCEL
