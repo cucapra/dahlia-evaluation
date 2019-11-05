@@ -40,12 +40,11 @@ int write_double_array(int fd, double *arr, int n);
 int write_section_header(int fd);
 
 ///// Per-benchmark files
-void run_benchmark( void *vargs );
+void run_benchmark( void *vargs, void *ref );
 void input_to_data(int fd, void *vdata);
 void data_to_input(int fd, void *vdata);
 void output_to_data(int fd, void *vdata);
 void data_to_output(int fd, void *vdata);
-int check_data(void *vdata, void *vref);
 
 extern int INPUT_SIZE;
 
@@ -152,5 +151,3 @@ static inline void prng_srand(uint64_t seed, struct prng_rand_t *state) {
 // PRNG_RAND_MAX is exported
 
 #endif
-
-

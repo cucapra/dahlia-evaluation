@@ -40,13 +40,18 @@ int main(int argc, char **argv)
   assert( in_fd>0 && "Couldn't open input data file");
   input_to_data(in_fd, data);
 
-  struct perf_counter_t sw_ctr;
-  perf_reset(&sw_ctr);
-  perf_start(&sw_ctr);
-  run_benchmark( data );
-  perf_stop(&sw_ctr);
-  uint64_t sw_cycles = perf_avg_cpu_cycles(&sw_ctr); // need https://stackoverflow.com/questions/9225567/how-to-print-a-int64-t-type-in-c
-  printf("Average number of CPU cycles running baseline for benchmark: %" PRIu64 "\n", sw_cycles );
+  // Load check data
+#ifdef CHECK_OUTPUT
+  int check_fd;
+  char *ref;
+  ref = static_cast<char*>(malloc(INPUT_SIZE));
+  assert( ref!=NULL && "Out of memory" );
+  check_fd = open( check_file, O_RDONLY );
+  assert( check_fd>0 && "Couldn't open check data file");
+  output_to_data(check_fd, ref);
+#endif
+
+  run_benchmark(data, ref);
 
   #ifdef WRITE_OUTPUT
   int out_fd;
@@ -56,24 +61,6 @@ int main(int argc, char **argv)
   close(out_fd);
   #endif
 
-  // Load check data
-  #ifdef CHECK_OUTPUT
-  int check_fd;
-  char *ref;
-  ref = static_cast<char*>(malloc(INPUT_SIZE));
-  assert( ref!=NULL && "Out of memory" );
-  check_fd = open( check_file, O_RDONLY );
-  assert( check_fd>0 && "Couldn't open check data file");
-  output_to_data(check_fd, ref);
-  #endif
-
-  // Validate benchmark results
-  #ifdef CHECK_OUTPUT
-  if( !check_data(data, ref) ) {
-    fprintf(stderr, "Benchmark results are incorrect\n");
-    return -1;
-  }
-  #endif
   free(data);
   free(ref);
 
