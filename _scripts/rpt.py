@@ -126,10 +126,15 @@ class RPTParser:
         for idx, line in enumerate(self.lines, 1):
             if reg.search(line):
                 start = idx + off
+
+                # If start doesn't point to valid header, continue searching
+                if self.lines[start][0] != '+':
+                    continue
+
                 end = start
                 while(self.lines[end].strip() != ''):
                     end += 1
-                break
+
 
         assert end > start, "Failed to find table start."
 
