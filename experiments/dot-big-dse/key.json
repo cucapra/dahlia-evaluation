@@ -1,3 +1,7 @@
 {
-  "unroll": "results:dse_template:gemm.cpp:UNROLL"
+  "unroll": "results:dse_template:dot.cpp:UNROLL",
+  "bank1": "results:dse_template:dot.cpp:BANK1",
+  "bank2": "results:dse_template:dot.cpp:BANK2",
+  "resource1": "results:dse_template:dot.cpp:RESOURCE1",
+  "resource2": "results:dse_template:dot.cpp:RESOURCE2"
 }
