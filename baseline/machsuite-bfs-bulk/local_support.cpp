@@ -6,9 +6,23 @@
 #include <string.h>
 #include <unistd.h>
 
+int check_data( edge_index_t *data, edge_index_t *ref ) {
+  int has_errors = 0;
+  int i;
+
+  // Check that the horizons have the same number of nodes
+  for(i=0; i<N_LEVELS; i++) {
+    has_errors |= (data[i] != ref[i]);
+  }
+
+  // Return true if it's correct.
+  return !has_errors;
+}
+
 int INPUT_SIZE = sizeof(struct bench_args_t);
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, void *vref ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
+  struct bench_args_t *ref = (struct bench_args_t *)vref;
   cl_int err;
 
   // Copy the test data
@@ -92,25 +106,44 @@ void run_benchmark( void *vargs ) {
   OCL_CHECK(err, err = krnl_bfs_bulk.setArg(6, level_counts_buffer));
 
   // Init data
+  std::ofstream runtime("runtime.log");
+  if (!runtime.is_open()) {
+    std::cout << "Error: Failed to open output file.";
+    exit(-1);
+  }
 
-  OCL_CHECK(err,
-            err = q.enqueueMigrateMemObjects({
-                                              nodes_edge_begin_buffer,
-                                              nodes_edge_end_buffer,
-                                              edges_src_buffer,
-                                              edges_dst_buffer,
-                                              level_buffer}, 0));
+  for (auto i = 0; i < 10; i++) {
+    OCL_CHECK(err,
+              err = q.enqueueMigrateMemObjects({
+                                                nodes_edge_begin_buffer,
+                                                nodes_edge_end_buffer,
+                                                edges_src_buffer,
+                                                edges_dst_buffer,
+                                                level_buffer}, 0));
 
-  OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
+    cl::Event event;
+    uint64_t nstimestart, nstimeend;
 
-  OCL_CHECK(err,
-            err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk, NULL, &event));
 
-  q.finish();
+    OCL_CHECK(err,
+              err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
 
-  // Copy results
-  for (int i=0; i < N_LEVELS; i++) {
-    args->level_counts[i] = level_counts[i];
+    q.finish();
+
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+    auto t = nstimeend - nstimestart;
+    std::cout << "Iteration " << i << ": " << t/1000000.0 << " ms." << std::endl;
+    runtime << i << "," << t/1000000.0 << std::endl;
+
+    if(!check_data(level_counts.data(), ref->level_counts)) {
+      fprintf(stderr, "Benchmark results are incorrect\n");
+      exit(-1);
+    }
   }
 }
 
@@ -217,19 +250,4 @@ void data_to_output(int fd, void *vdata) {
   // Section 1
   write_section_header(fd);
   write_uint64_t_array(fd, data->level_counts, N_LEVELS);
-}
-
-int check_data( void *vdata, void *vref ) {
-  struct bench_args_t *data = (struct bench_args_t *)vdata;
-  struct bench_args_t *ref = (struct bench_args_t *)vref;
-  int has_errors = 0;
-  int i;
-
-  // Check that the horizons have the same number of nodes
-  for(i=0; i<N_LEVELS; i++) {
-    has_errors |= (data->level_counts[i]!=ref->level_counts[i]);
-  }
-
-  // Return true if it's correct.
-  return !has_errors;
 }
