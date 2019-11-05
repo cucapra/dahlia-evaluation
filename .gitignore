@@ -44,3 +44,5 @@ _sds
 .bit
 
 .ipynb_checkpoints/
+
+*pyc
