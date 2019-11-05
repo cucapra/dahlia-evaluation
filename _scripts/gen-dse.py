@@ -3,12 +3,13 @@
 import re
 import json
 import argparse
-import common
 import sys
 import os
 import itertools
 import copy
 import shutil
+
+from benchmarking import common
 
 TEMPLATE = 'template.json'
 

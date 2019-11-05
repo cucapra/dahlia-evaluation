@@ -7,10 +7,10 @@ import json
 import requests
 import argparse
 
+from benchmarking import common
 from benchmarking.summary import collect_configs
 from benchmarking.polyphemus import extract_batch
 
-import common
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.

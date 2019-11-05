@@ -8,6 +8,7 @@ import requests
 import argparse
 
 from benchmarking.summary import collect_configs
+from benchmarking import common
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
 DOWNLOAD_DIR = "raw"  # Subdirectory where we download files for extraction.
@@ -89,7 +90,7 @@ def download_files(base_dir, job_id, file_config):
     return success, out_data
 
 
-def extract_job(batch_dir, job_id, static_collects, dync_collects):
+def extract_job(batch_dir, job_id, static_collects, dyn_collects):
     """Extract information about a single job. Return a dict of
     information to include about it. The dict *at least* has an 'ok'
     attribute, indicating whether the job is completely ready.

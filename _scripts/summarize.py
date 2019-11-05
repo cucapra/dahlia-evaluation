@@ -6,10 +6,10 @@ import sys
 import os
 import argparse
 import numpy as np
-import common
 
 from collections import defaultdict, ChainMap
 
+from benchmarking import common
 from benchmarking.summary import summary_configs, summarize
 
 OUT_CSV = 'summary.csv'

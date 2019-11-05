@@ -6,7 +6,7 @@ import requests
 from collections import defaultdict
 import logging
 
-import common
+from benchmarking import common
 
 
 def get_metadata(job_id):

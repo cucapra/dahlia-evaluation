@@ -7,7 +7,7 @@ import datetime
 import argparse
 from collections import namedtuple
 
-import common
+from benchmarking import common
 
 BUILDBOT_JOBS_URL = common.buildbot_url() + '/jobs'
 
