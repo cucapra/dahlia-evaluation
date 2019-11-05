@@ -7,7 +7,8 @@ import json
 import requests
 import argparse
 
-import collect_configs
+from benchmarking.summary import collect_configs
+
 import common
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.

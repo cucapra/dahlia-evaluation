@@ -10,7 +10,7 @@ import common
 
 from collections import defaultdict, ChainMap
 
-import summarize_helpers
+from benchmarking.summary import summary_configs
 
 OUT_CSV = 'summary.csv'
 DEFAULT_CONFIG = [
@@ -111,7 +111,7 @@ if __name__ == '__main__':
 
     # Set of configurations to use
     parser.add_argument('-c', '--config', nargs='+', default = None,
-                        help = 'Specify any number of space separated predefined configurations to use. Possible configurations: {}'.format(summarize_helpers.CONF_MAP.keys()))
+                        help = 'Specify any number of space separated predefined configurations to use. Possible configurations: {}'.format(summary_configs.CONF_MAP.keys()))
 
     parser.add_argument('-R', '--no-runtime', action='store_true', default=False,
                         help='Extract fields from runtime.log')
@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
     common.logging.info('Using configurations: {}'.format(confs))
 
-    conf_fields = [ summarize_helpers.parse_confs(conf).keys for conf in confs ]
+    conf_fields = [ summary_configs.parse_confs(conf).keys for conf in confs ]
 
     extra_keys = {}
     if opts.key_conf:
