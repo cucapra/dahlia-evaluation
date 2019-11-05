@@ -1,0 +1,2668 @@
+{
+  "15kY4G2jnUM": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "15kY4G2jnUM",
+      "platform": "zed",
+      "started": 1572608510.4183285,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "2gdV3QM2MgM": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "2gdV3QM2MgM",
+      "platform": "zed",
+      "started": 1572608663.479552,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "5GtdNZm76UA": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "5GtdNZm76UA",
+      "platform": "zed",
+      "started": 1572608661.3835452,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "7CfoyQhGHzE": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-1-2-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-1-2-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "7CfoyQhGHzE",
+      "platform": "zed",
+      "started": 1572608618.0155625,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "8xh198pDL18": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-0-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-0-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "8xh198pDL18",
+      "platform": "zed",
+      "started": 1572608496.7533746,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "90E7g4ti6YA": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "90E7g4ti6YA",
+      "platform": "zed",
+      "started": 1572608665.6442652,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "BZq_3BCyyI8": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "BZq_3BCyyI8",
+      "platform": "zed",
+      "started": 1572608664.9037988,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "D1_VcTtDLx8": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-0-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-0-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "D1_VcTtDLx8",
+      "platform": "zed",
+      "started": 1572608498.8310375,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "EEVQfUJM1VE": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "EEVQfUJM1VE",
+      "platform": "zed",
+      "started": 1572608478.2440813,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "F56Hi6OYTI8": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "F56Hi6OYTI8",
+      "platform": "zed",
+      "started": 1572608509.2483833,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "GldCsw1iOjk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-0-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-0-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "GldCsw1iOjk",
+      "platform": "zed",
+      "started": 1572608475.7748888,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "H38aHmskV_g": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "H38aHmskV_g",
+      "platform": "zed",
+      "started": 1572608517.1237135,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "HBpRDsZ4Rhg": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "HBpRDsZ4Rhg",
+      "platform": "zed",
+      "started": 1572608511.5935268,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "J6MMft_1rp4": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "J6MMft_1rp4",
+      "platform": "zed",
+      "started": 1572608625.7263947,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "JIfOqflXCJk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-1-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-1-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "JIfOqflXCJk",
+      "platform": "zed",
+      "started": 1572608624.555293,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "KPyELnpZaEk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "KPyELnpZaEk",
+      "platform": "zed",
+      "started": 1572608515.0593538,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "KoFxvCQvTPE": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "KoFxvCQvTPE",
+      "platform": "zed",
+      "started": 1572608629.5509233,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "LUKlTsLEZeY": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "LUKlTsLEZeY",
+      "platform": "zed",
+      "started": 1572608515.7457078,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "LkzTz42I34M": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "LkzTz42I34M",
+      "platform": "zed",
+      "started": 1572608365.875275,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "O8VUqsO8RK4": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "O8VUqsO8RK4",
+      "platform": "zed",
+      "started": 1572608628.1880066,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "OLMhF1nyIjc": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-0-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-0-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "OLMhF1nyIjc",
+      "platform": "zed",
+      "started": 1572608657.9050145,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "OaTs01kYpHY": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-1-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-1-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "OaTs01kYpHY",
+      "platform": "zed",
+      "started": 1572608646.5599174,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "QwJKw2Tr2hI": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-1-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-1-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "QwJKw2Tr2hI",
+      "platform": "zed",
+      "started": 1572608613.9278455,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "RwfQJBO43Z4": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "RwfQJBO43Z4",
+      "platform": "zed",
+      "started": 1572608630.24135,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "S8r7HELtIKw": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "S8r7HELtIKw",
+      "platform": "zed",
+      "started": 1572608503.3495874,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "SQuNhevGcZ0": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "SQuNhevGcZ0",
+      "platform": "zed",
+      "started": 1572608516.4124968,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "SpaRYZ4JAYw": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "SpaRYZ4JAYw",
+      "platform": "zed",
+      "started": 1572608513.0005932,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "Td9OqkeLcqM": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "Td9OqkeLcqM",
+      "platform": "zed",
+      "started": 1572608512.2946024,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "TucIUqt2cE0": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "TucIUqt2cE0",
+      "platform": "zed",
+      "started": 1572608667.0423298,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "UrwpG5jP0ho": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "UrwpG5jP0ho",
+      "platform": "zed",
+      "started": 1572608666.355327,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "W0yqjmxLXPU": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "W0yqjmxLXPU",
+      "platform": "zed",
+      "started": 1572608365.178169,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "WivAGLVxTZ4": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "WivAGLVxTZ4",
+      "platform": "zed",
+      "started": 1572608366.5936773,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "XHD3IgBFS_M": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "XHD3IgBFS_M",
+      "platform": "zed",
+      "started": 1572608660.2298682,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "YPvoDCwZGBw": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "YPvoDCwZGBw",
+      "platform": "zed",
+      "started": 1572608514.4026766,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "Zmv6wXsSlQg": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-0-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-0-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "Zmv6wXsSlQg",
+      "platform": "zed",
+      "started": 1572608467.9980376,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "_P3uQZXXZpk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "_P3uQZXXZpk",
+      "platform": "zed",
+      "started": 1572608363.7920825,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "_jWtq4HH8iE": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-0-0-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-0-0-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "_jWtq4HH8iE",
+      "platform": "zed",
+      "started": 1572608463.9209201,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "ak19_dNTfwY": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "ak19_dNTfwY",
+      "platform": "zed",
+      "started": 1572608362.458732,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "bnaAify0d7s": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-0-1-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-0-1-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "bnaAify0d7s",
+      "platform": "zed",
+      "started": 1572608467.3249862,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "c8bs6r8FOhQ": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "c8bs6r8FOhQ",
+      "platform": "zed",
+      "started": 1572608652.4678533,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "deyFAjBX9Co": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "deyFAjBX9Co",
+      "platform": "zed",
+      "started": 1572608479.6938488,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "dh4FqeADwp0": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-1-2-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-1-2-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "dh4FqeADwp0",
+      "platform": "zed",
+      "started": 1572608617.298417,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "dnptlG3l0Yc": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "dnptlG3l0Yc",
+      "platform": "zed",
+      "started": 1572608480.4193356,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "jbsE2lYlm7Q": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-1-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "jbsE2lYlm7Q",
+      "platform": "zed",
+      "started": 1572608659.0554595,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "kYUnI8NRKrs": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-0-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-0-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "kYUnI8NRKrs",
+      "platform": "zed",
+      "started": 1572608474.6021607,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "l7oSayq8lWU": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-0-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-0-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "l7oSayq8lWU",
+      "platform": "zed",
+      "started": 1572608650.1792376,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "lLAR2vIe53k": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-0-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-0-0-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "lLAR2vIe53k",
+      "platform": "zed",
+      "started": 1572608508.10703,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  },
+  "lyJaAZf59qc": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-0-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-0-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "lyJaAZf59qc",
+      "platform": "zed",
+      "started": 1572608500.3799973,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "m4QEuFBiQXk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "m4QEuFBiQXk",
+      "platform": "zed",
+      "started": 1572608662.7720122,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "n7V30l1RB30": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "n7V30l1RB30",
+      "platform": "zed",
+      "started": 1572608367.2963376,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "n9xRRyutphw": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-1-2-2-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "n9xRRyutphw",
+      "platform": "zed",
+      "started": 1572608628.850458,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "o4sCyuP1G4I": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "o4sCyuP1G4I",
+      "platform": "zed",
+      "started": 1572608650.8527803,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "oAE1oyl9QjU": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "oAE1oyl9QjU",
+      "platform": "zed",
+      "started": 1572608501.0517018,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "plou7MKqVpk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-1-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-0-1-1-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "plou7MKqVpk",
+      "platform": "zed",
+      "started": 1572608502.626313,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 2,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "sLyMIGm4ZHk": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-1-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-1-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "sLyMIGm4ZHk",
+      "platform": "zed",
+      "started": 1572608648.5768309,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "sqW6e5YbUaw": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "sqW6e5YbUaw",
+      "platform": "zed",
+      "started": 1572608664.2101295,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "ttsZCMsx9po": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "ttsZCMsx9po",
+      "platform": "zed",
+      "started": 1572608364.480274,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "uNYMqBG1xBg": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-1-1-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-1-2-1-1-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "uNYMqBG1xBg",
+      "platform": "zed",
+      "started": 1572608653.1772509,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 4,
+          "BANK3": 8,
+          "PORT1": 2,
+          "PORT2": 2,
+          "PORT3": 2,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "28",
+        "DSP": "0",
+        "FF": "1492",
+        "LUT": "1592"
+      }
+    }
+  },
+  "uXNuSsbMQ10": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-0-0-0-0-0-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "uXNuSsbMQ10",
+      "platform": "zed",
+      "started": 1572608363.135708,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 2,
+          "BANK3": 2,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 2
+        }
+      },
+      "sda_est": {
+        "BRAM": "12",
+        "DSP": "0",
+        "FF": "1360",
+        "LUT": "1528"
+      }
+    }
+  },
+  "vsFoYAmbnnI": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-0-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-2-2-2-2-0-0-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "vsFoYAmbnnI",
+      "platform": "zed",
+      "started": 1572608662.058394,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 8,
+          "BANK2": 8,
+          "BANK3": 8,
+          "PORT1": 1,
+          "PORT2": 1,
+          "PORT3": 1,
+          "UNROLL": 8
+        }
+      },
+      "sda_est": {
+        "BRAM": "36",
+        "DSP": "0",
+        "FF": "1374",
+        "LUT": "1528"
+      }
+    }
+  },
+  "w7qMm40ipkE": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-0-1",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-0-1-1-1-0-1",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "w7qMm40ipkE",
+      "platform": "zed",
+      "started": 1572608478.9764135,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 2,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 2,
+          "PORT2": 1,
+          "PORT3": 2,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "16",
+        "DSP": "0",
+        "FF": "1485",
+        "LUT": "1592"
+      }
+    }
+  },
+  "xd3qy4PTVU8": {
+    "bench": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-1-0",
+    "job": {
+      "config": {
+        "directives": "",
+        "estimate": false,
+        "hwname": "dahlia-vmul-dse:dahlia-gemm-1-1-1-1-0-1-0",
+        "make": true,
+        "make_conf": {
+          "DEVICE": "/home/centos/src/project_data/aws-fpga/SDAccel/aws_platform/xilinx_aws-vu9p-f1-04261818_dynamic_5_0/xilinx_aws-vu9p-f1-04261818_dynamic_5_0.xpfm"
+        },
+        "mode": "estimate",
+        "platform": "",
+        "skipexec": false
+      },
+      "estimate": 0,
+      "mode": "estimate",
+      "name": "xd3qy4PTVU8",
+      "platform": "zed",
+      "started": 1572608513.6886914,
+      "state": "done"
+    },
+    "ok": true,
+    "results": {
+      "dse_template": {
+        "gemm.fuse": {
+          "BANK1": 4,
+          "BANK2": 4,
+          "BANK3": 4,
+          "PORT1": 1,
+          "PORT2": 2,
+          "PORT3": 1,
+          "UNROLL": 4
+        }
+      },
+      "sda_est": {
+        "BRAM": "20",
+        "DSP": "0",
+        "FF": "1366",
+        "LUT": "1528"
+      }
+    }
+  }
+}
