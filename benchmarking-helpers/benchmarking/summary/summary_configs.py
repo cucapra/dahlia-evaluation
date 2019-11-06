@@ -35,6 +35,9 @@ SUMMARIZE_CONFIGS = [
     SummarizeConfig(
         name='sda_est',
         keys={
+            'est_min_lat': 'results:sda_est:best_case',
+            'est_max_lat': 'results:sda_est:worst_case',
+            'est_avg_lat': 'results:sda_est:avg_case',
             'est_lut':  'results:sda_est:LUT',
             'est_ff':   'results:sda_est:FF',
             'est_bram': 'results:sda_est:BRAM',
