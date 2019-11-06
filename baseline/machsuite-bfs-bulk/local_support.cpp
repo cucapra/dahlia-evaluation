@@ -7,7 +7,7 @@
 #include <unistd.h>
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   cl_int err;
 
@@ -40,43 +40,43 @@ void run_benchmark( void *vargs ) {
   cl::Kernel krnl_bfs_bulk = helpers::get_kernel(context, device, "bfs", err);
 
   OCL_CHECK(err,
-      cl::Buffer nodes_edge_begin_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-        N_NODES*sizeof(edge_index_t),
-        nodes_edge_begin.data(),
-        &err));
+            cl::Buffer nodes_edge_begin_buffer(context,
+                                               CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                               N_NODES*sizeof(edge_index_t),
+                                               nodes_edge_begin.data(),
+                                               &err));
   OCL_CHECK(err,
-      cl::Buffer nodes_edge_end_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-        N_NODES*sizeof(edge_index_t),
-        nodes_edge_end.data(),
-        &err));
+            cl::Buffer nodes_edge_end_buffer(context,
+                                             CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                             N_NODES*sizeof(edge_index_t),
+                                             nodes_edge_end.data(),
+                                             &err));
 
   OCL_CHECK(err,
-      cl::Buffer edges_src_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-        N_EDGES*sizeof(node_index_t),
-        edges_src.data(),
-        &err));
+            cl::Buffer edges_src_buffer(context,
+                                        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                        N_EDGES*sizeof(node_index_t),
+                                        edges_src.data(),
+                                        &err));
   OCL_CHECK(err,
-      cl::Buffer edges_dst_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
-        N_EDGES*sizeof(node_index_t),
-        edges_dst.data(),
-        &err));
+            cl::Buffer edges_dst_buffer(context,
+                                        CL_MEM_USE_HOST_PTR | CL_MEM_READ_ONLY,
+                                        N_EDGES*sizeof(node_index_t),
+                                        edges_dst.data(),
+                                        &err));
 
   OCL_CHECK(err,
-      cl::Buffer level_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
-        N_NODES*sizeof(level_t),
-        level.data(),
-        &err));
+            cl::Buffer level_buffer(context,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
+                                    N_NODES*sizeof(level_t),
+                                    level.data(),
+                                    &err));
   OCL_CHECK(err,
-      cl::Buffer level_counts_buffer(context,
-        CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
-        N_LEVELS*sizeof(edge_index_t),
-        level_counts.data(),
-        &err));
+            cl::Buffer level_counts_buffer(context,
+                                           CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                                           N_LEVELS*sizeof(edge_index_t),
+                                           level_counts.data(),
+                                           &err));
 
 
   node_index_t starting_node = args->starting_node;
@@ -101,12 +101,22 @@ void run_benchmark( void *vargs ) {
                                               edges_dst_buffer,
                                               level_buffer}, 0));
 
-  OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk));
+  cl::Event event;
+  uint64_t nstimestart, nstimeend;
+  OCL_CHECK(err, err = q.enqueueTask(krnl_bfs_bulk, NULL, &event));
 
   OCL_CHECK(err,
             err = q.enqueueMigrateMemObjects({level_counts_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
-
   q.finish();
+
+  OCL_CHECK(err,
+            err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+  OCL_CHECK(err,
+            err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+  auto t = (nstimeend - nstimestart)/1000000.0;
+  std::cout << "Iteration: " << iter << ": " << t << " ms." << std::endl;
+  *runtime << iter << "," << t << std::endl;
 
   // Copy results
   for (int i=0; i < N_LEVELS; i++) {
