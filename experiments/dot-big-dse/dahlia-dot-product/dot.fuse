@@ -2,8 +2,8 @@ decl m1_int: bit<32>[4096];
 decl m2_int: bit<32>[4096];
 decl prod: bit<64>[1];
 
-let m1: bit<32>{1}[4096 bank 2];
-let m2: bit<32>{1}[4096 bank 2];
+let m1: bit<32>{::PORT1::}[4096 bank ::BANK1::];
+let m2: bit<32>{::PORT2::}[4096 bank ::BANK2::];
 
 view m1_sh =     m1[_: bank 1];
 view m2_sh =     m2[_: bank 1];
@@ -14,7 +14,7 @@ view m2_sh =     m2[_: bank 1];
     m2_sh[i] := m2_int[i];
   }
   ---
-  for (let i = 0..4096) unroll 2 {
+  for (let i = 0..4096) unroll ::UNROLL:: {
     let x = m1[i] * m2[i];
   } combine {
     prod[0] += x;

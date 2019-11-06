@@ -2,13 +2,17 @@
 
 accepted=0
 total=0
+accept_file=data/accepted.txt
 
-for folder in dotproduct-*; do
+rm -f $accept_file
+echo "bench" > $accept_file
+
+for folder in ./dahlia-dot-product-*; do
   total=$((total + 1))
-  ../../../dahlia/fuse $folder/dot.fuse -n gemm -o $folder/dot.cpp >> /dev/null
+  ../../../dahlia/fuse $folder/dot.fuse >> /dev/null
   if [ $? -eq 0 ]; then
-    # BUILDBOT=http://cerberus.cs.cornell.edu:7331 ../../_scripts/batch.py --mode estimate -p 'dahlia-vmul-dse' $folder
     accepted=$((accepted + 1))
+    echo $folder | tee -a $accept_file
   fi
 done
 
