@@ -32,6 +32,7 @@ def get_status(batch_dir):
 
     # Download all the status stuff.
     job_info = {}
+    failed = []
     for job_id in job_ids:
         info = get_metadata(job_id)
         if info is None:
@@ -46,6 +47,8 @@ def get_status(batch_dir):
             job_id, info['config']['hwname'], info['state'],
         )
         job_info[job_id] = info
+        if info['state'] == 'failed':
+            failed.append(job_id)
 
     # Count up the states.
     counts = defaultdict(int)
@@ -55,6 +58,8 @@ def get_status(batch_dir):
     # Print out a summary.
     for key, count in sorted(counts.items()):
         print('{}: {}/{}'.format(key, count, len(job_info)))
+
+    print('Failed IDs: {}'.format(', '.join(failed)))
 
 
 if __name__ == '__main__':
