@@ -7,7 +7,7 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 #define EPSILON 1.0e-6
 
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   size_t vector_size_bytes_val = NNZ*sizeof(TYPE);
   size_t vector_size_bytes_cols = NNZ*sizeof(int32_t);
@@ -21,8 +21,8 @@ void run_benchmark( void *vargs ) {
   std::vector<int32_t,aligned_allocator<int32_t>> rowDelimiters_in(N+1);
   std::vector<TYPE,aligned_allocator<TYPE>> vec_in(N);
   std::vector<TYPE,aligned_allocator<TYPE>> out(N);
-  
-  // Copy the test data 
+
+  // Copy the test data
   for(int i = 0 ; i < NNZ ; i++){
       val_in[i] = args->val[i];
       cols_in[i] = args->cols[i];
@@ -43,7 +43,7 @@ void run_benchmark( void *vargs ) {
 
     OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
+    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // find_binary_file() is a utility API which will search the xclbin file for
     // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
@@ -57,7 +57,7 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err, cl::Kernel krnl_spmv_crs(program,"spmv", &err));
 
     // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
+    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     OCL_CHECK(err,
               cl::Buffer buffer_val(context,
@@ -94,7 +94,6 @@ void run_benchmark( void *vargs ) {
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_val, buffer_cols, buffer_rowDelimiters, buffer_vec, buffer_output},0/* 0 means from host*/));
 
-    int size = 4096;
     OCL_CHECK(err, err = krnl_spmv_crs.setArg(0, buffer_val));
     OCL_CHECK(err, err = krnl_spmv_crs.setArg(1, buffer_cols));
     OCL_CHECK(err, err = krnl_spmv_crs.setArg(2, buffer_rowDelimiters));
@@ -105,14 +104,25 @@ void run_benchmark( void *vargs ) {
     // Launch the Kernel
     // For HLS kernels global and local size is always (1,1,1). So, it is recommended
     // to always use enqueueTask() for invoking HLS kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_spmv_crs));
+    cl::Event event;
+    uint64_t nstimestart, nstimeend;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_spmv_crs, NULL, &event));
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output},CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
-  
-  // Copy results 
+
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+    auto t = (nstimeend - nstimestart)/1000000.0;
+    std::cout << "Iteration: " << iter << ": " << t << " ms." << std::endl;
+    *runtime << iter << "," << t << std::endl;
+
+  // Copy results
   for(int i = 0 ; i < N  ; i++){
       args->out[i] = out[i];
   }

@@ -7,15 +7,15 @@
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
 
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   size_t vector_size_bytes = N*sizeof(TYPE);
   cl_int err;
   std::vector<TYPE,aligned_allocator<TYPE>> m_in1(4096);
   std::vector<TYPE,aligned_allocator<TYPE>> m_in2(4096);
   std::vector<TYPE,aligned_allocator<TYPE>> m_prod(4096);
-  
-  // Copy the test data 
+
+  // Copy the test data
   for(int i = 0 ; i < 4096 ; i++){
       m_in1[i] = args->m1[i];
       m_in2[i] = args->m2[i];
@@ -29,7 +29,7 @@ void run_benchmark( void *vargs ) {
 
     OCL_CHECK(err, cl::Context context(device, NULL, NULL, NULL, &err));
     OCL_CHECK(err, cl::CommandQueue q(context, device, CL_QUEUE_PROFILING_ENABLE, &err));
-    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err)); 
+    OCL_CHECK(err, std::string device_name = device.getInfo<CL_DEVICE_NAME>(&err));
 
     // find_binary_file() is a utility API which will search the xclbin file for
     // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
@@ -43,7 +43,7 @@ void run_benchmark( void *vargs ) {
     OCL_CHECK(err, cl::Kernel krnl_gemm_ncube(program,"gemm", &err));
 
     // Allocate Buffer in Global Memory
-    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and 
+    // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
     OCL_CHECK(err,
               cl::Buffer buffer_in1(context,
@@ -68,7 +68,6 @@ void run_benchmark( void *vargs ) {
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in1, buffer_in2},0/* 0 means from host*/));
 
-    int size = 4096;
     OCL_CHECK(err, err = krnl_gemm_ncube.setArg(0, buffer_in1));
     OCL_CHECK(err, err = krnl_gemm_ncube.setArg(1, buffer_in2));
     OCL_CHECK(err, err = krnl_gemm_ncube.setArg(2, buffer_output));
@@ -77,14 +76,25 @@ void run_benchmark( void *vargs ) {
     // Launch the Kernel
     // For HLS kernels global and local size is always (1,1,1). So, it is recommended
     // to always use enqueueTask() for invoking HLS kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_gemm_ncube));
+    cl::Event event;
+    uint64_t nstimestart, nstimeend;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_gemm_ncube, NULL, &event));
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_output},CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
-  
-  // Copy results 
+
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+    auto t = (nstimeend - nstimestart)/1000000.0;
+    std::cout << "Iteration: " << iter << ": " << t << " ms." << std::endl;
+    *runtime << iter << "," << t << std::endl;
+
+  // Copy results
   for(int i = 0 ; i < 4096  ; i++){
       args->prod[i] = m_prod[i];
   }

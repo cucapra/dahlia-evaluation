@@ -3,6 +3,7 @@
 #include "bfs.h"
 #include <string.h>
 #include <unistd.h>
+#include <iostream>
 
 int INPUT_SIZE = sizeof(struct bench_args_t);
 
@@ -10,28 +11,22 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   cl_int err;
   // Copy the test data
-  // std::vector<node_t,aligned_allocator<node_t>> nodes(N_NODES);
   std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_begin(N_NODES);
   std::vector<edge_index_t,aligned_allocator<edge_index_t>> nodes_edge_end(N_NODES);
-  // std::vector<edge_t,aligned_allocator<edge_t>> edges(N_EDGES);
   std::vector<node_index_t,aligned_allocator<node_index_t>> edges_src(N_EDGES);
   std::vector<node_index_t,aligned_allocator<node_index_t>> edges_dst(N_EDGES);
 
   std::vector<level_t,aligned_allocator<level_t>> level(N_NODES);
   std::vector<edge_index_t,aligned_allocator<edge_index_t>> level_counts(N_LEVELS);
   std::vector<node_index_t,aligned_allocator<node_index_t>> starting_node(1);
-
-
   starting_node[0] = args->starting_node;
 
   for (int i=0; i < N_NODES; i++) {
-    // nodes[i]  = args->nodes[i];
     nodes_edge_begin[i] = args->nodes[i].edge_begin;
     nodes_edge_end[i] = args->nodes[i].edge_end;
     level[i]  = args->level[i];
   }
   for (int i=0; i<  N_EDGES; i++) {
-    // edges[i] = args-> edges[i];
     edges_src[i] = args->edges[i].src;
     edges_dst[i] = args->edges[i].dst;
   }
@@ -99,13 +94,13 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
 
     OCL_CHECK(err,
               cl::Buffer level_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
                                     N_NODES*sizeof(level_t),
                                     level.data(),
                                     &err));
     OCL_CHECK(err,
               cl::Buffer level_counts_buffer(context,
-                                    CL_MEM_USE_HOST_PTR | CL_MEM_WRITE_ONLY,
+                                    CL_MEM_USE_HOST_PTR | CL_MEM_READ_WRITE,
                                     N_LEVELS*sizeof(edge_index_t),
                                     level_counts.data(),
                                     &err));

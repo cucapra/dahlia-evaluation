@@ -7,7 +7,7 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 #define EPSILON (1.0e-6)
 
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
   size_t vector_size_bytes_orig = SIZE*sizeof(TYPE);
   size_t vector_size_bytes_sol = SIZE*sizeof(TYPE);
@@ -73,22 +73,30 @@ void run_benchmark( void *vargs ) {
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_orig, buffer_C},0/* 0 means from host*/));
 
-    int size = 4096;
     OCL_CHECK(err, err = krnl_stencil_stencil3d.setArg(0, buffer_C));
     OCL_CHECK(err, err = krnl_stencil_stencil3d.setArg(1, buffer_orig));
     OCL_CHECK(err, err = krnl_stencil_stencil3d.setArg(2, buffer_sol));
 
-
-
     // Launch the Kernel
     // For HLS kernels global and local size is always (1,1,1). So, it is recommended
     // to always use enqueueTask() for invoking HLS kernel
-    OCL_CHECK(err, err = q.enqueueTask(krnl_stencil_stencil3d));
+    cl::Event event;
+    uint64_t nstimestart, nstimeend;
+    OCL_CHECK(err, err = q.enqueueTask(krnl_stencil_stencil3d, NULL, &event));
 
     // Copy Result from Device Global Memory to Host Local Memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_sol},CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
+
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+    OCL_CHECK(err,
+              err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+    auto t = (nstimeend - nstimestart)/1000000.0;
+    std::cout << "Iteration: " << iter << ": " << t << " ms." << std::endl;
+    *runtime << iter << "," << t << std::endl;
 
   // Copy results
   for(int i = 0 ; i < SIZE  ; i++){

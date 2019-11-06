@@ -8,7 +8,7 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 
 #define EPSILON ((TYPE)1.0e-6)
 
-void run_benchmark( void *vargs ) {
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
 
   cl_int err;
@@ -108,8 +108,9 @@ void run_benchmark( void *vargs ) {
   // Launch the Kernel
   // For HLS kernels global and local size is always (1,1,1). So, it is recommended
   // to always use enqueueTask() for invoking HLS kernel
-  OCL_CHECK(err,
-      err = q.enqueueTask(krnl_md_knn));
+  cl::Event event;
+  uint64_t nstimestart, nstimeend;
+  OCL_CHECK(err, err = q.enqueueTask(krnl_md_knn, NULL, &event));
 
   // Copy Result from Device Global Memory to Host Local Memory
   OCL_CHECK(err,
@@ -117,6 +118,15 @@ void run_benchmark( void *vargs ) {
         {force_x_buffer, force_y_buffer, force_z_buffer},CL_MIGRATE_MEM_OBJECT_HOST));
 
   q.finish();
+
+  OCL_CHECK(err,
+            err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_START, &nstimestart));
+  OCL_CHECK(err,
+            err = event.getProfilingInfo<uint64_t>(CL_PROFILING_COMMAND_END, &nstimeend));
+
+  auto t = (nstimeend - nstimestart)/1000000.0;
+  std::cout << "Iteration: " << iter << ": " << t << " ms." << std::endl;
+  *runtime << iter << "," << t << std::endl;
 
   // Copy results
   for (int i=0; i < NATOMS; i++) {
