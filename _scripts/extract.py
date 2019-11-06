@@ -9,7 +9,7 @@ import argparse
 
 from benchmarking import common
 from benchmarking.summary import collect_configs
-from benchmarking.polyphemus import extract_batch
+from benchmarking.polyphemus.extract import extract_batch
 
 
 RESULTS_FILE = "results.json"  # Final, aggregated results for the batch.
