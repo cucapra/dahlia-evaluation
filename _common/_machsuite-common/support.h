@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <inttypes.h>
+#include <fstream>
 #ifdef __SDSCC__
 #include "sds_lib.h"
 #define malloc(x) (sds_alloc(x))
@@ -40,11 +41,12 @@ int write_double_array(int fd, double *arr, int n);
 int write_section_header(int fd);
 
 ///// Per-benchmark files
-void run_benchmark( void *vargs, void *ref );
+void run_benchmark( void *vargs, std::ofstream *runtime, int iter );
 void input_to_data(int fd, void *vdata);
 void data_to_input(int fd, void *vdata);
 void output_to_data(int fd, void *vdata);
 void data_to_output(int fd, void *vdata);
+int check_data(void *vdata, void *vref);
 
 extern int INPUT_SIZE;
 

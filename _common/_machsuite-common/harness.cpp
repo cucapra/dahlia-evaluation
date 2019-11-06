@@ -6,6 +6,8 @@
 #include <sys/stat.h>
 #include <assert.h>
 #include <inttypes.h>
+#include <fstream>
+#include <iostream>
 
 #define WRITE_OUTPUT
 #define CHECK_OUTPUT
@@ -31,38 +33,53 @@ int main(int argc, char **argv)
     check_file = argv[2];
   #endif
 
-  // Load input data
-  int in_fd;
-  char *data;
-  data = static_cast<char*>(malloc(INPUT_SIZE));
-  assert( data!=NULL && "Out of memory" );
-  in_fd = open( in_file, O_RDONLY );
-  assert( in_fd>0 && "Couldn't open input data file");
-  input_to_data(in_fd, data);
+  std::ofstream runtime("runtime.log");
+  if (!runtime.is_open()) {
+    std::cout << "Error: Failed to open output file.";
+    exit(-1);
+  }
 
-  // Load check data
-#ifdef CHECK_OUTPUT
-  int check_fd;
-  char *ref;
-  ref = static_cast<char*>(malloc(INPUT_SIZE));
-  assert( ref!=NULL && "Out of memory" );
-  check_fd = open( check_file, O_RDONLY );
-  assert( check_fd>0 && "Couldn't open check data file");
-  output_to_data(check_fd, ref);
+  // Load input data
+  for (auto i = 0; i < 10; i++) {
+    int in_fd;
+    char *data;
+    data = static_cast<char*>(malloc(INPUT_SIZE));
+    assert( data!=NULL && "Out of memory" );
+    in_fd = open( in_file, O_RDONLY );
+    assert( in_fd>0 && "Couldn't open input data file");
+    input_to_data(in_fd, data);
+
+    run_benchmark( data, &runtime, i );
+
+#ifdef WRITE_OUTPUT
+    int out_fd;
+    out_fd = open("output.data", O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
+    assert( out_fd>0 && "Couldn't open output data file" );
+    data_to_output(out_fd, data);
+    close(out_fd);
 #endif
 
-  run_benchmark(data, ref);
+    // Load check data
+#ifdef CHECK_OUTPUT
+    int check_fd;
+    char *ref;
+    ref = static_cast<char*>(malloc(INPUT_SIZE));
+    assert( ref!=NULL && "Out of memory" );
+    check_fd = open( check_file, O_RDONLY );
+    assert( check_fd>0 && "Couldn't open check data file");
+    output_to_data(check_fd, ref);
+#endif
 
-  #ifdef WRITE_OUTPUT
-  int out_fd;
-  out_fd = open("output.data", O_WRONLY|O_CREAT|O_TRUNC, S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH);
-  assert( out_fd>0 && "Couldn't open output data file" );
-  data_to_output(out_fd, data);
-  close(out_fd);
-  #endif
-
-  free(data);
-  free(ref);
+    // Validate benchmark results
+#ifdef CHECK_OUTPUT
+    if( !check_data(data, ref) ) {
+      fprintf(stderr, "Benchmark results are incorrect\n");
+      return -1;
+    }
+#endif
+    free(data);
+    free(ref);
+  }
 
   printf("Success.\n");
   return 0;
