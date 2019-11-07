@@ -76,7 +76,7 @@ void update(int b[SIZE], int bucket[BUCKETSIZE], int a[SIZE], int exp)
 }
 
 extern "C" {
-void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]){
+  void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]){
 #pragma HLS INTERFACE s_axilite port=a  bundle=control
 #pragma HLS INTERFACE s_axilite port=b  bundle=control
 #pragma HLS INTERFACE s_axilite port=bucket  bundle=control
@@ -90,29 +90,29 @@ void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX])
 
     int exp=0;
     int valid_buffer=0;
-    #define BUFFER_A 0
-    #define BUFFER_B 1
+#define BUFFER_A 0
+#define BUFFER_B 1
 
-    sort_1 : for (exp=0; exp<32; exp+=2) {
-        init(bucket);
-        if (valid_buffer == BUFFER_A) {
-            hist(bucket, a, exp);
-        } else {
-            hist(bucket, b, exp);
-        }
+  sort_1: for (exp=0; exp<32; exp+=2) {
+      init(bucket);
+      if (valid_buffer == BUFFER_A) {
+        hist(bucket, a, exp);
+      } else {
+        hist(bucket, b, exp);
+      }
 
-        local_scan(bucket);
-        sum_scan(sum, bucket);
-        last_step_scan(bucket, sum);
+      local_scan(bucket);
+      sum_scan(sum, bucket);
+      last_step_scan(bucket, sum);
 
-        if (valid_buffer==BUFFER_A) {
-            update(b, bucket, a, exp);
-            valid_buffer = BUFFER_B;
-        } else {
-            update(a, bucket, b, exp);
-            valid_buffer = BUFFER_A;
-        }
+      if (valid_buffer==BUFFER_A) {
+        update(b, bucket, a, exp);
+        valid_buffer = BUFFER_B;
+      } else {
+        update(a, bucket, b, exp);
+        valid_buffer = BUFFER_A;
+      }
     }
     // If trip count is even, buffer A will be valid at the end.
-}
+  }
 }

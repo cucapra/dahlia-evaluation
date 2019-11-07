@@ -14,15 +14,21 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
   cl_int err;
   std::vector<int,aligned_allocator<int>> a_in(SIZE);
   std::vector<int,aligned_allocator<int>> b_in(SIZE);
-  std::vector<int,aligned_allocator<int>> bucket_in(SIZE);
-  std::vector<int,aligned_allocator<int>> sum_in(SIZE);
+  std::vector<int,aligned_allocator<int>> bucket_in(BUCKETSIZE);
+  std::vector<int,aligned_allocator<int>> sum_in(SCAN_RADIX);
 
   // Copy the test data
   for(int i = 0 ; i < SIZE ; i++){
       a_in[i] = args->a[i];
       b_in[i] = args->b[i];
-      bucket_in[i] = args->bucket[i];
-      sum_in[i] = args->sum[i];
+  }
+
+  for (int i = 0; i < BUCKETSIZE; i++) {
+    bucket_in[i] = args->bucket[i];
+  }
+
+  for (int i = 0; i < SCAN_RADIX; i++) {
+    sum_in[i] = args->sum[i];
   }
 
   // OPENCL HOST CODE AREA START
@@ -49,19 +55,30 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
     // Allocate Buffer in Global Memory
     // Buffers are allocated using CL_MEM_USE_HOST_PTR for efficient memory and
     // Device-to-host communication
-    OCL_CHECK(err, cl::Buffer buffer_a   (context,CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
-            vector_size_bytes_a, a_in.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_b   (context,CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
-            vector_size_bytes_a, b_in.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_bucket   (context,CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
-            vector_size_bytes_bucket, bucket_in.data(), &err));
-    OCL_CHECK(err, cl::Buffer buffer_sum   (context,CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
-            vector_size_bytes_sum, sum_in.data(), &err));
+    OCL_CHECK(err, cl::Buffer buffer_a(context,
+                                       CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
+                                       vector_size_bytes_a,
+                                       a_in.data(),
+                                       &err));
+    OCL_CHECK(err, cl::Buffer buffer_b(context,
+                                       CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
+                                       vector_size_bytes_a,
+                                       b_in.data(),
+                                       &err));
+    OCL_CHECK(err, cl::Buffer buffer_bucket(context,
+                                            CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
+                                            vector_size_bytes_bucket,
+                                            bucket_in.data(),
+                                            &err));
+    OCL_CHECK(err, cl::Buffer buffer_sum(context,
+                                         CL_MEM_USE_HOST_PTR |CL_MEM_READ_WRITE,
+                                         vector_size_bytes_sum,
+                                         sum_in.data(),
+                                         &err));
 
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_a, buffer_b, buffer_bucket, buffer_sum},0/* 0 means from host*/));
 
-    int size = SIZE;
     OCL_CHECK(err, err = krnl_merge_sort.setArg(0, buffer_a));
     OCL_CHECK(err, err = krnl_merge_sort.setArg(1, buffer_b));
     OCL_CHECK(err, err = krnl_merge_sort.setArg(2, buffer_bucket));

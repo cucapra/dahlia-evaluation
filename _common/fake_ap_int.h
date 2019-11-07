@@ -21,6 +21,18 @@ template <>
 struct _int_hack<1> { using t = signed char; };
 
 template <>
+struct _int_hack<2> { using t = int8_t; };
+template <>
+struct _int_hack<3> { using t = int8_t; };
+template <>
+struct _int_hack<4> { using t = int8_t; };
+template <>
+struct _int_hack<5> { using t = int8_t; };
+template <>
+struct _int_hack<6> { using t = int8_t; };
+template <>
+struct _int_hack<7> { using t = int8_t; };
+template <>
 struct _int_hack<8> { using t = int8_t; };
 
 template <>
