@@ -22,3 +22,12 @@ bench
 ./dahlia-dot-product-3-3-3-1-0
 ./dahlia-dot-product-3-3-3-1-1
 ./dahlia-dot-product-3-3-6-1-1
+./dahlia-dot-product-3-7-6-1-0
+./dahlia-dot-product-3-7-6-1-1
+./dahlia-dot-product-7-3-6-0-1
+./dahlia-dot-product-7-3-6-1-1
+./dahlia-dot-product-7-7-11-1-1
+./dahlia-dot-product-7-7-6-0-0
+./dahlia-dot-product-7-7-6-0-1
+./dahlia-dot-product-7-7-6-1-0
+./dahlia-dot-product-7-7-6-1-1
