@@ -84,7 +84,9 @@ def extract_job(job_name):
 
     out = get_job_data(job_name)
 
-    with open(os.path.join(FOLDER, job_name + '.json'), 'w') as file:
+    result_json = os.path.join(FOLDER, os.path.basename(job_name) + '.json')
+
+    with open(result_json, 'w') as file:
         json.dump(out, file, indent=2)
 
 
