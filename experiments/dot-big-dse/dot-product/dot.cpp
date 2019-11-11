@@ -23,7 +23,7 @@ extern "C" {
     }
     //---
     for(int i = 0; i < 4096; i++) {
-      #pragma HLS UNROLL factor=::UNROLL:: skip_exit_check
+      #pragma HLS UNROLL factor=::UNROLL::
 
       ap_int<32> x = (m1[i] * m2[i]);
       // combiner:
