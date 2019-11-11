@@ -108,14 +108,17 @@ class RPTParser:
             header = RPTParser._parse_simple_header(table_lines[1])
             table_start = 2
 
+        assert len(header) > 0, "No header found"
+
         rows = []
         for line in table_lines[table_start:]:
             if not RPTParser.SKIP_LINE.match(line):
                 rows.append(RPTParser._clean_and_strip(line.split('|')))
 
-        return [{header[i]: row[i] for i in range(len(header))}
+        ret  = [{header[i]: row[i] for i in range(len(header))}
                 for row in rows
                 if len(row) == len(header)]
+        return ret
 
     def get_table(self, reg, off, multi_header=False):
         """Parse table `off` lines after `reg` matches the files in the current
@@ -128,7 +131,7 @@ class RPTParser:
                 start = idx + off
 
                 # If start doesn't point to valid header, continue searching
-                if self.lines[start][0] != '+':
+                if self.lines[start].strip()[0] != '+':
                     continue
 
                 end = start
@@ -136,6 +139,6 @@ class RPTParser:
                     end += 1
 
 
-        assert end > start, "Failed to find table start."
+        assert end > start, "Failed to find table start for {}.".format(reg)
 
         return self._parse_table(self.lines[start:end], multi_header)
