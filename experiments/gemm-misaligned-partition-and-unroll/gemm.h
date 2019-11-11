@@ -4,8 +4,8 @@
 #define TYPE ap_int<32>
 
 //Specify row/column sizes
-#define ROW_SIZE 128
-#define COL_SIZE 128
+#define ROW_SIZE 512
+#define COL_SIZE 512
 #define N ROW_SIZE * COL_SIZE
 
 // Maximum range for randomly generated data.
