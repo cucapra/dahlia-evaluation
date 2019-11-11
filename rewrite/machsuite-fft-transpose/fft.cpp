@@ -1,10 +1,10 @@
-// git.status = clean, build.date = Thu Nov 07 13:15:35 EST 2019, git.hash = d23123f
+// git.status = clean, build.date = Sat Nov 09 13:00:37 EST 2019, git.hash = 75aa1ab
 #include <ap_int.h>
 #include "math.h"
 void fft8(double a_x[8], double a_y[8]) {
-  #pragma HLS INLINE
-  #pragma HLS resource variable=a_x core=RAM_1P_BRAM
-  #pragma HLS resource variable=a_y core=RAM_1P_BRAM
+  // #pragma HLS INLINE
+  // #pragma HLS resource variable=a_x core=RAM_1P_BRAM
+  // #pragma HLS resource variable=a_y core=RAM_1P_BRAM
   double exp_p1 = 1.0;
   double exp_n1 = -1.0;
   double exp_0 = 0.0;
@@ -157,11 +157,11 @@ void fft8(double a_x[8], double a_y[8]) {
   a_y[7] = (c6_y - c7_y);
 }
 void twiddles8(double a_x[8], double a_y[8], ap_int<32> i, ap_int<32> n) {
-  #pragma HLS INLINE
-  #pragma HLS resource variable=a_x core=RAM_1P_BRAM
-  #pragma HLS resource variable=a_y core=RAM_1P_BRAM
+  // #pragma HLS INLINE
+  // #pragma HLS resource variable=a_x core=RAM_1P_BRAM
+  // #pragma HLS resource variable=a_y core=RAM_1P_BRAM
   ap_int<32> reversed8[8] = {0, 4, 2, 6, 1, 5, 3, 7};
-  #pragma HLS resource variable=reversed8 core=RAM_1P_BRAM
+  // #pragma HLS resource variable=reversed8 core=RAM_1P_BRAM
   double PI = 3.1415926535;
   for(int j = 1; j < 8; j++) {
     double phi = (((((double)(0 - 2) * PI) * (double)reversed8[j]) / (double)n) * (double)i);
@@ -175,17 +175,17 @@ void twiddles8(double a_x[8], double a_y[8], ap_int<32> i, ap_int<32> n) {
   }
 }
 void loadx8(double a_x[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
-  #pragma HLS INLINE
-  #pragma HLS resource variable=a_x core=RAM_1P_BRAM
-  #pragma HLS resource variable=x core=RAM_1P_BRAM
+  // #pragma HLS INLINE
+  // #pragma HLS resource variable=a_x core=RAM_1P_BRAM
+  // #pragma HLS resource variable=x core=RAM_1P_BRAM
   for(int i = 0; i < 8; i++) {
     a_x[i] = x[((i * sx) + offset)];
   }
 }
 void loady8(double a_y[8], double x[576], ap_int<32> offset, ap_int<32> sx) {
-  #pragma HLS INLINE
-  #pragma HLS resource variable=a_y core=RAM_1P_BRAM
-  #pragma HLS resource variable=x core=RAM_1P_BRAM
+  // #pragma HLS INLINE
+  // #pragma HLS resource variable=a_y core=RAM_1P_BRAM
+  // #pragma HLS resource variable=x core=RAM_1P_BRAM
   for(int i = 0; i < 8; i++) {
     a_y[i] = x[((i * sx) + offset)];
   }
@@ -199,21 +199,21 @@ extern "C" {
     #pragma HLS INTERFACE s_axilite port=work_y bundle=control
     #pragma HLS INTERFACE s_axilite port=return bundle=control
     double DATA_x[512];
-    #pragma HLS resource variable=DATA_x core=RAM_1P_BRAM
+    // #pragma HLS resource variable=DATA_x core=RAM_1P_BRAM
     double DATA_y[512];
-    #pragma HLS resource variable=DATA_y core=RAM_1P_BRAM
+    // #pragma HLS resource variable=DATA_y core=RAM_1P_BRAM
     double data_x[8];
-    #pragma HLS resource variable=data_x core=RAM_1P_BRAM
+    // #pragma HLS resource variable=data_x core=RAM_1P_BRAM
     double data_y[8];
-    #pragma HLS resource variable=data_y core=RAM_1P_BRAM
+    // #pragma HLS resource variable=data_y core=RAM_1P_BRAM
     double smem[576];
-    #pragma HLS resource variable=smem core=RAM_1P_BRAM
+    // #pragma HLS resource variable=smem core=RAM_1P_BRAM
     ap_int<32> reversed8[8] = {0, 4, 2, 6, 1, 5, 3, 7};
-    #pragma HLS resource variable=reversed8 core=RAM_1P_BRAM
+    // #pragma HLS resource variable=reversed8 core=RAM_1P_BRAM
     ap_int<32> access_1[8] = {0, 4, 1, 5, 2, 6, 3, 7};
-    #pragma HLS resource variable=access_1 core=RAM_1P_BRAM
+    // #pragma HLS resource variable=access_1 core=RAM_1P_BRAM
     ap_int<32> access_2[8] = {0, 1, 4, 5, 2, 3, 6, 7};
-    #pragma HLS resource variable=access_2 core=RAM_1P_BRAM
+    // #pragma HLS resource variable=access_2 core=RAM_1P_BRAM
     for(int tid = 0; tid < 64; tid++) {
       for(int i = 0; i < 8; i++) {
         data_x[i] = work_x[((i * 64) + tid)];

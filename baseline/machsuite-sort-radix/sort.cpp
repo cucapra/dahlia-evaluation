@@ -76,7 +76,7 @@ void update(int b[SIZE], int bucket[BUCKETSIZE], int a[SIZE], int exp)
 }
 
 extern "C" {
-  void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]){
+  void sort(int a[SIZE], int b[SIZE], int bucket[BUCKETSIZE], int sum[SCAN_RADIX]) {
 #pragma HLS INTERFACE s_axilite port=a  bundle=control
 #pragma HLS INTERFACE s_axilite port=b  bundle=control
 #pragma HLS INTERFACE s_axilite port=bucket  bundle=control

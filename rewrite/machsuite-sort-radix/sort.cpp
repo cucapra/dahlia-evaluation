@@ -1,8 +1,8 @@
-// git.status = clean, build.date = Thu Nov 07 13:15:35 EST 2019, git.hash = d23123f
+// git.status = clean, build.date = Sat Nov 09 13:00:37 EST 2019, git.hash = 75aa1ab
 #include <ap_int.h>
 void local_scan(ap_int<32> bucket[128][16]) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
   ap_int<32> bucket_tmp1 = 0;
   ap_int<32> bucket_tmp2 = 0;
   for(int radix_id = 0; radix_id < 128; radix_id++) {
@@ -17,8 +17,8 @@ void local_scan(ap_int<32> bucket[128][16]) {
 }
 void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=sum core=RAM_1P_BRAM
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=sum core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
   ap_int<32> sum_tmp = 0;
   sum[0] = 0;
   //---
@@ -30,8 +30,8 @@ void sum_scan(ap_int<32> sum[128], ap_int<32> bucket[128][16]) {
 }
 void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
-  #pragma HLS resource variable=sum core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=sum core=RAM_1P_BRAM
   ap_int<32> bucket_tmp = 0;
   for(int radix_id = 0; radix_id < 128; radix_id++) {
     for(int i = 0; i < 16; i++) {
@@ -43,7 +43,7 @@ void last_step_scan(ap_int<32> bucket[128][16], ap_int<32> sum[128]) {
 }
 void init(ap_int<32> bucket[128][16]) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
   for(int i = 0; i < 128; i++) {
     for(int j = 0; j < 16; j++) {
       bucket[i][j] = 0;
@@ -52,8 +52,8 @@ void init(ap_int<32> bucket[128][16]) {
 }
 void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
-  #pragma HLS resource variable=a core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=a core=RAM_1P_BRAM
   ap_int<32> bucket_idx = 0;
   ap_int<32> bucket_tmp = 0;
   for(int block_id = 0; block_id < 512; block_id++) {
@@ -67,9 +67,9 @@ void hist(ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
 }
 void update(ap_int<32> b[512][4], ap_int<32> bucket[128][16], ap_int<32> a[512][4], ap_int<32> exp) {
   #pragma HLS INLINE
-  #pragma HLS resource variable=b core=RAM_1P_BRAM
-  #pragma HLS resource variable=bucket core=RAM_1P_BRAM
-  #pragma HLS resource variable=a core=RAM_1P_BRAM
+  // #pragma HLS resource variable=b core=RAM_1P_BRAM
+  // #pragma HLS resource variable=bucket core=RAM_1P_BRAM
+  // #pragma HLS resource variable=a core=RAM_1P_BRAM
   ap_int<32> bucket_idx = 0;
   ap_int<32> elem_per_block = 4;
   ap_int<32> a_idx = 0;

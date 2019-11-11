@@ -32,7 +32,7 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
 
     // find_binary_file() is a utility API which will search the xclbin file for
     // targeted mode (sw_emu/hw_emu/hw) and for targeted platforms.
-    std::string binaryFile = xcl::find_binary_file(device_name,"fft");
+    std::string binaryFile = xcl::find_binary_file(device_name, "fft");
 
     // import_binary_file() ia a utility API which will load the binaryFile
     // and will return Binaries.
@@ -57,12 +57,11 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
                                     work_y.data(),
                                     &err));
 
+    OCL_CHECK(err, err = krnl_fft_transpose.setArg(0, buffer_workx));
+    OCL_CHECK(err, err = krnl_fft_transpose.setArg(1, buffer_worky));
 
     // Copy input data to device global memory d
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_workx, buffer_worky},0/* 0 means from host*/));
-
-    OCL_CHECK(err, err = krnl_fft_transpose.setArg(0, buffer_workx));
-    OCL_CHECK(err, err = krnl_fft_transpose.setArg(1, buffer_worky));
 
     // Launch the Kernel
     // For HLS kernels global and local size is always (1,1,1). So, it is recommended
@@ -72,7 +71,7 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
     OCL_CHECK(err, err = q.enqueueTask(krnl_fft_transpose, NULL, &event));
 
     // Copy Result from Device Global Memory to Host Local Memory
-    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_workx, buffer_worky},CL_MIGRATE_MEM_OBJECT_HOST));
+    OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_workx, buffer_worky}, CL_MIGRATE_MEM_OBJECT_HOST));
     q.finish();
   // OPENCL HOST CODE AREA END
 

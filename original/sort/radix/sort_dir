@@ -80,4 +80,3 @@ set_directive_resource -core RAM_1P_BRAM "local_scan" bucket
 #set_directive_array_partition -factor 2 -type cyclic ss_sort a
 #set_directive_array_partition -factor 2 -type cyclic ss_sort b
 #set_directive_array_partition -factor 2 -type cyclic ss_sort bucket
-#set_directive_array_partition -factor 2 -type cyclic ss_sort sum

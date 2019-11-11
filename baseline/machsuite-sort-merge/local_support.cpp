@@ -46,7 +46,6 @@ void run_benchmark( void *vargs, std::ofstream *runtime, int iter ) {
     // Copy input data to device global memory
     OCL_CHECK(err, err = q.enqueueMigrateMemObjects({buffer_in},0/* 0 means from host*/));
 
-    int size = SIZE;
     OCL_CHECK(err, err = krnl_merge_sort.setArg(0, buffer_in));
 
 
