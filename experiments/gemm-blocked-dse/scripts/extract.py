@@ -67,13 +67,13 @@ def get_job_data(job_name):
     """
     out_data = {}
     for filename, collect in FILES.items():
-        # try:
+        try:
             out = collect(os.path.join(job_name, filename))
             for k, v in out.items():
                 out_data[k] = v
-        # except Exception as e:
-            # print(e)
-            # logging.error('Failed to extract {} from job {}'.format(filename, job_name))
+        except Exception as e:
+            print(e)
+            logging.error('Failed to extract {} from job {}'.format(filename, job_name))
 
     return out_data
 
