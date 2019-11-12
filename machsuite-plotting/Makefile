@@ -1,4 +1,4 @@
-KEYS=routed_util
+KEYS=routed_util runtime
 SOURCES=absolute.png normalized.png
 
 $(SOURCES): baseline/summary.csv rewrite/summary.csv analysis.ipynb
@@ -8,4 +8,4 @@ $(SOURCES): baseline/summary.csv rewrite/summary.csv analysis.ipynb
 	../_scripts/extract.py $* -c $(KEYS)
 
 %/summary.csv: %/results.json
-	../_scripts/summarize.py $< -c $(KEYS) default -R
+	../_scripts/summarize.py $< -c $(KEYS) default
