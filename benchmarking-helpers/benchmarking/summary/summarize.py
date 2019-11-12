@@ -2,6 +2,7 @@ import json
 import csv
 import sys
 import os
+import logging
 import argparse
 import numpy as np
 
@@ -22,6 +23,9 @@ def access_obj(obj, acc):
 def get_runtime(job_results, runtime_key="time(ms)"):
     """Collect statistics from the runtime information array.
     """
+
+    if 'runtime' not in job_results['results']:
+        return None
 
     runtime_arr = [float(r[runtime_key]) for r in job_results['results']['runtime']
                    if r[runtime_key] != runtime_key]
@@ -58,6 +62,10 @@ def summarize_one(job_results, field_map, runtime):
     else:
         runtime_fields = {}
 
+    if runtime_fields is None:
+        logging.error('Failed to extract runtime data')
+        return None
+
     return { **out, **fields, **runtime_fields }
 
 
@@ -79,7 +87,7 @@ def summarize_json(results_json, field_map, runtime, out_csv):
         results_data = json.load(f)
 
     # Generate summaries.
-    out = [summarize_one(j, field_map, runtime) for j in results_data.values()]
+    out = list(filter(None, [summarize_one(j, field_map, runtime) for j in results_data.values()]))
 
     # Dump CSV output.
     headers = [f for f in out[0].keys()]
