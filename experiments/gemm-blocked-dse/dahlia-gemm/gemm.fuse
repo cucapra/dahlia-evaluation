@@ -23,9 +23,13 @@ view prod_sh = prod[_: bank 1][_: bank 1];
 
   for (let jj = 0..16) {
     for (let kk = 0..16) {
-      view m1_v = m1[_: bank ::SHRINK1::][8 * kk: bank ::SHRINK3::];
-      view m2_v = m2[8 * kk: bank ::SHRINK3::][8 * jj: bank ::SHRINK2::];
-      view prod_v = prod[_: bank ::SHRINK1::][8 * jj: bank ::SHRINK2::];
+
+      view m1_v = m1[_: bank ::SHRINK1::][8 * kk: bank ::SHRINK2::];
+
+      view m2_v = m2[8 * kk: bank ::SHRINK3::][8 * jj: bank ::SHRINK4::];
+
+      view prod_v = prod[_: bank ::SHRINK5::][8 * jj: bank ::SHRINK6::];
+
       for (let i = 0..128) unroll ::UNROLL1:: {
         for (let j = 0..8) unroll ::UNROLL2:: {
           for (let k = 0..8) unroll ::UNROLL3:: {
