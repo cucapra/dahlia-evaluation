@@ -1,0 +1,12 @@
+{
+  "gemm.fuse": {
+    "BANK11": [2],
+    "BANK12": [2],
+    "BANK21": [2],
+    "BANK22": [2],
+    "UNROLL1": [1, 4],
+    "UNROLL2": [1, 4],
+    "UNROLL3": [1, 4]
+  },
+   "MAP": "lambda self: { 'gemm.fuse': { 'SHRINK1': self['gemm.fuse']['UNROLL1'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK11'], 'SHRINK3': self['gemm.fuse']['UNROLL3'] if self['gemm.fuse']['BANK12'] > self['gemm.fuse']['UNROLL3'] else self['gemm.fuse']['BANK12'], 'SHRINK2': self['gemm.fuse']['UNROLL2'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK11'] },  }"
+}
