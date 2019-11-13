@@ -1,0 +1,64 @@
+decl orig_interface: bit<32>[128][64];
+decl filter_interface: bit<32>[3][3];
+decl sol_interface: bit<32>[128][64];
+
+let orig: bit<32>{2}[128 bank ::ORIG_D1:: ][64 bank ::ORIG_D2:: ];
+let filter: bit<32>{2}[3][3];
+let sol: bit<32>{2}[128 bank ::SOL_D1:: ][64 bank ::SOL_D2:: ];
+
+view orig_v = orig[_: bank 1][_: bank 1];
+view filter_v = filter[_: bank 1][_: bank 1];
+view sol_v = sol[_: bank 1][_: bank 1];
+{
+  for (let i = 0..128){
+    for (let j = 0..64){
+      orig_v[i][j] := orig_interface[i][j];
+    }
+  }
+  
+  for (let i = 0..3){
+    for (let j = 0..3){
+      orig_v[i][j] := filter_interface[i][j];
+    }
+  }
+  ---
+  view orig_v1 = orig[_:][1!:];
+  view orig_v2 = orig[_:][2!:];
+  view orig_v3 = orig[1!:][_:];
+  view orig_v4 = orig[1!:][1!:];
+  view orig_v5 = orig[1!:][2!:];
+  view orig_v6 = orig[2!:][_:];
+  view orig_v7 = orig[2!:][1!:];
+  view orig_v8 = orig[2!:][2!:];
+  
+  for (let r = 0..128) unroll ::UR_LOOP1:: {
+    for (let c = 0..64) unroll ::UR_LOOP2:: {
+      let mul1: bit<32> = filter[0][0] * orig[r][c];
+      ---
+      let mul2: bit<32> = filter[0][1] * orig_v1[r][c] + mul1;
+      ---
+      let mul3: bit<32> = filter[0][2] * orig_v2[r][c] + mul2;
+      ---
+      let mul4: bit<32> = filter[1][0] * orig_v3[r][c] + mul3;
+      ---
+      let mul5: bit<32> = filter[1][1] * orig_v4[r][c] + mul4;
+      ---
+      let mul6: bit<32> = filter[1][2] * orig_v5[r][c] + mul5;
+      ---
+      let mul7: bit<32> = filter[2][0] * orig_v6[r][c] + mul6;
+      ---
+      let mul8: bit<32> = filter[2][1] * orig_v7[r][c] + mul7;
+      ---
+      sol[r][c] := filter[2][2] * orig_v8[r][c] + mul8;
+    }
+  }
+  ---
+  
+  for (let i = 0..126){
+    for (let j = 0..62){
+      sol_v[i][j] := sol_interface[i][j];
+    }
+  }
+  
+  
+}
