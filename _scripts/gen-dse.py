@@ -75,7 +75,7 @@ def gen_updated_file(filename, assignment):
     return contents
 
 
-def gen_updated_directory(bench, template, assignment, force):
+def gen_updated_directory(bench, template, assignment, extra_fields, force):
     """
     """
     dst = bench + '-' + '-'.join(str(e) for e in assignment)
@@ -98,7 +98,8 @@ def gen_updated_directory(bench, template, assignment, force):
         # Update template files
         for file, params in assign.items():
             assert os.path.exists(file), "{} is mentioned in {} but missing from {}.".format(file, TEMPLATE, bench)
-            new_contents = gen_updated_file(file, params)
+            e_params = extra_fields[file] if file in extra_fields else {}
+            new_contents = gen_updated_file(file, {**params, **e_params})
             with open(file, 'w') as f:
                 f.write(new_contents)
 
@@ -114,20 +115,28 @@ def gen_dse(bench, force):
         with open(template_path) as f:
             template = json.load(f)
 
-        always_true = "lambda _: True"
         # Get filering rule if it exists
+        always_true = "lambda _: True"
         filt = eval(template.pop("FILTER", always_true))
 
+        # Get mapping rule if it exists
+        no_map = "lambda conf: {}"
+        map_func = eval(template.pop("MAP", no_map))
+
         count = 0
+        total = 0
         for assign in generate_all_assignments(template):
             full_assign = get_assignment(template, assign)
+            total += 1
             if filt(full_assign):
-                gen_updated_directory(bench_abs, template, assign, force)
+                extra_fields = map_func(full_assign)
+                gen_updated_directory(bench_abs, template, assign, extra_fields, force)
                 count = count + 1
             else:
-                common.logging.warn('Ignoring configuration because filter was false on: {}'.format(full_assign))
+                common.logging.warn(
+                    'Ignoring configuration: {}'.format(full_assign))
 
-        common.logging.info('Generated {} configurations.'.format(count))
+        common.logging.info('Generated {}/{} configurations.'.format(count, total))
 
     except AssertionError as err:
         common.logging.error(err)
