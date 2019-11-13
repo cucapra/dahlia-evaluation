@@ -1,0 +1,12 @@
+{
+  "bfs.fuse": {
+    "NODES_EDGE_BEG": [1, 2],
+    "NODES_EDGE_END": [1, 2],
+    "EDGES_SRC": [1, 2],
+    "EDGES_DST": [1, 2],
+    "LEVEL": [1, 2],
+    "LEVEL_COUNTS": [1, 2],
+    "HORIZON_UR": [1, 2],
+    "N_UR": [1, 2]
+  }
+}
