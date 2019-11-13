@@ -1,6 +1,6 @@
-decl m1: double[64][64];
-decl m2: double[64][64];
-decl prod: double[64][64];
+decl m1: double[64 bank 2][64 bank 4];
+decl m2: double[64 bank 8][64 bank 4];
+decl prod: double[64 bank 2][64 bank 4];
 
 for (let i = 0..64) {
   for (let j = 0..64) {
