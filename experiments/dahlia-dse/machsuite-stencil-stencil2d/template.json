@@ -1,0 +1,10 @@
+{
+  "stencil.fuse": {
+    "ORIG_D1": [3],
+    "ORIG_D2": [3],
+    "FILTER_D1": [3],
+    "FILTER_D2": [3],
+    "UR_LOOP1": [3],
+    "UR_LOOP2": [3]
+  }
+}
