@@ -1,39 +1,43 @@
 decl C: bit<32>[2];
-decl orig: bit<32>[32][32][16];
-decl sol: bit<32>[32][32][16];
+decl orig: bit<32>{2}[32 bank 2][32 bank 2][16 bank 2];
+decl sol: bit<32>{2}[32 bank 2][32 bank 2][16 bank 2];
 
 // Handle boundary conditions by filling with original values
-for (let j = 0..32) {
-  for (let k = 0..16) {
-    sol[0][j][k] := orig[0][j][k];
-    ---
-    sol[31][j][k] := orig[31][j][k];
+view orig_v0  = orig[_: bank 1][_:][_:];
+{
+  for (let j = 0..32) unroll 2 {
+    for (let k = 0..16) unroll 2 {
+      sol[0][j][k] := orig_v0[0][j][k];
+      ---
+      sol[31][j][k] := orig_v0[31][j][k];
+    }
+  }
+
+  ---
+
+  for (let i = 1..31) unroll 2 {
+    for (let k = 0..16) unroll 2 {
+      sol[i][0][k] := orig_v0[i][0][k];
+      ---
+      sol[i][31][k] := orig_v0[i][31][k];
+    }
+  }
+  ---
+
+  for (let i = 1..31) unroll 2 {
+    for (let j = 1..31) unroll 2 {
+      sol[i][j][0] := orig_v0[i][j][0];
+      ---
+      sol[i][j][15] := orig_v0[i][j][15];
+    }
   }
 }
 ---
-
-for (let i = 1..31) {
-  for (let k = 0..16) {
-    sol[i][0][k] := orig[i][0][k];
-    ---
-    sol[i][31][k] := orig[i][31][k];
-  }
-}
----
-
-for (let i = 1..31) {
-  for (let j = 1..31) {
-    sol[i][j][0] := orig[i][j][0];
-    ---
-    sol[i][j][15] := orig[i][j][15];
-  }
-}
----
-
+// it is wired that we cannot bank this...
 // Stencil computation
-for (let i = 1..31) {
-  for (let j = 1..31) {
-    for (let k = 1..15) {
+for (let i = 1..31) unroll 2 {
+  for (let j = 1..31) unroll 2 {
+    for (let k = 1..15) unroll 2 {
       let temp1 = orig[i][j][k] * C[0];
       ---
       let temp2 = orig[i + 1][j][k] * C[1] + temp1;
