@@ -12,9 +12,11 @@ void CPF(char pattern[PATTERN_SIZE], int32_t kmpNext[PATTERN_SIZE])
 
 c1:
     for (q = 1; q < PATTERN_SIZE; q++)
+#pragma HLS UNROLL factor=2
     {
     c2:
         while (k > 0 && pattern[k] != pattern[q])
+#pragma HLS UNROLL factor=2
         {
             k = kmpNext[q];
         }
@@ -39,6 +41,8 @@ extern "C"
 #pragma HLS INTERFACE s_axilite port = kmpNext bundle = control
 #pragma HLS INTERFACE s_axilite port = n_matches bundle = control
 #pragma HLS INTERFACE s_axilite port = return bundle = control
+#pragma HLS ARRAY_PARTITION variable=pattern cyclic factor=2 dim=1
+#pragma HLS ARRAY_PARTITION variable=input cyclic factor=2 dim=1
 
         int32_t i, q;
         n_matches[0] = 0;
@@ -48,9 +52,11 @@ extern "C"
         q = 0;
     k1:
         for (i = 0; i < STRING_SIZE; i++)
+#pragma HLS UNROLL factor=2
         {
         k2:
             while (q > 0 && pattern[q] != input[i])
+#pragma HLS UNROLL factor=2
             {
                 q = kmpNext[q];
             }

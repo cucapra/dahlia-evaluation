@@ -23,10 +23,12 @@ def cpf(pattern: bit<8>[4], kmpNext: bit<32>[4]) {
   }
 }
 
-decl pattern: bit<8>[4];
-decl input: bit<8>[32411];
-decl kmpNext: bit<32>[4];
-decl n_matches: bit<32>[1];
+// inputs
+decl pattern_interface: bit<8>[4];
+decl input_interface: bit<8>[32411];
+decl kmpNext_interface: bit<32>[4];
+// outputs
+decl n_matches_interface: bit<32>[1];
 
 n_matches[0] := 0;
 cpf(pattern, kmpNext);
