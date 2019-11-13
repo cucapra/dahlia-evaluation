@@ -1,12 +1,12 @@
 {
   "gemm.fuse": {
-    "BANK11": [2],
-    "BANK12": [2],
-    "BANK21": [2],
-    "BANK22": [2],
-    "UNROLL1": [1, 4],
-    "UNROLL2": [1, 4],
-    "UNROLL3": [1, 4]
+    "BANK11": [1,2,3,4],
+    "BANK12": [1,2,3,4],
+    "BANK21": [1,2,3,4],
+    "BANK22": [1,2,3,4],
+    "UNROLL1": [1,2,4,6,8],
+    "UNROLL2": [1,2,4,6,8],
+    "UNROLL3": [1,2,4,6,8]
   },
-   "MAP": "lambda self: { 'gemm.fuse': { 'SHRINK1': self['gemm.fuse']['UNROLL1'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK11'], 'SHRINK3': self['gemm.fuse']['UNROLL3'] if self['gemm.fuse']['BANK12'] > self['gemm.fuse']['UNROLL3'] else self['gemm.fuse']['BANK12'], 'SHRINK2': self['gemm.fuse']['UNROLL2'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK11'] },  }"
+    "MAP": "lambda self: { 'gemm.fuse': { 'SHRINK1': self['gemm.fuse']['UNROLL1'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK11'], 'SHRINK2': self['gemm.fuse']['UNROLL3'] if self['gemm.fuse']['BANK12'] > self['gemm.fuse']['UNROLL3'] else self['gemm.fuse']['BANK12'], 'SHRINK3': self['gemm.fuse']['UNROLL3'] if self['gemm.fuse']['BANK11'] > self['gemm.fuse']['UNROLL3'] else self['gemm.fuse']['BANK11'], 'SHRINK4': self['gemm.fuse']['UNROLL2'] if self['gemm.fuse']['BANK12'] > self['gemm.fuse']['UNROLL2'] else self['gemm.fuse']['BANK12'], 'SHRINK5': self['gemm.fuse']['UNROLL1'] if self['gemm.fuse']['BANK21'] > self['gemm.fuse']['UNROLL1'] else self['gemm.fuse']['BANK21'], 'SHRINK6': self['gemm.fuse']['UNROLL2'] if self['gemm.fuse']['BANK22'] > self['gemm.fuse']['UNROLL2'] else self['gemm.fuse']['BANK22'], } }"
 }
