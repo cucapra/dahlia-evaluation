@@ -48,39 +48,48 @@ def rj_xtime (x: ubit<8>): ubit<8> {
   }
 }
 
-def aes_subBytes (buf: ubit<8>[16], sbox: ubit<8>[256]) {
+def aes_subBytes (buf: ubit<8>[16 bank ::BUF_BANK::], sbox: ubit<8>[256]) {
+  view buf_shrink = buf[_: bank 1];
   for (let i = 0..16) unroll ::SUB_BYTES_UR:: {
-    let read = buf[i];
+    let read = buf_shrink[i];
     ---
     //buf[i] := rj_sbox(read);
-    buf[i] := sbox[read];
+    buf_shrink[i] := sbox[read];
   }
 }
 
-def aes_addRoundKey (buf: ubit<8>[16], key: ubit<8>[32], offset: ubit<1>) {
+def aes_addRoundKey (buf: ubit<8>[16 bank ::BUF_BANK::], key: ubit<8>[32 bank ::KEY_BANK::], offset: ubit<1>) {
+  view keyv = key[16*1: bank 1];
+  view key_shrink = key[_: bank 1];
+  view buf_shrink = buf[_: bank 1];
   for (let i = 0..16) unroll ::ROUND_KEY_UR:: {
-    let read = buf[i];
+    let read = buf_shrink[i];
     ---
     if (offset == 0) {
-      buf[i] := read ^ key[i];
+      buf_shrink[i] := read ^ key_shrink[i];
     } else {
-      buf[i] := read ^ key[i + 16];
+      buf_shrink[i] := read ^ keyv[i];
     }
   }
 }
 
-def aes_addRoundKey_cpy (buf: ubit<8>[16], key: ubit<8>[32], cpk: ubit<8>[32]) {
+def aes_addRoundKey_cpy (buf: ubit<8>[16 bank ::BUF_BANK::], key: ubit<8>[32 bank ::ENCKEY_BANK::], cpk: ubit<8>[32 bank ::KEY_BANK::]) {
+  view cpkshift = cpk[16*1: bank 1];
+  view keyshift = key[16*1: bank 1];
+  view key_shrink = key[_: bank 1];
+  view buf_shrink = buf[_: bank 1];
+  view cpk_shrink = cpk[_: bank 1];
   for (let i = 0..16) unroll ::ROUND_KEY_CPY_UR:: {
-    let read = buf[i];
-    let _key = key[i];
-    cpk[i] := _key;
+    let read = buf_shrink[i];
+    let _key = key_shrink[i];
+    cpk_shrink[i] := _key;
     ---
-    buf[i] := read ^ _key;
-    cpk[16 + i] := key[16 + i];
+    buf_shrink[i] := read ^ _key;
+    cpkshift[i] := keyshift[i];
   }
 }
 
-def aes_shiftRows (buf: ubit<8>[16]) {
+def aes_shiftRows (buf: ubit<8>[16 bank ::BUF_BANK::]) {
   let temp = buf[1];
   ---
   let read = buf[5];
@@ -130,34 +139,36 @@ def aes_shiftRows (buf: ubit<8>[16]) {
   buf[6] := temp;
 }
 
-def aes_mixColumns (buf: ubit<8>[16]) {
+def aes_mixColumns (buf: ubit<8>[16 bank ::BUF_BANK::]) {
   // NOTE(rachit): Perfect place for unrolling and combine blocks.
+  // NOTE(adrian): Except for the loop-carried dependency through buf...
+  view buf_shrink = buf[_: bank 1];
   for (let i = 0..4) unroll ::MIX_COLUMNS_UR:: {
-    let a = buf[4 * i];
+    let a = buf_shrink[4 * i];
     ---
-    let b = buf[4 * i + 1];
+    let b = buf_shrink[4 * i + 1];
     ---
-    let c = buf[4 * i + 2];
+    let c = buf_shrink[4 * i + 2];
     ---
-    let d = buf[4 * i + 3];
+    let d = buf_shrink[4 * i + 3];
     ---
     let e: ubit<8> = a ^ b ^ c ^ d;
     ---
     let temp: ubit<8> = rj_xtime(a ^ b);
-    buf[4 * i] := a ^ e ^ temp;
+    buf_shrink[4 * i] := a ^ e ^ temp;
     ---
     temp := rj_xtime(b ^ c);
-    buf[4 * i + 1] := b ^ e ^ temp;
+    buf_shrink[4 * i + 1] := b ^ e ^ temp;
     ---
     temp := rj_xtime(c ^ d);
-    buf[4 * i + 2] := c ^ e ^ temp;
+    buf_shrink[4 * i + 2] := c ^ e ^ temp;
     ---
     temp := rj_xtime(d ^ a);
-    buf[4 * i + 3] := d ^ e ^ temp;
+    buf_shrink[4 * i + 3] := d ^ e ^ temp;
   }
 }
 
-def aes_expandEncKey (k: ubit<8>[32], rc: ubit<8>, sbox: ubit<8>[256]) {
+def aes_expandEncKey (k: ubit<8>[32 bank ::DECKEY_BANK::], rc: ubit<8>, sbox: ubit<8>[256]) {
   let _k = k[0];
   ---
   //let _rj = rj_sbox(k[29]) ^ rc;
@@ -186,12 +197,14 @@ def aes_expandEncKey (k: ubit<8>[32], rc: ubit<8>, sbox: ubit<8>[256]) {
   ---
   k[3] := _k ^ _rj;
   ---
-  for (let i = 4..16) unroll ::EXPAND_ENC_KEY_1_UR:: {
-    _k := k[i];
+  view kshift = k[4*1: bank 1];
+  view k_shrink = k[_: bank 1];
+  for (let i = 0..12) unroll ::EXPAND_ENC_KEY_1_UR:: {
+    _k := kshift[i];
     ---
-    _rj := k[i-4];
+    _rj := k_shrink[i];
     ---
-    k[i] := _k ^ _rj;
+    kshift[i] := _k ^ _rj;
   }
   ---
   _k := k[16];
@@ -222,20 +235,48 @@ def aes_expandEncKey (k: ubit<8>[32], rc: ubit<8>, sbox: ubit<8>[256]) {
   ---
   k[19] := _k ^ _rj;
   ---
-  for (let i = 20..32) unroll ::EXPAND_ENC_KEY_2_UR::{
-    _k := k[i];
+  view kshift2 = k[4*1: bank 1];
+  view k_shrink2 = k[_: bank 1];
+  for (let i = 16..28) unroll ::EXPAND_ENC_KEY_2_UR:: {
+    _k := kshift2[i];
     ---
-    _rj := k[i-4];
+    _rj := k_shrink2[i];
     ---
-    k[i] := _k ^ _rj;
+    kshift2[i] := _k ^ _rj;
   }
 }
 
-decl key:ubit<8>[32 bank ::KEY_BANK::];
-decl enckey:ubit<8>[32 bank ::ENCKEY_BANK::];
-decl deckey:ubit<8>[32 bank ::DECKEY_BANK::];
-decl k:ubit<8>[32 bank ::K_BANK::];
-decl buf:ubit<8>[16 bank ::BUF_BANK::];
+decl key_interface:ubit<8>[32];
+decl enckey_interface:ubit<8>[32];
+decl deckey_interface:ubit<8>[32];
+decl k_interface:ubit<8>[32];
+decl buf_interface:ubit<8>[16];
+
+let key:ubit<8>[32 bank ::KEY_BANK::];
+let enckey:ubit<8>[32 bank ::ENCKEY_BANK::];
+let deckey:ubit<8>[32 bank ::DECKEY_BANK::];
+let k:ubit<8>[32 bank ::K_BANK::];
+let buf:ubit<8>[16 bank ::BUF_BANK::];
+
+{
+
+// Interface copy loops.
+view key_v = key[_: bank 1];
+view enckey_v = enckey[_: bank 1];
+view deckey_v = deckey[_: bank 1];
+view k_v = k[_: bank 1];
+view buf_v = buf[_: bank 1];
+for (let i = 0..32) {
+    key_v[i] := key_interface[i];
+    enckey_v[i] := enckey_interface[i];
+    deckey_v[i] := deckey_interface[i];
+    k_v[i] := k_interface[i];
+}
+for (let i = 0..16) {
+    buf_v[i] := buf_interface[i];
+}
+
+---
 
 let sbox: ubit<8>[256] = {
     0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
@@ -311,4 +352,14 @@ let sbox: ubit<8>[256] = {
   aes_expandEncKey(key, rcon, sbox);
   ---
   aes_addRoundKey(buf, key, 0);
+}
+
+---
+
+// Interface copy loop.
+view buf_v2 = buf[_: bank 1];
+for (let i = 0..16) {
+    buf_interface[i] := buf_v2[i];
+}
+
 }

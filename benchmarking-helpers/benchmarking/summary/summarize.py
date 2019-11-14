@@ -63,8 +63,9 @@ def summarize_one(job_results, field_map, runtime):
         runtime_fields = {}
 
     if runtime_fields is None:
-        logging.error('Failed to extract runtime data')
-        return None
+        logging.error('Failed to extract runtime data for {}'.format(bench))
+        runtime_fields = {}
+        out['status'] = 'error'
 
     return { **out, **fields, **runtime_fields }
 
@@ -87,10 +88,15 @@ def summarize_json(results_json, field_map, runtime, out_csv):
         results_data = json.load(f)
 
     # Generate summaries.
-    out = list(filter(None, [summarize_one(j, field_map, runtime) for j in results_data.values()]))
+    out = [summarize_one(j, field_map, runtime) for j in results_data.values()]
 
-    # Dump CSV output.
-    headers = [f for f in out[0].keys()]
+    # Get headers from rows
+    headers = []
+    for o in out:
+        new_headers = [f for f in o.keys()]
+        if len(new_headers) > len(headers):
+            headers = new_headers
+
     csv_filename = os.path.join(os.path.dirname(results_json), out_csv)
     with open(csv_filename, 'w') as f:
         writer = csv.DictWriter(f, headers)
