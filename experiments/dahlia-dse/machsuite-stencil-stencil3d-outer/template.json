@@ -1,0 +1,31 @@
+{
+  "stencil.fuse": {
+    "ORIG_D1": [4],
+    "ORIG_D2": [4],
+    "ORIG_D3": [4],
+    "SOL_D1": [4],
+    "SOL_D2": [4],
+    "SOL_D3": [4],
+    "UR_LOOP1": [4],
+    "UR_LOOP2": [4],
+    "UR_LOOP3": [4],
+    "ORIG0_D2": [4],
+    "ORIG0_D3": [4],
+    "SOL0_D2": [4],
+    "SOL0_D3": [4],
+    "UR_BOUND1_L1": [4],
+    "UR_BOUND1_L2": [4],
+    "ORIG1_D1": [4],
+    "ORIG1_D3": [2],
+    "SOL1_D1": [2],
+    "SOL1_D3": [4],
+    "UR_BOUND2_L1": [4],
+    "UR_BOUND2_L2": [4],
+    "ORIG2_D1": [4],
+    "ORIG2_D2": [4],
+    "SOL2_D1": [4],
+    "SOL2_D2": [4],
+    "UR_BOUND3_L1": [4],
+    "UR_BOUND3_L2": [4]
+  }
+}
