@@ -345,11 +345,12 @@ let sbox: ubit<8>[256] = {
   aes_addRoundKey(buf, key, 0);
 }
 
-}
-
 ---
 
 // Interface copy loop.
+view buf_v2 = buf[_: bank 1];
 for (let i = 0..16) {
-    buf_interface := buf_v[i];
+    buf_interface[i] := buf_v2[i];
+}
+
 }
