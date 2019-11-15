@@ -1,115 +1,155 @@
-def local_scan(bucket: bit<32>[128][16]) {
+
+def local_scan(bucket: bit<32>{2}[128 bank 8][16 bank 8]) {
   let bucket_tmp1: bit<32> = 0;
   let bucket_tmp2: bit<32> = 0;
+  view bucket_local_v = bucket[_: bank 1][_: bank 1];
   for (let radix_id = 0..128) {
+    // the outer loop can be unrolled
+    // loop checker is too conservative that prevent it happens
     for (let i = 1..16) {
-      bucket_tmp1 := bucket[radix_id][i - 1];
+      bucket_tmp1 := bucket_local_v[radix_id][i - 1];
       ---
-      bucket_tmp2 := bucket[radix_id][i];
+      bucket_tmp2 := bucket_local_v[radix_id][i];
       ---
-      bucket[radix_id][i] := bucket_tmp1 + bucket_tmp2;
+      bucket_local_v[radix_id][i] := bucket_tmp1 + bucket_tmp2;
     }
   }
 }
 
-def sum_scan(sum: bit<32>[128], bucket: bit<32>[128][16]) {
+def sum_scan(sum: bit<32>{2}[128 bank 8], bucket: bit<32>{2}[128 bank 8][16 bank 8]) {
   let sum_tmp: bit<32> = 0;
   sum[0] := 0;
   ---
+  view sum_sum_v = sum[_: bank 1];
+  view bucket_sum_v = bucket[_: bank 1][_: bank 1];
   for (let radix_id = 0..127) {
-    sum_tmp := sum[radix_id];
+    //cannot unroll because of cross loop dependency
+    sum_tmp := sum_sum_v[radix_id];
     ---
-    sum[radix_id + 1] := sum_tmp + bucket[radix_id][15];
+    sum_sum_v[radix_id + 1] := sum_tmp + bucket_sum_v[radix_id][15];
   }
 }
 
-def last_step_scan(bucket: bit<32>[128][16], sum: bit<32>[128]) {
+def last_step_scan(bucket: bit<32>{2}[128 bank 8][16 bank 8], sum: bit<32>{2}[128 bank 8]) {
   let bucket_tmp: bit<32> = 0;
+  view bucket_last_v = bucket[_:bank 1][_:bank 1];
+  view sum_last_v = sum[_:bank 1];
   for (let radix_id = 0..128) {
+    // the outer loop can be unrolled
+    // loop checker is too conservative that prevent it happens
     for (let i = 0..16) {
-      bucket_tmp := bucket[radix_id][i];
+      bucket_tmp := bucket_last_v[radix_id][i];
       ---
-      bucket[radix_id][i] := bucket_tmp + sum[radix_id];
+      bucket_last_v[radix_id][i] := bucket_tmp + sum_last_v[radix_id];
     }
   }
 }
 
-def init(bucket: bit<32>[128][16]) {
-  for (let i = 0..128) {
-    for (let j = 0..16) {
-      bucket[i][j] := 0;
+def init(bucket: bit<32>{2}[128 bank 8][16 bank 8]) {
+  view bucket_init_v = bucket[_:bank 4][_:bank 4];
+  for (let i = 0..128) unroll 4 {
+    for (let j = 0..16) unroll 4 {
+      bucket_init_v[i][j] := 0;
     }
   }
 }
 
-def hist(bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
+def hist(bucket: bit<32>{2}[128 bank 8][16 bank 8], a: bit<32>{2}[512][4], exp: bit<32>) {
+  //bucket index is dynamic, nothing we can do
   let bucket_idx: bit<32> = 0;
   let bucket_tmp: bit<32> = 0;
+  view bucket_hist_v = bucket[_:bank 1][_:bank 1];
   for (let block_id = 0..512) {
     for (let i = 0..4) {
       bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id + 1;
-      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
+      bucket_tmp := bucket_hist_v[bucket_idx / 16][bucket_idx % 16];
       ---
-      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
+      bucket_hist_v[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
 
-def update(b: bit<32>[512][4], bucket: bit<32>[128][16], a: bit<32>[512][4], exp: bit<32>) {
-
+def update(b: bit<32>{2}[512][4], bucket: bit<32>{2}[128 bank 8][16 bank 8], a: bit<32>{2}[512][4], exp: bit<32>) {
+  //index of bucket is dynamic, nothing we can do
   let bucket_idx: bit<32> = 0;
   let elem_per_block: bit<32> = 4;
   let a_idx: bit<32> = 0;
-
   let bucket_tmp: bit<32> = 0;
-
+  view bucket_update_v = bucket[_:bank 1][_: bank 1];
+  
   for (let block_id = 0..512) {
     for (let i = 0..4) {
       bucket_idx := ((a[block_id][i] >> exp) & 0x3) * 512 + block_id;
-      bucket_tmp := bucket[bucket_idx / 16][bucket_idx % 16];
+      bucket_tmp := bucket_update_v[bucket_idx / 16][bucket_idx % 16];
       ---
       b[bucket_tmp / 4][bucket_tmp % 4] := a[block_id][i];
-      bucket[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
+      bucket_update_v[bucket_idx / 16][bucket_idx % 16] := bucket_tmp + 1;
     }
   }
 }
 
-decl a: bit<32>[512][4];
-decl b: bit<32>[512][4];
-decl bucket: bit<32>[128][16];
-decl sum: bit<32>[128];
+decl a_interface: bit<32>[512][4];
+decl b_interface: bit<32>[512][4];
+decl bucket_interface: bit<32>[128][16];
+decl sum_interface: bit<32>[128];
+
+let a: bit<32>{2}[512][4];
+let b: bit<32>{2}[512][4];
+let bucket: bit<32>{2}[128 bank 8][16 bank 8];
+let sum: bit<32>{2}[128 bank 8];
+
 
 let valid_buffer = 0;
 let buffer_a = 0;
 let buffer_b = 1;
 let temp_valid_buffer = 0;
 
-for (let exp = 0..16) {
-  init(bucket);
+view a_v = a[_:bank 1][_:bank 1];
+view b_v = b[_:bank 1][_:bank 1];
+view bucket_v = bucket[_:bank 1][_:bank 1];
+view sum_v = sum[_:bank 1];
 
-  ---
-  if (valid_buffer == buffer_a) {
-    hist(bucket, a, exp << 1);
-  } else {
-    hist(bucket, b, exp << 1);
+{
+  for (let i = 0..512){
+    for (let j = 0..4){
+      a_v[i][j] := a_interface[i][j];
+      b_v[i][j] := b_interface[i][j];
+    }
+  }
+  for (let i = 0..128){
+    for (let j = 0..16){
+      bucket_v[i][j] := bucket_interface[i][j];
+    }
+    sum_v[i] := sum_interface[i];
   }
 
-  ---
-  local_scan(bucket);
-  ---
-  sum_scan(sum, bucket);
-  ---
-  last_step_scan(bucket, sum);
+  for (let exp = 0..16) {
+    init(bucket);
 
-  ---
-  if (valid_buffer == buffer_a) {
-    update(b, bucket, a, exp << 1);
-    temp_valid_buffer := buffer_b;
-  } else {
-    update(a, bucket, b, exp << 1);
-    temp_valid_buffer := buffer_a;
+    ---
+    if (valid_buffer == buffer_a) {
+      hist(bucket, a, exp << 1);
+    } else {
+      hist(bucket, b, exp << 1);
+    }
+
+    ---
+    local_scan(bucket);
+    ---
+    sum_scan(sum, bucket);
+    ---
+    last_step_scan(bucket, sum);
+
+    ---
+    if (valid_buffer == buffer_a) {
+      update(b, bucket, a, exp << 1);
+      temp_valid_buffer := buffer_b;
+    } else {
+      update(a, bucket, b, exp << 1);
+      temp_valid_buffer := buffer_a;
+    }
+
+    ---
+    valid_buffer := temp_valid_buffer;
   }
-
-  ---
-  valid_buffer := temp_valid_buffer;
 }
