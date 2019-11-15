@@ -22,7 +22,7 @@ view sol_v = sol[_: bank 1][_: bank 1];
   
   for (let i = 0..3){
     for (let j = 0..3){
-      orig_v[i][j] := filter_interface[i][j];
+      filter_v[i][j] := filter_interface[i][j];
     }
   }
   ---
