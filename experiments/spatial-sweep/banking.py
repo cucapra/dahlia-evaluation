@@ -21,7 +21,7 @@ class MyHTMLParser(HTMLParser):
                         f.write(term)
                         if term != 'dup': f.write(', ')
                     f.write('\n')
-            
+
     def handle_starttag(self, tag, attrs):
         if self.ram is not None and tag == 'table':
             self.table[self.ram] += 1
@@ -31,7 +31,7 @@ class MyHTMLParser(HTMLParser):
             self.table[self.ram] -= 1
             if self.table[self.ram] == 0:
                 self.ram = None
-                
+
     def handle_data(self, data):
         if "a_sram" in data and 'Cost' in data:
             self.ram = "a_sram"
