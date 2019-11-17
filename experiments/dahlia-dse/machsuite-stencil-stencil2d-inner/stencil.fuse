@@ -19,7 +19,7 @@ view sol_v = sol[_: bank 1][_: bank 1];
   for (let j = 64..66){
     orig_v[128][j] := 0;
   }
-  
+
   for (let i = 0..3){
     for (let j = 0..3){
       filter_v[i][j] := filter_interface[i][j];
@@ -28,7 +28,8 @@ view sol_v = sol[_: bank 1][_: bank 1];
   ---
   for (let r = 0..126) {
     for (let c = 0..62) {
-      view orig_v2   = orig[r! :][c! :];
+      view orig_v2 = orig[r!: bank ::ORIG_SH1::][c!: bank ::ORIG_SH2::];
+      view filter_sh = filter[_: bank ::FILTER_SH1::][_: bank ::FILTER_SH2::];
       let temp: bit<32> = 0;
       for (let k1 = 0..3) unroll ::UR_LOOP1:: {
         let temp_2: bit<32> = 0;
@@ -44,12 +45,12 @@ view sol_v = sol[_: bank 1][_: bank 1];
     }
   }
   ---
-  
+
   for (let i = 0..126){
     for (let j = 0..62){
-      sol_interface[i][j] = :sol_v[i][j];
+      sol_interface[i][j] := sol_v[i][j];
     }
   }
-  
-  
+
+
 }
