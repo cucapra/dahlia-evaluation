@@ -5,13 +5,14 @@ decl sol_interface: bit<32>[32][32][16];
 let C: bit<32>{2}[2];
 let orig: bit<32>{2}[32 bank ::ORIG_D1::][32 bank ::ORIG_D2::][16 bank ::ORIG_D3::];
 let sol: bit<32>{2}[32 bank ::SOL_D1::][32 bank ::SOL_D2::][16 bank ::SOL_D3::];
+
 view orig_v = orig[_: bank 1][_: bank 1][_:bank 1];
 view sol_v = sol[_: bank 1][_: bank 1][_:bank 1];
 view C_v = C[_: bank 1];
 {
   for (let i = 0..2){
     C_v[i] := C_interface[i];
-  } 
+  }
   ---
   for (let i = 0..32){
     for (let j = 0..32){
@@ -23,12 +24,14 @@ view C_v = C[_: bank 1];
 
   ---
   // Stencil computation
-  view orig_u1 = orig[-1!:][_:][_:];
-  view orig_u2 = orig[1!:][_:][_:];
-  view orig_u3 = orig[_:][-1!:][_:];
-  view orig_u4 = orig[_:][1!:][_:];
-  view orig_u5 = orig[_:][_:][-1!:];
-  view orig_u6 = orig[_:][_:][1!:];
+  view orig_u1 = orig[-1!: bank ::ORIG_SH1::][_  : bank ::ORIG_SH2::][_  : bank ::ORIG_SH3::];
+  view orig_u2 = orig[1! : bank ::ORIG_SH1::][_  : bank ::ORIG_SH2::][_  : bank ::ORIG_SH3::];
+  view orig_u3 = orig[_  : bank ::ORIG_SH1::][-1!: bank ::ORIG_SH2::][_  : bank ::ORIG_SH3::];
+  view orig_u4 = orig[_  : bank ::ORIG_SH1::][1! : bank ::ORIG_SH2::][_  : bank ::ORIG_SH3::];
+  view orig_u5 = orig[_  : bank ::ORIG_SH1::][_  : bank ::ORIG_SH2::][-1!: bank ::ORIG_SH3::];
+  view orig_u6 = orig[_  : bank ::ORIG_SH1::][_  : bank ::ORIG_SH2::][1! : bank ::ORIG_SH3::];
+
+  view sol_sh = sol[_: bank ::SOL_SH1::][_: bank ::SOL_SH2::][_: bank ::SOL_SH3::];
 
   for (let i = 0..32) unroll ::UR_LOOP1:: {
     for (let j = 0..32) unroll ::UR_LOOP2:: {
@@ -48,13 +51,13 @@ view C_v = C[_: bank 1];
         sol[i][j][k] := orig_u6[i][j][k] * C[1] + temp6;
       }
     }
-  }  
-  --- 
+  }
+  ---
   // Handle boundary conditions by filling with original values
-  view orig_v0 = orig[_: bank 1][_: bank ::ORIG0_D2:: ][_: bank ::ORIG0_D3:: ];
-  view sol_v0 = sol[_: bank 1][_: bank ::SOL0_D2:: ][_: bank ::SOL0_D3:: ];
-  for (let j = 0..32) unroll ::UR_BOUND1_L1:: {
-    for (let k = 0..16) unroll ::UR_BOUND1_L2:: {
+  view orig_v0 = orig[_: bank 1][_: bank ::ORIG_SH2:: ][_: bank ::ORIG_SH3:: ];
+  view sol_v0 = sol[_: bank 1][_: bank ::SOL_SH2:: ][_: bank ::SOL_SH2:: ];
+  for (let j = 0..32) unroll ::UR_LOOP2:: {
+    for (let k = 0..16) unroll ::UR_LOOP3:: {
       sol_v0[0][j][k] := orig_v0[0][j][k];
       ---
       sol_v0[31][j][k] := orig_v0[31][j][k];
@@ -63,29 +66,29 @@ view C_v = C[_: bank 1];
 
   ---
 
-  view orig_v1 = orig[_: bank ::ORIG1_D1:: ][_: bank 1][_: bank ::ORIG1_D3:: ];
-  view sol_v1 = sol[_: bank ::SOL1_D1:: ][_: bank 1][_: bank ::SOL1_D3:: ];
-  for (let i = 0..32) unroll ::UR_BOUND2_L1:: {
-    for (let k = 0..16) unroll ::UR_BOUND2_L2:: {
+  view orig_v1 = orig[_: bank ::ORIG_SH1::][_: bank 1][_: bank ::ORIG_SH3::];
+  view sol_v1 = sol[_: bank ::SOL_SH1::][_: bank 1][_: bank ::SOL_SH3::];
+  for (let i = 0..32) unroll ::UR_LOOP1:: {
+    for (let k = 0..16) unroll ::UR_LOOP3:: {
       sol_v1[i][0][k] := orig_v1[i][0][k];
       ---
       sol_v1[i][31][k] := orig_v1[i][31][k];
     }
   }
   ---
-  view orig_v2 = orig[_: bank ::ORIG2_D1:: ][_: bank ::ORIG2_D2:: ][_: bank 1];
-  view sol_v2 = sol[_: bank ::SOL2_D1:: ][_:  bank ::SOL2_D2:: ][_: bank 1];
-  for (let i = 0..32) unroll ::UR_BOUND3_L1:: {
-    for (let j = 0..32) unroll ::UR_BOUND3_L2:: {
+  view orig_v2 = orig[_: bank ::ORIG_SH1:: ][_: bank ::ORIG_SH2:: ][_: bank 1];
+  view sol_v2 = sol[_: bank ::SOL_SH1:: ][_:  bank ::SOL_SH2:: ][_: bank 1];
+  for (let i = 0..32) unroll ::UR_LOOP1:: {
+    for (let j = 0..32) unroll ::UR_LOOP2:: {
       sol_v2[i][j][0] := orig_v2[i][j][0];
       ---
       sol_v2[i][j][15] := orig_v2[i][j][15];
     }
   }
   ---
-  for (let i = 0..32){
-    for (let j = 0..32){
-      for (let k = 0..16){
+  for (let i = 0..32) {
+    for (let j = 0..32) {
+      for (let k = 0..16) {
         sol_interface[i][j][k] := sol_v[i][j][k];
       }
     }
