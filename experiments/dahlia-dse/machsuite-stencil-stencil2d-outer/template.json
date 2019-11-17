@@ -1,11 +1,11 @@
 {
   "stencil.fuse": {
-    "ORIG_D1":  [1,2,3,4,8],
-    "ORIG_D2":  [1,2,3,4,8],
-    "SOL_D1":   [1,2,3,4,8],
-    "SOL_D2":   [1,2,3,4,8],
-    "UR_LOOP1": [1, 2, 4, 6, 8, 12, 16],
-    "UR_LOOP2": [1, 2, 4, 6, 8, 12, 16]
+    "ORIG_D1":  [1,2,4,8,16],
+    "ORIG_D2":  [1,2,4,8,16],
+    "SOL_D1":   [1,2,4,8,16],
+    "SOL_D2":   [1,2,4,8,16],
+    "UR_LOOP1": [1, 2, 4, 8, 16, 32],
+    "UR_LOOP2": [1, 2, 4, 8, 16, 32]
   },
   "MAP": "lambda s: { 'stencil.fuse': { 'ORIG_SH1': s['stencil.fuse']['ORIG_D1'] if s['stencil.fuse']['ORIG_D1'] < s['stencil.fuse']['UR_LOOP1'] else s['stencil.fuse']['UR_LOOP1'], 'ORIG_SH2': s['stencil.fuse']['ORIG_D2'] if s['stencil.fuse']['ORIG_D2'] < s['stencil.fuse']['UR_LOOP2'] else s['stencil.fuse']['UR_LOOP2'], 'SOL_SH1': s['stencil.fuse']['SOL_D1'] if s['stencil.fuse']['SOL_D1'] < s['stencil.fuse']['UR_LOOP1'] else s['stencil.fuse']['UR_LOOP1'], 'SOL_SH2': s['stencil.fuse']['SOL_D2'] if s['stencil.fuse']['SOL_D2'] < s['stencil.fuse']['UR_LOOP2'] else s['stencil.fuse']['UR_LOOP2'] } }"
 }
