@@ -12,13 +12,10 @@ extern "C" {
 
     // Local partitioned buffers
     TYPE m1_local[ROW_SIZE][COL_SIZE];
-    #pragma HLS ARRAY_PARTITION variable = m1_local cyclic factor = 8 dim = 2
     #pragma HLS resource variable=m1_local core = RAM_1P_BRAM
     TYPE m2_local[ROW_SIZE][COL_SIZE];
-    #pragma HLS ARRAY_PARTITION variable = m2_local cyclic factor = 8 dim = 1
     #pragma HLS resource variable=m2_local core = RAM_1P_BRAM
     TYPE prod_local[ROW_SIZE][COL_SIZE];
-    #pragma HLS ARRAY_PARTITION variable = prod_local cyclic factor = 8 dim = 1
     #pragma HLS resource variable=prod_local core = RAM_1P_BRAM
 
     // Copy data to local buffers
