@@ -103,7 +103,7 @@ def gen_updated_directory(bench, template, assignment, extra_fields, force):
             with open(file, 'w') as f:
                 f.write(new_contents)
 
-def gen_dse(bench, force):
+def gen_dse(bench, force, dry_run):
     """Generate copies of benchmark by varying parameters specified in template.json. The constants must be surrounded as ::CONST:: to distinguish them from #define constants.
     """
 
@@ -130,7 +130,8 @@ def gen_dse(bench, force):
             total += 1
             if filt(full_assign):
                 extra_fields = map_func(full_assign)
-                gen_updated_directory(bench_abs, template, assign, extra_fields, force)
+                if not dry_run:
+                    gen_updated_directory(bench_abs, template, assign, extra_fields, force)
                 count = count + 1
             else:
                 common.logging.warn(
@@ -153,10 +154,14 @@ if __name__ == '__main__':
                         help='Remove existing directories.',
                         action='store_true', dest='force')
 
+    parser.add_argument('-n', '--dry-run',
+                        help='Skip generation of directories.',
+                        action='store_true', dest='dry_run')
+
     parser.add_argument("bench", type=str)
 
     opts = parser.parse_args()
 
     common.logging_setup()
 
-    gen_dse(opts.bench, opts.force)
+    gen_dse(opts.bench, opts.force, opts.dry_run)
