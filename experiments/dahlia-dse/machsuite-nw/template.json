@@ -1,0 +1,14 @@
+{
+  "nw.fuse": {
+    "SEQA_BANK": [4],
+    "SEQB_BANK": [4],
+    "PTR_BANK1": [4],
+    "PTR_BANK2": [4],
+    "M_BANK1":   [4],
+    "M_BANK2":   [4],
+    "UNROLLA": [8],
+    "UNROLLB": [8]
+  },
+  "MAP": "lambda s: { 'nw.fuse': { 'A_SH': min(s['nw.fuse']['SEQA_BANK'], s['nw.fuse']['UNROLLA']), 'B_SH': min(s['nw.fuse']['SEQB_BANK'], s['nw.fuse']['UNROLLB']), 'M_SH1': min(s['nw.fuse']['M_BANK1'], s['nw.fuse']['UNROLLB']), 'M_SH2': min(s['nw.fuse']['M_BANK2'], s['nw.fuse']['UNROLLA']), 'PTR_SH1': min(s['nw.fuse']['PTR_BANK1'], s['nw.fuse']['UNROLLB']), 'PTR_SH2': min(s['nw.fuse']['PTR_BANK2'], s['nw.fuse']['UNROLLA']), } }"
+}
+
