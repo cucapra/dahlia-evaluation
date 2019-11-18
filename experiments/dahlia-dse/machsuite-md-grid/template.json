@@ -1,22 +1,21 @@
 {
   "md.fuse": {
-    "N_POINTS_D1": [2],
-    "N_POINTS_D2": [2],
-    "N_POINTS_D3": [2],
-    "POS_D1": [2],
-    "POS_D2": [2],
-    "POS_D3": [2],
-    "POS_D4": [5],
-    "FORCE_LOCAL_D1": [2],
-    "FORCE_LOCAL_D2": [2],
-    "FORCE_LOCAL_D3": [2],
-    "FORCE_LOCAL_D4": [5],
-    "FORCE_LOCAL_X_UR": [2],
-    "FORCE_LOCAL_Y_UR": [2],
-    "FORCE_LOCAL_Z_UR": [2],
-    "FORCE_LOCAL_P_UR": [5],
-    "B0X_UR": [2],
-    "B0Y_UR": [2],
-    "B0Z_UR": [2]
+    "N_D1": [2,4],
+    "N_D2": [2,4],
+    "N_D3": [2,4],
+
+    "P_D1": [2,4],
+    "P_D2": [2,4],
+    "P_D3": [2,4],
+    "P_D4": [2,5],
+
+    "FORCE_LOCAL_D1": [2,4],
+    "FORCE_LOCAL_D2": [2,4],
+    "FORCE_LOCAL_D3": [2,4],
+    "FORCE_LOCAL_D4": [2,5],
+
+    "B0X_UR": [2,4],
+    "B0Y_UR": [2,4],
+    "B0Z_UR": [2,4]
   }
 }

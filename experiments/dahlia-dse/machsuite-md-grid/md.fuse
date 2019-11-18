@@ -10,8 +10,6 @@ record dvector_t {
   z: double
 }
 
-decor "#pragma SDS data copy(n_points[0:64])"
-
 decl n_points_interface: bit<32>[4][4][4];
 decl force_x_interface: double[4][4][4][10];
 decl force_y_interface: double[4][4][4][10];
@@ -21,29 +19,21 @@ decl position_y_interface: double[4][4][4][10];
 decl position_z_interface: double[4][4][4][10];
 
 // local memories
-let n_points: bit<32>[4 bank ::N_POINTS_D1::][4 bank ::N_POINTS_D2::][4 bank ::N_POINTS_D3::];
-let position_x: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
-let position_y: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
-let position_z: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
-
-view n_points_v = n_points[_:bank 1][_:bank 1][_:bank 1];
-view position_x_v = position_x[_:][_:][_:][_:bank 1];
-view position_y_v = position_y[_:][_:][_:][_:bank 1];
-view position_z_v = position_z[_:][_:][_:][_:bank 1];
-view position_x_v1 = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view position_y_v1 = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view position_z_v1 = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-
-view n_points_copy_v = n_points[_:bank 1][_:bank 1][_:bank 1];
-view position_x_copy_v = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view position_y_copy_v = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view position_z_copy_v = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+let n_points:   bit<32>[4 bank ::N_D1::][4 bank ::N_D2::][4 bank ::N_D3::];
+let position_x: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
+let position_y: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
+let position_z: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
 
 let force_local: dvector_t[4 bank ::FORCE_LOCAL_D1::][4 bank ::FORCE_LOCAL_D2::][4 bank ::FORCE_LOCAL_D3::][10 bank ::FORCE_LOCAL_D4::];
 view force_local_v = force_local[_:][_:][_:][_:bank 1];
 view force_local_v1 = force_local[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 {
   // copy over loop
+  view n_points_copy_v = n_points[_:bank 1][_:bank 1][_:bank 1];
+  view position_x_copy_v = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+  view position_y_copy_v = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+  view position_z_copy_v = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+
   for (let a = 0..4) {
     for (let b = 0..4) {
       for (let c = 0..4) {
@@ -61,16 +51,25 @@ view force_local_v1 = force_local[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 
   let empty: dvector_t = {x = 0.0; y = 0.0; z = 0.0};
 
-  for (let b0x = 0..4) unroll ::FORCE_LOCAL_X_UR:: {
-    for (let b0y = 0..4) unroll ::FORCE_LOCAL_Y_UR::  {
-      for (let b0z = 0..4) unroll ::FORCE_LOCAL_Z_UR::  {
-        for (let p_idx = 0..10) unroll ::FORCE_LOCAL_P_UR:: {
-          force_local[b0x][b0y][b0z][p_idx] := empty;
+  // Initialization loop. Not unrolling for smaller design space.
+  for (let b0x = 0..4) {
+    for (let b0y = 0..4) {
+      for (let b0z = 0..4) {
+        for (let p_idx = 0..10) {
+          force_local_v1[b0x][b0y][b0z][p_idx] := empty;
         }
       }
     }
   }
   ---
+  view n_points_v = n_points[_:bank 1][_:bank 1][_:bank 1];
+  view position_x_v = position_x[_:][_:][_:][_:bank 1];
+  view position_y_v = position_y[_:][_:][_:][_:bank 1];
+  view position_z_v = position_z[_:][_:][_:][_:bank 1];
+  view position_x_v1 = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+  view position_y_v1 = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+  view position_z_v1 = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+
   for(let b0x = 0..4) unroll ::B0X_UR:: {
     for(let b0y = 0..4) unroll ::B0Y_UR:: {
       for(let b0z = 0..4) unroll ::B0Z_UR:: {
