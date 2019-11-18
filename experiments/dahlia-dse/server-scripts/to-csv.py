@@ -27,6 +27,16 @@ paths = {
 
 if __name__ == '__main__':
 
+    if len(sys.argv) == 2:
+        with open(sys.argv[1]) as file:
+            more_keys = json.load(file)
+
+        all_paths = {**more_keys, **paths}
+
+        print(','.join(all_paths.keys()))
+        sys.exit(0)
+
+
     if len(sys.argv) != 3:
         print('Missing file name or keys.json')
         sys.exit(1)
