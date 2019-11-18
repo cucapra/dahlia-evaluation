@@ -33,10 +33,10 @@ let force_z: double{2}[4 bank ::FORCE_D1::][4 bank ::FORCE_D2::][4 bank ::FORCE_
 
 view n_points_v = n_points[_:bank 1][_:bank 1][_:bank 1];
 view position_x_v = position_x[_:][_:][_:][_:bank 1];
-view position_y_v = position_x[_:][_:][_:][_:bank 1];
+view position_y_v = position_y[_:][_:][_:][_:bank 1];
 view position_z_v = position_z[_:][_:][_:][_:bank 1];
 view position_x_v1 = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view position_y_v1 = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
+view position_y_v1 = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 view position_z_v1 = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 
 view n_points_copy_v = n_points[_:bank 1][_:bank 1][_:bank 1];
@@ -81,7 +81,7 @@ view force_local_v = force_local[_:][_:][_:][_:bank 1];
     }
   }
   ---
-  for(let b0x = 0..4) unroll ::B0XUR:: {
+  for(let b0x = 0..4) unroll ::B0X_UR:: {
     for(let b0y = 0..4) unroll ::B0Y_UR:: {
       for(let b0z = 0..4) unroll ::B0Z_UR:: {
         let b1min: ivector_t = {x = 0; y = 0; z = 0};

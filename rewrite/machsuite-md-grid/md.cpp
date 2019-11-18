@@ -1,3 +1,4 @@
+// git.status = dirty, build.date = Sun Nov 17 18:17:02 EST 2019, git.hash = a8afbba
 #include <ap_int.h>
 typedef struct {
   ap_int<32> x;
@@ -28,6 +29,7 @@ extern "C" {
     #pragma HLS INTERFACE s_axilite port=position_z bundle=control
     #pragma HLS INTERFACE s_axilite port=return bundle=control
     dvector_t force_local[4][4][4][10];
+    #pragma HLS resource variable=force_local core=RAM_1P_BRAM
     dvector_t empty = {
       .x = 0.0, .y = 0.0, .z = 0.0
     };
