@@ -1,14 +1,31 @@
 {
   "stencil.fuse": {
-    "ORIG_D1":  [1,2,4],
-    "ORIG_D2":  [1,2,4],
-    "ORIG_D3":  [1,2,4],
-    "SOL_D1":   [1,2,4],
-    "SOL_D2":   [1,2,4],
-    "SOL_D3":   [1,2,4],
-    "UR_LOOP1": [1,2,4],
-    "UR_LOOP2": [1,2,4],
-    "UR_LOOP3": [1,2,4]
-  },
-  "MAP": "lambda s: { 'stencil.fuse': { 'ORIG_SH1': min(s['stencil.fuse']['ORIG_D1'], s['stencil.fuse']['UR_LOOP1']), 'ORIG_SH2': min(s['stencil.fuse']['ORIG_D2'], s['stencil.fuse']['UR_LOOP2']), 'ORIG_SH3': min(s['stencil.fuse']['ORIG_D3'], s['stencil.fuse']['UR_LOOP3']), 'SOL_SH1': min(s['stencil.fuse']['SOL_D1'], s['stencil.fuse']['UR_LOOP1']), 'SOL_SH2': min(s['stencil.fuse']['SOL_D2'], s['stencil.fuse']['UR_LOOP2']), 'SOL_SH3': min(s['stencil.fuse']['SOL_D3'], s['stencil.fuse']['UR_LOOP3']), } }"
+    "ORIG_D1":  [2],
+    "ORIG_D2":  [2],
+    "ORIG_D3":  [2],
+    "SOL_D1":   [2],
+    "SOL_D2":   [2],
+    "SOL_D3":   [2],
+    "ORIGI_D2":  [4],
+    "ORIGI_D3":  [2],
+    "SOLI_D2":   [4],
+    "SOLI_D3":   [2],
+    "ORIGJ_D1":  [4],
+    "ORIGJ_D3":  [2],
+    "SOLJ_D1":   [4],
+    "SOLJ_D3":   [2],
+    "ORIGK_D1":  [4],
+    "ORIGK_D2":  [4],
+    "SOLK_D1":   [4],
+    "SOLK_D2":   [4],
+    "UR_LOOP1": [2],
+    "UR_LOOP2": [2],
+    "UR_LOOP3": [2],
+    "UR_I_LOOP2": [4],
+    "UR_I_LOOP3": [2],
+    "UR_J_LOOP1": [4],
+    "UR_J_LOOP3": [2],
+    "UR_K_LOOP1": [4],
+    "UR_K_LOOP2": [4]
+  }
 }

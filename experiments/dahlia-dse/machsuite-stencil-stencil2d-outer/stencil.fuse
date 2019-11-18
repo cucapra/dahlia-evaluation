@@ -3,16 +3,19 @@ decl sol_interface: bit<32>[8192];
 decl filter_interface: bit<32>[9];
 
 let orig: bit<32>{2}[128 bank ::ORIG_D1::][64 bank ::ORIG_D2::];
-let sol: bit<32>{2}[128 bank ::SOL_D1::][64 bank ::SOL_D2::];
+let sol: bit<32>{2}[124 bank ::SOL_D1::][60 bank ::SOL_D2::];
+let solm: bit<32>{2}[2 bank ::SOLM_D1::][2 bank ::SOLM_D2::];
 let filter: bit<32>{2}[3][3];
 
 view orig_v = orig[_: bank 1][_: bank 1];
 view filter_v = filter[_: bank 1][_: bank 1];
 view sol_v = sol[_: bank 1][_: bank 1];
+view solm_v = solm[_: bank 1][_: bank 1];
+  
 {
   for (let i = 0..128) {
     for (let j = 0..64) {
-      orig_v[i][j] := orig_interface[(i*64) + j];
+      orig_v[i][j] := orig_interface[(i*128) + j];
     }
   }
 
@@ -22,19 +25,18 @@ view sol_v = sol[_: bank 1][_: bank 1];
     }
   }
   ---
-  view orig_v0 = orig[_ : bank ::ORIG_SH1::][_ : bank ::ORIG_SH2::];
-  view orig_v1 = orig[_ : bank ::ORIG_SH1::][1!: bank ::ORIG_SH2::];
-  view orig_v2 = orig[_ : bank ::ORIG_SH1::][2!: bank ::ORIG_SH2::];
-  view orig_v3 = orig[1!: bank ::ORIG_SH1::][_ : bank ::ORIG_SH2::];
-  view orig_v4 = orig[1!: bank ::ORIG_SH1::][1!: bank ::ORIG_SH2::];
-  view orig_v5 = orig[1!: bank ::ORIG_SH1::][2!: bank ::ORIG_SH2::];
-  view orig_v6 = orig[2!: bank ::ORIG_SH1::][_ : bank ::ORIG_SH2::];
-  view orig_v7 = orig[2!: bank ::ORIG_SH1::][1!: bank ::ORIG_SH2::];
-  view orig_v8 = orig[2!: bank ::ORIG_SH1::][2!: bank ::ORIG_SH2::];
-  view sol_sh = sol[_: bank ::SOL_SH1::][_: bank ::SOL_SH2::];
-
-  for (let r = 0..128) unroll ::UR_LOOP1:: {
-    for (let c = 0..64) unroll ::UR_LOOP2:: {
+  
+  view orig_v0 = orig[_ :][_ :];
+  view orig_v1 = orig[_ :][1!:];
+  view orig_v2 = orig[_ :][2!:];
+  view orig_v3 = orig[1!:][_ :];
+  view orig_v4 = orig[1!:][1!:];
+  view orig_v5 = orig[1!:][2!:];
+  view orig_v6 = orig[2!:][_ :];
+  view orig_v7 = orig[2!:][1!:];
+  view orig_v8 = orig[2!:][2!:];
+  for (let r = 0..124) unroll ::UR_LOOP1:: {
+    for (let c = 0..60) unroll ::UR_LOOP2:: {
       let mul1: bit<32> = filter[0][0] * orig_v0[r][c];
       ---
       let mul2: bit<32> = filter[0][1] * orig_v1[r][c] + mul1;
@@ -51,14 +53,52 @@ view sol_v = sol[_: bank 1][_: bank 1];
       ---
       let mul8: bit<32> = filter[2][1] * orig_v7[r][c] + mul7;
       ---
-      sol_sh[r][c] := filter[2][2] * orig_v8[r][c] + mul8;
+      sol[r][c] := filter[2][2] * orig_v8[r][c] + mul8;
+    }
+  }
+  ---
+  view orig_m0 = orig[124! : bank ::ORIGM_D1::][60! : bank ::ORIGM_D2::];
+  view orig_m1 = orig[124! : bank ::ORIGM_D1::][61!: bank ::ORIGM_D2::];
+  view orig_m2 = orig[124! : bank ::ORIGM_D1::][62!: bank ::ORIGM_D2::];
+  view orig_m3 = orig[125!: bank ::ORIGM_D1::][60! : bank ::ORIGM_D2::];
+  view orig_m4 = orig[125!: bank ::ORIGM_D1::][61!: bank ::ORIGM_D2::];
+  view orig_m5 = orig[125!: bank ::ORIGM_D1::][62!: bank ::ORIGM_D2::];
+  view orig_m6 = orig[126!: bank ::ORIGM_D1::][60! : bank ::ORIGM_D2::];
+  view orig_m7 = orig[126!: bank ::ORIGM_D1::][61!: bank ::ORIGM_D2::];
+  view orig_m8 = orig[126!: bank ::ORIGM_D1::][62!: bank ::ORIGM_D2::];
+  for (let r = 0..2) unroll ::UR_MORE_LOOP1:: {
+    for (let c = 0..2) unroll ::UR_MORE_LOOP2:: {
+      let mul1: bit<32> = filter[0][0] * orig_m0[r][c];
+      ---
+      let mul2: bit<32> = filter[0][1] * orig_m1[r][c] + mul1;
+      ---
+      let mul3: bit<32> = filter[0][2] * orig_m2[r][c] + mul2;
+      ---
+      let mul4: bit<32> = filter[1][0] * orig_m3[r][c] + mul3;
+      ---
+      let mul5: bit<32> = filter[1][1] * orig_m4[r][c] + mul4;
+      ---
+      let mul6: bit<32> = filter[1][2] * orig_m5[r][c] + mul5;
+      ---
+      let mul7: bit<32> = filter[2][0] * orig_m6[r][c] + mul6;
+      ---
+      let mul8: bit<32> = filter[2][1] * orig_m7[r][c] + mul7;
+      ---
+      solm[r][c] := filter[2][2] * orig_m8[r][c] + mul8;
     }
   }
   ---
 
-  for (let i = 0..126) {
-    for (let j = 0..62) {
-      sol_interface[(i*64) + j] := sol_v[i][j];
+  for (let i = 0..124) {
+    for (let j = 0..60) {
+      sol_interface[(i*128) + j] := sol_v[i][j];
+    }
+  }
+  ---
+
+  for (let i = 0..2) {
+    for (let j = 0..2) {
+      sol_interface[( (i+124)*128) + (j+60)] := solm_v[i][j];
     }
   }
 }
