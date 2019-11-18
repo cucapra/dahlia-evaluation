@@ -1,19 +1,11 @@
 {
   "md.fuse": {
-    "N_D1": [2,4],
-    "N_D2": [2,4],
-    "N_D3": [2,4],
-    "P_D1": [2,4],
-    "P_D2": [2,4],
-    "P_D3": [2,4],
-    "P_D4": [2,5],
-    "FORCE_LOCAL_D1": [2,4],
-    "FORCE_LOCAL_D2": [2,4],
-    "FORCE_LOCAL_D3": [2,4],
-    "FORCE_LOCAL_D4": [2,5],
-
-    "B0X_UR": [2,4,8],
-    "B0Y_UR": [2,4,8],
-    "B0Z_UR": [2,4,8]
-  }
+    "D1": [1,2,3,4],
+    "D2": [1,2,3,4],
+    "D3": [1,2,3,4],
+    "B0X_UR": [1,2,4,5,6,7,8],
+    "B0Y_UR": [1,2,4,5,6,7,8],
+    "B0Z_UR": [1,2,4,5,6,7,8]
+  },
+  "MAP": "lambda s: { 'md.fuse': { 'D1_SH': min(s['md.fuse']['D1'], s['md.fuse']['B0X_UR']), 'D2_SH': min(s['md.fuse']['D2'], s['md.fuse']['B0Y_UR']), 'D1_SH': min(s['md.fuse']['D1'], s['md.fuse']['B0Z_UR']) } }"
 }

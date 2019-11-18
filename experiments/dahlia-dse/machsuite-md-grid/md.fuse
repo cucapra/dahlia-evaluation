@@ -19,13 +19,12 @@ decl position_y_interface: double[4][4][4][10];
 decl position_z_interface: double[4][4][4][10];
 
 // local memories
-let n_points:   bit<32>[4 bank ::N_D1::][4 bank ::N_D2::][4 bank ::N_D3::];
-let position_x: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
-let position_y: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
-let position_z: double{2}[4 bank ::P_D1::][4 bank ::P_D2::][4 bank ::P_D3::][10 bank ::P_D4::];
+let n_points:   bit<32>{2}[4 bank ::D1::][4 bank ::D2::][4 bank ::D3::];
+let position_x: double {2}[4 bank ::D1::][4 bank ::D2::][4 bank ::D3::][10];
+let position_y: double {2}[4 bank ::D1::][4 bank ::D2::][4 bank ::D3::][10];
+let position_z: double {2}[4 bank ::D1::][4 bank ::D2::][4 bank ::D3::][10];
 
-let force_local: dvector_t[4 bank ::FORCE_LOCAL_D1::][4 bank ::FORCE_LOCAL_D2::][4 bank ::FORCE_LOCAL_D3::][10 bank ::FORCE_LOCAL_D4::];
-view force_local_v = force_local[_:][_:][_:][_:bank 1];
+let force_local: dvector_t{2}[4 bank ::D1::][4 bank ::D2::][4 bank ::D3::][10];
 view force_local_v1 = force_local[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 {
   // copy over loop
@@ -63,9 +62,11 @@ view force_local_v1 = force_local[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
   }
   ---
   view n_points_v = n_points[_:bank 1][_:bank 1][_:bank 1];
-  view position_x_v = position_x[_:][_:][_:][_:bank 1];
-  view position_y_v = position_y[_:][_:][_:][_:bank 1];
-  view position_z_v = position_z[_:][_:][_:][_:bank 1];
+  view position_x_v = position_x  [_: bank ::D1_SH::][_: bank ::D2_SH::][_: bank ::D3_SH::][_:bank 1];
+  view position_y_v = position_y  [_: bank ::D1_SH::][_: bank ::D2_SH::][_: bank ::D3_SH::][_:bank 1];
+  view position_z_v = position_z  [_: bank ::D1_SH::][_: bank ::D2_SH::][_: bank ::D3_SH::][_:bank 1];
+  view force_local_v = force_local[_: bank ::D1_SH::][_: bank ::D2_SH::][_: bank ::D3_SH::][_:bank 1];
+
   view position_x_v1 = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
   view position_y_v1 = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
   view position_z_v1 = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
