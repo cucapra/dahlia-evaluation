@@ -12,24 +12,19 @@ record dvector_t {
 
 decor "#pragma SDS data copy(n_points[0:64])"
 
-// inputs
 decl n_points_interface: bit<32>[4][4][4];
-decl position_x_interface: double[4][4][4][10];
-decl position_y_interface: double[4][4][4][10];
-decl position_z_interface: double[4][4][4][10];
-// inputs & outputs
 decl force_x_interface: double[4][4][4][10];
 decl force_y_interface: double[4][4][4][10];
 decl force_z_interface: double[4][4][4][10];
+decl position_x_interface: double[4][4][4][10];
+decl position_y_interface: double[4][4][4][10];
+decl position_z_interface: double[4][4][4][10];
 
 // local memories
 let n_points: bit<32>[4 bank ::N_POINTS_D1::][4 bank ::N_POINTS_D2::][4 bank ::N_POINTS_D3::];
 let position_x: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
 let position_y: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
 let position_z: double{2}[4 bank ::POS_D1::][4 bank ::POS_D2::][4 bank ::POS_D3::][10 bank ::POS_D4::];
-let force_x: double{2}[4 bank ::FORCE_D1::][4 bank ::FORCE_D2::][4 bank ::FORCE_D3::][10 bank ::FORCE_D4::];
-let force_y: double{2}[4 bank ::FORCE_D1::][4 bank ::FORCE_D2::][4 bank ::FORCE_D3::][10 bank ::FORCE_D4::];
-let force_z: double{2}[4 bank ::FORCE_D1::][4 bank ::FORCE_D2::][4 bank ::FORCE_D3::][10 bank ::FORCE_D4::];
 
 view n_points_v = n_points[_:bank 1][_:bank 1][_:bank 1];
 view position_x_v = position_x[_:][_:][_:][_:bank 1];
@@ -43,25 +38,20 @@ view n_points_copy_v = n_points[_:bank 1][_:bank 1][_:bank 1];
 view position_x_copy_v = position_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 view position_y_copy_v = position_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 view position_z_copy_v = position_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view force_x_copy_v = force_x[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view force_y_copy_v = force_y[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
-view force_z_copy_v = force_z[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 
 let force_local: dvector_t[4 bank ::FORCE_LOCAL_D1::][4 bank ::FORCE_LOCAL_D2::][4 bank ::FORCE_LOCAL_D3::][10 bank ::FORCE_LOCAL_D4::];
 view force_local_v = force_local[_:][_:][_:][_:bank 1];
+view force_local_v1 = force_local[_:bank 1][_:bank 1][_:bank 1][_:bank 1];
 {
   // copy over loop
   for (let a = 0..4) {
     for (let b = 0..4) {
       for (let c = 0..4) {
+        n_points_copy_v[a][b][c] := n_points_interface[a][b][c];
         for (let d = 0..10) {
-          n_points_copy_v[a][b][c] := n_points_interface[a][b][c];
           position_x_copy_v[a][b][c][d] := position_x_interface[a][b][c][d];
           position_y_copy_v[a][b][c][d] := position_y_interface[a][b][c][d];
           position_z_copy_v[a][b][c][d] := position_z_interface[a][b][c][d];
-          force_x_copy_v[a][b][c][d] := force_x_interface[a][b][c][d];
-          force_y_copy_v[a][b][c][d] := force_y_interface[a][b][c][d];
-          force_z_copy_v[a][b][c][d] := force_z_interface[a][b][c][d];
         }
       }
     }
@@ -120,7 +110,6 @@ view force_local_v = force_local[_:][_:][_:][_:bank 1];
             let b1z:bit<32> = b1min.z;
             while (b1z < b1max.z) {
               decor "#pragma HLS loop_tripcount max=2 min=0"
-              //let base_q = position[b1x][b1y][b1z][0].x;
               let q_idx_range = n_points_v[b1x][b1y][b1z];
               ---
               let p_idx:bit<32> = 0;
@@ -165,27 +154,15 @@ view force_local_v = force_local[_:][_:][_:][_:bank 1];
         } // loop_grid1_*
   }}} // loop_grid0_*
   ---
-  for (let b0x = 0..4) unroll ::FORCE_X_UR:: {
-    for (let b0y = 0..4) unroll ::FORCE_Y_UR:: {
-      for (let b0z = 0..4) unroll ::FORCE_Z_UR:: {
-        for (let p_idx = 0..10) unroll ::FORCE_P_UR:: {
-          force_x[b0x][b0y][b0z][p_idx] := force_local[b0x][b0y][b0z][p_idx].x;
-          force_y[b0x][b0y][b0z][p_idx] := force_local[b0x][b0y][b0z][p_idx].y;
-          force_z[b0x][b0y][b0z][p_idx] := force_local[b0x][b0y][b0z][p_idx].z;
-        }
-      }
-    }
-  }
-
 
   // copy back loop
   for (let a = 0..4) {
     for (let b = 0..4) {
       for (let c = 0..4) {
         for (let d = 0..10) {
-          force_x_interface[a][b][c][d] := force_x_copy_v[a][b][c][d];
-          force_y_interface[a][b][c][d] := force_y_copy_v[a][b][c][d];
-          force_z_interface[a][b][c][d] := force_z_copy_v[a][b][c][d];
+          force_x_interface[a][b][c][d] := force_local_v1[a][b][c][d].x;
+          force_y_interface[a][b][c][d] := force_local_v1[a][b][c][d].y;
+          force_z_interface[a][b][c][d] := force_local_v1[a][b][c][d].z;
         }
       }
     }
