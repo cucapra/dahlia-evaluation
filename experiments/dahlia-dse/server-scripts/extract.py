@@ -98,8 +98,8 @@ if __name__ == '__main__':
 
     job_id = sys.argv[1]
     kernel = sys.argv[2]
-    csynth = "code/_x/{kernel}.sw_emu.xilinx_aws-vu9p-f1-04261818_dynamic_5_0/{kernel}/{kernel}/solution/syn/report/{kernel}_csynth.rpt"
+    csynth = f'code/_x/{kernel}.sw_emu.xilinx_aws-vu9p-f1-04261818_dynamic_5_0/{kernel}/{kernel}/solution/syn/report/{kernel}_csynth.rpt'
 
     FILES[csynth] = estimate_file
 
-    extract_job(job_id, kernel)
+    extract_job(job_id)

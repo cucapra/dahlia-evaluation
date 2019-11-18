@@ -1,0 +1,10 @@
+{
+  "seqa_bank": "nw.fuse:SEQA_BANK",
+  "seqb_bank": "nw.fuse:SEQB_BANK",
+  "ptr_bank1": "nw.fuse:PTR_BANK1",
+  "ptr_bank2": "nw.fuse:PTR_BANK2",
+  "m_bank1": "nw.fuse:M_BANK1",
+  "m_bank2": "nw.fuse:M_BANK2",
+  "unrolla": "nw.fuse:UNROLLA",
+  "unrollb": "nw.fuse:UNROLLB"
+}
