@@ -7,17 +7,17 @@ decl position_z_interface: double[256];
 decl nl_interface: bit<32>[256][16];
 
 
-let force_x: double{2}[256 bank ::FORCE_X::];
-let force_y: double{2}[256 bank ::FORCE_Y::];
-let force_z: double{2}[256 bank ::FORCE_Z::];
-let position_x: double{2}[256 bank ::POS_X::];
-let position_y: double{2}[256 bank ::POS_Y::];
-let position_z: double{2}[256 bank ::POS_Z::];
+let force_x: double{2}[256 bank ::FORCE::];
+let force_y: double{2}[256 bank ::FORCE::];
+let force_z: double{2}[256 bank ::FORCE::];
+let position_x: double{2}[256 bank ::POS::];
+let position_y: double{2}[256 bank ::POS::];
+let position_z: double{2}[256 bank ::POS::];
 let nl: bit<32>{2}[256][16];
 //jx, jy, jz to store position_*[nl[i][j]]
-let jx: double{2}[256 bank ::JX_D1::][16 bank ::JX_D2::];
-let jy: double{2}[256 bank ::JY_D1::][16 bank ::JY_D2::];
-let jz: double{2}[256 bank ::JZ_D1::][16 bank ::JZ_D2::];
+let jx: double{2}[256 bank ::J_D1::][16 bank ::J_D2::];
+let jy: double{2}[256 bank ::J_D1::][16 bank ::J_D2::];
+let jz: double{2}[256 bank ::J_D1::][16 bank ::J_D2::];
 
 
 view force_x_v = force_x[_: bank 1];
@@ -32,6 +32,7 @@ view jy_v = jy[_: bank 1][_: bank 1];
 view jz_v = jz[_: bank 1][_: bank 1];
 
 {
+  // Copy loop
   for (let i = 0..256) {
     position_x_v[i] := position_x_interface[i];
     position_y_v[i] := position_y_interface[i];
@@ -41,6 +42,7 @@ view jz_v = jz[_: bank 1][_: bank 1];
     }
   }
   ---
+  // Data dependent pre fetch loop
   for (let i = 0..256) {
     for (let j = 0..16) {
       let j_idx = nl[i][j];
@@ -50,13 +52,24 @@ view jz_v = jz[_: bank 1][_: bank 1];
     }
   }
   ---
+  view force_x_sh =    force_x[_: bank ::F_SH::];
+  view force_y_sh =    force_y[_: bank ::F_SH::];
+  view force_z_sh =    force_z[_: bank ::F_SH::];
+  view position_x_sh = position_x[_: bank ::P_SH::];
+  view position_y_sh = position_y[_: bank ::P_SH::];
+  view position_z_sh = position_z[_: bank ::P_SH::];
+  view jx_sh = jx[_: bank ::J_SH1::][_: bank ::J_SH2::];
+  view jy_sh = jy[_: bank ::J_SH1::][_: bank ::J_SH2::];
+  view jz_sh = jz[_: bank ::J_SH1::][_: bank ::J_SH2::];
+
   let lj1: double = 1.5;
   let lj2: double = 2.0;
+
   for (let i = 0..256) unroll ::UR_LOOP1:: {
-    let ix = position_x[i];
-    let iy = position_y[i];
-    let iz = position_z[i];
-    
+    let ix = position_x_sh[i];
+    let iy = position_y_sh[i];
+    let iz = position_z_sh[i];
+
     ---
 
     let fx: double = 0.0;
@@ -64,9 +77,9 @@ view jz_v = jz[_: bank 1][_: bank 1];
     let fz: double = 0.0;
 
     for (let j = 0..16) unroll ::UR_LOOP2:: {
-      let delx = ix - jx[i][j];
-      let dely = iy - jy[i][j];
-      let delz = iz - jz[i][j];
+      let delx = ix - jx_sh[i][j];
+      let dely = iy - jy_sh[i][j];
+      let delz = iz - jz_sh[i][j];
 
       let r2inv = 1.0 / (delx * delx + dely * dely + delz * delz);
       let r6inv = r2inv * r2inv * r2inv;
@@ -79,11 +92,12 @@ view jz_v = jz[_: bank 1][_: bank 1];
       fz += delz * force;
     }
 
-    force_x[i] := fx;
-    force_y[i] := fy;
-    force_z[i] := fz;
+    force_x_sh[i] := fx;
+    force_y_sh[i] := fy;
+    force_z_sh[i] := fz;
   }
   ---
+  // Writeback loop
   for (let i = 0..256) {
     force_x_interface[i] := force_x_v[i];
     force_y_interface[i] := force_y_v[i];
