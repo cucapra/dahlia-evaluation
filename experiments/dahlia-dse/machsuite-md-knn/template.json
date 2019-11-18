@@ -1,11 +1,11 @@
 {
   "md.fuse": {
-    "FORCE":    [1,2,4,8,16],
-    "POS":      [1,2,4,8,16],
-    "J_D1":     [1,2,4,8,16],
-    "J_D2":     [1,2,4,8,16],
-    "UR_LOOP1": [1,2,4,8,16,32],
-    "UR_LOOP2": [1,2,4,8,16,32]
+    "FORCE":    [1,2,3,4],
+    "POS":      [1,2,3,4],
+    "J_D1":     [1,2,3,4],
+    "J_D2":     [1,2,3,4],
+    "UR_LOOP1": [1,2,3,4,5,6,7,8],
+    "UR_LOOP2": [1,2,3,4,5,6,7,8]
   },
   "MAP": "lambda s: { 'md.fuse': { 'F_SH': min(s['md.fuse']['FORCE'], s['md.fuse']['UR_LOOP1']), 'P_SH': min(s['md.fuse']['POS'], s['md.fuse']['UR_LOOP1']), 'J_SH1': min(s['md.fuse']['J_D1'], s['md.fuse']['UR_LOOP1']), 'J_SH2': min(s['md.fuse']['J_D2'], s['md.fuse']['UR_LOOP2']) } }"
 }
