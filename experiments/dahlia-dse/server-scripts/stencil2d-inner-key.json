@@ -1,0 +1,8 @@
+{
+  "orig_d1": "stencil.fuse:ORIG_D1",
+  "orig_d2": "stencil.fuse:ORIG_D2",
+  "filter_d1": "stencil.fuse:FILTER_D1",
+  "filter_d2": "stencil.fuse:FILTER_D2",
+  "ur_loop1": "stencil.fuse:UR_LOOP1",
+  "ur_loop2": "stencil.fuse:UR_LOOP2"
+}
