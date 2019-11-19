@@ -20,4 +20,7 @@ cat $OUT | grep 'makeing' | wc -l
 echo 'make'
 cat $OUT | grep 'make' | wc -l
 
+echo 'uploaded'
+cat $OUT | grep 'uploaded' | wc -l
+
 rm $OUT
