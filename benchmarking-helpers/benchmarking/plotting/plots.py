@@ -44,11 +44,13 @@ def make_absolute_plots(
         else:
             y_label = key.replace('_', ' ').capitalize()
 
-        plt.ylabel(y_label)
-        plt.xlabel(x_label)
+        plt.ylabel(y_label, fontsize=18)
+        plt.xlabel(x_label, fontsize=18)
+        plt.xticks(fontsize=16)
+        plt.yticks(fontsize=16)
 
         if group_labels:
-            plt.legend()
+            plt.legend(prop={'size': 16})
 
         fig.tight_layout()
         fig.savefig('{}-{}.pdf'.format(fig_prefix, key.replace('_', '-')), dpi=100)
@@ -57,8 +59,7 @@ def make_absolute_plots(
 
     return figs
 
-
-def make_sec2_plot(df, x_key, x_label, fig_prefix):
+def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16):
     y_keys = [
         'runtime_avg',
         'lut_used',
@@ -68,7 +69,7 @@ def make_sec2_plot(df, x_key, x_label, fig_prefix):
         row = df.iloc[idx]
         if row.status == 'error':
             return 2
-        return int(16 % df.iloc[idx][x_key] == 0)
+        return int(factor % df.iloc[idx][x_key] == 0)
 
     make_absolute_plots(
         df,
