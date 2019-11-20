@@ -69,9 +69,9 @@ def spatial_report(filepath):
     }
 import seaborn as sns
 cl = sns.color_palette("colorblind",6)
-PERF_RESOURCES = ['dsp_used', 'bram_tile_used','lut_used', 'reg_used'] 
+PERF_RESOURCES = ['dsp_used', 'bram_tile_used','lut_used'] 
 #PERF_RESOURCES = ['lut_used', 'reg_used']
-PERF_AVAIL = ['dsp_avail', 'bram_tile_avail', 'lut_avail', 'reg_avail']
+PERF_AVAIL = ['dsp_avail', 'bram_tile_avail', 'lut_avail']
 plot_res = {r:[] for r in PERF_RESOURCES}
 
 for i in range(1,17):
@@ -82,20 +82,27 @@ for i in range(1,17):
 
 fig,ax1 = plt.subplots()
 loop_k = np.arange(16)+1
+maker = ['v','D','o']
 for i, r in enumerate(plot_res.keys()):
-    ax1.plot(loop_k, plot_res[r][1:], color = cl[i])
-ax1.set_ylabel('Normalized Resource Usages')
-ax1.set_xlabel('Unrolling Factor')
-PERF_RESOURCES_NAME = ['dsp used', 'bram_tile used','lut used', 'reg used'] 
-ax1.legend(PERF_RESOURCES_NAME)
-marker = {'input_matrix_a':'s','input_matrix_b':'+'}
-leg2 = ['input matrix a','input matrix b']
-ax2 = ax1.twinx()
-for i, sram in enumerate(marker):
-    df = pd.read_csv(sram+'.csv')
-    bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
-    ax2.plot(loop_k,bank, marker[sram], color=cl[i+4])
-ax2.legend(leg2,loc=4)
-ax2.set_ylabel('Banking Decisions')
+    y = plot_res[r][1:]
+    ax1.plot(loop_k, y, maker[i], ls='-', ms=8, color = cl[i],linewidth=3 )
+size = 6
+plt.xticks(fontsize = 16)
+plt.yticks(fontsize = 16)
+ax1.set_ylabel('Normalized Resource Usages',fontsize= 18)
+ax1.set_xlabel('Unrolling Factor',fontsize = 18)
+PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
+ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
+
+#marker = {'input_matrix_a':'s','input_matrix_b':'+'}
+#leg2 = ['input matrix a','input matrix b']
+#ax2 = ax1.twinx()
+#for i, sram in enumerate(marker):
+#    df = pd.read_csv(sram+'.csv')
+#    bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
+#    ax2.plot(loop_k,bank, marker[sram], color=cl[i+1])
+#ax2.legend(leg2,loc=4)
+#ax2.set_ylabel('Banking Decisions')
+
 plt.savefig('paper-normalized.pdf', bbox_inches='tight')
 plt.show()
