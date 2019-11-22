@@ -97,12 +97,12 @@ maker = ['v','D','o']
 marker = {'input_matrix_a':'s','input_matrix_b':'+'}
 leg1 = ['input matrix a','input matrix b']
 #ax2 = ax1.twinx()
-ms = [8,12]
+ms = [8,11]
 for i, sram in enumerate(marker):
     df = pd.read_csv(sram+'.csv')
     bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
     ax1.plot(loop_k,bank, marker[sram], color=cl[i], ms = ms[i], mew=3)
-ax1.legend(leg1,loc=4)
+ax1.legend(leg1,loc=4, prop={'size':16})
 ax1.set_ylabel('Banking Decisions', fontsize = 18)
 ax1.set_xlabel('Unrolling Factor',fontsize = 18)
 plt.xticks(fontsize = 16)
