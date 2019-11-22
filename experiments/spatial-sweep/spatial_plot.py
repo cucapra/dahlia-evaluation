@@ -83,26 +83,31 @@ for i in range(1,17):
 fig,ax1 = plt.subplots()
 loop_k = np.arange(16)+1
 maker = ['v','D','o']
-for i, r in enumerate(plot_res.keys()):
-    y = plot_res[r][1:]
-    ax1.plot(loop_k, y, maker[i], ls='-', ms=8, color = cl[i],linewidth=3 )
-size = 6
+#for i, r in enumerate(plot_res.keys()):
+#    y = plot_res[r][1:]
+#    ax1.plot(loop_k, y, maker[i], ls='-', ms=8, color = cl[i],linewidth=3 )
+#size = 6
+#plt.xticks(fontsize = 16)
+#plt.yticks(fontsize = 16)
+#ax1.set_ylabel('Normalized Resource Usages',fontsize= 18)
+#ax1.set_xlabel('Unrolling Factor',fontsize = 18)
+#PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
+#ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
+
+marker = {'input_matrix_a':'s','input_matrix_b':'+'}
+leg1 = ['input matrix a','input matrix b']
+#ax2 = ax1.twinx()
+ms = [8,12]
+for i, sram in enumerate(marker):
+    df = pd.read_csv(sram+'.csv')
+    bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
+    ax1.plot(loop_k,bank, marker[sram], color=cl[i], ms = ms[i], mew=3)
+ax1.legend(leg1,loc=4)
+ax1.set_ylabel('Banking Decisions', fontsize = 18)
+ax1.set_xlabel('Unrolling Factor',fontsize = 18)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
-ax1.set_ylabel('Normalized Resource Usages',fontsize= 18)
-ax1.set_xlabel('Unrolling Factor',fontsize = 18)
-PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
-ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
-
-#marker = {'input_matrix_a':'s','input_matrix_b':'+'}
-#leg2 = ['input matrix a','input matrix b']
-#ax2 = ax1.twinx()
-#for i, sram in enumerate(marker):
-#    df = pd.read_csv(sram+'.csv')
-#    bank = [ eval(re.sub("\s+", ",", n.strip()))[0] for n in df[' N']]
-#    ax2.plot(loop_k,bank, marker[sram], color=cl[i+1])
-#ax2.legend(leg2,loc=4)
-#ax2.set_ylabel('Banking Decisions')
-
-plt.savefig('paper-normalized.pdf', bbox_inches='tight')
+#PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
+#ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
+plt.savefig('paper-banking.pdf', bbox_inches='tight')
 plt.show()
