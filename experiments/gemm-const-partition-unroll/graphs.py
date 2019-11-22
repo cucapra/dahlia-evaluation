@@ -10,4 +10,5 @@ if __name__ == '__main__':
         df=df,
         x_key=x_key,
         x_label = 'Unrolling factor (partitioning = 8)',
+        factor = 8,
         fig_prefix = 'const-partition-unroll')
