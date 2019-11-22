@@ -7,9 +7,11 @@ def make_plots():
     x_key = 'unroll'
     y_keys = [
         'lut_used',
+        'reg_used',
+        'dsp_used',
+        'bram_tile_used'
     ]
     df = pd.read_csv('./summary.csv').sort_values(by=x_key).reset_index()
-
     plots.make_absolute_plots(
         df,
         x_key,
