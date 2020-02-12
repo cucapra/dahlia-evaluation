@@ -11,4 +11,6 @@ if __name__ == '__main__':
         x_key=x_key,
         x_label = 'Unrolling factor (partitioning = 8)',
         factor = 8,
-        fig_prefix = 'const-partition-unroll')
+        fig_prefix = 'const-partition-unroll',
+        legend = 'lut_used'
+    )

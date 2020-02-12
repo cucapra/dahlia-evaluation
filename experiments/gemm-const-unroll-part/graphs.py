@@ -11,4 +11,6 @@ if __name__ == '__main__':
         df=df,
         x_key=x_key,
         x_label = 'Partitioning factor (unrolling = 8)',
-        fig_prefix = 'const-unroll-partition')
+        fig_prefix = 'const-unroll-partition',
+        legend = True,
+    )

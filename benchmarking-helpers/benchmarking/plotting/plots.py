@@ -11,6 +11,7 @@ def make_absolute_plots(
         fig_prefix,
         group_labels = None,
         group_markers = None,
+        legend = None,
         group_runtime_supress = None):
     """Make and save graphs plotting each value in `y_keys` against `x_key`.
     Plotting each set of points separately by first running group_by on each
@@ -36,8 +37,8 @@ def make_absolute_plots(
             plt.scatter(x=x_key, y=key, data=group, color=pal[idx],
                         label=group_labels[idx] if group_labels else None,
                         marker=group_markers[idx] if group_markers else None,
-                        s=100)
-            plt.vlines(x=x_key, ymax=key, ymin=df[key].min(), data=group, colors=pal[idx])
+                        s=100, rasterized=True)
+            plt.vlines(x=x_key, ymax=key, ymin=df[key].min(), data=group, colors=pal[idx], rasterized=True)
 
         if key == 'runtime_avg':
             y_label = 'Runtime (ms)'
@@ -49,7 +50,7 @@ def make_absolute_plots(
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
 
-        if group_labels:
+        if group_labels and legend == key:
             plt.legend(prop={'size': 16})
 
         fig.tight_layout()
@@ -59,7 +60,7 @@ def make_absolute_plots(
 
     return figs
 
-def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16):
+def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16, legend = None):
     y_keys = [
         'runtime_avg',
         'lut_used',
@@ -80,4 +81,5 @@ def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16):
         group_markers = ['o', 'v', 'x'],
         group_runtime_supress = [ False, False, True ],
         x_label = x_label,
-        fig_prefix = fig_prefix)
+        fig_prefix = fig_prefix,
+        legend = legend)

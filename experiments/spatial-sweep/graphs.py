@@ -18,8 +18,11 @@ def make_plots():
         y_keys,
         group_by = lambda idx: int(16 % df.iloc[idx][x_key] == 0),
         group_labels = ['Unpredictable points', 'Predictable points'],
+        group_markers = ['o', 'v', 'x'],
         x_label = 'Unrolling factor',
-        fig_prefix = 'spatial-sweep')
+        fig_prefix = 'spatial-sweep',
+        legend = 'lut_used'
+    )
 
 if __name__ == '__main__':
     make_plots()
