@@ -1,10 +1,10 @@
-from HTMLParser import HTMLParser
+from html.parser import HTMLParser
 import copy
 import csv
 import os
 # create a subclass and override the handler methods
 class MyHTMLParser(HTMLParser):
-    def __init__(self,g):
+    def __init__(self,g, dirname='banks'):
         HTMLParser.__init__(self)
         self.par = str(g)
         self.write = 0
@@ -13,8 +13,10 @@ class MyHTMLParser(HTMLParser):
         self.bestc = 0
         self.bank = {'N':[0,0],'B':[0,0], 'alpha':[0,0], 'P':[0,0], 'dup':0}
         self.i = 0
+        self.store = {"a_sram":"input_matrix_a", "b_sram":"input_matrix_b"}
+        self.dirname = dirname
         for name in ["a_sram", "b_sram"]:
-            csv_name = name+".csv"
+            csv_name = os.path.join(self.dirname, self.store[name]+".csv")
             if not os.path.exists(csv_name):
                 with open(csv_name, "w") as f:
                     for term in ['par','N','B', 'alpha', 'P', 'dup']:
@@ -61,7 +63,8 @@ class MyHTMLParser(HTMLParser):
                 self.bank['P'][j] = int(p)
             if len(Ps) == 2:
                 if self.write < 2:
-                  with open(self.ram+".csv","a+") as f:
+                  with open(os.path.join(self.dirname, self.store[self.ram]+".csv"),
+                  "a+") as f:
                       f.write(self.par)
                       f.write(', ')
                       for term in ['N','B', 'alpha', 'P', 'dup']:
@@ -78,10 +81,11 @@ class MyHTMLParser(HTMLParser):
             self.bank['dup'] = int(data.split(' dup')[0])
 
 import codecs
-for g in range(1,17):
-    name = "gen/GEMM_NCubed_"+str(g)+"/banking/decisions.html"
-    f=codecs.open(name, 'r')
-    content = f.read()
-    # instantiate the parser and fed it some HTML
-    parser = MyHTMLParser(g)
-    parser.feed(content)
+if __name__ == "__main__":
+    for g in range(1,17):
+        name = "banks/decisions_"+str(g)+".html"
+        f=codecs.open(name, 'r')
+        content = f.read()
+        # instantiate the parser and fed it some HTML
+        parser = MyHTMLParser(g)
+        parser.feed(content)

@@ -13,7 +13,7 @@ from benchmarking.summary import extracting as ex
 
 
 # Generate summary csv
-with open('summary.csv', 'w') as csvfile:
+with open('rpts/summary.csv', 'w') as csvfile:
     # Get fieldnames from the first file
     fieldnames = list(ex.sds_report("rpts/par_utilization_1.rpt").keys()) + ['unroll']
     summary = csv.DictWriter(csvfile, delimiter=',', fieldnames=fieldnames)
