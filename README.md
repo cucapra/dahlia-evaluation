@@ -11,8 +11,42 @@ Each experiment goes through the following flow:
   <img src="./static/data-collection.svg">
 </p>
 
-<!--![data collection flow](./static/data-collection.png)-->
+<details>
+<summary><b>Example Configuration</b> [click to expand]</summary>
 
+`gen_dse.py` is a search and replace script that generates folders for each
+possible configuration.
+
+When invoked on a folder, it looks for a `template.json` file that maps
+paramters in files to possible values. For example, the following in
+files in a folder named `bench`:
+
+<table>
+<tr> <th> bench.cpp </th> <th> template.json </th> </tr>
+<tr>
+<td>
+<pre>
+int x = ::CONST1::;
+int y = ::CONST2::;
+x + y;
+</pre>
+</td>
+<td>
+<pre>
+{
+  "bench.cpp": {
+    "CONST1": [1, 2, 3],
+    "CONST2": [1, 2, 3]
+  }
+}
+</pre>
+</td>
+</tr>
+</table>
+
+`gen_dse.py` will generate 9 configurations in total by iterating over the
+possible values of `CONST1` and `CONST2`.
+</details>
 
 ### Experiments and Case studies
 
