@@ -1,23 +1,48 @@
-# Fuse Benchmarks
+## Dahlia Evaluation
 
-Benchmarks for the [fuse programming language](https://github.com/cucapra/seashell).
-
-
-## Getting Started
-
-Use the top-level Makefile to run all the benchmarks.
-
-- `make all` generates all the C++ files for benchmarks and uploads them to
-  [buildbot](http://gorgonzola.cs.cornell.edu:8000/).
-- `make extract` will try to download all the jobs that have finished running
-  and log any failures in failure-extract.txt.
-- `make resume-batch` and `make resume-extract` will re-run
-  re-runs the respective scripts with failure logs.
-
-There is also a `make fuse` target to recompile all the source code to HLS C++.
+Evaluation for "Predictable Accelerator Design with Time-Sensitive Affine types"
+using the [Dahlia programming language](https://github.com/cucapra/dahlia).
 
 
-## Benchmarking Scripts
+### Experiments and Case studies
+
+The paper contains four graphs:
+
+1. Figure 4: Sensitivity analysis of unrolling and partitioning.
+2. Figure 7: Exhaustive design space exploration for gemm-blocked.
+3. Figure 8: Qualitative study of MachSuite benchmarks.
+4. Figure 9: Resource Utilization for gemm-ncubed in [Spatial](https://spatial-lang.org).
+
+The following directories correspond to these experiments.
+
+#### Sensitivity analysis (`sensitivity-analysis/`)
+
+The sensitivity analysis consists of three experiments:
+
+1. Fig. 4a: Unrolling the innermost loop without any partitioning (`sensitivity-analysis/no-partition-unoll`).
+2. Fig. 4b: Unrolling with a constant partitioning (`sensitivity-analysis/const-partition-unroll`)
+3. Fig. 4c: Unrolling and partitioning in lockstep (`sensitivity-analysis/lockstep-partition-and-unroll`).
+
+#### Exhaustive DSE (`exhaustive-dse/`)
+
+The exhaustive design space exploration study uses a single experiment with
+32,000 distinct configurations to generate the three subgraphs in Figure 7.
+
+#### Qualitative study (`qualitative-study/`)
+
+The qualitative study consists of three benchmarks:
+
+1. stencil2d (`qualitative-study/stencil2d`).
+2. md-knn (`qualitative-study/md-knn`).
+3. md-grid (`qualitative-study/md-grid`).
+
+#### Spatial (`spatial/`)
+
+The Spatial study consists of one experiment with several configurations to
+generate Figure 9 (main paper) and Figure 2 (supplementary text).
+
+
+### Benchmarking Scripts
 
 The infrastructure for running benchmarks is under the `_scripts` directory.
 
