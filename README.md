@@ -3,6 +3,16 @@
 Evaluation for "Predictable Accelerator Design with Time-Sensitive Affine types"
 using the [Dahlia programming language](https://github.com/cucapra/dahlia).
 
+### Data Collection
+
+Each experiment goes through the following flow:
+
+<p align="center">
+  <img src="./static/data-collection.svg">
+</p>
+
+<!--![data collection flow](./static/data-collection.png)-->
+
 
 ### Experiments and Case studies
 
