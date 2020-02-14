@@ -46,14 +46,16 @@ generate Figure 9 (main paper) and Figure 2 (supplementary text).
 
 The infrastructure for running benchmarks is under the `_scripts` directory.
 
-To use the scripts, first install [Requests][] by typing `pip install --user requests`.
+To use the scripts, first install [Requests][] by typing `pip install --user
+requests`.
 
-For these scripts, you can set a `BUILDBOT` environment variable to point to the URL of the running Buildbot instance.
+For these scripts, you can set a `BUILDBOT` environment variable to point to
+the URL of the running Buildbot instance.
 
 [requests]: https://2.python-requests.org/en/master/
 
-### `batch.py`
-
+<details>
+<summary><b>batch.py</b> [click to expand]</summary>
 Submit a batch of benchmark jobs to the Buildbot.
 
 Each argument to the script should be the path to a specific benchmark version in this repository, like `baseline/machsuite-gemm-ncubed`.
@@ -69,9 +71,10 @@ This script has command-line options:
 
 - `-E`: Submit jobs for full synthesis. (The default is to just do estimation.)
 - `-p`: Pretend to submit jobs, but don't actually submit anything. (For debugging.)
+</details>
 
-### `extract.py`
-
+<details>
+<summary><b>extract.py</b> [click to expand]</summary>
 Download results for a previously-submitted batch of benchmark jobs.
 
 On the command line, give the path to the batch directory.
@@ -82,8 +85,10 @@ Like this:
 The script downloads information about jobs from `jobs.txt` in that directory.
 It saves lots of extracted result values for the batch in a file called `results.json` there.
 
-### `summarize.py`
+</details>
 
+<details>
+<summary><b>summarize.py</b> [click to expand]</summary>
 Given some extracted data for a batch, summarize the results in a human-friendly CSV.
 
 Give the script the path to a `results.json`, like this:
@@ -91,9 +96,10 @@ Give the script the path to a `results.json`, like this:
     ./_scripts/summarize.py _results/2019-07-13-17-13-09/results.json
 
 The script produces a file in the same directory called `summary.csv` with particularly relevant information pulled out.
+</details>
 
-### `status.py`
-
+<details>
+<summary><b>status.py</b> [click to expand]</summary>
 Get the current status of a batch while you impatiently wait for jobs to complete.
 Print out the number of jobs in each state.
 
@@ -105,32 +111,4 @@ Use the [watch](https://linux.die.net/man/1/watch) command to repeatedly run
 the command every 5 seconds
 
     watch -n5 ./_scripts/status.py _results/2019-07-13-17-13-09
-
-
-## Directory Structure
-
-Different designs of benchmarks exist under its own directory. Currently there is,
-- **original**: This contains the original unedited code from the [benchmark
-  suite.](https://github.com/breagen/MachSuite/) This is useful comparison
-  and diffing. Data files exists and are generated in this directory. Internal
-  folder structure maintains original benchmark suite's structure.
-- **baseline**: This contains C++ version of the benchmark with the minimal edits
-  required for us to run it on our infrastructure in software and hardware. These changes are documented in
-  `docs/` directory under titles SOFTWARE and BASELINE. Runtime information estimators with wall clock and SDSoC provided clock cycle counts are also added.
-
-To be included are,
-- **rewrite**: This will contain one-to-one translation of the benchmark in Fuse.
-  For the most part, we don't optimize this code unless it is trivial to
-  make it work with our type system. Such changes will be documented in docs.
-- **baseline-optimized**: This will contain a manually tuned baseline using
-  HLS hardware optimizations. We won't use major code changes unless it is trivial.
-- **fuse-optimized**: This is writing the benchmark from scratch in Fuse. A full
-  rewrite will use features like `views` and `combine` blocks. The code runs the
-  same algorithm but will look substantially different from the original.
-
-Additionally, there is a **docs** directory to maintain all the changes done for each design and maintain useful information.
-
-Under these directories, there is subdirectory for each benchmark named `<benchmark suite-name>-<benchmark-name>`. Subdirectory `_<benchmark suite name>-templates` contains basic templates used across all the benchmarks. `Makefile` can be used to run all benchmarks locally or in Buildbot without support for failure detection or data extraction.
-
-The `_common` directory contains useful stuff for all designs. The `sds.mk` Makefile snippet therein can be included to make it simple to compile applications with the Xilinx SDSoC toolchain. Subdirectory `_<benchmark suite-name>-common` contains useful stuff for all benchmark versions in that suite.
-
+</details>
