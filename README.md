@@ -15,7 +15,7 @@ The paper contains four graphs:
 
 The following directories correspond to these experiments.
 
-#### Sensitivity analysis (`sensitivity-analysis/`)
+**Sensitivity analysis** (`sensitivity-analysis/`)
 
 The sensitivity analysis consists of three experiments:
 
@@ -23,12 +23,12 @@ The sensitivity analysis consists of three experiments:
 2. Fig. 4b: Unrolling with a constant partitioning (`sensitivity-analysis/const-partition-unroll`)
 3. Fig. 4c: Unrolling and partitioning in lockstep (`sensitivity-analysis/lockstep-partition-and-unroll`).
 
-#### Exhaustive DSE (`exhaustive-dse/`)
+**Exhaustive DSE** (`exhaustive-dse/`)
 
 The exhaustive design space exploration study uses a single experiment with
 32,000 distinct configurations to generate the three subgraphs in Figure 7.
 
-#### Qualitative study (`qualitative-study/`)
+**Qualitative study** (`qualitative-study/`)
 
 The qualitative study consists of three benchmarks:
 
@@ -36,10 +36,12 @@ The qualitative study consists of three benchmarks:
 2. md-knn (`qualitative-study/md-knn`).
 3. md-grid (`qualitative-study/md-grid`).
 
-#### Spatial (`spatial/`)
+**Spatial** (`spatial/`)
 
 The Spatial study consists of one experiment with several configurations to
 generate Figure 9 (main paper) and Figure 2 (supplementary text).
+
+----------------
 
 
 ### Benchmarking Scripts
