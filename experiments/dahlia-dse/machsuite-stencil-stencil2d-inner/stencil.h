@@ -1,1 +1,0 @@
-../../../baseline/machsuite-stencil-stencil2d/stencil.h
