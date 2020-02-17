@@ -1,1 +1,0 @@
-../../baseline/machsuite-spmv-ellpack/local_support.cpp
