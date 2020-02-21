@@ -1,7 +1,17 @@
 ## Dahlia Evaluation
 
 Evaluation for "Predictable Accelerator Design with Time-Sensitive Affine types"
-using the [Dahlia programming language](https://github.com/cucapra/dahlia).
+using the [Dahlia programming language][dahlia].
+
+There are three components to the Evaluation:
+
+- [The Dahlia Compiler][dahlia]: A compiler from Dahlia to Vivado HLS C.
+- [Polyphemus Server][poly]: A server-client system for orchestrating large scale FPGA experiments.
+- Benchmarks (this repository).
+
+
+[dahlia]: https://github.com/cucapra/dahlia
+[poly]: https://github.com/cucapra/polyphemus/
 
 ### Data Collection
 
