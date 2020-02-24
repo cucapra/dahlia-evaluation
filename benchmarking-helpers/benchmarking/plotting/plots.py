@@ -9,6 +9,8 @@ def make_absolute_plots(
         group_by,
         x_label,
         fig_prefix,
+        dpi = 100,
+        fig_dir = "./",
         group_labels = None,
         group_markers = None,
         legend = None,
@@ -54,13 +56,13 @@ def make_absolute_plots(
             plt.legend(prop={'size': 16})
 
         fig.tight_layout()
-        fig.savefig('{}-{}.pdf'.format(fig_prefix, key.replace('_', '-')), dpi=100)
+        fig.savefig(fig_dir + '{}-{}.pdf'.format(fig_prefix, key.replace('_', '-')), dpi=dpi)
 
         figs.append(fig)
 
     return figs
 
-def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16, legend = None):
+def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16, dpi=100, fig_dir="./", legend = None):
     y_keys = [
         'runtime_avg',
         'lut_used',
@@ -76,6 +78,8 @@ def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16, legend = None):
         df,
         x_key,
         y_keys,
+        dpi=dpi,
+        fig_dir = fig_dir,
         group_by = group,
         group_labels = ['Unpredictable points', 'Predictable points', 'Incorrect hardware'],
         group_markers = ['o', 'v', 'x'],
