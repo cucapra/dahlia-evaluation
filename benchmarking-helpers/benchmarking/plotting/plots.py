@@ -1,5 +1,6 @@
 import pandas as pd
 import seaborn as sns
+import matplotlib
 from matplotlib import pyplot as plt
 
 def make_absolute_plots(
@@ -61,6 +62,67 @@ def make_absolute_plots(
         figs.append(fig)
 
     return figs
+
+def make_qual_plot(
+    df,
+    x_data,
+    y_data,
+    group_by,
+    fig_prefix,
+    legend,
+    dpi=100,
+    fig_dir="./",
+    scale_x = { "scale_fun": lambda x: x, "scale_label": "" }):
+    """
+    x_data and y_data should be an objects with the key and the label names.
+    """
+    sns.set()
+    groups = df.groupby(group_by, axis=0)
+    # Mapping from group_name to color
+    colors = {}
+    cur = 0;
+    for idx, _ in groups:
+        colors[idx] = cur
+        cur += 1
+
+    # Configuration for subplot
+    pal = sns.color_palette('cubehelix_r', len(groups))
+    sns.set_context('paper')
+
+    fig = plt.figure()
+    ax = fig.gca()
+
+    x_key, y_key = x_data["key"], y_data["key"]
+    for idx, group in groups:
+        sns.scatterplot(x=x_key,
+                        y=y_key,
+                        data=group,
+                        color=pal[colors[idx]],
+                        label=idx,
+                        s=100, rasterized=True)
+
+    # Format Y-axis to have commas in the numbers
+    ax.get_yaxis().set_major_formatter(
+        matplotlib.ticker.FuncFormatter(lambda x, p: format(int(x), ',')))
+
+    # Scale the X-axis as needed.
+    ax.get_xaxis().set_major_formatter(
+        matplotlib.ticker.FuncFormatter(lambda x, p: format(scale_x["scale_fun"](x), ',')))
+
+    plt.ylabel(y_data["label"])
+
+    # Name the legend
+    ax.legend(title=legend, fontsize=13)
+
+    # Generate label for X-axis
+    suf = scale_x["scale_label"]
+    plt.xlabel(
+        x_data["label"] + (" (" + suf + ")" if suf != "" else ""))
+
+    fig.tight_layout()
+    fig.savefig(fig_dir + '{}-{}.pdf'.format(fig_prefix, y_key.replace('_', '-')), dpi=dpi)
+
+        # figs.append(fig)
 
 def make_sec2_plot(df, x_key, x_label, fig_prefix, factor=16, dpi=100, fig_dir="./", legend = None):
     y_keys = [
