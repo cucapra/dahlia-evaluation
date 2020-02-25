@@ -53,6 +53,10 @@ def make_absolute_plots(
         plt.xticks(fontsize=16)
         plt.yticks(fontsize=16)
 
+        ax = fig.gca()
+        ax.get_yaxis().set_major_formatter(
+            matplotlib.ticker.FuncFormatter(lambda x, p: format(int(x), ',')))
+
         if group_labels and legend == key:
             plt.legend(prop={'size': 16})
 
