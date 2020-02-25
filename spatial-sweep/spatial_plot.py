@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 cl = sns.color_palette("colorblind",6)
-PERF_RESOURCES = ['dsp_used', 'bram_tile_used','lut_used'] 
+PERF_RESOURCES = ['dsp_used', 'bram_tile_used','lut_used']
 PERF_AVAIL = ['dsp_avail', 'bram_tile_avail', 'lut_avail']
 
 df = pd.read_csv('rpts/summary.csv')
@@ -34,7 +34,7 @@ plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
 ax1.set_ylabel('Normalized Resource Usages',fontsize= 18)
 ax1.set_xlabel('Unrolling Factor',fontsize = 18)
-PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
+PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used']
 ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
 plt.savefig('paper-normalized.pdf', bbox_inches='tight')
 plt.show()
@@ -53,9 +53,7 @@ ax1.set_ylabel('Banking Decisions', fontsize = 18)
 ax1.set_xlabel('Unrolling Factor',fontsize = 18)
 plt.xticks(fontsize = 16)
 plt.yticks(fontsize = 16)
-#PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used'] 
+#PERF_RESOURCES_NAME = ['DSP used', 'BRAM used','LUT used']
 #ax1.legend(PERF_RESOURCES_NAME,prop={'size': 16})
 plt.savefig('paper-banking.pdf', bbox_inches='tight')
 plt.show()
-
-
