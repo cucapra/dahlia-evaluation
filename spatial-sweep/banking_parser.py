@@ -1,10 +1,9 @@
-from html.parser import HTMLParser
-import copy
-import csv
 import os
+from html.parser import HTMLParser
+
 # create a subclass and override the handler methods
-class MyHTMLParser(HTMLParser):
-    def __init__(self,g, dirname='banks'):
+class BankingDecisionParser(HTMLParser):
+    def __init__(self,g, dirname='data'):
         HTMLParser.__init__(self)
         self.par = str(g)
         self.write = 0
@@ -15,8 +14,10 @@ class MyHTMLParser(HTMLParser):
         self.i = 0
         self.store = {"a_sram":"input_matrix_a", "b_sram":"input_matrix_b"}
         self.dirname = dirname
+
+        # Write to the csv.
         for name in ["a_sram", "b_sram"]:
-            csv_name = os.path.join(self.dirname, self.store[name]+".csv")
+            csv_name = os.path.join(self.dirname, self.store[name] + ".csv")
             if not os.path.exists(csv_name):
                 with open(csv_name, "w") as f:
                     for term in ['par','N','B', 'alpha', 'P', 'dup']:
@@ -63,14 +64,14 @@ class MyHTMLParser(HTMLParser):
                 self.bank['P'][j] = int(p)
             if len(Ps) == 2:
                 if self.write < 2:
-                  with open(os.path.join(self.dirname, self.store[self.ram]+".csv"),
-                  "a+") as f:
-                      f.write(self.par)
-                      f.write(', ')
-                      for term in ['N','B', 'alpha', 'P', 'dup']:
-                          f.write(str(self.bank[term]).replace(',',''))
-                          if term != 'dup': f.write(', ')
-                      f.write('\n')
+                    with open(os.path.join(self.dirname, self.store[self.ram]+".csv"),
+                              "a+") as f:
+                        f.write(self.par)
+                        f.write(', ')
+                        for term in ['N','B', 'alpha', 'P', 'dup']:
+                            f.write(str(self.bank[term]).replace(',',''))
+                            if term != 'dup': f.write(', ')
+                        f.write('\n')
                 self.write+=1
                 self.i = 0
             else:
@@ -79,13 +80,3 @@ class MyHTMLParser(HTMLParser):
             self.i+=1
         if self.bestc and 'duplicates' in data:
             self.bank['dup'] = int(data.split(' dup')[0])
-
-import codecs
-if __name__ == "__main__":
-    for g in range(1,17):
-        name = "banks/decisions_"+str(g)+".html"
-        f=codecs.open(name, 'r')
-        content = f.read()
-        # instantiate the parser and fed it some HTML
-        parser = MyHTMLParser(g)
-        parser.feed(content)
