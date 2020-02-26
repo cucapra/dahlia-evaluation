@@ -12,6 +12,13 @@ There are three components to the Evaluation:
 [dahlia]: https://github.com/cucapra/dahlia
 [poly]: https://github.com/cucapra/polyphemus/
 
+### Prerequisites
+
+1. Python > 2.7.17
+2. Install JupyterLab with `pip install jupyter`.
+3. Install python dependencies with `pip install -r requirements.txt`
+4. Install local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
+
 ### Evaluation Checklist
 
 For artifact evaluation, we would like reviewers to go through the following
@@ -189,3 +196,7 @@ the command every 5 seconds
 
     watch -n5 ./_scripts/status.py _results/2019-07-13-17-13-09
 </details>
+
+### Contact
+
+Please open an issue or email [Rachit Nigam](mailto:rnigam@cs.cornell.edu).
