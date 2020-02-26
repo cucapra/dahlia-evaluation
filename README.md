@@ -1,6 +1,6 @@
 ## Dahlia Evaluation
 
-Evaluation for "Predictable Accelerator Design with Time-Sensitive Affine types"
+Evaluation for "[Predictable Accelerator Design with Time-Sensitive Affine types][dahlia-paper]"
 using the [Dahlia programming language][dahlia].
 
 There are three components to the Evaluation:
@@ -10,11 +10,12 @@ There are three components to the Evaluation:
 - Benchmarks (this repository).
 
 [dahlia]: https://github.com/cucapra/dahlia
+[dahlia-paper]: https://rachitnigam.com/files/pubs/dahlia.pdf
 [poly]: https://github.com/cucapra/polyphemus/
 
 ### Prerequisites
 
-1. Python > 2.7.17
+1. Python 3
 2. Install JupyterLab with `pip install jupyter`.
 3. Install python dependencies with `pip install -r requirements.txt`
 4. Install local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
@@ -72,7 +73,7 @@ The qualitative study consists of three benchmarks:
 2. md-knn (`qualitative-study/md-knn`).
 3. md-grid (`qualitative-study/md-grid`).
 
-**Spatial** (`spatial/`)
+**Spatial** (`spatial-sweep/`)
 
 The Spatial study consists of one experiment with several configurations to
 generate Figure 9 (main paper) and Figure 2 (supplementary text).
@@ -130,13 +131,8 @@ possible values of `CONST1` and `CONST2`.
 
 The infrastructure for running benchmarks is under the `_scripts` directory.
 
-To use the scripts, first install [Requests][] by typing `pip install --user
-requests`.
-
 For these scripts, you can set a `BUILDBOT` environment variable to point to
 the URL of the running Buildbot instance.
-
-[requests]: https://2.python-requests.org/en/master/
 
 <details>
 <summary><b>batch.py</b> [click to expand]</summary>
