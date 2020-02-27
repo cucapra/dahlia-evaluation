@@ -43,7 +43,7 @@ for bench in $BENCH; do
 
     find "$dir" -path "$dir/$bench-*/*.fuse" | \
       head -n $ESTIMATE | \
-      parallel -j 1 --progress --bar $valid_script {} > /dev/null || true
+      parallel --progress --bar $valid_script {} > /dev/null || true
 
     end_time=$(date +%s)
     total_confs=$(find "$dir" -path "$dir/$bench-*/*.fuse" | wc -l)

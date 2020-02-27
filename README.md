@@ -28,7 +28,10 @@ There are three components to the Evaluation:
 
 - Download the artifact VM Image. **TODO: Add link to artifact**
 - Boot the image in your favorite Hypervisor (Image tested on VirtualBox).
-- **TODO: Run Dahlia compiler on few configurations**.
+- Open a terminal and type `cd Desktop/dahlia-evaluation`.
+- Run `./_scripts/sanity-check.sh`. The script should report no errors.
+- Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
+- Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
 - **TODO: Open link to Cerberus**.
 
 
@@ -60,6 +63,11 @@ steps:
 
 #### Configurations accepted by Dahlia
 
+**Estimated time: 9-10 hours on a single core machine**
+
+We recommend reviewers use as many physical cores as they have available to speed
+up this section.
+
 In this section, we will reproduce the following claims:
 
 *Section 5.2*
@@ -74,9 +82,6 @@ In this section, we will reproduce the following claims:
 *Section 5.3 (md-grid)*
 > The full space has 21,952 points, of which Dahlia accepts 81 (0.4%)
 
-
-**TODO: Add script to automate this.**
-
 Each claim has two parts: (1) Number of configurations in the design space, and
 (2) number of configurations accepted by Dahlia.
 
@@ -84,10 +89,19 @@ For each benchmark, our script generates *k* directories where *k* is the number
 of configurations. It then runs the Dahlia compiler on each of the files and
 reports if the configuration was accepted or not.
 
-**TODO: Add script for each benchmark that will the Dahlia accepted
-configurations**
+The script uses GNU Parallel to speed up execution. Actual runtime will depend
+on the number of cores available.
+
+Run the following command:
+```
+./_scripts/run-dahlia-accepts.sh
+```
+
+The script will report number of configurations accepted for each benchmark.
 
 #### Figures and Pareto points
+
+**Estimated time: 10-15 minutes**
 
 In this section, we reproduce all the graphs in the paper **from data already
 committed to the repository**. Since the data collection step requires access
