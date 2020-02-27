@@ -16,9 +16,11 @@ There are three components to the Evaluation:
 ### Prerequisites
 
 1. Python 3
-2. Install JupyterLab with `pip install jupyter`.
-3. Install python dependencies with `pip install -r requirements.txt`
+2. Install JupyterLab with `pip3 install jupyter`.
+3. Install python dependencies with `pip3 install -r requirements.txt`
 4. Install local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
+5. Run the sanity checking script `./_scripts/sanity-check.sh` to make sure the
+   all the tools are configured correctly.
 
 ## Artifact Evaluation
 
