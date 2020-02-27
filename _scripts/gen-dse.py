@@ -9,6 +9,8 @@ import itertools
 import copy
 import shutil
 
+from tqdm import tqdm
+
 from benchmarking import common
 
 TEMPLATE = 'template.json'
@@ -79,7 +81,6 @@ def gen_updated_directory(bench, template, assignment, extra_fields, force):
     """
     """
     dst = bench + '-' + '-'.join(str(e) for e in assignment)
-    common.logging.info('Creating {}.'.format(dst))
     # chdir to parent of bench
     with common.chdir(os.path.join(bench, "../")):
         if force:
@@ -125,7 +126,13 @@ def gen_dse(bench, force, dry_run):
 
         count = 0
         total = 0
-        for assign in generate_all_assignments(template):
+        assigns = list(generate_all_assignments(template))
+        common.logging.info(f'Generating configurations for {bench}.')
+        progress_bar = tqdm(
+            assigns,
+            bar_format = "{l_bar}{bar}[{n_fmt}/{total_fmt}]",
+        )
+        for assign in progress_bar:
             full_assign = get_assignment(template, assign)
             total += 1
             if filt(full_assign):
