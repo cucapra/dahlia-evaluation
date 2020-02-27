@@ -29,6 +29,7 @@ There are three components to the Evaluation:
 - Download the artifact VM Image. **TODO: Add link to artifact**
 - Boot the image in your favorite Hypervisor (Image tested on VirtualBox).
 - Open a terminal and type `cd Desktop/dahlia-evaluation`.
+- In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu`.
 - Run `./_scripts/sanity-check.sh`. The script should report no errors.
 - Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
 - Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
