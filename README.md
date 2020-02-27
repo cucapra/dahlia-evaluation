@@ -15,6 +15,8 @@ There are three components to the Evaluation:
 
 ### Prerequisites
 
+Please install the following dependencies if you're not using the virtual image.
+
 1. Python 3
 2. Install JupyterLab with `pip3 install jupyter`.
 3. Install python dependencies with `pip3 install -r requirements.txt`
@@ -27,6 +29,7 @@ There are three components to the Evaluation:
 ### Getting Started Guide
 
 - Download the artifact VM Image. **TODO: Add link to artifact**
+- (*Optional, but recommended*) Enable [multiple physical cores][multiple-cores] for the Virtual Machine. Parts of the evaluation can be completed faster with multiple core support enabled within the VM.
 - Boot the image in your favorite Hypervisor (Image tested on VirtualBox).
 - Open a terminal and type `cd Desktop/dahlia-evaluation`.
 - In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu`.
@@ -34,6 +37,8 @@ There are three components to the Evaluation:
 - Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
 - Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
 - **TODO: Open link to Cerberus**.
+
+[multiple-cores]: https://askubuntu.com/questions/365615/how-do-i-enable-multiple-cores-in-my-virtual-enviroment
 
 
 ### Step-by-step Guide
