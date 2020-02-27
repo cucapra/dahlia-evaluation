@@ -127,7 +127,7 @@ def gen_dse(bench, force, dry_run):
         count = 0
         total = 0
         assigns = list(generate_all_assignments(template))
-        common.logging.info(f'Generating configurations for {bench}.')
+        common.logging.info(f'Generating configurations for {os.path.basename(bench)}.')
         progress_bar = tqdm(
             assigns,
             bar_format = "{l_bar}{bar}[{n_fmt}/{total_fmt}]",
