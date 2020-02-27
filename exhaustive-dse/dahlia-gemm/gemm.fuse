@@ -2,9 +2,9 @@ decl m1_int: bit<32>[128][128];
 decl m2_int: bit<32>[128][128];
 decl prod_int: bit<32>[128][128];
 
-let m1:   bit<32>{2}[128 bank ::BANK11::][128 bank ::BANK12::];
-let m2:   bit<32>{2}[128 bank ::BANK11::][128 bank ::BANK12::];
-let prod: bit<32>{2}[128 bank ::BANK21::][128 bank ::BANK22::];
+let m1:   bit<32>[128 bank ::BANK11::][128 bank ::BANK12::];
+let m2:   bit<32>[128 bank ::BANK11::][128 bank ::BANK12::];
+let prod: bit<32>[128 bank ::BANK21::][128 bank ::BANK22::];
 
 view m1_sh = m1[_: bank 1][_: bank 1];
 view m2_sh = m2[_: bank 1][_: bank 1];
