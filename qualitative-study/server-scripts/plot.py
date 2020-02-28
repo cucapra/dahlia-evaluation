@@ -68,7 +68,7 @@ def plot_md_knn():
     plots.make_qual_plot(
         pareto,
         x_data = {'key': 'avg_latency', 'label': 'Average Latency'},
-        y_data = {'key': 'lut_used', 'label': 'LUTs Used'},
+        y_data = {'key': 'hls_lut', 'label': 'LUTs Used'},
         group_by = group,
         legend='Outer Unroll',
         fig_prefix = "data-collect-md-knn-outer-unroll",
@@ -92,7 +92,7 @@ def plot_md_grid():
     plots.make_qual_plot(
         pareto,
         x_data = {'key': 'avg_latency', 'label': 'Average Latency'},
-        y_data = {'key': 'lut_used', 'label': 'LUTs Used'},
+        y_data = {'key': 'hls_lut', 'label': 'LUTs Used'},
         group_by = group,
         legend="Middle Unroll",
         fig_prefix = "data-collect-md-grid-middle-unroll",
