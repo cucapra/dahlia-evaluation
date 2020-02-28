@@ -30,9 +30,7 @@ You will need these prerequisites:
 
 [jupyter]: https://jupyter.org
 
-## Artifact Evaluation
-
-### Getting Started Guide
+## Getting Started Guide
 
 - Download the artifact VM Appliance. **TODO: Add link to artifact**
 - (*Optional, but recommended*) Enable multiple physical cores for the Virtual Machine.
@@ -55,7 +53,7 @@ You will need these prerequisites:
 [cerberus]: http://cerberus.cs.cornell.edu:5000
 
 
-### Step-by-Step Guide
+## Step-by-Step Guide
 
 For artifact evaluation, we would like reviewers to go through the following
 steps (each of which is described in detail in a section below):
@@ -79,9 +77,7 @@ steps (each of which is described in detail in a section below):
 
 -----
 
-#### Configurations accepted by Dahlia
-
-**Estimated time: 9-10 hours on a single core machine**
+### Configurations accepted by Dahlia (Estimated time: 9-10 hours on a single core machine)
 
 We recommend reviewers use as many physical cores as they have available to speed
 up this section.
@@ -123,9 +119,7 @@ The script generates files with the names `*-accepted` in the repository root.
 
 -----
 
-#### Figures and Pareto points
-
-**Estimated time: 10-15 minutes**
+### Figures and Pareto points (Estimated time: 10-15 minutes)
 
 In this section, we reproduce all the graphs in the paper **from data already
 committed to the repository**. Because actually running the experiments and collecting the data requires access
@@ -175,9 +169,7 @@ generate Figure 9 (main paper) and Figure 2 (supplementary text).
 
 --------
 
-#### Data Collection
-
-**Estimated Time: 2-3 hours**
+### Data Collection (Estimated Time: 2-3 hours)
 
 This section describes how to actually run the experiments to generate the raw data that goes into the plots demonstrated above.
 This step is the trickiest because it requires access to proprietary [Xilinx][] toolchains and, in some cases, actual FPGA hardware.
@@ -201,9 +193,7 @@ Each figure in the paper requires data from different sources:
 [zedboard]: http://www.zedboard.org/product/zedboard
 
 
-##### Instructions for Artifact Evaluation
-
-These directions will not reproduce the *full* set of data reported in the paper, which is generally not practical within the evaluation time (fig. 7, for example, took us 2,666 CPU-hours to produce).
+**Instructions for Artifact Evaluation:** These directions will not reproduce the *full* set of data reported in the paper, which is generally not practical within the evaluation time (fig. 7, for example, took us 2,666 CPU-hours to produce).
 We instead provide smaller versions of each experiment that are practical to run within a reasonable amount of time.
 The idea is to to demonstrate that our distributed FPGA experimentation framework is functional to give evidence that our reported data is correct.
 We also provide instructions to reproduce our original results.
@@ -213,8 +203,6 @@ server. For the PLDI AEC, we've asked the PC chairs for permission to provide
 the reviewers with access to the deployment. Since it is expensive to keep the
 servers up, **we ask the reviewers to co-ordinate with us to setup two day
 windows to evaluate our data collection scripts.**
-
-##### Qualitative Study reproduction
 
 For ease of evaluation, we've automated the experiments to generate the data
 for the qualitative studies. The `Makefile` at the root of the repository
@@ -239,16 +227,14 @@ start with the `md-grid` study first since it has `81` configurations and takes
       ```
 3. After uploading, most jobs should be in the `make` stage and some of them
    in the `makeing` stage. **If there are no jobs in the `makeing` phase, please
-   message us.** This means that the server did not recognize the uploaded jobs
-   correctly.
+   message us.**
 4. Wait for all jobs to enter the `done` phase. Once this happens, exit the
-   script.
-5. The command generates `machsuite-md-grid-data/summary.csv` which contains
-   estimated resource usage.
+   watch script.
+5. The following command to generate the resource summary file `machsuite-md-grid-data/summary.csv`.
    ```
    make summarize-data BENCH=qualitative-study/machsuite-md-grid
    ```
-6. Run the following command to generate the graphs.
+6. Run the following command to generate the graph PDF `data-collect-machsuite-md-grid-middle-unroll.pdf`
    ```
    ./qualitative-study/server-scripts/plot.py machsuite-md-grid
    ```
@@ -270,13 +256,28 @@ Unfortunately, there is no way to distinguish such runaway processes from
 long running estimation jobs. **If a job is stuck in the `makeing` stage for
 more than an hour, please message us.**
 
-##### Reproducing all the experiments
+------
 
-In general, large scale experiments on Polyphemus go through the following flow:
+### Reproducing other studies
+
+Polyphemus experiments go through the following flow:
 
 <p align="center">
   <img src="./static/data-collection.svg">
 </p>
+
+Setup a [Polyphemus] deployment with multiple estimation machines and at least on FPGA machine.
+
+**NOTE: The Polyphemus deployment for PLDI AEC reviewers does not support FPGA machines.**
+
+#### Sensitivity Analysis (Estimated time: 80-120 compute hours/parallelizable)
+
+There are three experiment folders under `sensitivity-analysis`. For each of the folder,
+run the following commands (replace `$experiment` with the folder name).
+
+
+#### Exhasutive DSE (Estimated time: 2,666 compute hours/parallelizable)
+
 
 <details>
 <summary><b>Example Design Space Exploration Configuration</b> [click to expand]</summary>
