@@ -7,7 +7,7 @@ import sys
 
 from benchmarking.plotting import plots
 
-SCALE_X = {"scale_fun": lambda x: int(x / 100), "scale_label": "Hundreds of cycles"}
+SCALE_X = {"scale_fun": lambda x: float(x / 100), "scale_label": "Hundreds of cycles"}
 
 RESOURCES = ['hls_bram', 'hls_dsp', 'hls_ff', 'hls_lut', 'avg_latency']
 
