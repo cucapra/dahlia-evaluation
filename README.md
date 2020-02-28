@@ -1,12 +1,13 @@
 # Dahlia Evaluation
 
-Evaluation for "[Predictable Accelerator Design with Time-Sensitive Affine types][dahlia-paper]"
+This repository contains the evaluation materials for the PLDI 2020 paper
+"[Predictable Accelerator Design with Time-Sensitive Affine Types][dahlia-paper]"
 using the [Dahlia programming language][dahlia].
 
-There are three components to the Evaluation:
+There are three components to the evaluation:
 
 - [The Dahlia Compiler][dahlia]: A compiler from Dahlia to Vivado HLS C.
-- [Polyphemus Server][poly]: A server-client system for orchestrating large scale FPGA experiments.
+- [Polyphemus Server][poly]: A client–server system for orchestrating large-scale FPGA experiments.
 - Benchmarks (this repository).
 
 [dahlia]: https://github.com/cucapra/dahlia
@@ -15,14 +16,18 @@ There are three components to the Evaluation:
 
 ### Prerequisites
 
-Please install the following dependencies if you're not using the virtual image.
+If you're using the virtual machine image (see below), you just need the hypervisor.
+Otherwise, to set up the evaluation outside of the VM, start by cloning this repository.
+You will need these prerequisites:
 
 1. Python 3
-2. Install JupyterLab with `pip3 install jupyter`.
-3. Install python dependencies with `pip3 install -r requirements.txt`
-4. Install local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
+2. Install [Jupyter][] with `pip3 install jupyter`
+3. Install other Python dependencies with `pip3 install -r requirements.txt` (in this repository)
+4. Install the local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
 5. Run the sanity checking script `./_scripts/sanity-check.sh` to make sure the
    all the tools are configured correctly.
+
+[jupyter]: https://jupyter.org
 
 ## Artifact Evaluation
 
@@ -30,7 +35,7 @@ Please install the following dependencies if you're not using the virtual image.
 
 - Download the artifact VM Image. **TODO: Add link to artifact**
 - (*Optional, but recommended*) Enable [multiple physical cores][multiple-cores] for the Virtual Machine. Parts of the evaluation can be completed faster with multiple core support enabled within the VM.
-- Boot the image in your favorite Hypervisor (Image tested on VirtualBox).
+- Boot the image in your favorite hypervisor (we tested the image using [VirtualBox][]).
 - Open a terminal and type `cd Desktop/dahlia-evaluation`.
 - In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu`.
 - Run `./_scripts/sanity-check.sh`. The script should report no errors.
@@ -39,6 +44,7 @@ Please install the following dependencies if you're not using the virtual image.
 - **TODO: Open link to Cerberus**.
 
 [multiple-cores]: https://askubuntu.com/questions/365615/how-do-i-enable-multiple-cores-in-my-virtual-enviroment
+[virtualbox]: https://www.virtualbox.org
 
 
 ### Step-by-step Guide
