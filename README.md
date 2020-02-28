@@ -24,7 +24,7 @@ You will need these prerequisites:
 2. Install [GNU `parallel`][parallel]
 3. Install [Jupyter][] with `pip3 install jupyter`
 4. Install other Python dependencies with `pip3 install -r requirements.txt` (in this repository)
-5. Install the local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
+5. Install the local benchmarking helpers with `cd benchmarking-helpers && pip3 install -e .`
 6. Run the sanity checking script `./_scripts/sanity-check.sh` to make sure the
    all the tools are configured correctly.
 
@@ -38,7 +38,7 @@ You will need these prerequisites:
 - (*Optional, but recommended*) Enable [multiple physical cores][multiple-cores] for the Virtual Machine. Parts of the evaluation can be completed faster with multiple core support enabled within the VM.
 - Boot the image in your favorite hypervisor (we tested the image using [VirtualBox][]).
 - Open a terminal and type `cd Desktop/dahlia-evaluation`.
-- In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu`.
+- In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu:5000`.
 - Run `./_scripts/sanity-check.sh`. The script should report no errors.
 - Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
 - Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
