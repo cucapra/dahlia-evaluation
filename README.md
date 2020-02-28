@@ -282,14 +282,19 @@ start with the `md-grid` study first since it has `81` configurations and takes
    correctly.
 6. Wait for all jobs to enter the `done` phase. Once this happens, exit the
    script.
-7. Run the following command to generate the summary data file `machsuite-md-grid-data/summary.csv`
+7. Run the following command to generate the graph `data-collect-md-grid-middle-unroll-hls-lut.pdf`
    ```
-   make summarize-data BENCH=qualitative-study/machsuite-md-grid
+   make summarize-data BENCH=qualitative-study/machsuite-md-grid && \
+   make data-collect-md-grid-middle-unroll-hls-lut.pdf
    ```
-8. **TODO: Add script for generating graphs**
+   The command also generates `machsuite-md-grid-data/summary.csv` which contains
+   estimated resource usage.
+
 
 To run other benchmarks, replace `qualitative-study/machsuite-md-grid` with
-`qualitative-study/machsuite-md-knn` (525 configurations ~10 hours) or `qualitative-study/machsuite-stencil-stencil2d-inner` (18 configurations ~ 20 mins).
+`qualitative-study/machsuite-md-knn` (525 configurations ~10 hours) or
+`qualitative-study/machsuite-stencil-stencil2d-inner` (18 configurations ~ 20
+mins).
 
 
 **Note on intermittent failures:** During the monitoring phase, some jobs might

@@ -14,6 +14,9 @@ start-job: $(notdir $(BENCH))-accepted
 summarize-data: $(notdir $(BENCH))-data/summary.csv
 
 # Configuration for md-grid
+data-collect-md-grid-middle-unroll-hls-lut.pdf: machsuite-md-grid-data/summary.csv
+	./qualitative-study/server-scripts/plot.py machsuite-md-grid-data
+
 machsuite-md-grid-data/summary.csv: machsuite-md-grid-data/results.json
 	./_scripts/summarize.py $< -R -k qualitative-study/server-scripts/md-grid-key.json -c hls default
 
