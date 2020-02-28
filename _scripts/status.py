@@ -41,11 +41,11 @@ def get_status(batch_dir):
                         job_id)
             continue;
 
-        logging.log(
-            logging.ERROR if info['state'] == 'failed' else logging.INFO,
-            '%s (%s): %s',
-            job_id, info['config']['hwname'], info['state'],
-        )
+        # logging.log(
+            # logging.ERROR if info['state'] == 'failed' else logging.INFO,
+            # '%s (%s): %s',
+            # job_id, info['config']['hwname'], info['state'],
+        # )
         job_info[job_id] = info
         if info['state'] == 'failed':
             failed.append(job_id)

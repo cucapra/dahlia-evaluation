@@ -25,7 +25,8 @@ VALID_MODES = ['hw', 'hw_emu', 'sw_emu', 'estimate']
 Config = namedtuple("Config", [
     'estimate', # Enable estimation mode
     'mode',     # Modes for F1 execution
-    'prefix'    # Prefix for job names
+    'prefix',   # Prefix for job names
+    'res_name', # Name of the results directory
 ])
 
 def valid_mode(mode):
@@ -119,9 +120,12 @@ def batch_and_upload(benchmark_paths, conf, pretend):
             failed_paths.append(bench)
 
     # Choose a "name" for the batch and print it to stdout.
-    batch_name = (conf.prefix if conf.prefix else "") + \
-        datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
-    batch_dir = os.path.join(common.OUT_DIR, batch_name)
+    if conf.res_name is None:
+        batch_name = (conf.prefix if conf.prefix else "") + \
+            datetime.datetime.now().strftime('%Y-%m-%d-%H-%M-%S')
+        batch_dir = os.path.join(common.OUT_DIR, batch_name)
+    else:
+        batch_dir = conf.res_name
 
     print(batch_dir)
     if pretend:
@@ -158,6 +162,9 @@ if __name__ == '__main__':
     parser.add_argument('-m', '--mode',
                         help='Execution mode for F1.',
                         type=valid_mode, default='hw')
+    parser.add_argument('-b', '--batch-name',
+                        help='Name for the folder to save results in',
+                        default=None)
 
     # Prefix for batch
     parser.add_argument('-p', '--prefix',
@@ -173,5 +180,6 @@ if __name__ == '__main__':
         estimate=opts.estimate,
         mode=opts.mode,
         prefix=opts.prefix,
+        res_name=opts.batch_name,
     )
     batch_and_upload(opts.bench, conf, opts.pretend)

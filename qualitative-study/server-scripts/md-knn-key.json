@@ -1,8 +1,8 @@
 {
-  "force": "md.fuse:FORCE",
-  "pos": "md.fuse:POS",
-  "j_d1": "md.fuse:J_D1",
-  "j_d2": "md.fuse:J_D2",
-  "ur_loop1": "md.fuse:UR_LOOP1",
-  "ur_loop2": "md.fuse:UR_LOOP2"
+  "force":    "results:dse_template:md.fuse:FORCE",
+  "pos":      "results:dse_template:md.fuse:POS",
+  "j_d1":     "results:dse_template:md.fuse:J_D1",
+  "j_d2":     "results:dse_template:md.fuse:J_D2",
+  "ur_loop1": "results:dse_template:md.fuse:UR_LOOP1",
+  "ur_loop2": "results:dse_template:md.fuse:UR_LOOP2"
 }

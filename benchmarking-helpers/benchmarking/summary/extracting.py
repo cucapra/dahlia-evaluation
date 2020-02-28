@@ -71,7 +71,6 @@ def hls_report(filepath):
         'estimated_clock': float(timing_table[0]['Estimated']),
         'min_latency':     int(latency_table[0]['Latency min']) if latency_table[0]['Latency min'].isdigit()  else None,
         'max_latency':     int(latency_table[0]['Latency max']) if latency_table[0]['Latency max'].isdigit()  else None,
-        'pipelining':      latency_table[0]['Pipeline Type'],
         'bram_used':       int(util_total['BRAM_18K']),
         'dsp48_used':      int(util_total['DSP48E']),
         'ff_used':         int(util_total['FF']),
