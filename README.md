@@ -20,11 +20,12 @@ If you're using the virtual machine image (see below), you just need the hypervi
 Otherwise, to set up the evaluation outside of the VM, start by cloning this repository.
 You will need these prerequisites:
 
-1. Python 3
-2. Install [Jupyter][] with `pip3 install jupyter`
-3. Install other Python dependencies with `pip3 install -r requirements.txt` (in this repository)
-4. Install the local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
-5. Run the sanity checking script `./_scripts/sanity-check.sh` to make sure the
+1. Get Python 3 if you don't already have it
+2. Install [GNU `parallel`][parallel]
+3. Install [Jupyter][] with `pip3 install jupyter`
+4. Install other Python dependencies with `pip3 install -r requirements.txt` (in this repository)
+5. Install the local benchmarking helpers with `cd benchmarking-helpers && pip install -e .`
+6. Run the sanity checking script `./_scripts/sanity-check.sh` to make sure the
    all the tools are configured correctly.
 
 [jupyter]: https://jupyter.org
@@ -91,14 +92,14 @@ In this section, we will reproduce the following claims:
 *Section 5.3 (md-grid)*
 > The full space has 21,952 points, of which Dahlia accepts 81 (0.4%)
 
-Each claim has two parts: (1) Number of configurations in the design space, and
-(2) number of configurations accepted by Dahlia.
+Each claim has two parts: (1) the number of configurations in the design space, and
+(2) the number of configurations accepted by Dahlia (i.e., they are well-typed according to Dahlia's type checker).
 
 For each benchmark, our script generates *k* directories where *k* is the number
 of configurations. It then runs the Dahlia compiler on each of the files and
 reports if the configuration was accepted or not.
 
-The script uses GNU Parallel to speed up execution. Actual runtime will depend
+The script uses [GNU `parallel`][parallel] to speed up execution. Actual runtime will depend
 on the number of cores available.
 
 Run the following command:
@@ -107,6 +108,8 @@ Run the following command:
 ```
 
 The script will report number of configurations accepted for each benchmark.
+
+[parallel]: https://www.gnu.org/software/parallel/
 
 #### Figures and Pareto points
 
