@@ -23,7 +23,7 @@ fi
 
 git fetch --quiet
 if [[ "$(git rev-parse HEAD)" != "$(git rev-parse @{u})" ]]; then
-  echo "The is not up to date with the remote or contains changes. If this is unintentional, pleast run 'git reset --hard origin/master'."
+  echo "The is not up to date with the remote or contains change. If this is unintentional, pleast run 'git reset --hard origin/master'."
   exit 1
 else
   echo '5. Local repository is clean and up to date.'
