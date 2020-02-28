@@ -364,6 +364,14 @@ server.
 - The downloaded CSV can be analyzed using the `main.ipynb` script in the
   repository root.
 
+#### Spatial Comparison (Estimated time: 2 hours)
+
+During the time of submission of the paper, [Spatial] is still being actively
+developed and changed. To reproduce our experimental results, please follow
+the instructions in [our fork of spatial-quickstart][dahlia-spatial-quickstart].
+
+[dahlia-spatial-quickstart]: https://github.com/cucapra/dahlia-spatial-comparison
+
 --------
 
 ### Designing new Experiments
