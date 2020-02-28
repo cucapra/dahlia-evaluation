@@ -223,26 +223,26 @@ start with the `md-grid` study first since it has `81` configurations and takes
    file is generated in the "Configurations accepted by Dahlia" step.
 2. Run the following command.
   ```
-  make start-job BENCH=qualitative-study/machsuite-md-grid BUILDBOT=http://cerberus.cs.cornell.edu:5000
+  make start-job BENCH=qualitative-study/machsuite-md-grid
   ```
-3. The command will generate all the configurations and upload them to
-   [cerberus.cs.cornell.edu:5000](cerberus.cs.cornell.edu:5000).
-4. The script with also start the following command to monitor the status of the jobs:
-   ```
-   watch -n5 ./_scripts/status.py machsuite-md-grid-data/
-   ```
-5. After uploading, most jobs should be in the `make` stage and some of them
+   - The command will generate all the configurations and upload them to
+     <cerberus.cs.cornell.edu:5000>.
+   - The script will also start the following command to monitor the status of the jobs:
+      ```
+      watch -n5 ./_scripts/status.py machsuite-md-grid-data/
+      ```
+3. After uploading, most jobs should be in the `make` stage and some of them
    in the `makeing` stage. **If there are no jobs in the `makeing` phase, please
    message us.** This means that the server did not recognize the uploaded jobs
    correctly.
-6. Wait for all jobs to enter the `done` phase. Once this happens, exit the
+4. Wait for all jobs to enter the `done` phase. Once this happens, exit the
    script.
-7. The command generates `machsuite-md-grid-data/summary.csv` which contains
+5. The command generates `machsuite-md-grid-data/summary.csv` which contains
    estimated resource usage.
    ```
    make summarize-data BENCH=qualitative-study/machsuite-md-grid
    ```
-8. Run the following command to generate the graphs.
+6. Run the following command to generate the graphs.
    ```
    ./qualitative-study/server-scripts/plot.py machsuite-md-grid
    ```
