@@ -81,6 +81,7 @@ def plot_md_grid():
     df = pd.read_csv('machsuite-md-grid-data/summary.csv')
     df['avg_latency'] = ((df['hls_lat_min'] + df['hls_lat_max']) / 2)
 
+    res = 'B0Y_UR'
     opts = find_pareto(df[RESOURCES].to_numpy())
     pareto = df.iloc[opts]
 
