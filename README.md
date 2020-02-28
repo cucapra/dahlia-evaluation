@@ -34,7 +34,7 @@ You will need these prerequisites:
 
 ## Getting Started Guide
 
-- Download the artifact VM Appliance. **TODO: Add link to artifact**
+- Download the VM Appliance. The username and password are `dahlia`.
 - (*Optional, but recommended*) Enable multiple physical cores for the Virtual Machine.
   In Virtual box, select the appliance and under Settings > System > Processor
   enable all physical cores.
