@@ -256,6 +256,26 @@ Unfortunately, there is no way to distinguish such runaway processes from
 long running estimation jobs. **If a job is stuck in the `makeing` stage for
 more than an hour, please message us.**
 
+### (Optional) Using the Dahlia Compiler (Estimated time: 10-15 minutes)
+
+We provide two ways of interacting the evaluating the Dahlia compiler.
+
+1. Follow the examples on the [Dahlia demo webpage][dahlia-demo]. The compiler
+   is packaged and served using [Scala.js][scala-js] and does not require
+   connection to a server.
+2. Follow the instructions and rebuild the [Dahlia compiler][dahlia] from
+   source. The compiler supports a software backend and has extensive
+   [testing][dahlia-test] to ensure correctness of the various program
+   analyses.
+3. We additionally provide [language documentation][dahlia-docs] for the
+   various parts of the compiler.
+
+[dahlia-demo]: https://capra.cs.cornell.edu/dahlia
+[scala-js]: https://www.scala-js.org/
+[dahlia-test]: https://github.com/cucapra/dahlia/blob/211827921b1f15a9e20be3696935497cc90fc0d7/src/test/scala/TypeCheckerSpec.scala#L8
+[dahlia-docs]: https://capra.cs.cornell.edu/fuse
+
+
 ------
 
 ### Reproducing other studies
