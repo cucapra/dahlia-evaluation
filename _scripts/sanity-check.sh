@@ -3,7 +3,7 @@
 set -eu -o pipefail
 
 # Fetch origin from remote
-git fetch origin
+git fetch origi
 
 # Test if the Dahlia binary is available.
 (type dahlia >/dev/null 2>&1 && echo "1. 'dahlia' binary found in the path.") \
