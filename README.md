@@ -266,24 +266,91 @@ Polyphemus experiments go through the following flow:
   <img src="./static/data-collection.svg">
 </p>
 
-Setup a [Polyphemus] deployment with multiple estimation machines and at least on FPGA machine.
+Setup a [Polyphemus] deployment with multiple estimation machines and at least one FPGA machine.
 
 **NOTE: The Polyphemus deployment for PLDI AEC reviewers does not support FPGA machines.**
 
 #### Sensitivity Analysis (Estimated time: 80-120 compute hours/parallelizable)
 
 There are three experiment folders under `sensitivity-analysis`. For each of the folder,
-run the following commands (replace `$experiment` with the folder name).
+run the following commands. Set the `BUILDBOT` environment variable to your
+Polyphemus deployment.
 
+- Set variable for specific experiment (we show one example):
+  ```
+  export EXPERIMENT=sensitivity-analysis/const-partition-unroll
+  cd $EXPERIMENT
+  ```
+- Generate all configurations:
+  ```
+  ../../_scripts/gen-dse.py $EXPERIMENT/gemm
+  ```
+- Upload the configurations:
+  ```
+  ../../_scripts/batch.py -p $(basename $EXPERIMENT) -m hw $EXPERIMENT/gemm-*
+  ```
+- Wait for all jobs to complete. Monitor them by running:
+  ```
+  watch -n5 ../../_scripts/status.py ./
+  ```
+- Download, summarize the data, and generate the graphs
+  ```
+  make graphs
+  ```
 
 #### Exhasutive DSE (Estimated time: 2,666 compute hours/parallelizable)
 
+> We ran our evaluation on 20 AWS machines, each with 4 workers over the
+> course of a week. This experiment requires babysitting the server fleet and
+> manually restarting some jobs and machines.
 
-<details>
-<summary><b>Example Design Space Exploration Configuration</b> [click to expand]</summary>
+Because of the amount of required direct interaction, we assume that the reader
+has read the documentation for [Polyphemus].
 
-`gen_dse.py` is a search and replace script that generates folders for each
-possible configuration.
+Due to the sheer size of the experimentation, we recommend monitoring the job
+status and extracting the data on one of the servers instead of locally
+downloading. We provide the scripts to monitor and collect data on the
+server.
+
+- Set a unique prefix to track jobs associated with this experimentation run.
+  ```
+  export PREFIX=exhaustive
+  ```
+- Generate all the configurations and upload them:
+  ```
+  cd exhaustive-dse/ &&
+  ../_scripts/gen-dse.py gemm &&
+  ../_scripts/batch.py -p $PREFIX -m estimate gemm-*
+  ```
+  Depending on the number of threads for the upload server, this step can
+  take up to two days. However, Polyphemus starts executing jobs as soon as
+  they are uploaded. Keep this script running in a different shell and move
+  onto the next step.
+- Log on to a Polyphemus server and enter the `instance` directory that contains
+  the `jobs/` folder.
+- Copy the scripts under `exhaustive-dse/scripts/` into this folder.
+- To monitor the jobs, first run `./get-prefix-jobs.sh $PREFIX` which generates
+  a file named `$PREFIX-jobs`.
+- Run `./status.sh $PREFIX-jobs` to get the state of all the jobs.
+- When all jobs are in a `done` state, run:
+  ```
+  cat $PREFIX-jobs | parallel --progress --bar './extract.py jobs/{}'
+  ```
+  This generates all the resource summaries under `raw/`
+- Finally, run the following to generate a summary CSV.
+  ```
+  ls raw/*.json | parallel --progress --bar './to-csv.py raw/{}'
+  ```
+- The downloaded CSV can be analyzed using the `main.ipynb` script in the
+  repository root.
+
+--------
+
+### Designing new Experiments
+
+To design a new large scale experiment with Polyphemus, design and parameterize
+it for use with `gen-dse.py`. `gen-dse.py` is a search and replace script that
+generates folders for each possible configuration.
 
 When invoked on a folder, it looks for a `template.json` file that maps
 paramters in files to possible values. For example, the following in
@@ -314,8 +381,9 @@ x + y;
 
 `gen_dse.py` will generate 9 configurations in total by iterating over the
 possible values of `CONST1` and `CONST2`.
-</details>
 
+For most experiments, following the steps from the sensitivity analysis example
+should be sufficient.
 
 ----------------
 
