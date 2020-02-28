@@ -34,15 +34,21 @@ You will need these prerequisites:
 
 ### Getting Started Guide
 
-- Download the artifact VM Image. **TODO: Add link to artifact**
-- (*Optional, but recommended*) Enable [multiple physical cores][multiple-cores] for the Virtual Machine. Parts of the evaluation can be completed faster with multiple core support enabled within the VM.
+- Download the artifact VM Appliance. **TODO: Add link to artifact**
+- (*Optional, but recommended*) Enable multiple physical cores for the Virtual Machine.
+  In Virtual box, select the appliance and under Settings > System > Processor
+  enable all physical cores.
 - Boot the image in your favorite hypervisor (we tested the image using [VirtualBox][]).
 - Open a terminal and type `cd Desktop/dahlia-evaluation`.
-- In the current shell, type `export BUILDBOT=http://cerberus.cs.cornell.edu:5000`.
+- Get the latest version of this repository: `git pull`.
 - Run `./_scripts/sanity-check.sh`. The script should report no errors.
-- Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
-- Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
-- Open <http://cerberus.cs.cornell.edu:5000>. The web page should display a to the Polyphemus deployment available to PLDI AEC reviewers.
+- Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. The script runs the dahlia
+  compiler on 100 configurations for each benchmark and reports a time estimate
+  for running on all configurations.
+- Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`.
+  The reported number should be 13.
+- Open <http://cerberus.cs.cornell.edu:5000>. The web page should display
+  the Polyphemus deployment available to PLDI AEC reviewers.
 
 [multiple-cores]: https://askubuntu.com/questions/365615/how-do-i-enable-multiple-cores-in-my-virtual-enviroment
 [virtualbox]: https://www.virtualbox.org
