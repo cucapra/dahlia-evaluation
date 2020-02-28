@@ -116,11 +116,11 @@ The script will report number of configurations accepted for each benchmark.
 **Estimated time: 10-15 minutes**
 
 In this section, we reproduce all the graphs in the paper **from data already
-committed to the repository**. Since the data collection step requires access
-to proprietary compilers, we address data collection in the next section.
+committed to the repository**. Because actually running the experiments and collecting the data requires access
+to proprietary compilers and/or hardware, we address data collection in the next section.
 
-- In the `dahlia-evaluation/` directory, run `jupyter notebook`.
-- Click on `main.ipynb`.
+- In the `dahlia-evaluation/` directory, run `jupyter notebook`. Your browser should open.
+- Click on `main-figures.ipynb`.
 - Click on the "Restart the kernel and re-run the whole notebook" button (⏩️).
 - All the graphs will be generated within the notebook under the corresponding
   section.
