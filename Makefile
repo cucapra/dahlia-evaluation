@@ -17,14 +17,14 @@ summarize-data: $(notdir $(BENCH))-data/summary.csv
 machsuite-md-grid-data/summary.csv: machsuite-md-grid-data/results.json
 	./_scripts/summarize.py $< -R -k qualitative-study/server-scripts/md-grid-key.json -c hls default
 
-machsuite-md-grid-data/results.csv: machsuite-md-grid-data/jobs.txt
+machsuite-md-grid-data/results.json: machsuite-md-grid-data/jobs.txt
 	./_scripts/extract.py $(dir $<) -c hls dse_template
 
 # Configuration for md-knn
 machsuite-md-knn-data/summary.csv: machsuite-md-knn-data/results.json
 	./_scripts/summarize.py $< -R -k qualitative-study/server-scripts/md-knn-key.json -c hls default
 
-machsuite-md-knn-data/results.csv: machsuite-md-knn-data/jobs.txt
+machsuite-md-knn-data/results.json: machsuite-md-knn-data/jobs.txt
 	./_scripts/extract.py $(dir $<) -c hls dse_template
 
 # Configuration for stencil2d
