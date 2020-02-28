@@ -172,14 +172,14 @@ Each figure in the paper requires data from different sources:
 
 1. Sensitivity analysis (fig. 4): This benchmark synthesizes
    the hardware design in AWS F1 and runs it on an FPGA. It requires access
-   to Vivado HLS tools and an FPGA.
+   to both Xilinx's Vivado HLS tools and an actual FPGA.
 
 2. Exhaustive DSE (fig. 7) & Qualitative Studies (fig. 8): These benchmarks
-   run estimation on the FPGA designs without any synthesis. They require access
-   to Vivado HLS tools.
+   run estimation on the FPGA designs without any synthesis. They only require
+   the Vivado HLS tools.
 
 3. Spatial Comparison (fig. 8): This experiment generates post-synthesis
-   resource summaries for several parameter configurations with Spatial
+   resource summaries for several parameter configurations with [Spatial][]
    designs. For our submission, we were only able to get the Spatial workflow
    running on our research server (non-AWS).
 
@@ -187,11 +187,12 @@ Each figure in the paper requires data from different sources:
 [ec2]: https://aws.amazon.com/ec2/
 [fpga-dev-image]: https://aws.amazon.com/marketplace/pp/Xilinx-Vivado-SDx-20182-Developer-AMI/B07D6Z7P37
 [f1]: https://aws.amazon.com/ec2/instance-types/f1/
+[spatial]: https://spatial-lang.org
 
-In this section we **do not** reproduce the data reported in the paper. We
-instead provide a smaller example to demonstrate that our distributed FPGA
-experimentation framework is functional and provide descriptions to reproduce
-our original results.
+These directions will not reproduce the *full* set of data reported in the paper, which is generally not practical within the evaluation time (fig. 7, for example, took us 2,666 CPU-hours to produce).
+We instead provide smaller versions of each experiment that are practical to run within a reasonable amount of time.
+The idea is to to demonstrate that our distributed FPGA experimentation framework is functional to give evidence that our reported data is correct.
+We also provide instructions to reproduce our original results.
 
 Each experiment goes through the following flow:
 
