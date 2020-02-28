@@ -2,6 +2,9 @@
 
 set -eu -o pipefail
 
+# Fetch origin from remote
+git fetch origin
+
 # Test if the Dahlia binary is available.
 (type dahlia >/dev/null 2>&1 && echo "1. 'dahlia' binary found in the path.") \
   || { echo >&2 "Missing 'dahlia' binary in the path. Exiting."; exit 1; }
@@ -24,7 +27,7 @@ if [[ `git status --porcelain --untracked-files=no` ]]; then
   echo "The repository contains modification or is not up to date. If this is unintentional, pleast run 'git reset --hard origin/master'."
   exit 1
 else
-  echo '5. Local repository is up to date.'
+  echo '5. Local repository is clean and up to date.'
 fi
 
 echo "All checks complete."
