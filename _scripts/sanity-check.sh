@@ -20,4 +20,11 @@ else
   echo "4. BUILDBOT: $BUILDBOT"
 fi
 
+if [[ `git status --porcelain --untracked-files=no` ]]; then
+  echo "The repository contains modification or is not up to date. If this is unintentional, pleast run 'git reset --hard origin/master'."
+  exit 1
+else
+  echo '5. Local repository is up to date.'
+fi
+
 echo "All checks complete."
