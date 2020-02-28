@@ -163,7 +163,12 @@ generate Figure 9 (main paper) and Figure 2 (supplementary text).
 
 #### Data Collection
 
-Each figure reported in the paper requires data from different sources.
+This section describes how to actually run the experiments to generate the raw data that goes into the plots demonstrated above.
+This step is the trickiest because it requires access to proprietary [Xilinx][] toolchains and, in some cases, actual FPGA hardware.
+We have attempted to make this as painless as possible by using [AWS EC2][ec2], provides a [license-free way][fpga-dev-image] to use the Xilinx toolchain and ["F1" instances][f1] that come equipped with Xilinx FPGAs,
+and [Polyphemus][], a server we developed to manage large numbers of FPGA compilation and execution jobs.
+
+Each figure in the paper requires data from different sources:
 
 1. Sensitivity analysis (fig. 4): This benchmark synthesizes
    the hardware design in AWS F1 and runs it on an FPGA. It requires access
@@ -177,6 +182,11 @@ Each figure reported in the paper requires data from different sources.
    resource summaries for several parameter configurations with Spatial
    designs. For our submission, we were only able to get the Spatial workflow
    running on our research server (non-AWS).
+
+[xilinx]: https://www.xilinx.com
+[ec2]: https://aws.amazon.com/ec2/
+[fpga-dev-image]: https://aws.amazon.com/marketplace/pp/Xilinx-Vivado-SDx-20182-Developer-AMI/B07D6Z7P37
+[f1]: https://aws.amazon.com/ec2/instance-types/f1/
 
 In this section we **do not** reproduce the data reported in the paper. We
 instead provide a smaller example to demonstrate that our distributed FPGA
