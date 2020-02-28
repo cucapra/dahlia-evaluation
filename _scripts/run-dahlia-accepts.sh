@@ -3,11 +3,11 @@
 set -eu -o pipefail
 
 BENCH='
-  qualitative-study/machsuite-stencil-stencil2d-inner'
+  qualitative-study/machsuite-stencil-stencil2d-inner
+  qualitative-study/machsuite-md-grid
+  qualitative-study/machsuite-md-knn
+  exhaustive-dse/dahlia-gemm'
 
-  #qualitative-study/machsuite-md-grid
-  #qualitative-study/machsuite-md-knn
-  #exhaustive-dse/dahlia-gemm'
 
 echo "This script will generate configurations for benchmarks in the exhaustive and qualitative studies and report the number of configurations accepted by Dahlia."
 
