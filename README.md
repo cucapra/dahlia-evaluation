@@ -42,10 +42,11 @@ You will need these prerequisites:
 - Run `./_scripts/sanity-check.sh`. The script should report no errors.
 - Run `ESTIMATE=100 ./_scripts/run-dahlia-accepts.sh`. This script will generate configurations for the benchmarks reported in the paper and run the dahlia compiler on 100 of them. It will also generate an estimate of time required to run *all* configurations for the benchmark on *all available cores*.
 - Run `jupyter nbconvert --execute main-figures.ipynb` and then type `ls all-figures/ | wc -l`. The reported number should be 13.
-- **TODO: Open link to Cerberus**.
+- Open <http://cerberus.cs.cornell.edu:5000>. The web page should display a to the Polyphemus deployment available to PLDI AEC reviewers.
 
 [multiple-cores]: https://askubuntu.com/questions/365615/how-do-i-enable-multiple-cores-in-my-virtual-enviroment
 [virtualbox]: https://www.virtualbox.org
+[cerberus]: http://cerberus.cs.cornell.edu:5000
 
 
 ### Step-by-Step Guide
@@ -70,6 +71,7 @@ steps (each of which is described in detail in a section below):
     - (*Optional*) Check out the documentation on the language. **TODO: Requires cleanup**
     - (*Optional*) Check out the documentation on extending the compiler. **TODO: Missing**
 
+-----
 
 #### Configurations accepted by Dahlia
 
@@ -112,6 +114,8 @@ The script generates files with the names `*-accepted` in the repository root.
 **Do not delete the files since they are used for the data collection experiment**.
 
 [parallel]: https://www.gnu.org/software/parallel/
+
+-----
 
 #### Figures and Pareto points
 
@@ -163,7 +167,11 @@ The Spatial study consists of one experiment with several configurations to
 generate Figure 9 (main paper) and Figure 2 (supplementary text).
 </details>
 
+--------
+
 #### Data Collection
+
+**Estimated Time: 2-3 hours**
 
 This section describes how to actually run the experiments to generate the raw data that goes into the plots demonstrated above.
 This step is the trickiest because it requires access to proprietary [Xilinx][] toolchains and, in some cases, actual FPGA hardware.
@@ -172,45 +180,91 @@ and [Polyphemus][], a server we developed to manage large numbers of FPGA compil
 
 Each figure in the paper requires data from different sources:
 
-1. Sensitivity analysis (fig. 4): This benchmark synthesizes
-   the hardware design in AWS F1 and runs it on an FPGA. It requires access
-   to both Xilinx's Vivado HLS tools and an actual FPGA.
-
-2. Exhaustive DSE (fig. 7) & Qualitative Studies (fig. 8): These benchmarks
-   run estimation on the FPGA designs without any synthesis. They only require
-   the Vivado HLS tools.
-
-3. Spatial Comparison (fig. 8): This experiment generates post-synthesis
-   resource summaries for several parameter configurations with [Spatial][]
-   designs. For our submission, we were only able to get the Spatial workflow
-   running on our research server (non-AWS). For PLDI's AEC, we can provide access
-   to our server upon request.
+1. Exhaustive DSE (fig. 7) & Qualitative Studies (fig. 8): Requires Vivado HLS
+   estimation tools.
+2. Sensitivity analysis (fig. 4): Requires full hardware synthesis toolchain and
+   an FPGA to run the designs.
+3. Spatial Comparison (fig. 8): Requires functional Spatial toolchain that can
+   taget [ZedBoard].
 
 [xilinx]: https://www.xilinx.com
 [ec2]: https://aws.amazon.com/ec2/
 [fpga-dev-image]: https://aws.amazon.com/marketplace/pp/Xilinx-Vivado-SDx-20182-Developer-AMI/B07D6Z7P37
 [f1]: https://aws.amazon.com/ec2/instance-types/f1/
 [spatial]: https://spatial-lang.org
+[zedboard]: http://www.zedboard.org/product/zedboard
+
+
+##### Instructions for Artifact Evaluation
 
 These directions will not reproduce the *full* set of data reported in the paper, which is generally not practical within the evaluation time (fig. 7, for example, took us 2,666 CPU-hours to produce).
 We instead provide smaller versions of each experiment that are practical to run within a reasonable amount of time.
 The idea is to to demonstrate that our distributed FPGA experimentation framework is functional to give evidence that our reported data is correct.
 We also provide instructions to reproduce our original results.
 
-##### Instructions for Artifact Evaluation
+The experiments require access to a deployment of our AWS-based experimentation
+server. For the PLDI AEC, we've asked the PC chairs for permission to provide
+the reviewers with access to the deployment. Since it is expensive to keep the
+servers up, **we ask the reviewers to co-ordinate with us to setup two day
+windows to evaluate our data collection scripts.**
 
-We've offered the PLDI AEC access to our existing deployment of [Polyphemus][]
-on AWS. Since it is expensive to keep the entire fleet of machines running
-for the entire period of the AEC, we've asked the PC chairs for permission to
-co-ordinate with reviewers and start the servers for a two day window per
-reviewer.
+##### Qualitative Study reproduction
 
-**We ask the reviewers to co-ordinate with each other and ask us for three
-disjoint 2-day windows to evaluate the data collection.** We will setup the
-servers and give reviewers SSH access to the machines upon request. The server
-machines themselves don't generate any logging output. Instead, they save any
-STDOUT and STDERR data generated by the FPGA compilation and display it on the
-webpage.
+For ease of evaluation, we've automated the experiments to generate the data
+for the qualitative studies. The `Makefile` at the root of the repository
+provides rules to automatically submit the jobs, monitor them, and download
+results to generate graphs.
+
+All three qualitative studies are available to be run. We recommend that reviewers
+start with the `md-grid` study first since it has `81` configurations and takes
+~2 hours to run on the cluster.
+
+1. Make sure `machsuite-md-grid-accepted` is present in the repository root. This
+   file is generated in the "Configurations accepted by Dahlia" step.
+2. Run the following command.
+  ```
+  make start-job BENCH=qualitative-study/machsuite-md-grid BUILDBOT=http://cerberus.cs.cornell.edu:5000
+  ```
+3. The command will generate all the configurations and upload them to
+   [cerberus.cs.cornell.edu:5000](cerberus.cs.cornell.edu:5000).
+4. The script with also start the following command to monitor the status of the jobs:
+   ```
+   watch -n5 ./_scripts/status.py machsuite-md-grid-data/
+   ```
+5. After uploading, most jobs should be in the `make` stage and some of them
+   in the `makeing` stage. **If there are no jobs in the `makeing` phase, please
+   message us.** This means that the server did not recognize the uploaded jobs
+   correctly.
+6. Wait for all jobs to enter the `done` phase. Once this happens, exit the
+   script.
+7. The command generates `machsuite-md-grid-data/summary.csv` which contains
+   estimated resource usage.
+   ```
+   make summarize-data BENCH=qualitative-study/machsuite-md-grid
+   ```
+8. Run the following command to generate the graphs.
+   ```
+   ./qualitative-study/server-scripts/plot.py machsuite-md-grid
+   ```
+
+To run other benchmarks, replace `qualitative-study/machsuite-md-grid` with
+`qualitative-study/machsuite-md-knn` (525 configurations ~10 hours) or
+`qualitative-study/machsuite-stencil-stencil2d-inner` (18 configurations ~ 20
+mins).
+
+**Note on intermittent failures:** During the monitoring phase, some jobs might
+be reported as failing. The most likely cause of this is a data race within
+various nodes in the cluster--several execution nodes attempted to execute the
+same configuration and ended up in an erroneous state. **Please message us
+if any of the jobs are reported as `failed`.**
+
+**Note on hanged jobs:** The backend compiler (Vivado HLS) might consume a lot
+of memory based on the jobs and cause the underlying process to not terminate.
+Unfortunately, there is no way to distinguish such runaway processes from
+long running estimation jobs. **If a job is stuck in the `makeing` stage for
+more than an hour, please message us.**
+
+##### Reproducing all the experiments
 
 In general, large scale experiments on Polyphemus go through the following flow:
 
@@ -219,7 +273,7 @@ In general, large scale experiments on Polyphemus go through the following flow:
 </p>
 
 <details>
-<summary><b>Example Configuration</b> [click to expand]</summary>
+<summary><b>Example Design Space Exploration Configuration</b> [click to expand]</summary>
 
 `gen_dse.py` is a search and replace script that generates folders for each
 possible configuration.
@@ -255,53 +309,6 @@ x + y;
 possible values of `CONST1` and `CONST2`.
 </details>
 
-For ease of evaluation, we've automated the experiments to generate the data
-for the qualitative studies. The `Makefile` at the root of the repository
-provides rules to automatically submit the jobs, monitor them, and download
-results to generate graphs.
-
-All three qualitative studies are available to be run. We recommend that reviewers
-start with the `md-grid` study first since it has `81` configurations and takes
-~2 hours to run on the cluster.
-
-1. Make sure `machsuite-md-grid-accepted` is present in the repository root. This
-   file is generated in the "Configurations accepted by Dahlia" step.
-2. Run the following command.
-  ```
-  make start-job BENCH=qualitative-study/machsuite-md-grid BUILDBOT=http://cerberus.cs.cornell.edu:5000
-  ```
-3. The command will generate all the configurations and upload them to
-   [cerberus.cs.cornell.edu:5000](cerberus.cs.cornell.edu:5000).
-4. The script with also start the following command to monitor the status of the jobs:
-   ```
-   watch -n5 ./_scripts/status.py machsuite-md-grid-data/
-   ```
-5. After uploading, most jobs should be in the `make` stage and some of them
-   in the `makeing` stage. **If there are no jobs in the `makeing` phase, please
-   message us.** This means that the server did not recognize the uploaded jobs
-   correctly.
-6. Wait for all jobs to enter the `done` phase. Once this happens, exit the
-   script.
-7. Run the following command to generate the graph `data-collect-md-grid-middle-unroll-hls-lut.pdf`
-   ```
-   make summarize-data BENCH=qualitative-study/machsuite-md-grid && \
-   make data-collect-md-grid-middle-unroll-hls-lut.pdf
-   ```
-   The command also generates `machsuite-md-grid-data/summary.csv` which contains
-   estimated resource usage.
-
-
-To run other benchmarks, replace `qualitative-study/machsuite-md-grid` with
-`qualitative-study/machsuite-md-knn` (525 configurations ~10 hours) or
-`qualitative-study/machsuite-stencil-stencil2d-inner` (18 configurations ~ 20
-mins).
-
-
-**Note on intermittent failures:** During the monitoring phase, some jobs might
-be reported as failing. The most likely cause of this is a data race within
-various nodes in the cluster--several execution nodes attempted to execute the
-same configuration and ended up in an erroneous state. **Please message us
-if any of the jobs are reported as `failed`.**
 
 ----------------
 
