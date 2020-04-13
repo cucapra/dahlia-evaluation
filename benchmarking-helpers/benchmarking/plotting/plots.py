@@ -2,6 +2,10 @@ import seaborn as sns
 import matplotlib
 from matplotlib import pyplot as plt
 
+print("Setting matplot configurations")
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
+matplotlib.rcParams['text.usetex'] = True
 
 def make_absolute_plots(df,
                         x_key,
