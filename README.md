@@ -4,7 +4,25 @@ This repository contains the evaluation materials for the PLDI 2020 paper
 "[Predictable Accelerator Design with Time-Sensitive Affine Types][dahlia-paper]"
 using the [Dahlia programming language][dahlia].
 
-[View this file online.](https://github.com/cucapra/dahlia-evaluation#dahlia-evaluation)
+If you use our data or the Dahlia language, please cite us:
+```bibtex
+@inproceedings{10.1145/3385412.3385974,
+author = {Nigam, Rachit and Atapattu, Sachille and Thomas, Samuel and Li, Zhijing and Bauer, Theodore and Ye, Yuwei and Koti, Apurva and Sampson, Adrian and Zhang, Zhiru},
+title = {Predictable Accelerator Design with Time-Sensitive Affine Types},
+year = {2020},
+isbn = {9781450376136},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3385412.3385974},
+doi = {10.1145/3385412.3385974},
+booktitle = {Proceedings of the 41st ACM SIGPLAN Conference on Programming Language Design and Implementation},
+pages = {393–407},
+numpages = {15},
+keywords = {Affine Type Systems, High-Level Synthesis},
+location = {London, UK},
+series = {PLDI 2020}
+}
+```
 
 There are three components to the evaluation:
 
